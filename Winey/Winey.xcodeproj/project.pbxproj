@@ -14,6 +14,7 @@
 		14C1F6222A50501D0079FA20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
 		14C1F6252A50501D0079FA20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6232A50501D0079FA20 /* LaunchScreen.storyboard */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
+		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14F66FE82A505A27009703AD /* Moya in Frameworks */,
 				14F66FE52A50562F009703AD /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +89,7 @@
 			name = Winey;
 			packageProductDependencies = (
 				14F66FE42A50562F009703AD /* SnapKit */,
+				14F66FE72A505A27009703AD /* Moya */,
 			);
 			productName = Winey;
 			productReference = 14C1F6152A50501C0079FA20 /* Winey.app */;
@@ -118,6 +121,7 @@
 			mainGroup = 14C1F60C2A50501C0079FA20;
 			packageReferences = (
 				14F66FE32A50562F009703AD /* XCRemoteSwiftPackageReference "SnapKit" */,
+				14F66FE62A505A27009703AD /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = 14C1F6162A50501C0079FA20 /* Products */;
 			projectDirPath = "";
@@ -378,6 +382,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		14F66FE62A505A27009703AD /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -385,6 +397,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14F66FE32A50562F009703AD /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		14F66FE72A505A27009703AD /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14F66FE62A505A27009703AD /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
