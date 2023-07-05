@@ -19,6 +19,7 @@
 		14F66FFD2A550928009703AD /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F66FFC2A550928009703AD /* UIView+.swift */; };
 		14F66FFF2A550A1C009703AD /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F66FFE2A550A1C009703AD /* Date+.swift */; };
 		14F670012A550AAC009703AD /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670002A550AAC009703AD /* String+.swift */; };
+		14F670032A550B42009703AD /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670022A550B42009703AD /* URL+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		14F66FFE2A550A1C009703AD /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		14F670002A550AAC009703AD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		14F670022A550B42009703AD /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				14F66FFC2A550928009703AD /* UIView+.swift */,
 				14F66FFE2A550A1C009703AD /* Date+.swift */,
 				14F670002A550AAC009703AD /* String+.swift */,
+				14F670022A550B42009703AD /* URL+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			files = (
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
 				14C1F61D2A50501C0079FA20 /* ViewController.swift in Sources */,
+				14F670032A550B42009703AD /* URL+.swift in Sources */,
 				14F66FFF2A550A1C009703AD /* Date+.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,

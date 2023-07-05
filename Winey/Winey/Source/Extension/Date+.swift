@@ -9,6 +9,7 @@ import UIKit
 import Foundation
 
 extension Date {
+    
     func getTodayDateToString(_ format: String) -> String {
         var dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
