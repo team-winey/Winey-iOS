@@ -11,6 +11,7 @@
 		145735502A5557BD0047104A /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145735472A5557BD0047104A /* Pretendard-Bold.otf */; };
 		145735532A5557BD0047104A /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1457354A2A5557BD0047104A /* Pretendard-SemiBold.otf */; };
 		145735552A5559350047104A /* FontLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145735542A5559350047104A /* FontLiterals.swift */; };
+		145735572A556D600047104A /* ColorLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145735562A556D600047104A /* ColorLiterals.swift */; };
 		14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F6182A50501C0079FA20 /* AppDelegate.swift */; };
 		14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */; };
 		14C1F61D2A50501C0079FA20 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61C2A50501C0079FA20 /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 		145735472A5557BD0047104A /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		1457354A2A5557BD0047104A /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		145735542A5559350047104A /* FontLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontLiterals.swift; sourceTree = "<group>"; };
+		145735562A556D600047104A /* ColorLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLiterals.swift; sourceTree = "<group>"; };
 		14C1F6152A50501C0079FA20 /* Winey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Winey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C1F6182A50501C0079FA20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 		14F66FF52A54924F009703AD /* ColorLiterals */ = {
 			isa = PBXGroup;
 			children = (
+				145735562A556D600047104A /* ColorLiterals.swift */,
 			);
 			path = ColorLiterals;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 			files = (
 				14F6700F2A550E13009703AD /* adjusted+.swift in Sources */,
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
+				145735572A556D600047104A /* ColorLiterals.swift in Sources */,
 				14C1F61D2A50501C0079FA20 /* ViewController.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				145735552A5559350047104A /* FontLiterals.swift in Sources */,
