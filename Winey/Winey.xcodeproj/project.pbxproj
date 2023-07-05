@@ -22,6 +22,7 @@
 		14F670032A550B42009703AD /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670022A550B42009703AD /* URL+.swift */; };
 		14F670052A550BED009703AD /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670042A550BED009703AD /* UIViewController+.swift */; };
 		14F670072A550C45009703AD /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670062A550C45009703AD /* UIStackView+.swift */; };
+		14F670092A550C83009703AD /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670082A550C83009703AD /* UILabel+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		14F670022A550B42009703AD /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		14F670062A550C45009703AD /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		14F670082A550C83009703AD /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				14F670022A550B42009703AD /* URL+.swift */,
 				14F670042A550BED009703AD /* UIViewController+.swift */,
 				14F670062A550C45009703AD /* UIStackView+.swift */,
+				14F670082A550C83009703AD /* UILabel+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			files = (
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
 				14C1F61D2A50501C0079FA20 /* ViewController.swift in Sources */,
+				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
 				14F670032A550B42009703AD /* URL+.swift in Sources */,
 				14F66FFF2A550A1C009703AD /* Date+.swift in Sources */,
