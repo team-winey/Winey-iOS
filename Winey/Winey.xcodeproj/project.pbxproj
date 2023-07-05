@@ -23,6 +23,7 @@
 		14F670052A550BED009703AD /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670042A550BED009703AD /* UIViewController+.swift */; };
 		14F670072A550C45009703AD /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670062A550C45009703AD /* UIStackView+.swift */; };
 		14F670092A550C83009703AD /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670082A550C83009703AD /* UILabel+.swift */; };
+		14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6700A2A550CBA009703AD /* UIButton+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		14F670062A550C45009703AD /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		14F670082A550C83009703AD /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		14F6700A2A550CBA009703AD /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				14F670042A550BED009703AD /* UIViewController+.swift */,
 				14F670062A550C45009703AD /* UIStackView+.swift */,
 				14F670082A550C83009703AD /* UILabel+.swift */,
+				14F6700A2A550CBA009703AD /* UIButton+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				14F670032A550B42009703AD /* URL+.swift in Sources */,
 				14F66FFF2A550A1C009703AD /* Date+.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
+				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
