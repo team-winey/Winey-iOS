@@ -98,8 +98,6 @@
 			children = (
 				14F66FFB2A550887009703AD /* Models */,
 				14F66FFA2A550864009703AD /* Scenes */,
-				14F66FF02A5484AC009703AD /* Supports */,
-				14F66FEF2A5484A2009703AD /* Extension */,
 				14F66FEE2A548497009703AD /* Global */,
 			);
 			path = Source;
@@ -121,6 +119,8 @@
 		14F66FEE2A548497009703AD /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				14F66FEF2A5484A2009703AD /* Extension */,
+				14F66FF02A5484AC009703AD /* Supports */,
 			);
 			path = Global;
 			sourceTree = "<group>";
