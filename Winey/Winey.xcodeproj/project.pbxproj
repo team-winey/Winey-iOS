@@ -26,6 +26,7 @@
 		14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6700A2A550CBA009703AD /* UIButton+.swift */; };
 		14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6700C2A550D4F009703AD /* UITextField+.swift */; };
 		14F6700F2A550E13009703AD /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6700E2A550E13009703AD /* adjusted+.swift */; };
+		14F670112A550F1A009703AD /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670102A550F1A009703AD /* NSObject+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		14F6700A2A550CBA009703AD /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		14F6700C2A550D4F009703AD /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		14F6700E2A550E13009703AD /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
+		14F670102A550F1A009703AD /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				14F6700A2A550CBA009703AD /* UIButton+.swift */,
 				14F6700C2A550D4F009703AD /* UITextField+.swift */,
 				14F6700E2A550E13009703AD /* adjusted+.swift */,
+				14F670102A550F1A009703AD /* NSObject+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
+				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
 			);
