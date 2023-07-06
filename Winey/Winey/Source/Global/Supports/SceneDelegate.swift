@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         let tabBarController =  TabBarController()
-        tabBarController.view.backgroundColor = .green
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
