@@ -12,7 +12,7 @@
 <p align="center"><img width="500" src="https://github.com/team-winey/Winey-iOS/assets/105866831/046b7ee8-7554-4bee-95f7-c4f0bd115445" width="50"></p>
 
 <br/>
-<p align="center"><위니>는 절약이 어렵게만 느껴지는 사람들에게  타인과 함께 절약 사진을 공유하며 게임적 요소로 성장하고, <br />부족한 추천머닛을 통해 개개인 맞춤 가이드라인들 제시하는 ‘성취’와 ‘재미’를 보장하는 새로운 절약 커뮤니티 서비스입니다.</p>
+<p align="center"><위니>는 절약이 어렵게만 느껴지는 사람들에게  타인과 함께 절약 사진을 공유하며 게임적 요소로 성장하고, <br />추천머닛을 통해 개개인 맞춤 가이드라인들 제시하는 ‘성취’와 ‘재미’를 보장하는 새로운 절약 커뮤니티 서비스입니다.</p>
 <br/>
 
 
@@ -20,16 +20,47 @@
 
 | 제목        | 내용                                                                             |
 | ----------- | -------------------------------------------------------------------------------- |
-|폴더링||
-|코딩 컨벤션||
-|이슈 컨벤션||
-|풀리퀘 컨벤션||
-|커밋 컨벤션||
-|Git Flow|
+|코딩 컨벤션|https://www.notion.so/Code-Convention-2787474a350d4931bf368e7d17dab604?pvs=4|
+|커밋 컨벤션|https://www.notion.so/Commit-Convention-86a5dabdf8044c0f9852e2c1e0733595?pvs=4|
+|Git Flow|https://www.notion.so/Git-branch-f9b45e1a60254b13806f0b6e0bd6acd7?pvs=4 |
 
 <br/>
+<h2>폴더링</h2>
+
+```
+Winey
+|
+|── Source
+|    |── Models
+|    |── Global
+|    |   |── Literals
+|    |   |── Extension
+|    |   └── Supports
+|    └── Scenes
+|        |── MyPage
+|        |── Recommend
+|        |── Feed
+|        |── Upload
+|        |── MyFeed
+|        |── SaveGoal
+|        └── TabBar
+|── Resource
+     |-- Font
+     |── Assets.xcassets
+     |── LaunchScreen.storyboard
+     └── Info.plist
+```
 
 <h2>📔 라이브러리</h2>
+
+| 라이브러리(Library) | 목적(Purpose)            | 버전(VersionA                                                |
+| ------------------- | ------------------------ | ------------------------------------------------------------ |
+| Moya           | 서버 통신                | ![Alamofire](https://img.shields.io/badge/Alamofire-5.4.1-orange) |
+| Kingfisher          | 이미지 처리              | ![Kingfisher](https://img.shields.io/badge/Kingfisher-6.0.1-yellow) |
+| SnapKit             | 오토레이아웃             | ![Kingfisher](https://img.shields.io/badge/SnapKit-5.0.1-black) |
+| SwiftLint           | 깔끔한 코딩 컨벤션       | ![Kingfisher](https://img.shields.io/badge/SwiftLint-red)    |
+
+
 <h2>🫵🏻 만든이</h2>
 <table align="center">
     <tr>
