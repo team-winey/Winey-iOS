@@ -16,7 +16,6 @@
 		145735572A556D600047104A /* ColorLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145735562A556D600047104A /* ColorLiterals.swift */; };
 		14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F6182A50501C0079FA20 /* AppDelegate.swift */; };
 		14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */; };
-		14C1F61D2A50501C0079FA20 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61C2A50501C0079FA20 /* ViewController.swift */; };
 		14C1F6252A50501D0079FA20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6232A50501D0079FA20 /* LaunchScreen.storyboard */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
@@ -45,7 +44,6 @@
 		14C1F6152A50501C0079FA20 /* Winey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Winey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C1F6182A50501C0079FA20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		14C1F61C2A50501C0079FA20 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		14C1F6212A50501D0079FA20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14C1F6242A50501D0079FA20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14C1F6262A50501D0079FA20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,6 +83,27 @@
 			path = ImageLiterals;
 			sourceTree = "<group>";
 		};
+		148C7B892A56B19D007DFE55 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		148C7B8A2A56B1A6007DFE55 /* Recommend */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Recommend;
+			sourceTree = "<group>";
+		};
+		148C7B8B2A56B1AD007DFE55 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		14C1F60C2A50501C0079FA20 = {
 			isa = PBXGroup;
 			children = (
@@ -106,7 +125,6 @@
 			children = (
 				14F66FED2A54848F009703AD /* Resource */,
 				14F66FEC2A54846C009703AD /* Source */,
-				14C1F61C2A50501C0079FA20 /* ViewController.swift */,
 			);
 			path = Winey;
 			sourceTree = "<group>";
@@ -208,6 +226,9 @@
 		14F66FFA2A550864009703AD /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				148C7B8B2A56B1AD007DFE55 /* MyPage */,
+				148C7B8A2A56B1A6007DFE55 /* Recommend */,
+				148C7B892A56B19D007DFE55 /* Feed */,
 				14F670122A551B3D009703AD /* TabBar */,
 			);
 			path = Scenes;
@@ -314,7 +335,6 @@
 				14F6700F2A550E13009703AD /* adjusted+.swift in Sources */,
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
 				145735572A556D600047104A /* ColorLiterals.swift in Sources */,
-				14C1F61D2A50501C0079FA20 /* ViewController.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				145735552A5559350047104A /* FontLiterals.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
