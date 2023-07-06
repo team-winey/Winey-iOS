@@ -114,6 +114,27 @@
 			path = Literals;
 			sourceTree = "<group>";
 		};
+		14A7A4352A56F10600C0CA4E /* MyFeed */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyFeed;
+			sourceTree = "<group>";
+		};
+		14A7A4362A56F12600C0CA4E /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Upload;
+			sourceTree = "<group>";
+		};
+		14A7A4372A56F12F00C0CA4E /* SaveGoal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SaveGoal;
+			sourceTree = "<group>";
+		};
 		14C1F60C2A50501C0079FA20 = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +247,9 @@
 		14F66FFA2A550864009703AD /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				14A7A4372A56F12F00C0CA4E /* SaveGoal */,
+				14A7A4362A56F12600C0CA4E /* Upload */,
+				14A7A4352A56F10600C0CA4E /* MyFeed */,
 				148C7B8B2A56B1AD007DFE55 /* MyPage */,
 				148C7B8A2A56B1A6007DFE55 /* Recommend */,
 				148C7B892A56B19D007DFE55 /* Feed */,
