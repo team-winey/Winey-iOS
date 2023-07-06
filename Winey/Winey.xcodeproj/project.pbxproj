@@ -104,6 +104,16 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		14A7A4342A56EECE00C0CA4E /* Literals */ = {
+			isa = PBXGroup;
+			children = (
+				14F66FF52A54924F009703AD /* ColorLiterals */,
+				14F66FF62A549259009703AD /* FontLiterals */,
+				14489F112A56A2C100F042CB /* ImageLiterals */,
+			);
+			path = Literals;
+			sourceTree = "<group>";
+		};
 		14C1F60C2A50501C0079FA20 = {
 			isa = PBXGroup;
 			children = (
@@ -142,7 +152,6 @@
 		14F66FED2A54848F009703AD /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				14F66FF12A5491C5009703AD /* Literals */,
 				14F66FF42A549239009703AD /* Fonts */,
 				14C1F6212A50501D0079FA20 /* Assets.xcassets */,
 				14C1F6262A50501D0079FA20 /* Info.plist */,
@@ -154,6 +163,7 @@
 		14F66FEE2A548497009703AD /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				14A7A4342A56EECE00C0CA4E /* Literals */,
 				14F66FEF2A5484A2009703AD /* Extension */,
 				14F66FF02A5484AC009703AD /* Supports */,
 			);
@@ -185,16 +195,6 @@
 				14C1F6182A50501C0079FA20 /* AppDelegate.swift */,
 			);
 			path = Supports;
-			sourceTree = "<group>";
-		};
-		14F66FF12A5491C5009703AD /* Literals */ = {
-			isa = PBXGroup;
-			children = (
-				14489F112A56A2C100F042CB /* ImageLiterals */,
-				14F66FF62A549259009703AD /* FontLiterals */,
-				14F66FF52A54924F009703AD /* ColorLiterals */,
-			);
-			path = Literals;
 			sourceTree = "<group>";
 		};
 		14F66FF42A549239009703AD /* Fonts */ = {
