@@ -8,7 +8,6 @@
 import UIKit
 
 extension UIFont {
-    
     @nonobjc class var head_b28: UIFont {
         return UIFont.font(.pretendardBold, ofSize: 28)
     }
