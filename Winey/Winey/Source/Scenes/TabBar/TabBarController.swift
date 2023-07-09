@@ -18,18 +18,18 @@ final class TabBarController: UITabBarController {
     private func setViewControllers() {
         
         let feedVC = makeNavigationController(
-            unselectedImage: ImageLiterals.TabBar.feed,
-            selectedImage: ImageLiterals.TabBar.feed,
+            unselectedImage: .TabBar.feed,
+            selectedImage: .TabBar.feed,
             rootViewController: UIViewController(), title: "피드")
         
         let recommendVC = makeNavigationController(
-            unselectedImage: ImageLiterals.TabBar.recommend,
-            selectedImage: ImageLiterals.TabBar.recommend,
+            unselectedImage: .TabBar.recommend,
+            selectedImage: .TabBar.recommend,
             rootViewController: UIViewController(), title: "추천")
         
         let myPageVC = makeNavigationController(
-            unselectedImage: ImageLiterals.TabBar.myPage,
-            selectedImage: ImageLiterals.TabBar.myPage,
+            unselectedImage: .TabBar.myPage,
+            selectedImage: .TabBar.myPage,
             rootViewController: UIViewController(), title: "마이페이지")
         
         viewControllers = [feedVC, recommendVC, myPageVC]
