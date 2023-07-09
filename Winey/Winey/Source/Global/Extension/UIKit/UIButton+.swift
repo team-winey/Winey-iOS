@@ -8,7 +8,6 @@
 import UIKit
 
 extension UIButton {
-    
     // 글자 아래 밑줄 메서드
     func setUnderline() {
         guard let title = title(for: .normal) else { return }

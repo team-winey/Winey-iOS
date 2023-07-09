@@ -50,8 +50,6 @@ final class TabBarController: UITabBarController {
         nav.navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action: nil)
         nav.navigationItem.backBarButtonItem?.tintColor = .winey_purple400
         
-        nav.interactivePopGestureRecognizer?.isEnabled = true
-        nav.interactivePopGestureRecognizer?.delegate = self
         return nav
     }
     
@@ -62,5 +60,3 @@ final class TabBarController: UITabBarController {
         tabBar.backgroundImage = UIImage()
     }
 }
-
-extension TabBarController: UIGestureRecognizerDelegate { }

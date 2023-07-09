@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct ImageLiterals {
-    
-    struct TabBar {
+extension UIImage {
+
+    enum TabBar {
         static let feed = UIImage(named: "ic_feed")
         static let recommend = UIImage(named: "ic_recommend")
         static let myPage = UIImage(named: "ic_mypage")

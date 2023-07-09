@@ -8,8 +8,7 @@
 import UIKit
 
 extension NSObject {
-    
     static var className: String {
-        NSStringFromClass(self.classForCoder()).components(separatedBy: ".").last!
+        return String(describing: self)
     }
 }
