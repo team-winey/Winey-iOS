@@ -15,14 +15,14 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Properties
     
-    var dataSource : UICollectionViewDiffableDataSource<EmptySection, FeedItem>!
-    let items = [
-        FeedItem(nickname: "뇽잉깅", feedTitle: "절약타이틀", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(nickname: "뇽잉깅", feedTitle: "절약타이틀1", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(nickname: "뇽잉깅", feedTitle: "절약타이틀2", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(nickname: "뇽잉깅", feedTitle: "절약타이틀3", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(nickname: "뇽잉깅", feedTitle: "절약타이틀4", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(nickname: "뇽잉깅", feedTitle: "절약타이틀5", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1)
+    var dataSource : UICollectionViewDiffableDataSource<Int, FeedItem>!
+    let itemdummy = [
+        FeedItem(feedId: 1, nickname: "뇽잉깅", feedTitle: "절약타이틀", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
+        FeedItem(feedId: 2, nickname: "뇽잉깅", feedTitle: "절약타이틀1", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
+        FeedItem(feedId: 3, nickname: "뇽잉깅", feedTitle: "절약타이틀2", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
+        FeedItem(feedId: 4, nickname: "뇽잉깅", feedTitle: "절약타이틀3", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
+        FeedItem(feedId: 5, nickname: "뇽잉깅", feedTitle: "절약타이틀4", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
+        FeedItem(feedId: 6, nickname: "뇽잉깅", feedTitle: "절약타이틀5", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1)
         ]
     
     // MARK: - UI Components

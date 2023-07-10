@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 
 struct FeedItem: Hashable {
+    let feedId: Int
     let nickname: String
     let feedTitle: String
     let feedImage: UIImage
@@ -47,8 +48,8 @@ extension FeedCollectionViewCell {
     private func setLayout() {
         addSubviews(feedTitleLabel)
         
-        backgroundColor = .green
-        feedTitleLabel.textColor = .white
+        backgroundColor = .white
+        feedTitleLabel.textColor = .winey_gray900
         
         feedTitleLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
