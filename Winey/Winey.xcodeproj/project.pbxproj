@@ -412,6 +412,7 @@
 		F4BE08422A5C72BF0052F3B0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F4BE08472A5C7C4E0052F3B0 /* NavigationBar */,
 				F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */,
 				F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */,
 				F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */,
@@ -522,6 +523,7 @@
 				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
 				143C009A2A604810000FBD3F /* RecommendFeedModel.swift in Sources */,
 				14DB265C2A5C840100F42499 /* FeedHeaderView.swift in Sources */,
+				F4BE084B2A5C7C740052F3B0 /* NavigationBarType.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
 				F4867A672A608B860016389C /* Int+.swift in Sources */,
@@ -540,6 +542,11 @@
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
 				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
+<<<<<<< HEAD
+=======
+				F4BE08492A5C7C6D0052F3B0 /* CustomNavigationBar.swift in Sources */,
+				14489F132A56A2D300F042CB /* UIImage+.swift in Sources */,
+>>>>>>> 38b7b5a ([Add] #8-업로드 취소, 뒤로가기 버튼 이미지 추가 및 공용 NavigationBar View 파일 추가)
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
 				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
