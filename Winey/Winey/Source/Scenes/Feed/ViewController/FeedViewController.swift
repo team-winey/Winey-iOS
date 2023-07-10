@@ -9,8 +9,6 @@ import UIKit
 
 import SnapKit
 
-struct EmptySection: Hashable {}
-
 final class FeedViewController: UIViewController {
     
     // MARK: - Properties
@@ -30,7 +28,7 @@ final class FeedViewController: UIViewController {
     private let naviBar = UIView()
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: setFlowLayout())
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         return collectionView
@@ -41,24 +39,26 @@ final class FeedViewController: UIViewController {
     }
     
     private func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<EmptySection, FeedItem>(collectionView: collectionView) { collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<Int, FeedItem>(collectionView: collectionView) { collectionView, indexPath, item in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
-            cell.dataBind(model: self.items[indexPath.item])
+            cell.dataBind(model: self.itemdummy[indexPath.item])
             return cell
         }
+        dataSource.apply(snapshot(), animatingDifferences: false)
     }
     
-    private func snapshot() -> NSDiffableDataSourceSnapshot<EmptySection, FeedItem> {
-        var snapshot = NSDiffableDataSourceSnapshot<EmptySection, FeedItem>()
-        snapshot.appendSections([EmptySection()])
-        snapshot.appendItems(items)
+    private func snapshot() -> NSDiffableDataSourceSnapshot<Int, FeedItem> {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, FeedItem>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(itemdummy)
         return snapshot
     }
     
     private func setFlowLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        layout.itemSize = CGSize(width: view.frame.width - 20, height: 150)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: view.frame.width, height: 367)
+        layout.minimumLineSpacing = 1
         return layout
     }
     
@@ -69,7 +69,6 @@ final class FeedViewController: UIViewController {
         setLayout()
         register()
         setupDataSource()
-        dataSource.apply(snapshot(), animatingDifferences: false)
     }
 }
 
@@ -80,7 +79,6 @@ extension FeedViewController {
         view.addSubviews(naviBar, collectionView)
         
         naviBar.backgroundColor = .winey_purple400
-        collectionView.backgroundColor = .winey_gray300
         
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -94,5 +92,7 @@ extension FeedViewController {
         }
     }
 }
+
+// MARK: - CollectionViewDelegate
 
 extension FeedViewController: UICollectionViewDelegate {}
