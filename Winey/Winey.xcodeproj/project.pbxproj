@@ -76,8 +76,9 @@
 		148C7B892A56B19D007DFE55 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				14DB26582A5C321300F42499 /* Model */,
 				14DB26522A5BF6D900F42499 /* ViewController */,
-				14DB26512A5BF6D300F42499 /* Views */,
+				14DB26512A5BF6D300F42499 /* View */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -167,12 +168,12 @@
 			path = "Foundation+";
 			sourceTree = "<group>";
 		};
-		14DB26512A5BF6D300F42499 /* Views */ = {
+		14DB26512A5BF6D300F42499 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				14DB26562A5C06C400F42499 /* FeedCollectionViewCell.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		14DB26522A5BF6D900F42499 /* ViewController */ = {
@@ -181,6 +182,13 @@
 				14DB26532A5BF82700F42499 /* FeedViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		14DB26582A5C321300F42499 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		14F66FEC2A54846C009703AD /* Source */ = {
