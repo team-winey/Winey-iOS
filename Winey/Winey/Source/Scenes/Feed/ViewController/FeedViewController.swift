@@ -26,8 +26,18 @@ final class FeedViewController: UIViewController {
         return collectionView
     }()
     
+    // MARK: - View Life Cycles
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setLayout()
+        register()
+        setupDataSource()
+    }
+    
     private func register() {
         collectionView.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
+        collectionView.register(FeedCollectionReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedCollectionReusableHeaderView.className)
     }
     
     private func setupDataSource() {
@@ -37,12 +47,17 @@ final class FeedViewController: UIViewController {
             return cell
         }
         dataSource.apply(snapshot(), animatingDifferences: false)
+        
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedCollectionReusableHeaderView.className, for: indexPath) as? FeedCollectionReusableHeaderView else { return nil }
+            return header
+        }
     }
     
     private func snapshot() -> NSDiffableDataSourceSnapshot<Int, FeedModel> {
         var snapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
         snapshot.appendSections([0])
-        snapshot.appendItems(itemdummy) 
+        snapshot.appendItems(itemdummy)
         return snapshot
     }
     
@@ -51,16 +66,12 @@ final class FeedViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: view.frame.width, height: 367)
         layout.minimumLineSpacing = 1
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(view.frame.width), heightDimension: .absolute(80))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
+        layout.sectionHeadersPinToVisibleBounds = false
         return layout
-    }
-    
-    // MARK: - View Life Cycles
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setLayout()
-        register()
-        setupDataSource()
     }
 }
 
