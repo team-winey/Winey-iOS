@@ -9,18 +9,6 @@ import UIKit
 
 import SnapKit
 
-struct FeedItem: Hashable {
-    let feedId: Int
-    let nickname: String
-    let feedTitle: String
-    let feedImage: UIImage
-    let feedMoney: Int
-    let likes: Int
-    var isLiked: Bool
-    let createdAt: Date
-    let writerLevel: Int
-}
-
 class FeedCollectionViewCell: UICollectionViewCell {
     
     private var nicknameLabel = UILabel()
@@ -39,7 +27,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func dataBind(model: FeedItem) {
+    func dataBind(model: FeedModel) {
         feedTitleLabel.text = model.feedTitle
     }
 }

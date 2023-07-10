@@ -13,15 +13,7 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Properties
     
-    var dataSource : UICollectionViewDiffableDataSource<Int, FeedItem>!
-    let itemdummy = [
-        FeedItem(feedId: 1, nickname: "뇽잉깅", feedTitle: "절약타이틀", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(feedId: 2, nickname: "뇽잉깅", feedTitle: "절약타이틀1", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(feedId: 3, nickname: "뇽잉깅", feedTitle: "절약타이틀2", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(feedId: 4, nickname: "뇽잉깅", feedTitle: "절약타이틀3", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(feedId: 5, nickname: "뇽잉깅", feedTitle: "절약타이틀4", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1),
-        FeedItem(feedId: 6, nickname: "뇽잉깅", feedTitle: "절약타이틀5", feedImage: UIImage(), feedMoney: 2000, likes: 2, isLiked: true, createdAt: Date(), writerLevel: 1)
-        ]
+    var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
     
     // MARK: - UI Components
     
@@ -39,18 +31,18 @@ final class FeedViewController: UIViewController {
     }
     
     private func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, FeedItem>(collectionView: collectionView) { collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<Int, FeedModel>(collectionView: collectionView) { collectionView, indexPath, item in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
-            cell.dataBind(model: self.itemdummy[indexPath.item])
+            cell.dataBind(model: itemdummy[indexPath.item])
             return cell
         }
         dataSource.apply(snapshot(), animatingDifferences: false)
     }
     
-    private func snapshot() -> NSDiffableDataSourceSnapshot<Int, FeedItem> {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, FeedItem>()
+    private func snapshot() -> NSDiffableDataSourceSnapshot<Int, FeedModel> {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
         snapshot.appendSections([0])
-        snapshot.appendItems(itemdummy)
+        snapshot.appendItems(itemdummy) 
         return snapshot
     }
     
