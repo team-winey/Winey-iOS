@@ -20,7 +20,7 @@ final class TabBarController: UITabBarController {
         let feedVC = makeNavigationController(
             unselectedImage: .TabBar.feed,
             selectedImage: .TabBar.feed,
-            rootViewController: UIViewController(), title: "피드")
+            rootViewController: FeedViewController(), title: "피드")
         
         let recommendVC = makeNavigationController(
             unselectedImage: .TabBar.recommend,

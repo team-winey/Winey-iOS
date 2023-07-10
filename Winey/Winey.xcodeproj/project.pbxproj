@@ -17,6 +17,8 @@
 		14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F6182A50501C0079FA20 /* AppDelegate.swift */; };
 		14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */; };
 		14C1F6252A50501D0079FA20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6232A50501D0079FA20 /* LaunchScreen.storyboard */; };
+		14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB26532A5BF82700F42499 /* FeedViewController.swift */; };
+		14DB26572A5C06C400F42499 /* FeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB26562A5C06C400F42499 /* FeedCollectionViewCell.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 		14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FEA2A505E3A009703AD /* Kingfisher */; };
@@ -44,6 +46,8 @@
 		14C1F6212A50501D0079FA20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14C1F6242A50501D0079FA20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14C1F6262A50501D0079FA20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14DB26532A5BF82700F42499 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		14DB26562A5C06C400F42499 /* FeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		14F670002A550AAC009703AD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 		148C7B892A56B19D007DFE55 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				14DB26522A5BF6D900F42499 /* ViewController */,
+				14DB26512A5BF6D300F42499 /* Views */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -159,6 +165,22 @@
 				14F670102A550F1A009703AD /* NSObject+.swift */,
 			);
 			path = "Foundation+";
+			sourceTree = "<group>";
+		};
+		14DB26512A5BF6D300F42499 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				14DB26562A5C06C400F42499 /* FeedCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		14DB26522A5BF6D900F42499 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				14DB26532A5BF82700F42499 /* FeedViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		14F66FEC2A54846C009703AD /* Source */ = {
@@ -325,11 +347,13 @@
 			files = (
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
 				145735572A556D600047104A /* UIColor+.swift in Sources */,
+				14DB26572A5C06C400F42499 /* FeedCollectionViewCell.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				145735552A5559350047104A /* Font+.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
 				14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
+				14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				14489F132A56A2D300F042CB /* UIImage+.swift in Sources */,
