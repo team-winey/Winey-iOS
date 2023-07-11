@@ -51,6 +51,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     private let feedTitleLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.font = .body_b16
         label.textColor = .winey_gray900
         return label
@@ -88,15 +89,17 @@ class FeedCollectionViewCell: UICollectionViewCell {
         likeButton.makeCornerCircle()
     }
     
-    func dataBind(model: FeedModel) {
+    func setData(model: FeedModel) {
         nicknameLabel.text = model.nickname
-        feedMoneyLabel.text = "\(model.feedMoney)원 절약"
+        feedMoneyLabel.text = addComma(value: model.feedMoney) + " 절약"
+        feedMoneyLabel.changePartColor(targetString: "절약", textColor: .winey_gray600)
         feedTitleLabel.text = model.feedTitle
         likesLabel.text = "\(model.likes)"
     }
 }
 
 extension FeedCollectionViewCell {
+    
     private func setLayout() {
         addSubviews(profileImageView, nicknameLabel, moreButton, feedImageView, feedTitleLabel, feedMoneyContainerView,  likesLabel, likeButton)
         feedMoneyContainerView.addSubview(feedMoneyLabel)
@@ -134,6 +137,7 @@ extension FeedCollectionViewCell {
         feedTitleLabel.snp.makeConstraints {
             $0.top.equalTo(feedMoneyContainerView.snp.bottom).offset(9)
             $0.leading.equalToSuperview().inset(26)
+            $0.trailing.equalTo(likeButton.snp.leading).offset(-13)
         }
         
         feedMoneyLabel.snp.makeConstraints {
