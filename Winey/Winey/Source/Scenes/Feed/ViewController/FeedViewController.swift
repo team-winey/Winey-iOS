@@ -43,7 +43,7 @@ final class FeedViewController: UIViewController {
     private func setupDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, FeedModel>(collectionView: collectionView) { collectionView, indexPath, item in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
-            cell.dataBind(model: itemdummy[indexPath.item])
+            cell.setData(model: itemdummy[indexPath.item])
             return cell
         }
         dataSource.apply(snapshot(), animatingDifferences: false)
@@ -86,7 +86,7 @@ extension FeedViewController {
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(44)
+            $0.height.equalTo(56)
         }
         
         collectionView.snp.makeConstraints {
