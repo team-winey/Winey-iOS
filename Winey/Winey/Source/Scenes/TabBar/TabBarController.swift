@@ -5,11 +5,11 @@
 //  Created by 김인영 on 2023/07/05.
 //
 
-import UIKit
 import DesignSystem
+import UIKit
 
 final class TabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
@@ -17,39 +17,24 @@ final class TabBarController: UITabBarController {
     }
     
     private func setViewControllers() {
+        let viewControllers = TabBarItem.allCases
+            .map { navigationController(with: $0, rootViewController: $0.rootViewController) }
         
-        let feedVC = makeNavigationController(
-            unselectedImage: .TabBar.feed,
-            selectedImage: .TabBar.feed,
-            rootViewController: UIViewController(), title: "피드")
-        
-        let recommendVC = makeNavigationController(
-            unselectedImage: .TabBar.recommend,
-            selectedImage: .TabBar.recommend,
-            rootViewController: UIViewController(), title: "추천")
-        
-        let myPageVC = makeNavigationController(
-            unselectedImage: .TabBar.myPage,
-            selectedImage: .TabBar.myPage,
-            rootViewController: UIViewController(), title: "마이페이지")
-        
-        viewControllers = [feedVC, recommendVC, myPageVC]
+        self.viewControllers = viewControllers
     }
     
-    private func makeNavigationController(unselectedImage: UIImage?, selectedImage: UIImage?, rootViewController: UIViewController, title: String) -> UINavigationController {
-        
+    private func navigationController(
+        with item: TabBarItem,
+        rootViewController: UIViewController
+    ) -> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
-        nav.tabBarItem.image = unselectedImage
-        nav.tabBarItem.selectedImage = selectedImage
-        nav.tabBarItem.title = title
+      
+        nav.tabBarItem.image = item.image
+        nav.tabBarItem.title = item.title
+        nav.tabBarItem.setTitleTextAttributes(Const.tabBarAttributes, for: .normal)
         
-        nav.navigationBar.tintColor = .purple400
         nav.navigationBar.backgroundColor = .clear
         nav.isNavigationBarHidden = true
-        nav.navigationBar.isHidden = true
-        nav.tabBarItem.setTitleTextAttributes([.font: UIFont.font(.pretendardBold, ofSize: 12)], for: .normal)
-        nav.navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action: nil)
-        nav.navigationItem.backBarButtonItem?.tintColor = .purple400
         
         return nav
     }
@@ -59,5 +44,11 @@ final class TabBarController: UITabBarController {
         tabBar.tintColor = .purple400
         tabBar.unselectedItemTintColor = .gray300
         tabBar.backgroundImage = UIImage()
+    }
+}
+
+private extension TabBarController {
+    enum Const {
+        static let tabBarAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.font(.pretendardBold, ofSize: 12)]
     }
 }
