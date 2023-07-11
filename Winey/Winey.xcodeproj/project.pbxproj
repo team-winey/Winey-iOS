@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
 		1457354D2A5557BD0047104A /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145735442A5557BC0047104A /* Pretendard-Medium.otf */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		145735442A5557BC0047104A /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		145735472A5557BD0047104A /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				14F670132A551BCF009703AD /* TabBarController.swift */,
+				0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
+				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
