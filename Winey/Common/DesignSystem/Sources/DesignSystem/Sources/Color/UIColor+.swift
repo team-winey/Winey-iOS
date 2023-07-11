@@ -1,6 +1,6 @@
 //
 //  ColorLiterals.swift
-//  Winey
+//  DesignSystem
 //
 //  Created by 김인영 on 2023/07/05.
 //

@@ -1,6 +1,6 @@
 //
 //  Pallete.swift
-//  Winey
+//  DesignSystem
 //
 //  Created by Woody Lee on 2023/07/11.
 //
