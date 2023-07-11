@@ -17,5 +17,11 @@ extension UIImage {
     
     enum Icon {
         static let more = UIImage(named: "ic_more")
+        static let like_selected = UIImage(named: "ic_like_selected")
+        static let like_unselected = UIImage(named: "ic_like_unselected")
+    }
+    
+    enum Sample {
+        static let temp = UIImage(named: "sample1")
     }
 }
