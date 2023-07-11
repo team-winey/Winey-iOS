@@ -7,11 +7,11 @@
 
 import UIKit
 
-extension UIImage {
+public extension UIImage {
 
     enum Icon {
-        static let feed         = UIImage(named: "ic_feed")
-        static let recommend    = UIImage(named: "ic_recommend")
-        static let mypage       = UIImage(named: "ic_mypage")
+        public static let feed         = UIImage(named: "ic_feed")
+        public static let recommend    = UIImage(named: "ic_recommend")
+        public static let mypage       = UIImage(named: "ic_mypage")
     }
 }
