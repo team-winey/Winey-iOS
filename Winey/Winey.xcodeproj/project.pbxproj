@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
-		0D6D9BF42A5D752E000AA356 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6D9BF32A5D752E000AA356 /* UIColor+.swift */; };
 		14489F132A56A2D300F042CB /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14489F122A56A2D300F042CB /* UIImage+.swift */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
 		1457354D2A5557BD0047104A /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145735442A5557BC0047104A /* Pretendard-Medium.otf */; };
@@ -33,7 +32,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D6D9BF32A5D752E000AA356 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		14489F122A56A2D300F042CB /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		145735442A5557BC0047104A /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 				14489F122A56A2D300F042CB /* UIImage+.swift */,
 				14F66FFC2A550928009703AD /* UIView+.swift */,
 				14F670042A550BED009703AD /* UIViewController+.swift */,
-				0D6D9BF32A5D752E000AA356 /* UIColor+.swift */,
 				14F670062A550C45009703AD /* UIStackView+.swift */,
 				14F670082A550C83009703AD /* UILabel+.swift */,
 				14F6700A2A550CBA009703AD /* UIButton+.swift */,
@@ -357,7 +354,6 @@
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
-				0D6D9BF42A5D752E000AA356 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
