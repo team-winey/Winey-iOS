@@ -14,4 +14,8 @@ extension UIImage {
         static let recommend = UIImage(named: "ic_recommend")
         static let myPage = UIImage(named: "ic_mypage")
     }
+    
+    enum Icon {
+        static let more = UIImage(named: "ic_more")
+    }
 }
