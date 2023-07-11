@@ -66,5 +66,13 @@ extension UILabel {
         }
         self.attributedText = attributedString
     }
+    
+    func changePartColor(targetString: String, textColor: UIColor) {
+        let fullText = self.text ?? ""
+        let range = (fullText as NSString).range(of: targetString)
+        let attributedString = NSMutableAttributedString(string: fullText)
+        attributedString.addAttribute(.foregroundColor, value: textColor, range: range)
+        self.attributedText = attributedString
+    }
 }
 
