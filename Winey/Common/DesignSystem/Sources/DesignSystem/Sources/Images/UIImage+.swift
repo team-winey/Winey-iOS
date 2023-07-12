@@ -8,10 +8,15 @@
 import UIKit
 
 public extension UIImage {
-
     enum Icon {
-        public static let feed         = UIImage(named: "ic_feed")
-        public static let recommend    = UIImage(named: "ic_recommend")
-        public static let mypage       = UIImage(named: "ic_mypage")
+        public static let feed         = UIImage(name: "ic_feed")
+        public static let recommend    = UIImage(name: "ic_recommend")
+        public static let mypage       = UIImage(name: "ic_mypage")
+    }
+}
+
+extension UIImage {
+    convenience init?(name: String) {
+        self.init(named: name, in: .module, with: nil)
     }
 }
