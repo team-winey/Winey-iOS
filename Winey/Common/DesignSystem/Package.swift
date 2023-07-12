@@ -8,7 +8,8 @@ let package = Package(
     products: [
         .library(
             name: "DesignSystem",
-            targets: ["DesignSystem"]),
+            targets: ["DesignSystem"]
+        ),
     ],
     dependencies: [
         .package(
@@ -21,7 +22,9 @@ let package = Package(
             name: "DesignSystem",
             dependencies: [
                 .product(name: "SnapKit", package: "SnapKit")
-            ]),
+            ],
+            resources: [.process("Resources")]
+        ),
         .testTarget(
             name: "DesignSystemTests",
             dependencies: ["DesignSystem"]
