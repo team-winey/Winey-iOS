@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14489F132A56A2D300F042CB /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14489F122A56A2D300F042CB /* UIImage+.swift */; };
+		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
+		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
 		1457354D2A5557BD0047104A /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145735442A5557BC0047104A /* Pretendard-Medium.otf */; };
 		145735502A5557BD0047104A /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145735472A5557BD0047104A /* Pretendard-Bold.otf */; };
 		145735532A5557BD0047104A /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1457354A2A5557BD0047104A /* Pretendard-SemiBold.otf */; };
 		145735552A5559350047104A /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145735542A5559350047104A /* Font+.swift */; };
-		145735572A556D600047104A /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145735562A556D600047104A /* UIColor+.swift */; };
 		14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F6182A50501C0079FA20 /* AppDelegate.swift */; };
 		14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */; };
 		14C1F6252A50501D0079FA20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6232A50501D0079FA20 /* LaunchScreen.storyboard */; };
@@ -38,12 +38,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		14489F122A56A2D300F042CB /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		145735442A5557BC0047104A /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		145735472A5557BD0047104A /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		1457354A2A5557BD0047104A /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		145735542A5559350047104A /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
-		145735562A556D600047104A /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		14C1F6152A50501C0079FA20 /* Winey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Winey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C1F6182A50501C0079FA20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,12 +75,28 @@
 				14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */,
 				14F66FE82A505A27009703AD /* Moya in Frameworks */,
 				14F66FE52A50562F009703AD /* SnapKit in Frameworks */,
+				0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D6D9BF02A5D74C8000AA356 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0D6D9BF62A5D7807000AA356 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				0D6D9BF82A5D799A000AA356 /* DesignSystem */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		148C7B892A56B19D007DFE55 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,7 +146,9 @@
 			isa = PBXGroup;
 			children = (
 				14C1F6172A50501C0079FA20 /* Winey */,
+				0D6D9BF62A5D7807000AA356 /* Common */,
 				14C1F6162A50501C0079FA20 /* Products */,
+				0D6D9BF02A5D74C8000AA356 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,9 +172,7 @@
 		14D76B042A5B074600B3AC5F /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				145735562A556D600047104A /* UIColor+.swift */,
 				145735542A5559350047104A /* Font+.swift */,
-				14489F122A56A2D300F042CB /* UIImage+.swift */,
 				14F66FFC2A550928009703AD /* UIView+.swift */,
 				14F670042A550BED009703AD /* UIViewController+.swift */,
 				14F670062A550C45009703AD /* UIStackView+.swift */,
@@ -278,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				14F670132A551BCF009703AD /* TabBarController.swift */,
+				0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -302,6 +319,7 @@
 				14F66FE42A50562F009703AD /* SnapKit */,
 				14F66FE72A505A27009703AD /* Moya */,
 				14F66FEA2A505E3A009703AD /* Kingfisher */,
+				0D6D9BF12A5D74C8000AA356 /* DesignSystem */,
 			);
 			productName = Winey;
 			productReference = 14C1F6152A50501C0079FA20 /* Winey.app */;
@@ -366,7 +384,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
-				145735572A556D600047104A /* UIColor+.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
@@ -380,8 +397,8 @@
 				14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
-				14489F132A56A2D300F042CB /* UIImage+.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
+				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
@@ -627,6 +644,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0D6D9BF12A5D74C8000AA356 /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
 		14F66FE42A50562F009703AD /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 14F66FE32A50562F009703AD /* XCRemoteSwiftPackageReference "SnapKit" */;
