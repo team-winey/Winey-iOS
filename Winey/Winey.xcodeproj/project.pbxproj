@@ -453,7 +453,6 @@
 				14F66FE42A50562F009703AD /* SnapKit */,
 				14F66FE72A505A27009703AD /* Moya */,
 				14F66FEA2A505E3A009703AD /* Kingfisher */,
-<<<<<<< HEAD
 				0D6D9BF12A5D74C8000AA356 /* DesignSystem */,
 				F4BE08522A5D98EA0052F3B0 /* CHIPageControl */,
 			);
@@ -546,15 +545,9 @@
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
 				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
-<<<<<<< HEAD
-=======
 				F4BE08492A5C7C6D0052F3B0 /* CustomNavigationBar.swift in Sources */,
 				14489F132A56A2D300F042CB /* UIImage+.swift in Sources */,
-<<<<<<< HEAD
->>>>>>> 38b7b5a ([Add] #8-업로드 취소, 뒤로가기 버튼 이미지 추가 및 공용 NavigationBar View 파일 추가)
-=======
 				F4BE084D2A5D21B10052F3B0 /* CustomPageControl.swift in Sources */,
->>>>>>> a668e31 ([Add] #8 -CHIPageControl 라이브러리 추가 및 적용코드 추가)
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
 				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
