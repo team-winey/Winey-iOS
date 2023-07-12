@@ -10,7 +10,6 @@ import Combine
 import PhotosUI
 import Foundation
 
-<<<<<<< HEAD
 import DesignSystem
 import CHIPageControl
 import SnapKit
@@ -157,6 +156,9 @@ class UploadViewController: UIViewController {
     
     func setUI() {
         view.backgroundColor = .white
+                
+        grayDot.progress = Double(stageIdx)
+        pageGuide.currentPage = Int(grayDot.progress)
         
         imagePicker.delegate = self
         
