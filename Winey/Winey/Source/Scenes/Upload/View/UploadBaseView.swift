@@ -23,6 +23,9 @@ class UploadBaseView: UIView {
     
     // MARK: - UI Components
     
+    /// title: 메인문구
+    /// subTitle: 서브문구
+    
     private let title: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 3, width: 174, height: 56))
         label.numberOfLines = 0

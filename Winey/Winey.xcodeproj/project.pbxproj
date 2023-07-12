@@ -101,7 +101,6 @@
 		F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUploadView.swift; sourceTree = "<group>"; };
 		F4BE08482A5C7C6D0052F3B0 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		F4BE084A2A5C7C740052F3B0 /* NavigationBarType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarType.swift; sourceTree = "<group>"; };
-		F4BE084C2A5D21B00052F3B0 /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +209,7 @@
 		14A7A4362A56F12600C0CA4E /* Upload */ = {
 			isa = PBXGroup;
 			children = (
+				F4BE08472A5C7C4E0052F3B0 /* NavigationBar */,
 				F4BE08422A5C72BF0052F3B0 /* View */,
 				F4BE083E2A5C6F650052F3B0 /* ViewController */,
 			);
@@ -415,7 +415,6 @@
 		F4BE08422A5C72BF0052F3B0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F4BE08472A5C7C4E0052F3B0 /* NavigationBar */,
 				F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */,
 				F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */,
 				F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */,
@@ -547,7 +546,6 @@
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
 				F4BE08492A5C7C6D0052F3B0 /* CustomNavigationBar.swift in Sources */,
 				14489F132A56A2D300F042CB /* UIImage+.swift in Sources */,
-				F4BE084D2A5D21B10052F3B0 /* CustomPageControl.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
 				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,

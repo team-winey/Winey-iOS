@@ -157,6 +157,7 @@ class UploadViewController: UIViewController {
     func setUI() {
         view.backgroundColor = .white
                 
+        // 버튼 인덱스 맞춰주기
         grayDot.progress = Double(stageIdx)
         pageGuide.currentPage = Int(grayDot.progress)
         
@@ -181,6 +182,9 @@ class UploadViewController: UIViewController {
         thirdPage.sendPriceClosure = { data in
             self.feedPrice = data
         }
+        
+        // 현재 페이지를 UploadBaseView
+        pageGuide.currentPage = stageIdx
     }
     
     func setLayout() {
@@ -374,6 +378,34 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
             alertVC.addAction(cancelAction)
             alertVC.addAction(confirmAction)
             self.present(alertVC, animated: true, completion: nil)
+        }
+        
+        view.addSubviews(grayDot, pageGuide, scrollView, nextButton)
+        
+        // PageControl
+        grayDot.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(115)
+            $0.leading.equalToSuperview().inset(17)
+        }
+        
+        // UploadBaseView
+        pageGuide.snp.makeConstraints {
+            $0.top.equalTo(grayDot.snp.bottom).offset(17)
+            $0.leading.equalToSuperview().inset(17)
+        }
+        
+        // ScrollView
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(pageGuide.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(182)
+        }
+        
+        // 다음 버튼
+        nextButton.snp.makeConstraints {
+            $0.bottom.equalTo(safeArea).inset(4)
+            $0.height.equalTo(52)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
     }
     
