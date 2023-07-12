@@ -25,6 +25,13 @@ final class FeedViewController: UIViewController {
         collectionView.delegate = self
         return collectionView
     }()
+    private lazy var writeButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .winey_yellow
+        button.setImage(.Icon.write, for: .normal)
+        button.makeCornerRound(radius: 28)
+        return button
+    }()
     
     // MARK: - View Life Cycles
     
@@ -68,7 +75,6 @@ final class FeedViewController: UIViewController {
         layout.minimumLineSpacing = 1
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(view.frame.width), heightDimension: .absolute(80))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
         layout.sectionHeadersPinToVisibleBounds = false
         return layout
@@ -79,7 +85,7 @@ final class FeedViewController: UIViewController {
 
 extension FeedViewController {
     private func setLayout() {
-        view.addSubviews(naviBar, collectionView)
+        view.addSubviews(naviBar, collectionView, writeButton)
         
         naviBar.backgroundColor = .winey_purple400
         
@@ -92,6 +98,11 @@ extension FeedViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(naviBar.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        writeButton.snp.makeConstraints {
+            $0.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(23)
+            $0.size.equalTo(56)
         }
     }
 }
