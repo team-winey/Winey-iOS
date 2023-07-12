@@ -19,6 +19,7 @@ extension UIImage {
         static let more = UIImage(named: "ic_more")
         static let like_selected = UIImage(named: "ic_like_selected")
         static let like_unselected = UIImage(named: "ic_like_unselected")
+        static let write = UIImage(named: "btn_floating")
     }
     
     enum Sample {
