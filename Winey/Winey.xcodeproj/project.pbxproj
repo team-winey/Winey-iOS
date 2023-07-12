@@ -545,7 +545,6 @@
 				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
 				F4BE08492A5C7C6D0052F3B0 /* CustomNavigationBar.swift in Sources */,
-				14489F132A56A2D300F042CB /* UIImage+.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
 				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
