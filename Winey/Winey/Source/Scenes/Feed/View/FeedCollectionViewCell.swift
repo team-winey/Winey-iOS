@@ -13,6 +13,7 @@ final class FeedCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    var moreButtonTappedClosure: (() -> Void)?
     var isLiked: Bool = false {
         didSet {
             isLiked == true ? selected() : unselected()
@@ -36,6 +37,7 @@ final class FeedCollectionViewCell: UICollectionViewCell {
     private lazy var moreButton: UIButton = {
         let button = UIButton()
         button.setImage(.Icon.more, for: .normal)
+        button.addTarget(self, action: #selector(tapMoreButton), for: .touchUpInside)
         return button
     }()
     
@@ -111,6 +113,10 @@ final class FeedCollectionViewCell: UICollectionViewCell {
         feedTitleLabel.text = model.feedTitle
         self.isLiked = model.isLiked
         likesLabel.text = "\(model.likes)"
+    }
+    
+    @objc private func tapMoreButton() {
+        self.moreButtonTappedClosure?()
     }
     
     @objc private func tapLikeButton() {
