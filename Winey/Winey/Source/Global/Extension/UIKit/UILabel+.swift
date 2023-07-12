@@ -74,5 +74,22 @@ extension UILabel {
         attributedString.addAttribute(.foregroundColor, value: textColor, range: range)
         self.attributedText = attributedString
     }
+    
+    func setupLabel(text: String, font: UIFont, color: UIColor) {
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttributes([.kern: -0.67, .foregroundColor: color, .font: font], range: NSRange(location: 0, length: text.count))
+        self.attributedText = attributedString
+    }
 }
 
+struct TextAttribute {
+    static let titleAttribute: [NSAttributedString.Key: Any] = {
+        let attribute: [NSAttributedString.Key: Any] = [
+            .font: UIFont.head_b20,
+            .foregroundColor: UIColor.black,
+            .kern: -0.67
+        ]
+        
+        return attribute
+    }()
+}

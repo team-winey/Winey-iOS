@@ -9,14 +9,14 @@ import UIKit
 
 import SnapKit
 
-final class FeedCollectionViewCell: UICollectionViewCell {
+final class FeedCell: UICollectionViewCell {
     
     // MARK: - Properties
     
     var moreButtonTappedClosure: (() -> Void)?
     var isLiked: Bool = false {
         didSet {
-            isLiked == true ? selected() : unselected()
+            isLiked ? selected() : unselected()
         }
     }
     
@@ -69,7 +69,7 @@ final class FeedCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let likesLabel: UILabel = {
+    private let likeCountLabel: UILabel = {
         let label = UILabel()
         label.font = .detail_m11
         label.textColor = .winey_gray700
@@ -97,6 +97,10 @@ final class FeedCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        profileImageView.image = nil
+        feedImageView.image = nil
+        nicknameLabel.text = "아아"
+        feedTitleLabel.text = "dkkdkdkdd"
     }
     
     override func layoutSubviews() {
@@ -106,13 +110,15 @@ final class FeedCollectionViewCell: UICollectionViewCell {
         likeButton.makeCornerCircle()
     }
     
-    func setData(model: FeedModel) {
+    func configure(model: FeedModel) {
         nicknameLabel.text = model.nickname
-        feedMoneyLabel.text = addComma(value: model.feedMoney) + " 절약"
+        let money = model.money.addCommaToString() ?? ""
+        feedMoneyLabel.text = money + "원 절약"
         feedMoneyLabel.changePartColor(targetString: "절약", textColor: .winey_gray600)
-        feedTitleLabel.text = model.feedTitle
+        feedTitleLabel.text = model.title
+        feedImageView.image = model.image
         self.isLiked = model.isLiked
-        likesLabel.text = "\(model.likes)"
+        likeCountLabel.text = "\(model.like)"
     }
     
     @objc private func tapMoreButton() {
@@ -124,10 +130,11 @@ final class FeedCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension FeedCollectionViewCell {
+extension FeedCell {
     
     private func setLayout() {
-        addSubviews(profileImageView, nicknameLabel, moreButton, feedImageView, feedTitleLabel, feedMoneyContainerView,  likesLabel, likeButton)
+        addSubviews(profileImageView, nicknameLabel, moreButton, feedImageView, feedTitleLabel)
+        addSubviews(feedMoneyContainerView, likeCountLabel, likeButton)
         feedMoneyContainerView.addSubview(feedMoneyLabel)
         
         profileImageView.snp.makeConstraints {
@@ -176,7 +183,7 @@ extension FeedCollectionViewCell {
             $0.size.equalTo(36)
         }
         
-        likesLabel.snp.makeConstraints {
+        likeCountLabel.snp.makeConstraints {
             $0.top.equalTo(likeButton.snp.bottom).offset(2)
             $0.centerX.equalTo(likeButton)
         }
