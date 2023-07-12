@@ -185,6 +185,12 @@ class UploadViewController: UIViewController {
         
         // 현재 페이지를 UploadBaseView
         pageGuide.currentPage = stageIdx
+        
+        if stageIdx < 3 {
+            nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
+        } else {
+            nextButton.isEnabled = false
+        }
     }
     
     func setLayout() {
