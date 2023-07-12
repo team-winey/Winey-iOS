@@ -156,6 +156,9 @@ class UploadViewController: UIViewController {
     
     func setUI() {
         view.backgroundColor = .white
+        
+        otherPageBar.isHidden = true
+        firstPageBar.isHidden = false
                 
         // 버튼 인덱스 맞춰주기
         grayDot.progress = Double(stageIdx)
@@ -183,14 +186,7 @@ class UploadViewController: UIViewController {
             self.feedPrice = data
         }
         
-        // 현재 페이지를 UploadBaseView
-        pageGuide.currentPage = stageIdx
-        
-        if stageIdx < 3 {
-            nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
-        } else {
-            nextButton.isEnabled = false
-        }
+        nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
     }
     
     func setLayout() {
