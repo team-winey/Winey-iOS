@@ -9,7 +9,17 @@ import UIKit
 
 import SnapKit
 
-class FeedCollectionViewCell: UICollectionViewCell {
+final class FeedCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    
+    var isLiked: Bool = false {
+        didSet {
+            isLiked == true ? selected() : unselected()
+        }
+    }
+    
+    // MARK: - UI Components
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -66,9 +76,10 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     private lazy var likeButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .winey_purple400
-        button.setImage(.Icon.like_selected, for: .normal)
+        button.backgroundColor = .winey_purple100
+        button.setImage(.Icon.like_unselected, for: .normal)
         button.makeCornerRound(radius: 18)
+        button.addTarget(self, action: #selector(tapLikeButton), for: .touchUpInside)
         return button
     }()
     
@@ -80,6 +91,10 @@ class FeedCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
     }
     
     override func layoutSubviews() {
@@ -94,7 +109,12 @@ class FeedCollectionViewCell: UICollectionViewCell {
         feedMoneyLabel.text = addComma(value: model.feedMoney) + " 절약"
         feedMoneyLabel.changePartColor(targetString: "절약", textColor: .winey_gray600)
         feedTitleLabel.text = model.feedTitle
+        self.isLiked = model.isLiked
         likesLabel.text = "\(model.likes)"
+    }
+    
+    @objc private func tapLikeButton() {
+        self.isLiked.toggle()
     }
 }
 
@@ -155,5 +175,14 @@ extension FeedCollectionViewCell {
             $0.centerX.equalTo(likeButton)
         }
     }
+    
+    private func selected() {
+        likeButton.backgroundColor = .winey_purple400
+        likeButton.setImage(.Icon.like_selected, for: .normal)
+    }
+    
+    private func unselected() {
+        likeButton.backgroundColor = .winey_purple100
+        likeButton.setImage(.Icon.like_unselected, for: .normal)
+    }
 }
-
