@@ -10,6 +10,9 @@ import UIKit
 import SnapKit
 
 final class FeedViewController: UIViewController {
+    private typealias DataSource = UICollectionViewDiffableDataSource<Int, FeedModel>
+    private typealias CellRegistration = UICollectionView.CellRegistration
+    private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration
     
     // MARK: - Properties
     
@@ -19,7 +22,14 @@ final class FeedViewController: UIViewController {
     
     private let naviBar = UIView()
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: setFlowLayout())
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: view.frame.width, height: 367)
+        layout.minimumLineSpacing = 1
+        //let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(view.frame.width), heightDimension: .absolute(80))
+        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
+        layout.sectionHeadersPinToVisibleBounds = false
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
@@ -43,44 +53,49 @@ final class FeedViewController: UIViewController {
     }
     
     private func register() {
-        collectionView.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
-        collectionView.register(FeedCollectionReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedCollectionReusableHeaderView.className)
+        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.className)
+        collectionView.register(
+            FeedHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: FeedHeaderView.className
+        )
     }
     
     private func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, FeedModel>(collectionView: collectionView) { collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
-            cell.setData(model: itemdummy[indexPath.item])
+        let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
+            cell.configure(model: Self.itemdummy[indexPath.item])
             cell.moreButtonTappedClosure = { [weak self] in
                 self?.showAlert()
             }
-            return cell
         }
-        dataSource.apply(snapshot(), animatingDifferences: false)
+        
+        dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
+            return collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
+                for: indexPath,
+                item: item
+            )
+        }
+        
+        let headerRegistration = SupplementaryRegistration<FeedHeaderView>(
+            elementKind: UICollectionView.elementKindSectionHeader
+        ) { _, _, _ in }
         
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedCollectionReusableHeaderView.className, for: indexPath) as? FeedCollectionReusableHeaderView else { return nil }
-            return header
+            return collectionView.dequeueConfiguredReusableSupplementary(
+                using: headerRegistration,
+                for: indexPath
+            )
         }
+        
+        dataSource.apply(snapshot(), animatingDifferences: false)
     }
     
     private func snapshot() -> NSDiffableDataSourceSnapshot<Int, FeedModel> {
         var snapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
         snapshot.appendSections([0])
-        snapshot.appendItems(itemdummy)
+        snapshot.appendItems(Self.itemdummy)
         return snapshot
-    }
-    
-    private func setFlowLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width, height: 367)
-        layout.minimumLineSpacing = 1
-        
-        let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(view.frame.width), heightDimension: .absolute(80))
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
-        layout.sectionHeadersPinToVisibleBounds = false
-        return layout
     }
     
     private func showAlert() {
@@ -129,4 +144,51 @@ extension FeedViewController {
 // MARK: - CollectionViewDelegate
 
 extension FeedViewController: UICollectionViewDelegate {
+}
+
+extension FeedViewController {
+    static var itemdummy: [FeedModel] {
+        [
+            FeedModel(
+                id: 1,
+                nickname: "뇽잉깅",
+                title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
+                image: .Sample.temp ?? UIImage(),
+                money: 10000,
+                like: 23,
+                isLiked: true,
+                writerLevel: 2
+            ),
+            FeedModel(
+                id: 2,
+                nickname: "뇽잉깅",
+                title: "안녕하세요 처음 만난 사람들도 안녕하세요 하이헬로우하하하하",
+                image: .Sample.temp ?? UIImage(),
+                money: 10000,
+                like: 23,
+                isLiked: true,
+                writerLevel: 2
+            ),
+            FeedModel(
+                id: 3,
+                nickname: "뇽잉깅",
+                title: "띄어쓰기가없는경우 띄어쓰기가없는경우 띄어쓰기가없는경우 우하하하",
+                image: .Sample.temp ?? UIImage(),
+                money: 100000,
+                like: 23,
+                isLiked: false,
+                writerLevel: 2
+            ),
+            FeedModel(
+                id: 4,
+                nickname: "뇽잉깅",
+                title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
+                image: .Sample.temp ?? UIImage(),
+                money: 1000,
+                like: 23,
+                isLiked: true,
+                writerLevel: 2
+            )
+        ]
+    }
 }
