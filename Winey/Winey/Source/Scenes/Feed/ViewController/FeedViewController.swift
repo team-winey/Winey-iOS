@@ -51,6 +51,9 @@ final class FeedViewController: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Int, FeedModel>(collectionView: collectionView) { collectionView, indexPath, item in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
             cell.setData(model: itemdummy[indexPath.item])
+            cell.moreButtonTappedClosure = { [weak self] in
+                self?.showAlert()
+            }
             return cell
         }
         dataSource.apply(snapshot(), animatingDifferences: false)
@@ -78,6 +81,22 @@ final class FeedViewController: UIViewController {
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
         layout.sectionHeadersPinToVisibleBounds = false
         return layout
+    }
+    
+    private func showAlert() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
+            print("삭제")
+        }
+        alertController.addAction(deleteAction)
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+            print("취")
+        }
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -109,4 +128,5 @@ extension FeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension FeedViewController: UICollectionViewDelegate {}
+extension FeedViewController: UICollectionViewDelegate {
+}
