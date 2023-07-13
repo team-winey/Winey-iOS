@@ -26,7 +26,6 @@ final class FeedViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: view.frame.width, height: 367)
         layout.minimumLineSpacing = 1
-        //let headerSize = NSCollectionLayoutSize(widthDimension: .absolute(view.frame.width), heightDimension: .absolute(80))
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
         layout.sectionHeadersPinToVisibleBounds = false
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -38,7 +37,7 @@ final class FeedViewController: UIViewController {
     private lazy var writeButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .winey_yellow
-        button.setImage(.Icon.write, for: .normal)
+        button.setImage(.Icon.floating, for: .normal)
         button.makeCornerRound(radius: 28)
         return button
     }()
