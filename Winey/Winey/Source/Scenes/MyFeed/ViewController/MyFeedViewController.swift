@@ -1,8 +1,8 @@
 //
-//  FeedViewController.swift
+//  MyFeedViewController.swift
 //  Winey
 //
-//  Created by 김인영 on 2023/07/10.
+//  Created by 김인영 on 2023/07/12.
 //
 
 import UIKit
@@ -10,7 +10,8 @@ import UIKit
 import DesignSystem
 import SnapKit
 
-final class FeedViewController: UIViewController {
+final class MyFeedViewController: UIViewController {
+    
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, FeedModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
     private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration
@@ -27,7 +28,7 @@ final class FeedViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: view.frame.width, height: 367)
         layout.minimumLineSpacing = 1
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
+
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -53,11 +54,6 @@ final class FeedViewController: UIViewController {
     
     private func register() {
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.className)
-        collectionView.register(
-            FeedHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: FeedHeaderView.className
-        )
     }
     
     private func setupDataSource() {
@@ -73,17 +69,6 @@ final class FeedViewController: UIViewController {
                 using: cellRegistration,
                 for: indexPath,
                 item: item
-            )
-        }
-        
-        let headerRegistration = SupplementaryRegistration<FeedHeaderView>(
-            elementKind: UICollectionView.elementKindSectionHeader
-        ) { _, _, _ in }
-        
-        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            return collectionView.dequeueConfiguredReusableSupplementary(
-                using: headerRegistration,
-                for: indexPath
             )
         }
         
@@ -116,7 +101,7 @@ final class FeedViewController: UIViewController {
 
 // MARK: - UI & Layout
 
-extension FeedViewController {
+extension MyFeedViewController {
     private func setLayout() {
         view.addSubviews(naviBar, collectionView, writeButton)
         
@@ -142,10 +127,10 @@ extension FeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension FeedViewController: UICollectionViewDelegate {
+extension MyFeedViewController: UICollectionViewDelegate {
 }
 
-extension FeedViewController {
+extension MyFeedViewController {
     static var itemdummy: [FeedModel] {
         [
             FeedModel(
