@@ -27,7 +27,6 @@ final class FeedViewController: UIViewController {
         layout.itemSize = CGSize(width: view.frame.width, height: 367)
         layout.minimumLineSpacing = 1
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
-        layout.sectionHeadersPinToVisibleBounds = false
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
