@@ -7,6 +7,17 @@
 
 import UIKit
 
+import DesignSystem
+import SnapKit
+
 class RecommendHeaderView: UICollectionReusableView {
-        
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .winey_gray100
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
