@@ -1,16 +1,16 @@
 //
-//  FeedViewController.swift
+//  MyFeedViewController.swift
 //  Winey
 //
-//  Created by 김인영 on 2023/07/10.
+//  Created by 김인영 on 2023/07/12.
 //
 
 import UIKit
 
-import DesignSystem
 import SnapKit
 
-final class FeedViewController: UIViewController {
+final class MyFeedViewController: UIViewController {
+    
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, FeedModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
     private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration
@@ -27,7 +27,7 @@ final class FeedViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: view.frame.width, height: 367)
         layout.minimumLineSpacing = 1
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
+
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -53,11 +53,6 @@ final class FeedViewController: UIViewController {
     
     private func register() {
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.className)
-        collectionView.register(
-            FeedHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: FeedHeaderView.className
-        )
     }
     
     private func setupDataSource() {
@@ -73,17 +68,6 @@ final class FeedViewController: UIViewController {
                 using: cellRegistration,
                 for: indexPath,
                 item: item
-            )
-        }
-        
-        let headerRegistration = SupplementaryRegistration<FeedHeaderView>(
-            elementKind: UICollectionView.elementKindSectionHeader
-        ) { _, _, _ in }
-        
-        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-            return collectionView.dequeueConfiguredReusableSupplementary(
-                using: headerRegistration,
-                for: indexPath
             )
         }
         
@@ -116,7 +100,7 @@ final class FeedViewController: UIViewController {
 
 // MARK: - UI & Layout
 
-extension FeedViewController {
+extension MyFeedViewController {
     private func setLayout() {
         view.addSubviews(naviBar, collectionView, writeButton)
         
@@ -142,17 +126,17 @@ extension FeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension FeedViewController: UICollectionViewDelegate {
+extension MyFeedViewController: UICollectionViewDelegate {
 }
 
-extension FeedViewController {
+extension MyFeedViewController {
     static var itemdummy: [FeedModel] {
         [
             FeedModel(
                 id: 1,
                 nickname: "뇽잉깅",
                 title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: .Sample.sample1 ?? UIImage(),
+                image: .Sample.temp ?? UIImage(),
                 money: 10000,
                 like: 23,
                 isLiked: true,
@@ -162,7 +146,7 @@ extension FeedViewController {
                 id: 2,
                 nickname: "뇽잉깅",
                 title: "안녕하세요 처음 만난 사람들도 안녕하세요 하이헬로우하하하하",
-                image: .Sample.sample1 ?? UIImage(),
+                image: .Sample.temp ?? UIImage(),
                 money: 10000,
                 like: 23,
                 isLiked: true,
@@ -172,7 +156,7 @@ extension FeedViewController {
                 id: 3,
                 nickname: "뇽잉깅",
                 title: "띄어쓰기가없는경우 띄어쓰기가없는경우 띄어쓰기가없는경우 우하하하",
-                image: .Sample.sample1 ?? UIImage(),
+                image: .Sample.temp ?? UIImage(),
                 money: 100000,
                 like: 23,
                 isLiked: false,
@@ -182,7 +166,7 @@ extension FeedViewController {
                 id: 4,
                 nickname: "뇽잉깅",
                 title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: .Sample.sample1 ?? UIImage(),
+                image: .Sample.temp ?? UIImage(),
                 money: 1000,
                 like: 23,
                 isLiked: true,
