@@ -116,7 +116,7 @@ extension RecommendViewController {
         [
             RecommendModel(
                 id: 1,
-                link: "link",
+                link: "서울시 청년 대중교통비 지원 사업",
                 title: "타이틀1",
                 subTitle: "서브타이틀",
                 discount: "1000원 절약",
@@ -124,7 +124,7 @@ extension RecommendViewController {
             ),
             RecommendModel(
                 id: 2,
-                link: "link",
+                link: "서울시 청년 대중교통비 지원 사업",
                 title: "타이틀2",
                 subTitle: "서브타이틀",
                 discount: "1000원 절약",
@@ -132,13 +132,20 @@ extension RecommendViewController {
             ),
             RecommendModel(
                 id: 3,
-                link: "link",
+                link: "서울시 청년 대중교통비 지원 사업",
                 title: "서울시\n지원해줘",
                 subTitle: "서브타이틀",
                 discount: "100000원 절약",
                 image: UIImage()
             ),
-
+            RecommendModel(
+                id: 4,
+                link: "서울시 청년 대중교통비 지원 사업",
+                title: "서울시\n지원해줘",
+                subTitle: "서브타이틀",
+                discount: "100000원 절약",
+                image: UIImage()
+            )
         ]
     }
 }
