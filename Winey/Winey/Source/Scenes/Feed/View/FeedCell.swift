@@ -7,8 +7,8 @@
 
 import UIKit
 
-import SnapKit
 import DesignSystem
+import SnapKit
 
 final class FeedCell: UICollectionViewCell {
     
@@ -89,7 +89,6 @@ final class FeedCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        backgroundColor = .winey_gray0
     }
     
     required init?(coder: NSCoder) {
@@ -134,6 +133,9 @@ final class FeedCell: UICollectionViewCell {
 extension FeedCell {
     
     private func setLayout() {
+        
+        backgroundColor = .winey_gray0
+        
         addSubviews(profileImageView, nicknameLabel, moreButton, feedImageView, feedTitleLabel)
         addSubviews(feedMoneyContainerView, likeCountLabel, likeButton)
         feedMoneyContainerView.addSubview(feedMoneyLabel)
