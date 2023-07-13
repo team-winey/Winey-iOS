@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
+		143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00932A602E8F000FBD3F /* RecommendViewController.swift */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
 		1457354D2A5557BD0047104A /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145735442A5557BC0047104A /* Pretendard-Medium.otf */; };
 		145735502A5557BD0047104A /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 145735472A5557BD0047104A /* Pretendard-Bold.otf */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
+		143C00932A602E8F000FBD3F /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		145735442A5557BC0047104A /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		145735472A5557BD0047104A /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		1457354A2A5557BD0047104A /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -97,6 +99,28 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		143C00902A602E51000FBD3F /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		143C00912A602E5A000FBD3F /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				143C00932A602E8F000FBD3F /* RecommendViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		143C00922A602E61000FBD3F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		148C7B892A56B19D007DFE55 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +134,9 @@
 		148C7B8A2A56B1A6007DFE55 /* Recommend */ = {
 			isa = PBXGroup;
 			children = (
+				143C00922A602E61000FBD3F /* Model */,
+				143C00912A602E5A000FBD3F /* ViewController */,
+				143C00902A602E51000FBD3F /* View */,
 			);
 			path = Recommend;
 			sourceTree = "<group>";
@@ -392,6 +419,7 @@
 				14DB26682A5ED39400F42499 /* Int+.swift in Sources */,
 				145735552A5559350047104A /* Font+.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
+				143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */,
 				14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
 				14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */,
