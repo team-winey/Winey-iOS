@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import DesignSystem
 
 final class GoalCollectionViewCell: UICollectionViewCell {
     
@@ -34,18 +35,28 @@ final class GoalCollectionViewCell: UICollectionViewCell {
     
     var goalLabel: UILabel = {
         let label = UILabel()
-        label.text = "절약 목표"
-        label.font = .detail_m13
-        label.textColor = .winey_gray900
+        label.setText(
+            "절약 목표",
+            attributes: .init(
+                style: .detail,
+                weight: .medium,
+                textColor: .winey_gray900
+                )
+            )
         label.sizeToFit()
         return label
     }()
     
     var goalShowingLabel: UILabel = {
         let label = UILabel()
-        label.text = "10,000원"
-        label.font = .head_b18
-        label.textColor = .winey_gray900
+        label.setText(
+            "10,000원",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
         label.sizeToFit()
         return label
     }()
@@ -60,55 +71,85 @@ final class GoalCollectionViewCell: UICollectionViewCell {
     
     var temp1Label: UILabel = {
         let label = UILabel()
-        label.font = .detail_m13
-        label.textColor = .winey_gray600
-        label.text = "절약기간"
+        label.setText(
+            "절약기간",
+            attributes: .init(
+                style: .detail,
+                weight: .medium,
+                textColor: .winey_gray600
+                )
+            )
         label.textAlignment = .center
         return label
     }()
     
     var temp1_ShowingLabel: UILabel = {
         let label = UILabel()
-        label.font = .head_b18
-        label.textColor = .winey_gray900
-        label.text = "D-18"
+        label.setText(
+            "D-18",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
         label.textAlignment = .center
         return label
     }()
     
     var temp2Label: UILabel = {
         let label = UILabel()
-        label.font = .detail_m13
-        label.textColor = .winey_gray600
-        label.text = "누적위니"
+        label.setText(
+            "누적위니",
+            attributes: .init(
+                style: .detail,
+                weight: .medium,
+                textColor: .winey_gray600
+                )
+            )
         label.textAlignment = .center
         return label
     }()
     
     var temp2_ShowingLabel: UILabel = {
         let label = UILabel()
-        label.font = .head_b18
-        label.textColor = .winey_gray900
+        label.setText(
+            "50,000원",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
         label.textAlignment = .center
-        label.text = "50,000원"
         return label
     }()
     
     var temp3Label: UILabel = {
         let label = UILabel()
-        label.font = .detail_m13
-        label.textColor = .winey_gray600
+        label.setText(
+            "위니횟수",
+            attributes: .init(
+                style: .detail,
+                weight: .medium,
+                textColor: .winey_gray600
+                )
+            )
         label.textAlignment = .center
-        label.text = "위니횟수"
         return label
     }()
     
     var temp3_ShowingLabel: UILabel = {
         let label = UILabel()
-        label.font = .head_b18
-        label.textColor = .winey_gray900
+        label.setText(
+            "80번",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
         label.textAlignment = .center
-        label.text = "80번"
         return label
     }()
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import DesignSystem
 
 final class InquiryCollectionViewCell: UICollectionViewCell {
     
@@ -35,11 +36,16 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     
     let inquiryLabel: UILabel = {
         let label = UILabel()
-        label.text = "1:1 문의"
-        label.textAlignment = .center
-        label.textColor = UIColor.winey_gray700
-        label.font = .bodymain_m16
-        label.lineBreakMode = .byWordWrapping
+        label.setText(
+            "1:1 문의",
+            attributes: .init(
+                style: .body,
+                weight: .medium,
+                textColor: .winey_gray700
+                )
+            )
+            label.textAlignment = .center
+            label.lineBreakMode = .byWordWrapping
         return label
     }()
     

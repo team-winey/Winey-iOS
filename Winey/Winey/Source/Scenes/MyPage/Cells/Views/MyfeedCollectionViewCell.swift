@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import DesignSystem
 
 final class MyfeedCollectionViewCell: UICollectionViewCell {
     
@@ -35,10 +36,15 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     
     let myfeedLabel: UILabel = {
         let label = UILabel()
-        label.text = "마이피드"
         label.textAlignment = .center
-        label.textColor = UIColor.winey_gray700
-        label.font = .bodymain_m16
+        label.setText(
+            "마이피드",
+            attributes: .init(
+                style: .body,
+                weight: .medium,
+                textColor: .winey_gray700
+                )
+            )
         label.lineBreakMode = .byWordWrapping
         return label
     }()
