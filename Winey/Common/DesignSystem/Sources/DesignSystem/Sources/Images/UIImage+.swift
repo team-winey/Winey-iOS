@@ -15,6 +15,7 @@ public extension UIImage {
         public static let more                  = UIImage(name: "ic_more")
         public static let like_unselected       = UIImage(name: "ic_like_unselected")
         public static let like_selected         = UIImage(name: "ic_like_selected")
+        public static let link                  = UIImage(name: "ic_link")
     }
     
     enum Sample {
