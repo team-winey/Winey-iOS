@@ -1,6 +1,6 @@
 //
-//  Font.swift
-//
+//  Typography+Font.swift
+//  DesignSystem
 //
 //  Created by Woody Lee on 2023/07/13.
 //
