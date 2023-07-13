@@ -14,6 +14,7 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         setViewControllers()
         setTabBar()
+        setTestMenu()
     }
     
     private func setViewControllers() {
@@ -49,6 +50,28 @@ final class TabBarController: UITabBarController {
 
 private extension TabBarController {
     enum Const {
-        static let tabBarAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.font(.pretendardBold, ofSize: 12)]
+        static let tabBarAttributes: [NSAttributedString.Key: Any] = [
+            .font: Typography.font(style: .detail2, weight: .Medium)
+        ]
+    }
+}
+
+// MARK: - Test menu
+
+extension TabBarController {
+    func setTestMenu() {
+        let logoLongPress = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(hanldeLongPress)
+        )
+        logoLongPress.minimumPressDuration = 1
+        tabBar.addGestureRecognizer(logoLongPress)
+    }
+    
+    @objc func hanldeLongPress(_ sender: UILongPressGestureRecognizer) {
+        guard sender.state == .began else { return }
+        
+        let testViewController = TestViewController()
+        present(testViewController, animated: true)
     }
 }

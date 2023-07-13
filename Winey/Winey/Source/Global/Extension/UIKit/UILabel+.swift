@@ -19,19 +19,6 @@ extension UILabel {
         }
     }
     
-    func setLineSpacingWithChaining(lineSpacing: CGFloat) -> UILabel {
-        let label = self
-        if let text = self.text {
-            let style = NSMutableParagraphStyle()
-            style.lineSpacing = lineSpacing
-            let attributes: [NSAttributedString.Key: Any] = [
-                .paragraphStyle: style
-            ]
-            label.attributedText = NSAttributedString(string: text, attributes: attributes)
-        }
-        return label
-    }
-    
     /// 자간 설정 메서드
     func setCharacterSpacing(_ spacing: CGFloat) {
         let attributedStr = NSMutableAttributedString(string: self.text ?? "")
@@ -51,20 +38,4 @@ extension UILabel {
             self.attributedText = attributedStr
         }
     }
-    
-    func setAttributedText(targetFontList: [String: UIFont], targetColorList: [String: UIColor]) {
-        let fullText = self.text ?? ""
-        let attributedString = NSMutableAttributedString(string: fullText)
-        for dic in targetFontList {
-            let range = (fullText as NSString).range(of: dic.key)
-            attributedString.addAttribute(.font, value: dic.value, range: range)
-        }
-        
-        for dic in targetColorList {
-            let range = (fullText as NSString).range(of: dic.key)
-            attributedString.addAttribute(.foregroundColor, value: dic.value, range: range)
-        }
-        self.attributedText = attributedString
-    }
 }
-
