@@ -25,14 +25,26 @@ final class RecommendCell: UICollectionViewCell {
     }()
     
     private let discountLabel = UILabel()
-    private let titleLabel = UILabel()
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        return label
+    }()
     private let separatorLineView = UIView()
     private let linkTitleLabel = UILabel()
+    private lazy var linkButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.Icon.link, for: .normal)
+        return button
+    }()
+    private let moreLinkLabel: UILabel = {
+        let label = UILabel()
+        label.setText("보러가기", attributes: .init(style: .body3, weight: .bold, textColor: .winey_gray500))
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.makeCornerRound(radius: 10)
-        contentView.backgroundColor = .winey_blue500
         setLayout()
     }
     
@@ -43,19 +55,22 @@ final class RecommendCell: UICollectionViewCell {
     func configure(model: RecommendModel) {
         imageView.image = model.image
         discountLabel.setText(model.discount, attributes: Const.discountAttributes)
-        print(model.title)
         titleLabel.setText(model.title, attributes: Const.titleAttributes)
-        titleLabel.numberOfLines = 2
+        linkTitleLabel.setText(model.link, attributes: Const.linkTitleAttributes)
     }
 }
 
 extension RecommendCell {
     private func setLayout() {
+        contentView.makeCornerRound(radius: 10)
+        
         let containerStackView = UIStackView()
         containerStackView.axis = .vertical
         containerStackView.spacing = 0
         containerStackView.alignment = .fill
         containerStackView.distribution = .fill
+        
+        makeShadow(radius: 3, offset: CGSize(width: 0, height: 2), opacity: 0.1)
         
         contentView.addSubviews(containerStackView)
         containerStackView.snp.makeConstraints {
@@ -82,13 +97,13 @@ extension RecommendCell {
         let secondContainerView = UIView()
         containerStackView.addArrangedSubviews(separatorLineView, secondContainerView)
         
-        firstContainerView.backgroundColor = .winey_red500
-        secondContainerView.backgroundColor = .winey_gray700
-        separatorLineView.backgroundColor = .winey_yellow
+        firstContainerView.backgroundColor = .winey_gray0
+        secondContainerView.backgroundColor = .winey_gray0
+        separatorLineView.backgroundColor = .winey_gray100
         imageView.backgroundColor = .winey_gray700
         
         firstContainerView.addSubviews(imageView)
-        secondContainerView.addSubviews(linkTitleLabel)
+        secondContainerView.addSubviews(linkTitleLabel, linkButton, moreLinkLabel)
         
         separatorLineView.snp.makeConstraints {
             $0.height.equalTo(1)
@@ -105,6 +120,17 @@ extension RecommendCell {
             $0.top.equalToSuperview().inset(15)
             $0.leading.equalToSuperview().inset(17)
             $0.bottom.equalToSuperview().inset(13)
+        }
+        
+        linkButton.snp.makeConstraints {
+            $0.trailing.equalTo(moreLinkLabel.snp.leading).offset(-4)
+            $0.size.equalTo(18)
+            $0.centerY.equalTo(moreLinkLabel)
+        }
+        
+        moreLinkLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(15)
+            $0.centerY.equalToSuperview()
         }
     }
 }

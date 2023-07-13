@@ -14,7 +14,6 @@ class RecommendHeaderView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .winey_gray100
     }
     
     required init?(coder: NSCoder) {
