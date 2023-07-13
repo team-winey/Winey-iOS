@@ -9,10 +9,7 @@ import UIKit
 
 public extension UIImage {
     enum Icon {
-        public static let feed          = UIImage(named: "ic_feed")
-        public static let upload_back   = UIImage(named: "upload_back")
-        public static let upload_cancel = UIImage(named: "upload_cancel")
-        public static let upload_photo  = UIImage(named: "upload_photo")
+        public static let feed              = UIImage(name: "ic_feed")
         public static let recommend         = UIImage(name: "ic_recommend")
         public static let mypage            = UIImage(name: "ic_mypage")
         public static let more              = UIImage(name: "ic_more")
