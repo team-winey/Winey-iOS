@@ -38,7 +38,7 @@ final class MyFeedViewController: UIViewController {
     private lazy var writeButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .winey_yellow
-        button.setImage(.Icon.floating, for: .normal)
+        button.setImage(.Btn.floating, for: .normal)
         button.makeCornerRound(radius: 28)
         return button
     }()
