@@ -25,7 +25,7 @@ final class RecommendViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width - 32, height: 145)
+        layout.itemSize = CGSize(width: view.frame.width - 32, height: RecommendCell.cellHeight())
         layout.minimumLineSpacing = 16
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 154)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -55,7 +55,7 @@ final class RecommendViewController: UIViewController {
     
     private func setupDataSource() {
         let cellRegistration = CellRegistration<RecommendCell, RecommendModel> { cell, indexPath, model  in
-            
+            cell.configure(model: Self.itemdummy[indexPath.item])
         }
         
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
@@ -133,7 +133,7 @@ extension RecommendViewController {
             RecommendModel(
                 id: 3,
                 link: "link",
-                title: "타이틀3",
+                title: "서울시\n지원해줘",
                 subTitle: "서브타이틀",
                 discount: "100000원 절약",
                 image: UIImage()
