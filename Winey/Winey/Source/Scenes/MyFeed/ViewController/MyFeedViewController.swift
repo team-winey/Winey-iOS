@@ -7,6 +7,7 @@
 
 import UIKit
 
+import DesignSystem
 import SnapKit
 
 final class MyFeedViewController: UIViewController {
@@ -136,7 +137,7 @@ extension MyFeedViewController {
                 id: 1,
                 nickname: "뇽잉깅",
                 title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: .Sample.temp ?? UIImage(),
+                image: .Sample.sample1 ?? UIImage(),
                 money: 10000,
                 like: 23,
                 isLiked: true,
@@ -146,7 +147,7 @@ extension MyFeedViewController {
                 id: 2,
                 nickname: "뇽잉깅",
                 title: "안녕하세요 처음 만난 사람들도 안녕하세요 하이헬로우하하하하",
-                image: .Sample.temp ?? UIImage(),
+                image: .Sample.sample1 ?? UIImage(),
                 money: 10000,
                 like: 23,
                 isLiked: true,
@@ -156,7 +157,7 @@ extension MyFeedViewController {
                 id: 3,
                 nickname: "뇽잉깅",
                 title: "띄어쓰기가없는경우 띄어쓰기가없는경우 띄어쓰기가없는경우 우하하하",
-                image: .Sample.temp ?? UIImage(),
+                image: .Sample.sample1 ?? UIImage(),
                 money: 100000,
                 like: 23,
                 isLiked: false,
@@ -166,7 +167,7 @@ extension MyFeedViewController {
                 id: 4,
                 nickname: "뇽잉깅",
                 title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: .Sample.temp ?? UIImage(),
+                image: .Sample.sample1 ?? UIImage(),
                 money: 1000,
                 like: 23,
                 isLiked: true,
