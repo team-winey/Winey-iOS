@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import DesignSystem
 
 final class ProfileCollectionViewCell: UICollectionViewCell {
     
@@ -40,17 +41,21 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     
     let levelLabel: UILabel = {
         let label = UILabel()
-        label.text = "LV.기사"
-        label.font = .detail_m12
-        label.textColor = UIColor.winey_gray900
-        label.clipsToBounds = true
+        label.setText(
+            "LV. 기사",
+            attributes: .init(
+                style: .detail,
+                weight: .medium,
+                textColor: .winey_gray500
+            )
+        )
         return label
     }()
     
     let infoButton: UIButton = {
         let button = UIButton()
         // TODO: 이미지 삽입
-        button.setImage(UIImage(named: "ic_info"), for: .normal)
+        button.setImage(.Icon.next, for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOffset = CGSize(width: 2, height: 2)
         button.layer.shadowOpacity = 0.5
@@ -60,9 +65,12 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     
     let nicknameLabel: UILabel = {
         let label = UILabel()
-        label.text = "부자될꺼임"
-        label.textColor = UIColor.winey_gray900
-        label.font = .head_b28
+        label.setText("부자될꺼임", attributes: .init(
+            style: .headLine,
+            weight: .bold,
+            textColor: .winey_gray900
+            )
+        )
         return label
     }()
     
@@ -74,10 +82,15 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     
     let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "\"헛둘 헛둘, 올라가보자!\""
+        label.setText(
+            "\"헛둘 헛둘, 올라가보자!\"",
+            attributes: .init(
+                style: .detail,
+                weight: .medium,
+                textColor: .winey_gray0
+                )
+            )
         label.textAlignment = .center
-        label.font = .detail_m13
-        label.textColor = .white
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
         return label
@@ -86,7 +99,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     private var progressbarImage: UIImageView = {
         let image = UIImageView()
         // TODO: 이미지 삽입
-        image.image = UIImage(named: "level_progressbar")
+        image.image = .Icon.like_unselected
         image.sizeToFit()
         return image
     }()
