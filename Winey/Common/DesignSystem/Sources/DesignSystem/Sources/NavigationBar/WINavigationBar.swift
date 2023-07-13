@@ -84,7 +84,7 @@ private extension WINavigationBar {
     enum Const {
         static let navigationBarHeight = 56.0
         static let titleAttributes = Typography.Attributes(
-            style: .headLine2,
+            style: .headLine4,
             weight: .bold,
             textColor: .winey_gray900
         )
