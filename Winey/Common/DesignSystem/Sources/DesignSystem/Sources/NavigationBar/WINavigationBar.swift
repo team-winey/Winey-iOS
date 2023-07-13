@@ -5,7 +5,6 @@
 //  Created by Woody Lee on 2023/07/13.
 //
 
-import Combine
 import UIKit
 
 import SnapKit
@@ -80,15 +79,12 @@ extension WINavigationBar {
     }
 }
 
-private extension WINavigationBar {
-    enum Const {
-        static let navigationBarHeight = 56.0
-        static let titleAttributes = Typography.Attributes(
-            style: .headLine2,
-            weight: .bold,
-            textColor: .winey_gray900
-        )
-    }
+private extension WINavigationBar.Const {
+    static let titleAttributes = Typography.Attributes(
+        style: .headLine4,
+        weight: .bold,
+        textColor: .winey_gray900
+    )
 }
 
 extension WINavigationBar {
