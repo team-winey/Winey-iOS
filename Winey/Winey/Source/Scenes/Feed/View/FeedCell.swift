@@ -25,15 +25,11 @@ final class FeedCell: UICollectionViewCell {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .Sample.temp
+        imageView.image = .Sample.sample1
         return imageView
     }()
     
-    private let nicknameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .body3_m14
-        return label
-    }()
+    private let nicknameLabel: UILabel = UILabel()
     
     private lazy var moreButton: UIButton = {
         let button = UIButton()
@@ -44,7 +40,7 @@ final class FeedCell: UICollectionViewCell {
     
     private let feedImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .Sample.temp
+        imageView.image = .Sample.sample1
         imageView.makeCornerRound(radius: 5)
         return imageView
     }()
@@ -55,27 +51,15 @@ final class FeedCell: UICollectionViewCell {
         return view
     }()
     
-    private let feedMoneyLabel: UILabel = {
-        let label = UILabel()
-        label.font = .detail_m13
-        label.textColor = .winey_gray900
-        return label
-    }()
+    private let feedMoneyLabel: UILabel = UILabel()
     
     private let feedTitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = .body_b16
-        label.textColor = .winey_gray900
         return label
     }()
     
-    private let likeCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = .detail_m11
-        label.textColor = .winey_gray700
-        return label
-    }()
+    private let likeCountLabel: UILabel = UILabel()
     
     private lazy var likeButton: UIButton = {
         let button = UIButton()
@@ -111,14 +95,24 @@ final class FeedCell: UICollectionViewCell {
     }
     
     func configure(model: FeedModel) {
-        nicknameLabel.text = model.nickname
-        let money = model.money.addCommaToString() ?? ""
-        feedMoneyLabel.text = money + "원 절약"
-        feedMoneyLabel.changePartColor(targetString: "절약", textColor: .winey_gray600)
-        feedTitleLabel.text = model.title
+        nicknameLabel.setText(model.nickname, attributes: Const.nicknameAttributes)
+        configureFeedMoneyLabel(model.money)
+        feedTitleLabel.setText(model.title, attributes: Const.feedTitleAttributes)
         feedImageView.image = model.image
+        likeCountLabel.setText("\(model.like)", attributes: Const.likeCountAttributes)
         self.isLiked = model.isLiked
-        likeCountLabel.text = "\(model.like)"
+    }
+    
+    private func configureFeedMoneyLabel(_ money: Int) {
+        let money = money.addCommaToString() ?? ""
+        let feedMoneyText = Typography.build(
+            string: money + "원 ",
+            attributes: Const.feedMoneyAttributes
+        )
+        feedMoneyLabel.attributedText = feedMoneyText.appending(
+            string: "절약",
+            attributes: Const.feedMoneyDescriptionAttributes
+        )
     }
     
     @objc private func tapMoreButton() {
@@ -201,4 +195,37 @@ extension FeedCell {
         likeButton.backgroundColor = .winey_purple100
         likeButton.setImage(.Icon.like_unselected, for: .normal)
     }
+}
+
+// MARK: - Const
+
+private extension FeedCell {
+    enum Const {
+        static let nicknameAttributes = Typography.Attributes(
+            style: .body3,
+            weight: .medium,
+            textColor: .winey_gray900
+        )
+        static let feedMoneyAttributes = Typography.Attributes(
+            style: .detail,
+            weight: .medium,
+            textColor: .winey_gray900
+        )
+        static let feedMoneyDescriptionAttributes = Typography.Attributes(
+            style: .detail,
+            weight: .medium,
+            textColor: .winey_gray600
+        )
+        static let feedTitleAttributes = Typography.Attributes(
+            style: .body,
+            weight: .bold,
+            textColor: .winey_gray900
+        )
+        static let likeCountAttributes = Typography.Attributes(
+            style: .detail,
+            weight: .medium,
+            textColor: .winey_gray700
+        )
+    }
+    
 }
