@@ -20,6 +20,7 @@
 		14DB265C2A5C840100F42499 /* FeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB265B2A5C840100F42499 /* FeedHeaderView.swift */; };
 		14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB265F2A5E7E7A00F42499 /* CGFloat+.swift */; };
 		14DB26682A5ED39400F42499 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB26672A5ED39400F42499 /* Int+.swift */; };
+		14DB26662A5E97A100F42499 /* MyFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB26652A5E97A100F42499 /* MyFeedViewController.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 		14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FEA2A505E3A009703AD /* Kingfisher */; };
@@ -44,6 +45,7 @@
 		14C1F6212A50501D0079FA20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14C1F6242A50501D0079FA20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14C1F6262A50501D0079FA20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14DB26652A5E97A100F42499 /* MyFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedViewController.swift; sourceTree = "<group>"; };
 		14DB26532A5BF82700F42499 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		14DB26562A5C06C400F42499 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		14DB26592A5C7EB700F42499 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
@@ -126,6 +128,9 @@
 		14A7A4352A56F10600C0CA4E /* MyFeed */ = {
 			isa = PBXGroup;
 			children = (
+				14DB26642A5E974F00F42499 /* View */,
+				14DB26632A5E974600F42499 /* ViewController */,
+				14DB26612A5E971A00F42499 /* Model */,
 			);
 			path = MyFeed;
 			sourceTree = "<group>";
@@ -193,6 +198,28 @@
 				14DB26672A5ED39400F42499 /* Int+.swift */,
 			);
 			path = "Foundation+";
+			sourceTree = "<group>";
+		};
+		14DB26612A5E971A00F42499 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		14DB26632A5E974600F42499 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				14DB26652A5E97A100F42499 /* MyFeedViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		14DB26642A5E974F00F42499 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		14DB26512A5BF6D300F42499 /* View */ = {
@@ -383,6 +410,7 @@
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
 				14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
+				14DB26662A5E97A100F42499 /* MyFeedViewController.swift in Sources */,
 				14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
