@@ -8,7 +8,6 @@
 import UIKit
 
 public extension UIImage {
-
     enum Icon {
         public static let feed              = UIImage(named: "ic_feed")
         public static let recommend         = UIImage(named: "ic_recommend")
@@ -21,5 +20,11 @@ public extension UIImage {
     
     enum Sample {
         public static let temp = UIImage(named: "sample1")
+    }
+}
+
+extension UIImage {
+    convenience init?(name: String) {
+        self.init(named: name, in: .module, with: nil)
     }
 }
