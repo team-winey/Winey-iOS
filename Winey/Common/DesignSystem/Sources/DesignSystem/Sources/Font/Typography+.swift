@@ -1,5 +1,5 @@
 //
-//  Typography.swift
+//  Typography+.swift
 //  DesignSystem
 //
 //  Created by Woody Lee on 2023/07/13.
@@ -22,6 +22,11 @@ extension Typography {
         let weight = Font.Weight(rawValue: attributes.weight.rawValue)!
         let font = font(style: attributes.style, weight: weight)
         
+        let style = NSMutableParagraphStyle()
+        style.maximumLineHeight = attributes.style.lineHeight
+        style.minimumLineHeight = attributes.style.lineHeight
+                    
+        stringAttributes[.paragraphStyle] = style
         stringAttributes[.font] = font
         stringAttributes[.baselineOffset] = (attributes.style.lineHeight - font.lineHeight) / 4
         
