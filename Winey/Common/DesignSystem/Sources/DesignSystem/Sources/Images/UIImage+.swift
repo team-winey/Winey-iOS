@@ -28,10 +28,31 @@ public extension UIImage {
     enum Sample {
         public static let sample1 = UIImage(name: "sample1")
     }
+    
+    enum Img {
+        public static let appbar_logo = UIImage(name: "appbar_logo")
+    }
+    
+    enum Btn {
+        public static let close     = UIImage(name: "btn_close")
+        public static let back      = UIImage(name: "btn_back")
+        public static let floating  = UIImage(name: "btn_floating")
+    }
 }
 
 extension UIImage {
     convenience init?(name: String) {
         self.init(named: name, in: .module, with: nil)
     }
+}
+
+extension UIImage {
+   public func resizing(width: CGFloat, height: CGFloat) -> UIImage {
+       let size = CGSize(width: width, height: height)
+       let render = UIGraphicsImageRenderer(size: size)
+       let renderImage = render.image { context in
+           self.draw(in: CGRect(origin: .zero, size: size))
+       }
+       return renderImage
+   }
 }
