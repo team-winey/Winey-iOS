@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import DesignSystem
 
-final class ProfileCollectionViewCell: UICollectionViewCell {
+final class MypageProfileCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,8 +22,8 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: Component
-    
-    static let identifier = "ProfileCollectionViewCell"
+
+    static let identifier = MypageProfileCell.className
     
     var levelContainerView: UIView = {
         let containerView = UIView()
@@ -32,7 +32,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
         return containerView
     }()
     
-    var characterBackground: UIView = {
+    var characterBackgroundView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_purple100
         containerView.layer.cornerRadius = 10
@@ -55,7 +55,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     let infoButton: UIButton = {
         let button = UIButton()
         // TODO: 이미지 삽입
-        button.setImage(.Icon.next, for: .normal)
+        button.setImage(UIImage(named: "ic_info"), for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOffset = CGSize(width: 2, height: 2)
         button.layer.shadowOpacity = 0.5
@@ -96,7 +96,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private var progressbarImage: UIImageView = {
+    private var progressbarImageView: UIImageView = {
         let image = UIImageView()
         // TODO: 이미지 삽입
         image.image = .Icon.like_unselected
@@ -107,14 +107,14 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     // MARK: Layout
     
     func setLayout() {
-        
-        contentView.addSubviews(levelContainerView, infoButton, nicknameLabel, subtitleContainerView, progressbarImage, characterBackground)
+        contentView.addSubviews(levelContainerView, nicknameLabel, subtitleContainerView,
+                                progressbarImageView, infoButton, characterBackgroundView)
         contentView.backgroundColor = .white
         levelContainerView.addSubview(levelLabel)
         subtitleContainerView.addSubview(subtitleLabel)
-        characterBackground.addSubview(subtitleContainerView)
+        characterBackgroundView.addSubview(subtitleContainerView)
         
-        characterBackground.snp.makeConstraints { make in
+        characterBackgroundView.snp.makeConstraints { make in
             make.width.equalTo(358)
             make.height.equalTo(196)
             make.center.equalToSuperview().inset(16)
@@ -123,16 +123,13 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
             
             subtitleLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview()
-                make.bottom.equalTo(characterBackground.snp.bottom).inset(13)
+                make.bottom.equalTo(characterBackgroundView.snp.bottom).inset(13)
             }
             subtitleContainerView.snp.makeConstraints { make in
                 make.horizontalEdges.equalTo(subtitleLabel).inset(-8)
                 make.verticalEdges.equalTo(subtitleLabel).inset(-2)
-            }
-            subtitleContainerView.snp.makeConstraints { make in
                 make.centerX.equalToSuperview()
-                make.bottom.equalToSuperview().inset(65)
-                make.top.equalToSuperview().inset(250)
+                make.bottom.equalTo(characterBackgroundView.snp.bottom).inset(13)
             }
             levelContainerView.snp.makeConstraints { make in
                 make.top.equalToSuperview().offset(12)
@@ -153,8 +150,8 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
                     make.top.equalTo(levelLabel.snp.bottom).offset(8)
                 }
                 
-                progressbarImage.snp.makeConstraints { make in
-                    make.top.equalTo(characterBackground.snp.bottom).offset(13)
+                progressbarImageView.snp.makeConstraints { make in
+                    make.top.equalTo(characterBackgroundView.snp.bottom).offset(13)
                     make.leading.equalToSuperview().offset(26)
                 }
             }

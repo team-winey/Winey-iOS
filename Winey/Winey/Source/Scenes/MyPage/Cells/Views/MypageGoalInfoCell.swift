@@ -1,5 +1,5 @@
 //
-//  GoalCollectionViewCell.swift
+//  MypageGoalInfoCell.swift
 //  Winey
 //
 //  Created by 고영민 on 2023/07/12.
@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 import DesignSystem
 
-final class GoalCollectionViewCell: UICollectionViewCell {
-    
+final class MypageGoalInfoCell: UICollectionViewCell {
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        setStyle()
+        setUI()
     }
     
     @available(*, unavailable)
@@ -23,17 +23,17 @@ final class GoalCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: Component
+
+    static let identifier = MypageGoalInfoCell.className
     
-    static let identifier = "GoalCollectionViewCell"
-    
-    var rectangleContainerView: UIView = {
+    var goalContainerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_gray200
         containerView.layer.cornerRadius = 10
         return containerView
     }()
     
-    var goalLabel: UILabel = {
+    var goalTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "절약 목표",
@@ -47,7 +47,7 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var goalShowingLabel: UILabel = {
+    var goalLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "10,000원",
@@ -69,7 +69,7 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    var temp1Label: UILabel = {
+    var savingPeriodTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "절약기간",
@@ -83,7 +83,7 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var temp1_ShowingLabel: UILabel = {
+    var savingPeriodLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "D-18",
@@ -97,7 +97,7 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var temp2Label: UILabel = {
+    var accumulatedWineyTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "누적위니",
@@ -111,7 +111,7 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var temp2_ShowingLabel: UILabel = {
+    var accumulatedWineyLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "50,000원",
@@ -125,7 +125,7 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var temp3Label: UILabel = {
+    var wineyCountTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "위니횟수",
@@ -139,7 +139,7 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var temp3_ShowingLabel: UILabel = {
+    var wineyCountLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "80번",
@@ -153,26 +153,23 @@ final class GoalCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    func setStyle() {
+    func setUI() {
         contentView.backgroundColor = .white
     }
     
     // MARK: Layout
     
     func setLayout() {
-        contentView.addSubviews(rectangleContainerView, temp1Label, temp1_ShowingLabel, temp2Label, temp2_ShowingLabel, temp3Label, temp3_ShowingLabel)
+        contentView.addSubviews(goalContainerView, savingPeriodTitleLabel, savingPeriodLabel,
+                                accumulatedWineyTitleLabel, accumulatedWineyLabel, wineyCountTitleLabel, wineyCountLabel)
+        goalContainerView.addSubviews(goalTitleLabel, goalLabel, modifyButton)
         
-        rectangleContainerView.addSubviews(goalLabel, goalShowingLabel, modifyButton)
-        
-        
-        
-        
-        goalLabel.snp.makeConstraints { make in
+        goalTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(13)
             make.leading.equalToSuperview().inset(22)
         }
         
-        goalShowingLabel.snp.makeConstraints { make in
+        goalLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(12)
             make.leading.equalToSuperview().inset(22)
         }
@@ -182,39 +179,39 @@ final class GoalCollectionViewCell: UICollectionViewCell {
             make.trailing.equalToSuperview()
         }
         
-        rectangleContainerView.snp.makeConstraints { make in
+        goalContainerView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(18)
             make.width.equalTo(358)
             make.height.equalTo(69)
         }
         
-        temp1Label.snp.makeConstraints { make in
+        savingPeriodTitleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(47)
             make.top.equalToSuperview().inset(107)
         }
         
-        temp1_ShowingLabel.snp.makeConstraints { make in //
+        savingPeriodLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(48)
             make.bottom.equalToSuperview().inset(18)
         }
         
-        temp2Label.snp.makeConstraints { make in
+        accumulatedWineyTitleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(107)
         }
         
-        temp2_ShowingLabel.snp.makeConstraints { make in //
+        accumulatedWineyLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(18)
         }
         
-        temp3Label.snp.makeConstraints { make in
+        wineyCountTitleLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(47)
             make.top.equalToSuperview().inset(107)
         }
         
-        temp3_ShowingLabel.snp.makeConstraints { make in //
+        wineyCountLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(48)
             make.bottom.equalToSuperview().inset(18)
         }

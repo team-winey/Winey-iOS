@@ -14,7 +14,7 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        setStyle()
+        setUI()
     }
     
     @available(*, unavailable)
@@ -23,10 +23,10 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: Component
+
+    static let identifier = MyfeedCollectionViewCell.className
     
-    static let identifier = "MyfeedCollectionViewCell"
-    
-    let enterButton: UIButton = {
+    let moreButton: UIButton = {
         let button = UIButton()
         // TODO: 이미지 삽입
         button.setImage(UIImage(named: "ic_next"), for: .normal)
@@ -49,23 +49,21 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private func setStyle() {
+    private func setUI() {
         contentView.backgroundColor = .white
     }
     
     // MARK: Layout
     
     private func setLayout() {
-        
-        contentView.addSubviews(myfeedLabel, enterButton)
+        contentView.addSubviews(myfeedLabel, moreButton)
         
         myfeedLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
-            make.trailing.equalToSuperview().inset(312)
         }
-        enterButton.snp.makeConstraints { make in
+        moreButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
             make.width.height.equalTo(55)

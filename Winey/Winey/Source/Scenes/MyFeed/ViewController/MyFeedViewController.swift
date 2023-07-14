@@ -29,7 +29,10 @@ final class MyFeedViewController: UIViewController {
         layout.itemSize = CGSize(width: view.frame.width, height: 367)
         layout.minimumLineSpacing = 1
 
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout()
+        )
         collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
