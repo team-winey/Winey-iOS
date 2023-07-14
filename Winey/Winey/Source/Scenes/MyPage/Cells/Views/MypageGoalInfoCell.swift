@@ -65,7 +65,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         let button = UIButton()
         button.backgroundColor = UIColor.winey_gray200
         button.clipsToBounds = true
-        button.setImage(UIImage(named: "ic_pen"), for: .normal)
+        button.setImage(.Mypage.pen, for: .normal)
         return button
     }()
     

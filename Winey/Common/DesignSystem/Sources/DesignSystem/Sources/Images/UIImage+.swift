@@ -18,6 +18,12 @@ public extension UIImage {
         public static let next              = UIImage(name: "ic_next")
         public static let floating          = UIImage(name: "btn_floating")
     }
+    enum Mypage{
+        public static let info = UIImage(name: "ic_info")
+        public static let progressbar = UIImage(name: "level_progressbar")
+        public static let pen = UIImage(name: "ic_pen")
+        public static let next = UIImage(name: "ic_next")
+    }
     
     enum Sample {
         public static let sample1 = UIImage(name: "sample1")
@@ -27,12 +33,5 @@ public extension UIImage {
 extension UIImage {
     convenience init?(name: String) {
         self.init(named: name, in: .module, with: nil)
-    }
-    
-    enum Mypage{
-        static let info = UIImage(named: "ic_info")
-        static let progressbar = UIImage(named: "level_progressbar")
-        static let pen = UIImage(named: "ic_pen")
-        static let next = UIImage(named: "ic_next")
     }
 }
