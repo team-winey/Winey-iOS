@@ -28,8 +28,7 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
 
     let moreButton: UIButton = {
         let button = UIButton()
-        // TODO: 이미지 삽입
-        button.setImage(UIImage(named: "ic_next"), for: .normal)
+        button.setImage(.Icon.next, for: .normal)
         button.backgroundColor = .white
         return button
     }()

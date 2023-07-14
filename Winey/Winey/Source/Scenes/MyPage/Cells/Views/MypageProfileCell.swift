@@ -54,8 +54,7 @@ final class MypageProfileCell: UICollectionViewCell {
     
     let infoButton: UIButton = {
         let button = UIButton()
-        // TODO: 이미지 삽입
-        button.setImage(UIImage(named: "ic_info"), for: .normal)
+        button.setImage(.Mypage.info, for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOffset = CGSize(width: 2, height: 2)
         button.layer.shadowOpacity = 0.5
@@ -98,7 +97,6 @@ final class MypageProfileCell: UICollectionViewCell {
     
     private var progressbarImageView: UIImageView = {
         let image = UIImageView()
-        // TODO: 이미지 삽입
         image.image = .Icon.like_unselected
         image.sizeToFit()
         return image
