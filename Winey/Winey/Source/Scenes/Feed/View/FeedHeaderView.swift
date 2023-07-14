@@ -29,6 +29,7 @@ final class FeedHeaderView: UICollectionReusableView {
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .winey_gray100
+        view.makeCornerRound(radius: 5)
         return view
     }()
     
