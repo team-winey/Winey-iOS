@@ -21,7 +21,7 @@ final class RecommendViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let naviBar = UIView()
+    private let naviBar = WIMainNavigationBar()
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -92,14 +92,12 @@ final class RecommendViewController: UIViewController {
 
 extension RecommendViewController {
     private func setLayout() {
+        view.backgroundColor = .winey_gray0
         view.addSubviews(naviBar, collectionView)
-        
-        naviBar.backgroundColor = .winey_purple400
         
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(56)
         }
         
         collectionView.snp.makeConstraints {
