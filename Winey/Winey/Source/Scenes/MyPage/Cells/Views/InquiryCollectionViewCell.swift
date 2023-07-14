@@ -14,7 +14,7 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        setStyle()
+        setUI()
     }
     
     @available(*, unavailable)
@@ -22,11 +22,11 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         fatalError("SecondView Error!")
     }
     
-    static let identifier = "InquiryCollectionViewCell"
+    static let identifier = InquiryCollectionViewCell.className
     
     // MARK: Component
-    
-    let enterButton: UIButton = {
+
+    let moreButton: UIButton = {
         let button = UIButton()
         // TODO: 이미지 삽입
         button.setImage(UIImage(named: "ic_next"), for: .normal)
@@ -34,7 +34,7 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    let inquiryLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "1:1 문의",
@@ -49,7 +49,7 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private func setStyle() {
+    private func setUI() {
         contentView.backgroundColor = .white
     }
     
@@ -57,17 +57,15 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     // MARK: Layout
     
     private func setLayout() {
+        contentView.addSubviews(titleLabel, moreButton)
         
-        contentView.addSubviews(inquiryLabel, enterButton)
-        
-        inquiryLabel.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
-            make.trailing.equalToSuperview().inset(312)
         }
         
-        enterButton.snp.makeConstraints { make in
+        moreButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
             make.width.height.equalTo(55)

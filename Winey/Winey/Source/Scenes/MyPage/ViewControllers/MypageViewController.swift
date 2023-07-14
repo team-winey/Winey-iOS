@@ -10,18 +10,20 @@ import SnapKit
 
 final class MypageViewController: UIViewController {
     
-    private lazy var collectionView = UICollectionView(frame: .zero,
-                                                       collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewFlowLayout()
+    )
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
-        setStyle()
+        setUI()
     }
     
-    private func setStyle() {
+    private func setUI() {
         collectionView.backgroundColor = .winey_gray200
-        collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier)
-        collectionView.register(GoalCollectionViewCell.self, forCellWithReuseIdentifier: GoalCollectionViewCell.identifier)
+        collectionView.register(MypageProfileCell.self, forCellWithReuseIdentifier: MypageProfileCell.identifier)
+        collectionView.register(MypageGoalInfoCell.self, forCellWithReuseIdentifier: MypageGoalInfoCell.identifier)
         collectionView.register(MyfeedCollectionViewCell.self, forCellWithReuseIdentifier: MyfeedCollectionViewCell.identifier)
         collectionView.register(InquiryCollectionViewCell.self, forCellWithReuseIdentifier: InquiryCollectionViewCell.identifier)
         collectionView.showsVerticalScrollIndicator = false
@@ -59,7 +61,7 @@ extension MypageViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let GoalCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: GoalCollectionViewCell.identifier, for: indexPath) as? GoalCollectionViewCell else { return UICollectionViewCell()}
+        guard let MypageGoalInfoCell = collectionView.dequeueReusableCell(withReuseIdentifier: MypageGoalInfoCell.identifier, for: indexPath) as? MypageGoalInfoCell else { return UICollectionViewCell()}
         
         guard let SetupCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: MyfeedCollectionViewCell.identifier, for: indexPath) as? MyfeedCollectionViewCell else { return UICollectionViewCell()}
         
@@ -67,11 +69,11 @@ extension MypageViewController: UICollectionViewDataSource {
         
         switch indexPath.section {
         case 0 :
-            guard let ProfileCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.identifier, for: indexPath) as? ProfileCollectionViewCell else { return UICollectionViewCell()}
+            guard let MypageProfileCell = collectionView.dequeueReusableCell(withReuseIdentifier: MypageProfileCell.identifier, for: indexPath) as? MypageProfileCell else { return UICollectionViewCell()}
             
-            return ProfileCollectionViewCell
+            return MypageProfileCell
         case 1 :
-            return GoalCollectionViewCell
+            return MypageGoalInfoCell
         case 2 :
             return SetupCollectionViewCell
         case 3 :
