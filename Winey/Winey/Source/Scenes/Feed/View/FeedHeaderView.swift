@@ -18,7 +18,7 @@ final class FeedHeaderView: UICollectionReusableView {
         label.setText(
             "이웃나라 왕족들의 소비생활을\n관찰하고 소통할 수 있어요!",
             attributes: .init(
-                style: .headLine2,
+                style: .headLine3,
                 weight: .bold,
                 textColor: .winey_gray900
             )
