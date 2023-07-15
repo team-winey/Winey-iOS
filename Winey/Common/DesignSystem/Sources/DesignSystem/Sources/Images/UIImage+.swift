@@ -23,6 +23,9 @@ public extension UIImage {
         public static let progressbar = UIImage(name: "level_progressbar")
         public static let pen = UIImage(name: "ic_pen")
         public static let next = UIImage(name: "ic_next")
+        public static let bubble = UIImage(name: "img_bubble")
+        public static let guide1 = UIImage(name: "img_guide1")
+        public static let guide2 = UIImage(name: "img_guide2")
     }
     
     enum Sample {
