@@ -56,8 +56,7 @@ final class RecommendHeaderView: UICollectionReusableView {
     }
     
     private func setLayout(){
-        
-        self.addSubviews(titleLabel, containerView)
+        addSubviews(titleLabel, containerView)
         containerView.addSubview(descriptionLabel)
         
         titleLabel.snp.makeConstraints {

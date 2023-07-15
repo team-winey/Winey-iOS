@@ -28,6 +28,7 @@ final class RecommendViewController: UIViewController {
         layout.itemSize = CGSize(width: view.frame.width - 32, height: RecommendCell.cellHeight())
         layout.minimumLineSpacing = 16
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 154)
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray0
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

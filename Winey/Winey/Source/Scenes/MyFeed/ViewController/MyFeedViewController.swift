@@ -37,7 +37,7 @@ final class MyFeedViewController: UIViewController {
             frame: .zero,
             collectionViewLayout: layout
         )
-        collectionView.backgroundColor = .winey_gray100
+        collectionView.backgroundColor = .winey_gray0
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         return collectionView
@@ -131,8 +131,7 @@ extension MyFeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension MyFeedViewController: UICollectionViewDelegate {
-}
+extension MyFeedViewController: UICollectionViewDelegate {}
 
 extension MyFeedViewController {
     static var itemdummy: [FeedModel] {
