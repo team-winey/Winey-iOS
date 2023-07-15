@@ -17,13 +17,11 @@ final class RecommendCell: UICollectionViewCell {
         imageView.makeCornerRound(radius: 6)
         return imageView
     }()
-    
     private let imageView1: UIImageView = {
         let imageView = UIImageView()
         imageView.makeCornerRound(radius: 6)
         return imageView
     }()
-    
     private let discountLabel = UILabel()
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -39,12 +37,18 @@ final class RecommendCell: UICollectionViewCell {
     }()
     private let moreLinkLabel: UILabel = {
         let label = UILabel()
-        label.setText("보러가기", attributes: .init(style: .body3, weight: .bold, textColor: .winey_gray500))
+        label.setText("보러가기", attributes: .init(
+            style: .body3,
+            weight: .bold,
+            textColor: .winey_gray500
+            )
+        )
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUI()
         setLayout()
     }
     
@@ -61,49 +65,45 @@ final class RecommendCell: UICollectionViewCell {
 }
 
 extension RecommendCell {
-    private func setLayout() {
+    private func setUI() {
         contentView.makeCornerRound(radius: 10)
-        
+        contentView.makeShadow(radius: 3, offset: CGSize(width: 0, height: 2), opacity: 0.1)
+        contentView.backgroundColor = .winey_gray0
+        separatorLineView.backgroundColor = .winey_gray100
+        imageView.backgroundColor = .winey_gray700
+
+    }
+    private func setLayout() {
         let containerStackView = UIStackView()
         containerStackView.axis = .vertical
         containerStackView.spacing = 0
         containerStackView.alignment = .fill
         containerStackView.distribution = .fill
         
-        makeShadow(radius: 3, offset: CGSize(width: 0, height: 2), opacity: 0.1)
-        
-        contentView.addSubviews(containerStackView)
-        containerStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         let firstContainerView = UIView()
+        let secondContainerView = UIView()
         let textStackView = UIStackView()
         textStackView.axis = .vertical
         textStackView.spacing = 2
         textStackView.alignment = .leading
         textStackView.distribution = .fill
         
-        containerStackView.addArrangedSubview(firstContainerView)
+        contentView.addSubviews(containerStackView)
+        containerStackView.addArrangedSubviews(firstContainerView, separatorLineView, secondContainerView)
         firstContainerView.addSubviews(imageView, textStackView)
         textStackView.addArrangedSubviews(discountLabel, titleLabel)
+        firstContainerView.addSubviews(imageView)
+        secondContainerView.addSubviews(linkTitleLabel, linkButton, moreLinkLabel)
+        
+        containerStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         textStackView.snp.makeConstraints {
             $0.centerY.equalTo(imageView)
             $0.leading.equalTo(imageView.snp.trailing).offset(13)
             $0.trailing.equalToSuperview().inset(16)
         }
-        
-        let secondContainerView = UIView()
-        containerStackView.addArrangedSubviews(separatorLineView, secondContainerView)
-        
-        firstContainerView.backgroundColor = .winey_gray0
-        secondContainerView.backgroundColor = .winey_gray0
-        separatorLineView.backgroundColor = .winey_gray100
-        imageView.backgroundColor = .winey_gray700
-        
-        firstContainerView.addSubviews(imageView)
-        secondContainerView.addSubviews(linkTitleLabel, linkButton, moreLinkLabel)
         
         separatorLineView.snp.makeConstraints {
             $0.height.equalTo(1)
