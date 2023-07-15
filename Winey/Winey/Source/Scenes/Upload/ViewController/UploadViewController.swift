@@ -157,7 +157,10 @@ class UploadViewController: UIViewController {
     func setUI() {
         view.backgroundColor = .white
         
+        imagePicker.delegate = self
+        
         navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        
         
         // 버튼 인덱스 맞춰주기
         grayDot.progress = Double(stageIdx)
@@ -186,6 +189,9 @@ class UploadViewController: UIViewController {
         }
         
         nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
+        
+        firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
+        firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
     }
     
     func setLayout() {
