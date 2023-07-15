@@ -11,7 +11,6 @@ import DesignSystem
 import SnapKit
 
 final class FeedHeaderView: UICollectionReusableView {
-    
     private let introLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -77,7 +76,7 @@ final class FeedHeaderView: UICollectionReusableView {
         containerView.snp.makeConstraints {
             $0.top.equalTo(introLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(77) /// top bottom
+            $0.height.equalTo(77)
         }
         
         subtitleLabel.snp.makeConstraints {

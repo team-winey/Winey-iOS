@@ -11,7 +11,6 @@ import DesignSystem
 import SnapKit
 
 final class MyFeedViewController: UIViewController {
-    
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, FeedModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
     private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration

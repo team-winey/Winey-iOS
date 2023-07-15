@@ -11,7 +11,6 @@ import DesignSystem
 import SnapKit
 
 final class RecommendCell: UICollectionViewCell {
-    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.makeCornerRound(radius: 6)
@@ -71,8 +70,8 @@ extension RecommendCell {
         contentView.backgroundColor = .winey_gray0
         separatorLineView.backgroundColor = .winey_gray100
         imageView.backgroundColor = .winey_gray700
-
     }
+    
     private func setLayout() {
         let containerStackView = UIStackView()
         containerStackView.axis = .vertical
