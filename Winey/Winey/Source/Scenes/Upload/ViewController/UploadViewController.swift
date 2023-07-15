@@ -158,6 +158,7 @@ class UploadViewController: UIViewController {
         view.backgroundColor = .white
         
         navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        
         // 버튼 인덱스 맞춰주기
         grayDot.progress = Double(stageIdx)
         pageGuide.currentPage = Int(grayDot.progress)
