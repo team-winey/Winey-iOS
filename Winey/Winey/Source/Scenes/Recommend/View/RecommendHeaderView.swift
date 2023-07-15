@@ -11,7 +11,6 @@ import DesignSystem
 import SnapKit
 
 final class RecommendHeaderView: UICollectionReusableView {
-    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.setText(
