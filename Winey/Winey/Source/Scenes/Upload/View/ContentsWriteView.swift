@@ -43,7 +43,6 @@ class ContentsWriteView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         textView.delegate = self
-
         setLayout()
     }
     
