@@ -1,5 +1,5 @@
 //
-//  GetTotalFeedResponse.swift
+//  TotalFeedResponse.swift
 //  Winey
 //
 //  Created by 김인영 on 2023/07/17.
