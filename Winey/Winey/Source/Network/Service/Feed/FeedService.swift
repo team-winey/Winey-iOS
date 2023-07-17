@@ -6,3 +6,32 @@
 //
 
 import Foundation
+
+import Moya
+
+final class FeedService {
+    
+    var feedProvider = MoyaProvider<FeedRouter>(plugins: [MoyaLoggerPlugin()])
+    
+    init() { }
+    
+    private(set) var totalFeedData: GeneralResponse<TotalFeedResponse>?
+    
+    // 1, 전체 피드 조회하기
+    
+    func getTotalFeed(page: Int, completion: @escaping (GeneralResponse<TotalFeedResponse>?) -> Void) {
+        feedProvider.request(.getTotalFeed(page: page)) { [self] (result) in
+            switch result {
+            case .success(let response):
+                do {
+                    self.totalFeedData = try response.map(GeneralResponse<TotalFeedResponse>.self)
+                    completion(totalFeedData)
+                } catch let error {
+                    print(error.localizedDescription, 500)
+                }
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
+}
