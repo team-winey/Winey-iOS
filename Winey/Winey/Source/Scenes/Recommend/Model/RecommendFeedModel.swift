@@ -11,7 +11,7 @@ struct RecommendFeedModel: Hashable {
     let id: Int
     let link: String
     let title: String
-    let subTitle: String
+    let subtitle: String
     let discount: String
     let image: UIImage
 }
