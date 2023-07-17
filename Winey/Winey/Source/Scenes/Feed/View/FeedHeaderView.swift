@@ -11,14 +11,13 @@ import DesignSystem
 import SnapKit
 
 final class FeedHeaderView: UICollectionReusableView {
-    
     private let introLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.setText(
             "이웃나라 왕족들의 소비생활을\n관찰하고 소통할 수 있어요!",
             attributes: .init(
-                style: .headLine2,
+                style: .headLine3,
                 weight: .bold,
                 textColor: .winey_gray900
             )
@@ -29,6 +28,7 @@ final class FeedHeaderView: UICollectionReusableView {
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .winey_gray100
+        view.makeCornerRound(radius: 5)
         return view
     }()
     
@@ -76,7 +76,7 @@ final class FeedHeaderView: UICollectionReusableView {
         containerView.snp.makeConstraints {
             $0.top.equalTo(introLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(77) /// top bottom
+            $0.height.equalTo(77)
         }
         
         subtitleLabel.snp.makeConstraints {

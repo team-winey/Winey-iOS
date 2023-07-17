@@ -21,7 +21,7 @@ final class FeedViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let naviBar = UIView()
+    private let naviBar = WIMainNavigationBar()
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -29,7 +29,7 @@ final class FeedViewController: UIViewController {
         layout.minimumLineSpacing = 1
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .winey_gray100
+        collectionView.backgroundColor = .winey_gray0
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         return collectionView
@@ -118,14 +118,13 @@ final class FeedViewController: UIViewController {
 
 extension FeedViewController {
     private func setLayout() {
-        view.addSubviews(naviBar, collectionView, writeButton)
+        view.backgroundColor = .winey_gray0
         
-        naviBar.backgroundColor = .winey_purple400
+        view.addSubviews(naviBar, collectionView, writeButton)
         
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(56)
         }
         
         collectionView.snp.makeConstraints {
