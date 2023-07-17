@@ -29,6 +29,17 @@ extension UILabel: TypographAppliable {
 extension UITextField: TypographAppliable {
     public var typography: NSAttributedString? {
         get { attributedText }
+        set {
+            attributedText = newValue
+            self.textAlignment = .right
+            self.attributedPlaceholder = newValue
+        }
+    }
+}
+
+extension UITextView: TypographAppliable {
+    public var typography: NSAttributedString? {
+        get { attributedText }
         set { attributedText = newValue }
     }
 }

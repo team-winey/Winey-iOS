@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "chipagecontrol",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChiliLabs/CHIPageControl.git",
+      "state" : {
+        "revision" : "2d16f651a6c885e8d7eff21b36bd1cae3130aa10",
+        "version" : "0.2.1"
+      }
+    },
+    {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher",
