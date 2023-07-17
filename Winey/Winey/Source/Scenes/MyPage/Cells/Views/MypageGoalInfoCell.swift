@@ -178,6 +178,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         modifyButton.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview()
             make.trailing.equalToSuperview()
+            make.width.height.equalTo(69)
         }
         
         goalContainerView.snp.makeConstraints { make in
