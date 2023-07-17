@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import DesignSystem
 
 final class MypageViewController: UIViewController {
     
@@ -15,6 +16,11 @@ final class MypageViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
     )
+//    private let navigationBar = WINavigationBar(title: "마이페이지")
+    private let navigationBar2 = WINavigationBar.init(title: "마이페이지")
+    
+    private lazy var safearea = self.view.safeAreaLayoutGuide
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -22,7 +28,7 @@ final class MypageViewController: UIViewController {
     }
     
     private func setUI() {
-        collectionView.backgroundColor = .winey_gray200
+        collectionView.backgroundColor = .winey_gray50
         collectionView.register(MypageProfileCell.self, forCellWithReuseIdentifier: MypageProfileCell.identifier)
         collectionView.register(MypageGoalInfoCell.self, forCellWithReuseIdentifier: MypageGoalInfoCell.identifier)
         collectionView.register(MyfeedCollectionViewCell.self, forCellWithReuseIdentifier: MyfeedCollectionViewCell.identifier)
@@ -34,10 +40,15 @@ final class MypageViewController: UIViewController {
     }
     
     private func setLayout() {
-        view.addSubview(collectionView)
+        view.addSubviews(navigationBar2, collectionView)
+        
+        navigationBar2.snp.makeConstraints {
+            $0.top.equalTo(safearea)
+            $0.horizontalEdges.equalToSuperview()
+        }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaInsets)
+            $0.top.equalTo(navigationBar2.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -102,6 +113,10 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+        switch section {
+        case 0: return .init(top: 0, left: 0, bottom: 2, right: 0)
+        case 1: return .init(top: 0, left: 0, bottom: 2, right: 0)
+        default: return .zero
+        }
     }
 }
