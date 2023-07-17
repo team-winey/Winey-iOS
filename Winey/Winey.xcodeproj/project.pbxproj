@@ -33,6 +33,8 @@
 		14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */; };
 		14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F822A654E4B00E5E5C2 /* UserService.swift */; };
 		14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F842A654E5500E5E5C2 /* RecommendService.swift */; };
+		14E28F8F2A6559CF00E5E5C2 /* TotalFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F8E2A6559CF00E5E5C2 /* TotalFeedResponse.swift */; };
+		14E28F912A655CCB00E5E5C2 /* FeedRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F902A655CCB00E5E5C2 /* FeedRouter.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 		14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FEA2A505E3A009703AD /* Kingfisher */; };
@@ -81,6 +83,8 @@
 		14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeService.swift; sourceTree = "<group>"; };
 		14E28F822A654E4B00E5E5C2 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		14E28F842A654E5500E5E5C2 /* RecommendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendService.swift; sourceTree = "<group>"; };
+		14E28F8E2A6559CF00E5E5C2 /* TotalFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalFeedResponse.swift; sourceTree = "<group>"; };
+		14E28F902A655CCB00E5E5C2 /* FeedRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRouter.swift; sourceTree = "<group>"; };
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		14F670002A550AAC009703AD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -294,6 +298,7 @@
 		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				14E28F8D2A6558CF00E5E5C2 /* Feed */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				14E28F7E2A654DF200E5E5C2 /* FeedService.swift */,
+				14E28F902A655CCB00E5E5C2 /* FeedRouter.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -348,6 +354,14 @@
 				14E28F862A654F2C00E5E5C2 /* Goal */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		14E28F8D2A6558CF00E5E5C2 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				14E28F8E2A6559CF00E5E5C2 /* TotalFeedResponse.swift */,
+			);
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		14F66FEC2A54846C009703AD /* Source */ = {
@@ -533,6 +547,7 @@
 				1D3CBB082A5ECA8E00AE8138 /* MyfeedCollectionViewCell.swift in Sources */,
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
 				14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */,
+				14E28F8F2A6559CF00E5E5C2 /* TotalFeedResponse.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
@@ -549,6 +564,7 @@
 				14E28F702A65351800E5E5C2 /* Encodable.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
+				14E28F912A655CCB00E5E5C2 /* FeedRouter.swift in Sources */,
 				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
 				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
 				14E28F742A65355500E5E5C2 /* GeneralResponse.swift in Sources */,
@@ -704,7 +720,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BASE_URL = 43.200.246.118;
+				BASE_URL = "http://43.200.246.118";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -734,7 +750,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BASE_URL = 43.200.246.118;
+				BASE_URL = "http://43.200.246.118";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
