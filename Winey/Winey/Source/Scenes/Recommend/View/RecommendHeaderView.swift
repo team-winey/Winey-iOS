@@ -66,7 +66,7 @@ final class RecommendHeaderView: UICollectionReusableView {
         containerView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(77)
+            $0.bottom.equalToSuperview().inset(15)
         }
         
         descriptionLabel.snp.makeConstraints {
