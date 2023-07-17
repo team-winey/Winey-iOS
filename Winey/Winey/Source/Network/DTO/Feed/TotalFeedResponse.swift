@@ -16,11 +16,11 @@ struct TotalFeedResponse: Codable {
 // MARK: - GetFeedResponseDtoList
 struct GetFeedResponseList: Codable {
     let feedID, userID: Int
-    let nickName: String
+    let nickname: String
     let writerLevel: Int
-    let feedTitle: String
-    let feedImage: String
-    let feedMoney: Int
+    let title: String
+    let image: String
+    let money: Int
     let isLiked: Bool
     let likes: Int
     let createdAt: String
@@ -28,7 +28,11 @@ struct GetFeedResponseList: Codable {
     enum CodingKeys: String, CodingKey {
         case feedID = "feedId"
         case userID = "userId"
-        case nickName, writerLevel, feedTitle, feedImage, feedMoney, isLiked, likes, createdAt
+        case nickname = "nickName"
+        case title = "feedTitle"
+        case image = "feedImage"
+        case money = "feedMoney"
+        case writerLevel, isLiked, likes, createdAt
     }
 }
 
