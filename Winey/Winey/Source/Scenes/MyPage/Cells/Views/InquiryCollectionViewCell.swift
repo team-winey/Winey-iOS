@@ -36,14 +36,16 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.setText(
-            "1:1 문의",
-            attributes: .init(
-                style: .body,
-                weight: .medium,
-                textColor: .winey_gray700
-                )
-            )
+        let text = "1:1 문의"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .medium),
+            .foregroundColor: UIColor.winey_gray700,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributedText = NSAttributedString(string: text, attributes: attributes)
+        
+        label.attributedText = attributedText
+        
             label.textAlignment = .center
             label.lineBreakMode = .byWordWrapping
         return label
