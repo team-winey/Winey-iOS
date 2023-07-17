@@ -270,15 +270,14 @@
 		14E28F692A65314D00E5E5C2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				14E28F7B2A654C6600E5E5C2 /* Service */,
+				14E28F8C2A6550CE00E5E5C2 /* Service */,
 				14E28F7A2A654C5D00E5E5C2 /* DTO */,
-				14E28F792A654C4400E5E5C2 /* Router */,
-				14E28F6A2A65317F00E5E5C2 /* Foundation */,
+				14E28F6A2A65317F00E5E5C2 /* Base */,
 			);
 			path = Network;
 			sourceTree = "<group>";
 		};
-		14E28F6A2A65317F00E5E5C2 /* Foundation */ = {
+		14E28F6A2A65317F00E5E5C2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
 				14E28F6B2A6531DD00E5E5C2 /* NetworkResult.swift */,
@@ -289,14 +288,7 @@
 				14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */,
 				14E28F772A653B5000E5E5C2 /* URLConstant.swift */,
 			);
-			path = Foundation;
-			sourceTree = "<group>";
-		};
-		14E28F792A654C4400E5E5C2 /* Router */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Router;
+			path = Base;
 			sourceTree = "<group>";
 		};
 		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
@@ -306,14 +298,54 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
-		14E28F7B2A654C6600E5E5C2 /* Service */ = {
+		14E28F862A654F2C00E5E5C2 /* Goal */ = {
 			isa = PBXGroup;
 			children = (
 				14E28F7C2A654DE100E5E5C2 /* GoalService.swift */,
+			);
+			path = Goal;
+			sourceTree = "<group>";
+		};
+		14E28F872A654F3300E5E5C2 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
 				14E28F7E2A654DF200E5E5C2 /* FeedService.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		14E28F882A654F3800E5E5C2 /* FeedLike */ = {
+			isa = PBXGroup;
+			children = (
 				14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */,
+			);
+			path = FeedLike;
+			sourceTree = "<group>";
+		};
+		14E28F892A654F3E00E5E5C2 /* User */ = {
+			isa = PBXGroup;
+			children = (
 				14E28F822A654E4B00E5E5C2 /* UserService.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		14E28F8A2A654F4400E5E5C2 /* Recommend */ = {
+			isa = PBXGroup;
+			children = (
 				14E28F842A654E5500E5E5C2 /* RecommendService.swift */,
+			);
+			path = Recommend;
+			sourceTree = "<group>";
+		};
+		14E28F8C2A6550CE00E5E5C2 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				14E28F8A2A654F4400E5E5C2 /* Recommend */,
+				14E28F892A654F3E00E5E5C2 /* User */,
+				14E28F882A654F3800E5E5C2 /* FeedLike */,
+				14E28F872A654F3300E5E5C2 /* Feed */,
+				14E28F862A654F2C00E5E5C2 /* Goal */,
 			);
 			path = Service;
 			sourceTree = "<group>";
