@@ -16,11 +16,6 @@ final class RecommendCell: UICollectionViewCell {
         imageView.makeCornerRound(radius: 6)
         return imageView
     }()
-    private let imageView1: UIImageView = {
-        let imageView = UIImageView()
-        imageView.makeCornerRound(radius: 6)
-        return imageView
-    }()
     private let discountLabel = UILabel()
     private let titleLabel: UILabel = {
         let label = UILabel()

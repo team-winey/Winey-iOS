@@ -41,17 +41,7 @@ final class RecommendViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
-        register()
         setupDataSource()
-    }
-    
-    private func register() {
-        collectionView.register(RecommendCell.self, forCellWithReuseIdentifier: RecommendCell.className)
-        collectionView.register(
-            RecommendHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: RecommendHeaderView.className
-        )
     }
     
     private func setupDataSource() {
