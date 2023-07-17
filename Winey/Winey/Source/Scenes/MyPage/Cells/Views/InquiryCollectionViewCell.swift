@@ -23,31 +23,34 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         fatalError("SecondView Error!")
     }
     
+    // MARK: Component
+    
     static let identifier = InquiryCollectionViewCell.className
     
     // MARK: Component
 
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(.Icon.next, for: .normal)
         button.backgroundColor = .white
         return button
     }()
     
+    var buttonImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = .Icon.next
+        //image.sizeToFit()
+        return image
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
-        let text = "1:1 문의"
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .medium),
-            .foregroundColor: UIColor.winey_gray700,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
-        let attributedText = NSAttributedString(string: text, attributes: attributes)
-        
-        label.attributedText = attributedText
-        
-            label.textAlignment = .center
-            label.lineBreakMode = .byWordWrapping
+        label.setText(
+            "1:1 문의",
+            attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700),
+            customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]
+        )
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -59,7 +62,8 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     // MARK: Layout
     
     private func setLayout() {
-        contentView.addSubviews(titleLabel, moreButton)
+        contentView.addSubviews(moreButton)
+        moreButton.addSubviews(titleLabel, buttonImageView)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
@@ -70,7 +74,12 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         moreButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
-            make.width.height.equalTo(55)
+            make.width.equalTo(390)
+            make.height.equalTo(55)
+        }
+        buttonImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
         }
     }
 }
