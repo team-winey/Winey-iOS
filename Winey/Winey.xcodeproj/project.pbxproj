@@ -28,6 +28,11 @@
 		14E28F742A65355500E5E5C2 /* GeneralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F732A65355500E5E5C2 /* GeneralResponse.swift */; };
 		14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */; };
 		14E28F782A653B5000E5E5C2 /* URLConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F772A653B5000E5E5C2 /* URLConstant.swift */; };
+		14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F7C2A654DE100E5E5C2 /* GoalService.swift */; };
+		14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F7E2A654DF200E5E5C2 /* FeedService.swift */; };
+		14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */; };
+		14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F822A654E4B00E5E5C2 /* UserService.swift */; };
+		14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F842A654E5500E5E5C2 /* RecommendService.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 		14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FEA2A505E3A009703AD /* Kingfisher */; };
@@ -71,6 +76,11 @@
 		14E28F732A65355500E5E5C2 /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggerPlugin.swift; sourceTree = "<group>"; };
 		14E28F772A653B5000E5E5C2 /* URLConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstant.swift; sourceTree = "<group>"; };
+		14E28F7C2A654DE100E5E5C2 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
+		14E28F7E2A654DF200E5E5C2 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
+		14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeService.swift; sourceTree = "<group>"; };
+		14E28F822A654E4B00E5E5C2 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		14E28F842A654E5500E5E5C2 /* RecommendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendService.swift; sourceTree = "<group>"; };
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		14F670002A550AAC009703AD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -260,6 +270,9 @@
 		14E28F692A65314D00E5E5C2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				14E28F7B2A654C6600E5E5C2 /* Service */,
+				14E28F7A2A654C5D00E5E5C2 /* DTO */,
+				14E28F792A654C4400E5E5C2 /* Router */,
 				14E28F6A2A65317F00E5E5C2 /* Foundation */,
 			);
 			path = Network;
@@ -277,6 +290,32 @@
 				14E28F772A653B5000E5E5C2 /* URLConstant.swift */,
 			);
 			path = Foundation;
+			sourceTree = "<group>";
+		};
+		14E28F792A654C4400E5E5C2 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		14E28F7B2A654C6600E5E5C2 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				14E28F7C2A654DE100E5E5C2 /* GoalService.swift */,
+				14E28F7E2A654DF200E5E5C2 /* FeedService.swift */,
+				14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */,
+				14E28F822A654E4B00E5E5C2 /* UserService.swift */,
+				14E28F842A654E5500E5E5C2 /* RecommendService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		14F66FEC2A54846C009703AD /* Source */ = {
@@ -461,6 +500,7 @@
 				0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */,
 				1D3CBB082A5ECA8E00AE8138 /* MyfeedCollectionViewCell.swift in Sources */,
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
+				14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
@@ -477,6 +517,8 @@
 				14E28F702A65351800E5E5C2 /* Encodable.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
+				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
+				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
 				14E28F742A65355500E5E5C2 /* GeneralResponse.swift in Sources */,
 				14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */,
 				1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */,
@@ -490,6 +532,8 @@
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,
+				14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */,
+				14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
