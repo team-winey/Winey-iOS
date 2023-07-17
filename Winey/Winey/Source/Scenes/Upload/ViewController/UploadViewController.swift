@@ -192,6 +192,14 @@ class UploadViewController: UIViewController {
         
         firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
         firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
+        
+        secondPage.textSendClousre = { data in
+            self.feedTitle = data
+        }
+        
+        thirdPage.sendPriceClosure = { data in
+            self.feedPrice = data
+        }
     }
     
     func setLayout() {
