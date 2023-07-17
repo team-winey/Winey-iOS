@@ -24,14 +24,21 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: Component
-
+    
     static let identifier = MyfeedCollectionViewCell.className
     
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(.Icon.next, for: .normal)
         button.backgroundColor = .white
         return button
+    }()
+    
+    
+    var buttonImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = .Icon.next
+        //image.sizeToFit()
+        return image
     }()
     
     let myfeedLabel: UILabel = {
@@ -43,8 +50,8 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
                 style: .body,
                 weight: .medium,
                 textColor: .winey_gray700
-                )
             )
+        )
         label.lineBreakMode = .byWordWrapping
         return label
     }()
@@ -56,7 +63,8 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     // MARK: Layout
     
     private func setLayout() {
-        contentView.addSubviews(myfeedLabel, moreButton)
+        contentView.addSubviews(moreButton)
+        moreButton.addSubviews(myfeedLabel, buttonImageView)
         
         myfeedLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
@@ -66,7 +74,12 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
         moreButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
-            make.width.height.equalTo(55)
+            make.width.equalTo(390)
+            make.height.equalTo(55)
+        }
+        buttonImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
         }
     }
 }
