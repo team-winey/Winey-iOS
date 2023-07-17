@@ -56,10 +56,6 @@ final class MypageProfileCell: UICollectionViewCell {
     let infoButton: UIButton = {
         let button = UIButton()
         button.setImage(.Mypage.info, for: .normal)
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.layer.shadowOpacity = 0.5
-        button.layer.shadowRadius = 4
         return button
     }()
     
@@ -98,7 +94,7 @@ final class MypageProfileCell: UICollectionViewCell {
     
     private var progressbarImageView: UIImageView = {
         let image = UIImageView()
-        image.image = .Icon.like_unselected
+        image.image = .Mypage.progressbar
         image.sizeToFit()
         return image
     }()
