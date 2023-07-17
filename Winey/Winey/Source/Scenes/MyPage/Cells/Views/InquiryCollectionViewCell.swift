@@ -29,7 +29,7 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
 
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(.Icon.next, for: .normal)
+        // button.setImage(.Icon.next, for: .normal)
         button.backgroundColor = .white
         return button
     }()
