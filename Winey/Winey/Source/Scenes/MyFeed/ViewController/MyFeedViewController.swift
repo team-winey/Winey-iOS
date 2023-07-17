@@ -11,7 +11,6 @@ import DesignSystem
 import SnapKit
 
 final class MyFeedViewController: UIViewController {
-    
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, FeedModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
     private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration
@@ -22,7 +21,11 @@ final class MyFeedViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let naviBar = UIView()
+    private let naviBar: WINavigationBar = {
+        let naviBar = WINavigationBar(leftBarItem: .back)
+        naviBar.title = "마이피드"
+        return naviBar
+    }()
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -31,9 +34,9 @@ final class MyFeedViewController: UIViewController {
 
         let collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: UICollectionViewFlowLayout()
+            collectionViewLayout: layout
         )
-        collectionView.backgroundColor = .winey_gray100
+        collectionView.backgroundColor = .winey_gray0
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         return collectionView
@@ -108,12 +111,9 @@ extension MyFeedViewController {
     private func setLayout() {
         view.addSubviews(naviBar, collectionView, writeButton)
         
-        naviBar.backgroundColor = .winey_purple400
-        
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(56)
         }
         
         collectionView.snp.makeConstraints {
@@ -130,8 +130,7 @@ extension MyFeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension MyFeedViewController: UICollectionViewDelegate {
-}
+extension MyFeedViewController: UICollectionViewDelegate {}
 
 extension MyFeedViewController {
     static var itemdummy: [FeedModel] {
