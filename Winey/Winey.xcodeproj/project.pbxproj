@@ -27,7 +27,7 @@
 		14E28F722A65353500E5E5C2 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F712A65353500E5E5C2 /* BaseResponse.swift */; };
 		14E28F742A65355500E5E5C2 /* GeneralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F732A65355500E5E5C2 /* GeneralResponse.swift */; };
 		14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */; };
-		14E28F782A653B5000E5E5C2 /* URLCostant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F772A653B5000E5E5C2 /* URLCostant.swift */; };
+		14E28F782A653B5000E5E5C2 /* URLConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F772A653B5000E5E5C2 /* URLConstant.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 		14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FEA2A505E3A009703AD /* Kingfisher */; };
@@ -70,7 +70,7 @@
 		14E28F712A65353500E5E5C2 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		14E28F732A65355500E5E5C2 /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
 		14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggerPlugin.swift; sourceTree = "<group>"; };
-		14E28F772A653B5000E5E5C2 /* URLCostant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCostant.swift; sourceTree = "<group>"; };
+		14E28F772A653B5000E5E5C2 /* URLConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstant.swift; sourceTree = "<group>"; };
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		14F670002A550AAC009703AD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -274,7 +274,7 @@
 				14E28F712A65353500E5E5C2 /* BaseResponse.swift */,
 				14E28F732A65355500E5E5C2 /* GeneralResponse.swift */,
 				14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */,
-				14E28F772A653B5000E5E5C2 /* URLCostant.swift */,
+				14E28F772A653B5000E5E5C2 /* URLConstant.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -484,7 +484,7 @@
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
 				14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
-				14E28F782A653B5000E5E5C2 /* URLCostant.swift in Sources */,
+				14E28F782A653B5000E5E5C2 /* URLConstant.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
