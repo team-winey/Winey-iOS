@@ -55,7 +55,7 @@ final class RecommendCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(model: RecommendModel) {
+    func configure(model: RecommendFeedModel) {
         imageView.image = model.image
         discountLabel.setText(model.discount, attributes: Const.discountAttributes)
         titleLabel.setText(model.title, attributes: Const.titleAttributes)

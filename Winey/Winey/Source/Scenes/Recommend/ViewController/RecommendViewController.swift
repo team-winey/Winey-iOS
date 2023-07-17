@@ -11,13 +11,13 @@ import DesignSystem
 import SnapKit
 
 final class RecommendViewController: UIViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Int, RecommendModel>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Int, RecommendFeedModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
     private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration
     
     // MARK: - Properties
     
-    var dataSource : UICollectionViewDiffableDataSource<Int, RecommendModel>!
+    var dataSource : UICollectionViewDiffableDataSource<Int, RecommendFeedModel>!
     
     // MARK: - UI Components
     
@@ -55,7 +55,7 @@ final class RecommendViewController: UIViewController {
     }
     
     private func setupDataSource() {
-        let cellRegistration = CellRegistration<RecommendCell, RecommendModel> { cell, indexPath, model  in
+        let cellRegistration = CellRegistration<RecommendCell, RecommendFeedModel> { cell, indexPath, model  in
             cell.configure(model: Self.itemdummy[indexPath.item])
         }
         
@@ -81,8 +81,8 @@ final class RecommendViewController: UIViewController {
         dataSource.apply(snapshot(), animatingDifferences: false)
     }
     
-    private func snapshot() -> NSDiffableDataSourceSnapshot<Int, RecommendModel> {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, RecommendModel>()
+    private func snapshot() -> NSDiffableDataSourceSnapshot<Int, RecommendFeedModel> {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, RecommendFeedModel>()
         snapshot.appendSections([0])
         snapshot.appendItems(Self.itemdummy)
         return snapshot
@@ -111,9 +111,9 @@ extension RecommendViewController {
 extension RecommendViewController: UICollectionViewDelegate {}
 
 extension RecommendViewController {
-    static var itemdummy: [RecommendModel] {
+    static var itemdummy: [RecommendFeedModel] {
         [
-            RecommendModel(
+            RecommendFeedModel(
                 id: 1,
                 link: "서울시 청년 대중교통비 지원 사업",
                 title: "타이틀1",
@@ -121,7 +121,7 @@ extension RecommendViewController {
                 discount: "1000원 절약",
                 image: UIImage()
             ),
-            RecommendModel(
+            RecommendFeedModel(
                 id: 2,
                 link: "서울시 청년 대중교통비 지원 사업",
                 title: "타이틀2",
@@ -129,7 +129,7 @@ extension RecommendViewController {
                 discount: "1000원 절약",
                 image: UIImage()
             ),
-            RecommendModel(
+            RecommendFeedModel(
                 id: 3,
                 link: "서울시 청년 대중교통비 지원 사업",
                 title: "서울시\n지원해줘",
@@ -137,7 +137,7 @@ extension RecommendViewController {
                 discount: "100000원 절약",
                 image: UIImage()
             ),
-            RecommendModel(
+            RecommendFeedModel(
                 id: 4,
                 link: "서울시 청년 대중교통비 지원 사업",
                 title: "서울시\n지원해줘",
