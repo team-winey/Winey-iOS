@@ -22,15 +22,19 @@ class UploadViewController: UIViewController {
         didSet {
             if stageIdx == 2 {
                 nextButton.isEnabled = false
-                nextButton.setTitle("업로드", for: .normal)
+                let title = Typography.build(string: "업로드", attributes: Const.nextButtonAttributes)
+                nextButton.setAttributedTitle(title, for: .normal)
                 pageGuide.currentPage = stageIdx
                 navigationBar.leftBarItem = .back
                 thirdPage.configure(true)
                 secondPage.configure(false)
                 activateBtn(2)
+                nextButton.removeTarget(self, action: #selector(gotoNext), for: .touchUpInside)
+                nextButton.addTarget(self, action: #selector(postData), for: .touchUpInside)
             } else if stageIdx == 1 {
                 nextButton.isEnabled = true
-                nextButton.setTitle("다음", for: .normal)
+                let title = Typography.build(string: "다음", attributes: Const.nextButtonAttributes)
+                nextButton.setAttributedTitle(title, for: .normal)
                 pageGuide.currentPage = stageIdx
                 navigationBar.leftBarItem = .back
                 thirdPage.configure(false)
@@ -297,6 +301,13 @@ class UploadViewController: UIViewController {
     }
     
     @objc
+    func postData() {
+        print(feedImage!)
+        print(feedTitle)
+        print(feedPrice)
+    }
+    
+    @objc
     func gotoNext() {
         navigationBar.leftButton.isEnabled = false
             
@@ -325,6 +336,11 @@ class UploadViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.navigationBar.leftButton.isEnabled = true
+        }
+        
+        if stageIdx == 1 {
+            nextButton.removeTarget(self, action: #selector(postData), for: .touchUpInside)
+            nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
         }
     }
 
