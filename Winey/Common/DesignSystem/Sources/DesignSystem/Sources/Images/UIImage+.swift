@@ -17,6 +17,8 @@ public extension UIImage {
         public static let like_selected     = UIImage(name: "ic_like_selected")
         public static let next              = UIImage(name: "ic_next")
         public static let danger            = UIImage(name: "ic_danger")
+        public static let floating          = UIImage(name: "btn_floating")
+        public static let link              = UIImage(name: "ic_link")
     }
   
     enum Mypage {
