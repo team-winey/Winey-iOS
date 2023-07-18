@@ -16,7 +16,7 @@ class PhotoUploadView: UIView {
     
     var imageSendClousre: ((_ data: UIImage?) -> Void)?
     
-    var targetImage: UIImage? {
+    private var targetImage: UIImage? {
         didSet {
             if targetImage != nil {
                 galleryBtn.isHidden = true
@@ -45,7 +45,7 @@ class PhotoUploadView: UIView {
         return btn
     }()
     
-    private var guideText: UILabel = {
+    private let guideText: UILabel = {
         let label = UILabel(frame: CGRect(x: 18, y: 18, width: 160, height: 34))
         label.numberOfLines = 0
         label.setText("절약을 인증할 수 있는\n사진을 업로드해 주세요.",
@@ -76,7 +76,7 @@ class PhotoUploadView: UIView {
             width: self.frame.width, height: self.frame.height), for: .normal)
     }
     
-    func setLayout() {
+    private func setLayout() {
         addSubviews(galleryBtn, photoBtn, imgBackground)
         galleryBtn.addSubview(guideText)
         imgBackground.addSubview(img)

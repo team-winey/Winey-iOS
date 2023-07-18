@@ -36,7 +36,7 @@ class PriceUploadView: UIView {
         }
     }
     
-    func setLayout() {
+    private func setLayout() {
         addSubviews(textContentView)
         
         textContentView.snp.makeConstraints {

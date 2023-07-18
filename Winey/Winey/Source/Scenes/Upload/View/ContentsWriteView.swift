@@ -15,8 +15,6 @@ class ContentsWriteView: UIView {
     // MARK: - Property
     private let placeholder = "Ex) 버스 타고 가는 길을 운동 삼아 20분 일찍 일어나 걸어갔어요!"
     
-    var feedTitle: String?
-    
     // 선택된 이미지객체를 ViewController로 전달하기 위해 사용되는 클로저
     var textSendClousre: ((_ data: String) -> Void)?
     
@@ -32,7 +30,7 @@ class ContentsWriteView: UIView {
         return textView
     }()
     
-    private lazy var textNum: UILabel = {
+    private let textNum: UILabel = {
         let label = UILabel()
         label.setText("(0/36)", attributes: Const.textViewPlaceholderAttributes)
         return label
@@ -60,7 +58,7 @@ class ContentsWriteView: UIView {
         }
     }
     
-    func setLayout() {
+    private func setLayout() {
         addSubviews(textView, textNum)
         
         textView.snp.makeConstraints {
