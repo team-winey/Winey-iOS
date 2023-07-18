@@ -31,8 +31,6 @@ extension UITextField: TypographAppliable {
         get { attributedText }
         set {
             attributedText = newValue
-            // self.textAlignment = .right
-            // self.attributedPlaceholder = newValue
         }
     }
 }

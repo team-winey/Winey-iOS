@@ -46,7 +46,7 @@ class UploadViewController: UIViewController {
     private lazy var safeArea = self.view.safeAreaLayoutGuide
     private let spacing: CGFloat = 17
     private let titles: [String] = ["다음", "저장하기", "업로드"]
-
+    
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
@@ -101,7 +101,7 @@ class UploadViewController: UIViewController {
         btn.setAttributedTitle(title, for: .normal)
         return btn
     }()
-
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -170,7 +170,7 @@ class UploadViewController: UIViewController {
         setScrollView()
         
         view.addSubviews(navigationBar, grayDot, pageGuide, scrollView, nextButton)
-    
+        
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeArea)
             $0.horizontalEdges.equalToSuperview()
@@ -292,7 +292,7 @@ class UploadViewController: UIViewController {
     @objc
     private func gotoFront() {
         navigationBar.leftButton.isEnabled = false
-
+        
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
                                             - UIScreen.main.bounds.width, y: 0), animated: true)
         
@@ -315,7 +315,7 @@ class UploadViewController: UIViewController {
     @objc
     private func gotoNext() {
         navigationBar.leftButton.isEnabled = false
-            
+        
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
                                             + UIScreen.main.bounds.width, y: 0), animated: true)
         
@@ -326,7 +326,7 @@ class UploadViewController: UIViewController {
         pageGuide.currentPage = Int(grayDot.progress)
         
         pageGuideSubject.send(Void())
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.navigationBar.leftButton.isEnabled = true
         }
@@ -342,7 +342,7 @@ class UploadViewController: UIViewController {
     }
     
     // photoButton
-
+    
     @objc
     private func pickPhoto() {
         setGalleryAuth()
@@ -363,7 +363,7 @@ class UploadViewController: UIViewController {
         
         self.nextButton.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.size.height)
     }
-
+    
     @objc
     private func keyboardWillHide(notification: NSNotification) {
         
@@ -407,7 +407,12 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
                 handler: nil
             )
             let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+                UIApplication.shared.open(
+                    URL(
+                        string: UIApplication.openSettingsURLString)!,
+                    options: [:],
+                    completionHandler: nil
+                )
             }
             alertVC.addAction(cancelAction)
             alertVC.addAction(confirmAction)
