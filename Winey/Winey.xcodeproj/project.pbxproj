@@ -17,6 +17,7 @@
 		143C00982A603911000FBD3F /* RecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00972A603911000FBD3F /* RecommendCell.swift */; };
 		143C009A2A604810000FBD3F /* RecommendFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00992A604810000FBD3F /* RecommendFeedModel.swift */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
+		147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147CF6D72A6715D200008569 /* CustomMoyaProvider.swift */; };
 		14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F6182A50501C0079FA20 /* AppDelegate.swift */; };
 		14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */; };
 		14C1F6252A50501D0079FA20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6232A50501D0079FA20 /* LaunchScreen.storyboard */; };
@@ -39,7 +40,7 @@
 		14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F822A654E4B00E5E5C2 /* UserService.swift */; };
 		14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F842A654E5500E5E5C2 /* RecommendService.swift */; };
 		14E28F8F2A6559CF00E5E5C2 /* TotalFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F8E2A6559CF00E5E5C2 /* TotalFeedResponse.swift */; };
-		14E28F912A655CCB00E5E5C2 /* FeedRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F902A655CCB00E5E5C2 /* FeedRouter.swift */; };
+		14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 		14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FEA2A505E3A009703AD /* Kingfisher */; };
@@ -74,6 +75,7 @@
 		143C00952A603273000FBD3F /* RecommendHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHeaderView.swift; sourceTree = "<group>"; };
 		143C00972A603911000FBD3F /* RecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCell.swift; sourceTree = "<group>"; };
 		143C00992A604810000FBD3F /* RecommendFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendFeedModel.swift; sourceTree = "<group>"; };
+		147CF6D72A6715D200008569 /* CustomMoyaProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMoyaProvider.swift; sourceTree = "<group>"; };
 		14C1F6152A50501C0079FA20 /* Winey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Winey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C1F6182A50501C0079FA20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -99,7 +101,7 @@
 		14E28F822A654E4B00E5E5C2 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		14E28F842A654E5500E5E5C2 /* RecommendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendService.swift; sourceTree = "<group>"; };
 		14E28F8E2A6559CF00E5E5C2 /* TotalFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalFeedResponse.swift; sourceTree = "<group>"; };
-		14E28F902A655CCB00E5E5C2 /* FeedRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRouter.swift; sourceTree = "<group>"; };
+		14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		14F670002A550AAC009703AD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				14E28F732A65355500E5E5C2 /* BaseResponse.swift */,
 				14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */,
 				14E28F772A653B5000E5E5C2 /* URLConstant.swift */,
+				147CF6D72A6715D200008569 /* CustomMoyaProvider.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -364,7 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				14E28F7E2A654DF200E5E5C2 /* FeedService.swift */,
-				14E28F902A655CCB00E5E5C2 /* FeedRouter.swift */,
+				14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -649,7 +652,7 @@
 				14E28F702A65351800E5E5C2 /* Encodable.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
-				14E28F912A655CCB00E5E5C2 /* FeedRouter.swift in Sources */,
+				14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */,
 				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
 				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
 				14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */,
@@ -664,6 +667,7 @@
 				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
+				147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
 				1D69E0262A62B4F100D4E3B5 /* CautionView.swift in Sources */,

@@ -9,11 +9,11 @@ import Foundation
 
 import Moya
 
-enum FeedRouter {
+enum FeedAPI {
     case getTotalFeed(page: Int)
 }
 
-extension FeedRouter: TargetType {
+extension FeedAPI: TargetType {
     var baseURL: URL {
         return URL(string: URLConstant.baseURL)!
     }
@@ -33,7 +33,7 @@ extension FeedRouter: TargetType {
     }
     
     var task: Moya.Task {
-        switch self{
+        switch self {
         case .getTotalFeed(let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
         }
