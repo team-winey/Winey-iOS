@@ -58,7 +58,8 @@ final class FeedViewController: UIViewController {
     }
     
     private func setupDataSource() {
-        let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
+        let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model  in
+            guard let self = self else { return }
             guard indexPath.item < self.feedList.count else { return }
             cell.configure(model: self.feedList[indexPath.item])
             cell.moreButtonTappedClosure = { [weak self] in
