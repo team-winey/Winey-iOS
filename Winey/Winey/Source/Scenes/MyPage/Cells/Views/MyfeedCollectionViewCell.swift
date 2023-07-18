@@ -12,20 +12,11 @@ import DesignSystem
 
 final class MyfeedCollectionViewCell: UICollectionViewCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-        setUI()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
-    // MARK: Component
+    // MARK: - Properties
     
     static let identifier = MyfeedCollectionViewCell.className
+    
+    // MARK: - UIComponents
     
     let moreButton: UIButton = {
         let button = UIButton()
@@ -37,7 +28,6 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     var buttonImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Icon.next
-        //image.sizeToFit()
         return image
     }()
     
@@ -60,7 +50,20 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
-    // MARK: Layout
+    // MARK: - View Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+        setUI()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
+    
+    // MARK: - Layout
     
     private func setLayout() {
         contentView.addSubviews(moreButton)
