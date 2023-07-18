@@ -14,7 +14,6 @@ class PhotoUploadView: UIView {
     
     // MARK: - Properties
     
-    // 선택된 이미지객체를 ViewController로 전달하기 위해 사용되는 클로저
     var imageSendClousre: ((_ data: UIImage?) -> Void)?
     
     var targetImage: UIImage? {
@@ -73,7 +72,8 @@ class PhotoUploadView: UIView {
     
     func configure(_ img: UIImage) {
         targetImage = img
-        photoBtn.setImage(targetImage?.resizing(width: self.frame.width, height: self.frame.height), for: .normal)
+        photoBtn.setImage(targetImage?.resizing(
+            width: self.frame.width, height: self.frame.height), for: .normal)
     }
     
     func setLayout() {

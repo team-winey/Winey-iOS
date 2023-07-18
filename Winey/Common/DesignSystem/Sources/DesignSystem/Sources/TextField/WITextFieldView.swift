@@ -14,7 +14,7 @@ public final class WITextFieldView: UIView {
     public var uploadPrice: ((_ data: Int64) -> Void)?
     
     private let unit: UILabel = UILabel()
-    private let textField: UITextField = UITextField()
+    private var textField: UITextField = UITextField()
     
     public var price: String? {
         didSet {
@@ -45,11 +45,11 @@ public final class WITextFieldView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func becomeFirstResponder() {
+    public func become() {
         textField.becomeFirstResponder()
     }
     
-    public func resignFirstResponder() {
+    public func resign() {
         textField.resignFirstResponder()
     }
 }

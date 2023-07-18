@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 import DesignSystem
 import SnapKit
@@ -28,6 +27,14 @@ class PriceUploadView: UIView {
     }
     
     // MARK: - Methods
+    
+    func configure(_ responder: Bool) {
+        if responder {
+            textContentView.become()
+        } else {
+            textContentView.resign()
+        }
+    }
     
     func setLayout() {
         addSubviews(textContentView)
