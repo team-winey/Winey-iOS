@@ -141,19 +141,3 @@ extension ContentsWriteView {
         )
     }
 }
-
-extension ContentsWriteView {
-    enum Const {
-        static let textViewPlaceholderAttributes = Typography.Attributes(
-            style: .body3,
-            weight: .medium,
-            textColor: .winey_gray400
-        )
-        
-        static let textViewLengthAttributes = Typography.Attributes(
-            style: .detail,
-            weight: .medium,
-            textColor: .winey_gray400
-        )
-    }
-}
