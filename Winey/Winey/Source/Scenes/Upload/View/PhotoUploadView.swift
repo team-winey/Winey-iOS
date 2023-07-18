@@ -42,6 +42,8 @@ class PhotoUploadView: UIView {
     
     lazy var photoBtn: UIButton = {
         let btn = UIButton()
+        btn.layer.cornerRadius = 10
+        btn.layer.masksToBounds = true
         return btn
     }()
     
