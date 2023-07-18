@@ -49,6 +49,7 @@ final class FeedViewController: UIViewController {
         setLayout()
         register()
         setupDataSource()
+        setAddTarget()
     }
     
     private func register() {
@@ -111,6 +112,17 @@ final class FeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func setAddTarget() {
+        writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
+    }
+    
+    @objc
+    private func goToUploadPage() {
+        let vc = UploadViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
 }
 
