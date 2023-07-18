@@ -30,8 +30,7 @@
 		14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F6B2A6531DD00E5E5C2 /* NetworkResult.swift */; };
 		14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F6D2A65328E00E5E5C2 /* NetworkConstant.swift */; };
 		14E28F702A65351800E5E5C2 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F6F2A65351800E5E5C2 /* Encodable.swift */; };
-		14E28F722A65353500E5E5C2 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F712A65353500E5E5C2 /* BaseResponse.swift */; };
-		14E28F742A65355500E5E5C2 /* GeneralResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F732A65355500E5E5C2 /* GeneralResponse.swift */; };
+		14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F732A65355500E5E5C2 /* BaseResponse.swift */; };
 		14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */; };
 		14E28F782A653B5000E5E5C2 /* URLConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F772A653B5000E5E5C2 /* URLConstant.swift */; };
 		14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F7C2A654DE100E5E5C2 /* GoalService.swift */; };
@@ -91,8 +90,7 @@
 		14E28F6B2A6531DD00E5E5C2 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		14E28F6D2A65328E00E5E5C2 /* NetworkConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstant.swift; sourceTree = "<group>"; };
 		14E28F6F2A65351800E5E5C2 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
-		14E28F712A65353500E5E5C2 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
-		14E28F732A65355500E5E5C2 /* GeneralResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralResponse.swift; sourceTree = "<group>"; };
+		14E28F732A65355500E5E5C2 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaLoggerPlugin.swift; sourceTree = "<group>"; };
 		14E28F772A653B5000E5E5C2 /* URLConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConstant.swift; sourceTree = "<group>"; };
 		14E28F7C2A654DE100E5E5C2 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
@@ -339,8 +337,7 @@
 				14E28F6B2A6531DD00E5E5C2 /* NetworkResult.swift */,
 				14E28F6D2A65328E00E5E5C2 /* NetworkConstant.swift */,
 				14E28F6F2A65351800E5E5C2 /* Encodable.swift */,
-				14E28F712A65353500E5E5C2 /* BaseResponse.swift */,
-				14E28F732A65355500E5E5C2 /* GeneralResponse.swift */,
+				14E28F732A65355500E5E5C2 /* BaseResponse.swift */,
 				14E28F752A65357800E5E5C2 /* MoyaLoggerPlugin.swift */,
 				14E28F772A653B5000E5E5C2 /* URLConstant.swift */,
 			);
@@ -642,7 +639,6 @@
 				14DB26682A5ED39400F42499 /* Int+.swift in Sources */,
 				1D69E0242A62B46800D4E3B5 /* LevelupRuleView.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
-				14E28F722A65353500E5E5C2 /* BaseResponse.swift in Sources */,
 				143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */,
 				14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,
@@ -656,7 +652,7 @@
 				14E28F912A655CCB00E5E5C2 /* FeedRouter.swift in Sources */,
 				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
 				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
-				14E28F742A65355500E5E5C2 /* GeneralResponse.swift in Sources */,
+				14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */,
 				14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */,
 				1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
