@@ -9,7 +9,13 @@
 /* Begin PBXBuildFile section */
 		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
 		0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */; };
+		0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519662A61905300643F46 /* TestTypoViewController.swift */; };
+		0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519682A6191F700643F46 /* TestPopupViewController.swift */; };
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
+		143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00932A602E8F000FBD3F /* RecommendViewController.swift */; };
+		143C00962A603273000FBD3F /* RecommendHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00952A603273000FBD3F /* RecommendHeaderView.swift */; };
+		143C00982A603911000FBD3F /* RecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00972A603911000FBD3F /* RecommendCell.swift */; };
+		143C009A2A604810000FBD3F /* RecommendFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00992A604810000FBD3F /* RecommendFeedModel.swift */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
 		14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F6182A50501C0079FA20 /* AppDelegate.swift */; };
 		14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */; };
@@ -48,7 +54,13 @@
 /* Begin PBXFileReference section */
 		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		0D6519662A61905300643F46 /* TestTypoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypoViewController.swift; sourceTree = "<group>"; };
+		0D6519682A6191F700643F46 /* TestPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPopupViewController.swift; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
+		143C00932A602E8F000FBD3F /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
+		143C00952A603273000FBD3F /* RecommendHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHeaderView.swift; sourceTree = "<group>"; };
+		143C00972A603911000FBD3F /* RecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCell.swift; sourceTree = "<group>"; };
+		143C00992A604810000FBD3F /* RecommendFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendFeedModel.swift; sourceTree = "<group>"; };
 		14C1F6152A50501C0079FA20 /* Winey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Winey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C1F6182A50501C0079FA20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */,
+				0D6519662A61905300643F46 /* TestTypoViewController.swift */,
+				0D6519682A6191F700643F46 /* TestPopupViewController.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -121,6 +135,31 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		143C00902A602E51000FBD3F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				143C00952A603273000FBD3F /* RecommendHeaderView.swift */,
+				143C00972A603911000FBD3F /* RecommendCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		143C00912A602E5A000FBD3F /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				143C00932A602E8F000FBD3F /* RecommendViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		143C00922A602E61000FBD3F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				143C00992A604810000FBD3F /* RecommendFeedModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		148C7B892A56B19D007DFE55 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +173,9 @@
 		148C7B8A2A56B1A6007DFE55 /* Recommend */ = {
 			isa = PBXGroup;
 			children = (
+				143C00922A602E61000FBD3F /* Model */,
+				143C00912A602E5A000FBD3F /* ViewController */,
+				143C00902A602E51000FBD3F /* View */,
 			);
 			path = Recommend;
 			sourceTree = "<group>";
@@ -468,22 +510,28 @@
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
+				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
+				143C009A2A604810000FBD3F /* RecommendFeedModel.swift in Sources */,
 				14DB265C2A5C840100F42499 /* FeedHeaderView.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				14DB26682A5ED39400F42499 /* Int+.swift in Sources */,
 				1D69E0242A62B46800D4E3B5 /* LevelupRuleView.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
+				143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */,
 				14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
 				14DB26662A5E97A100F42499 /* MyFeedViewController.swift in Sources */,
+				143C00962A603273000FBD3F /* RecommendHeaderView.swift in Sources */,
 				14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
 				1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
+				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
+				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
