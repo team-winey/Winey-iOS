@@ -69,7 +69,7 @@ class UploadViewController: UIViewController {
             setButtonActivate(1)
         }
     }
-    private var feedPrice: Int64 = 0 {
+    private var feedPrice: Int = 0 {
         didSet {
             setButtonActivate(2)
         }

@@ -10,5 +10,5 @@ import UIKit
 struct UploadModel: Hashable {
     let feedImage: UIImage
     let feedTitle: String
-    let feedPrcie: Int64
+    let feedPrcie: Int
 }
