@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import DesignSystem
 
-final class MypageViewController: UIViewController {
+final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     private lazy var collectionView = UICollectionView(
         frame: .zero,
@@ -21,6 +21,9 @@ final class MypageViewController: UIViewController {
     
     private lazy var safearea = self.view.safeAreaLayoutGuide
     
+    let topBackgroundColor = UIColor.winey_gray0
+    let bottomBackgroundColor = UIColor.winey_gray50
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
@@ -28,7 +31,7 @@ final class MypageViewController: UIViewController {
     }
     
     private func setUI() {
-        collectionView.backgroundColor = .winey_gray50
+        collectionView.backgroundColor = bottomBackgroundColor
         collectionView.register(MypageProfileCell.self, forCellWithReuseIdentifier: MypageProfileCell.identifier)
         collectionView.register(MypageGoalInfoCell.self, forCellWithReuseIdentifier: MypageGoalInfoCell.identifier)
         collectionView.register(MyfeedCollectionViewCell.self, forCellWithReuseIdentifier: MyfeedCollectionViewCell.identifier)
@@ -109,14 +112,31 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         switch section {
-        case 0: return .init(top: 0, left: 0, bottom: 2, right: 0)
-        case 1: return .init(top: 0, left: 0, bottom: 2, right: 0)
+        case 0: return .init(top: 0, left: 0, bottom: 5, right: 0)
+        case 1: return .init(top: 0, left: 0, bottom: 5, right: 0)
+        case 2: return .init(top: 0, left: 0, bottom: 3, right: 0)
+        case 3: return .init(top: 0, left: 0, bottom: 3, right: 0)
         default: return .zero
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 컬렉션뷰의 스크롤 위치를 확인하여 배경색을 변경합니다.
+        if scrollView.contentOffset.y <= 0 {
+            // 위로 스크롤을 최대로 올린 상태
+            collectionView.backgroundColor = topBackgroundColor
+        } else if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
+            // 아래로 스크롤을 최대로 내린 상태
+            collectionView.backgroundColor = bottomBackgroundColor
+        } else {
+            // 중간 위치
+            // 이 경우에는 필요에 따라 다른 배경색을 지정할 수 있습니다.
+            // 예를 들어, 중간 위치에서의 배경색을 변경하지 않고 원하는 다른 동작을 수행할 수 있습니다.
         }
     }
 }
