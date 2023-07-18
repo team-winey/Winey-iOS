@@ -12,20 +12,11 @@ import DesignSystem
 
 final class MypageGoalInfoCell: UICollectionViewCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-        setUI()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
-    // MARK: Component
-    
+    // MARK: - Properties
+
     static let identifier = MypageGoalInfoCell.className
+    
+    // MARK: - UIComponents
     
     var goalInfoStackView: UIStackView = {
         let stackView = UIStackView()
@@ -64,8 +55,6 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     let firstDevideView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.winey_gray200
-        view.layer.cornerRadius = 5 // 원하는 값으로 설정하여 둥근 정도 조절
-        view.clipsToBounds = true // 둥근 모서리에 적용되도록 설정
         view.frame = CGRect(x: 0, y: 0, width: 2, height: 10)
         return view
     }()
@@ -73,8 +62,6 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     let secondDevideView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.winey_gray200
-        view.layer.cornerRadius = 5 // 원하는 값으로 설정하여 둥근 정도 조절
-        view.clipsToBounds = true // 둥근 모서리에 적용되도록 설정
         view.frame = CGRect(x: 0, y: 0, width: 2, height: 10)
         return view
     }()
@@ -211,7 +198,20 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
-    // MARK: Layout
+    // MARK: - View Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+        setUI()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
+    
+    // MARK: - Layout
     
     func setLayout() {
         contentView.addSubviews(goalContainerView, goalInfoStackView)

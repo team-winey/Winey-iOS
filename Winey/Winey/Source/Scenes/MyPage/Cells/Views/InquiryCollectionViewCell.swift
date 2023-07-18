@@ -12,22 +12,11 @@ import DesignSystem
 
 final class InquiryCollectionViewCell: UICollectionViewCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-        setUI()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
-    // MARK: Component
+    // MARK: - Properties
     
     static let identifier = InquiryCollectionViewCell.className
     
-    // MARK: Component
+    // MARK: - UIComponents
 
     let moreButton: UIButton = {
         let button = UIButton()
@@ -38,7 +27,6 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     var buttonImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Icon.next
-        //image.sizeToFit()
         return image
     }()
     
@@ -58,8 +46,20 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
+    // MARK: - View Life Cycle
     
-    // MARK: Layout
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+        setUI()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
+    
+    // MARK: - Layout
     
     private func setLayout() {
         contentView.addSubviews(moreButton)

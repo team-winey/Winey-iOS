@@ -11,20 +11,12 @@ import SnapKit
 import DesignSystem
 
 final class MypageProfileCell: UICollectionViewCell {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
-    // MARK: Component
+
+    // MARK: - Properties
 
     static let identifier = MypageProfileCell.className
+    
+    // MARK: - UIComponents
     
     var levelContainerView: UIView = {
         let containerView = UIView()
@@ -99,7 +91,24 @@ final class MypageProfileCell: UICollectionViewCell {
         return image
     }()
     
-    // MARK: Layout
+    func setUI() {
+        contentView.backgroundColor = .white
+    }
+    
+    // MARK: - View Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+        setUI()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
+    
+    // MARK: - Layout
     
     func setLayout() {
         contentView.addSubviews(levelContainerView, nicknameLabel, subtitleContainerView,
@@ -147,7 +156,7 @@ final class MypageProfileCell: UICollectionViewCell {
                 
                 progressbarImageView.snp.makeConstraints { make in
                     make.top.equalTo(characterBackgroundView.snp.bottom).offset(13)
-                    make.leading.equalToSuperview().offset(26)
+                    make.centerX.equalToSuperview()
                 }
             }
         }
