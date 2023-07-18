@@ -12,26 +12,23 @@ import DesignSystem
 
 final class MyfeedCollectionViewCell: UICollectionViewCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-        setUI()
-    }
+    // MARK: - Properties
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
-    // MARK: Component
-
     static let identifier = MyfeedCollectionViewCell.className
+    
+    // MARK: - UIComponents
     
     let moreButton: UIButton = {
         let button = UIButton()
-        // button.setImage(.Icon.next, for: .normal)
         button.backgroundColor = .white
         return button
+    }()
+    
+    
+    var buttonImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = .Icon.next
+        return image
     }()
     
     let myfeedLabel: UILabel = {
@@ -43,8 +40,8 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
                 style: .body,
                 weight: .medium,
                 textColor: .winey_gray700
-                )
             )
+        )
         label.lineBreakMode = .byWordWrapping
         return label
     }()
@@ -53,10 +50,24 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
-    // MARK: Layout
+    // MARK: - View Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+        setUI()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
+    
+    // MARK: - Layout
     
     private func setLayout() {
-        contentView.addSubviews(myfeedLabel, moreButton)
+        contentView.addSubviews(moreButton)
+        moreButton.addSubviews(myfeedLabel, buttonImageView)
         
         myfeedLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
@@ -66,7 +77,12 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
         moreButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
-            make.width.height.equalTo(55)
+            make.width.equalTo(390)
+            make.height.equalTo(55)
+        }
+        buttonImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
         }
     }
 }

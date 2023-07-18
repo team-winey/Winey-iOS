@@ -10,12 +10,24 @@ import UIKit
 public protocol TypographAppliable: AnyObject {
     var typography: NSAttributedString? { get set }
     
-    func setText(_ string: String?, attributes: Typography.Attributes)
+    func setText(
+        _ string: String?,
+        attributes: Typography.Attributes,
+        customAttributes: [NSAttributedString.Key : Any]?
+    )
 }
 
 extension TypographAppliable {
-    public func setText(_ string: String?, attributes: Typography.Attributes) {
-        typography = Typography.build(string: string, attributes: attributes)
+    public func setText(
+        _ string: String?,
+        attributes: Typography.Attributes,
+        customAttributes: [NSAttributedString.Key : Any]? = nil
+    ) {
+        typography = Typography.build(
+            string: string,
+            attributes: attributes,
+            customAttributes: customAttributes
+        )
     }
 }
 
