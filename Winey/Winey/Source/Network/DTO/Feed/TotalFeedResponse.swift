@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct TotalFeedResponse: Codable {
+struct TotalFeedResponse: Decodable {
     let pageResponseDto: PageResponse
     let getFeedResponseDtoList: [GetFeedResponseList]
 }
 
-struct GetFeedResponseList: Codable {
+struct GetFeedResponseList: Decodable {
     let feedID, userID: Int
     let nickname: String
     let writerLevel: Int
@@ -34,7 +34,7 @@ struct GetFeedResponseList: Codable {
     }
 }
 
-struct PageResponse: Codable {
+struct PageResponse: Decodable {
     let totalPageSize, currentPageIndex: Int
     let isEnd: Bool
 }
