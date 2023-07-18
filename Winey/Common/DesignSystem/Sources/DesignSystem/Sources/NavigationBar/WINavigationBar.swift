@@ -13,7 +13,7 @@ public final class WINavigationBar: UIView {
     public let leftButton = UIButton(type: .system)
     public let rightButton = UIButton(type: .system)
     private let titleLabel = UILabel()
-    private var bottomSeparatorView = UIView()
+    // private var bottomSeparatorView = UIView()
     
     public var title: String? {
         didSet { titleLabel.setText(title, attributes: Const.titleAttributes) }
@@ -48,7 +48,7 @@ public final class WINavigationBar: UIView {
 extension WINavigationBar {
     private func setUI() {
         self.backgroundColor = .winey_gray0
-        bottomSeparatorView.backgroundColor = .winey_gray200
+        // bottomSeparatorView.backgroundColor = .winey_gray200
         leftButton.setImage(leftBarItem?.icon, for: .normal)
         leftButton.tintColor = .winey_gray900
         rightButton.setImage(rightBarItem?.icon, for: .normal)
@@ -73,11 +73,11 @@ extension WINavigationBar {
             $0.width.equalTo(48)
             $0.height.equalTo(Const.navigationBarHeight)
         }
-        addSubview(bottomSeparatorView)
-        bottomSeparatorView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(1)
-        }
+//        addSubview(bottomSeparatorView)
+//        bottomSeparatorView.snp.makeConstraints {
+//            $0.leading.trailing.bottom.equalToSuperview()
+//            $0.height.equalTo(1)
+//        }
     }
 }
 
@@ -97,7 +97,7 @@ extension WINavigationBar {
         var icon: UIImage? {
             switch self {
             case .back: return .Btn.back?.resizing(width: 20, height: 20)
-            case .close: return .Btn.close?.resizing(width: 20, height: 20)
+            case .close: return .Btn.close?.resizing(width: 24, height: 24)
             }
         }
     }

@@ -2,7 +2,7 @@
 //  Int+.swift
 //  Winey
 //
-//  Created by 김인영 on 2023/07/12.
+//  Created by 김응관 on 2023/07/14.
 //
 
 import Foundation
@@ -13,7 +13,6 @@ extension Int {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let result = numberFormatter.string(from: NSNumber(value: self))
-        
         return result
     }
 }
