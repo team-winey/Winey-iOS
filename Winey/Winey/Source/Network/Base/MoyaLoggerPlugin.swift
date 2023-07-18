@@ -37,13 +37,13 @@ final class MoyaLoggerPlugin: PluginType {
     func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         switch result {
         case let .success(response):
-            onSuceed(response)
+            onSucceed(response)
         case let .failure(error):
             onFail(error)
         }
     }
 
-    func onSuceed(_ response: Response) {
+    func onSucceed(_ response: Response) {
         let request = response.request
         let url = request?.url?.absoluteString ?? "nil"
         let statusCode = response.statusCode
@@ -60,7 +60,7 @@ final class MoyaLoggerPlugin: PluginType {
 
     func onFail(_ error: MoyaError) {
         if let response = error.response {
-            onSuceed(response)
+            onSucceed(response)
             return
         }
         var log = "------------------⚠️⚠️⚠️  네트워크 오류  ⚠️⚠️⚠️------------------"
