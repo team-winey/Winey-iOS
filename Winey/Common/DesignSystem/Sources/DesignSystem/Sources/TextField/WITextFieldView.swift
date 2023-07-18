@@ -20,7 +20,7 @@ public final class WITextFieldView: UIView {
     /// label: textField의 숫자 오른쪽에 들어갈 단위의 타입을 담은 변수
     public var uploadPrice: ((_ data: Int64) -> Void)?
     
-    private let unit: UILabel = UILabel()
+    private let unitLabel: UILabel = UILabel()
     private var textField: UITextField = UITextField()
     
     public var price: String? {
@@ -80,7 +80,7 @@ extension WITextFieldView {
         textField.makeCornerRound(radius: Const.cornerRadius)
         textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
         
-        unit.setText(label?.text, attributes: Const.labelAttributes)
+        unitLabel.setText(label?.text, attributes: Const.labelAttributes)
     }
     
     /// setAddTarget: 텍스트필드가 편집 중일때 액션함수 작동하게끔 설정
@@ -95,9 +95,9 @@ extension WITextFieldView {
             $0.edges.equalToSuperview()
         }
         
-        addSubview(unit)
+        addSubview(unitLabel)
         
-        unit.snp.makeConstraints {
+        unitLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(18)
             $0.centerY.equalTo(textField.snp.centerY)
             $0.width.equalTo(16)
