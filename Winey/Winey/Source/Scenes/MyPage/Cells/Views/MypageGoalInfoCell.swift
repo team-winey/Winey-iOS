@@ -11,25 +11,65 @@ import SnapKit
 import DesignSystem
 
 final class MypageGoalInfoCell: UICollectionViewCell {
-        
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-        setUI()
-    }
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
-    // MARK: Component
+    // MARK: - Properties
 
     static let identifier = MypageGoalInfoCell.className
     
+    // MARK: - UIComponents
+    
+    var goalInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        return stackView
+    }()
+    
+    var leftView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .winey_gray0
+        return view
+    }()
+    
+    var centerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .winey_gray0
+        return view
+    }()
+    
+    var rightView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .winey_gray0
+        return view
+    }()
+    
+    let firstDevideLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.winey_gray200
+        label.text = "|"
+        label.font = UIFont.systemFont(ofSize: 27)
+        return label
+    }()
+    
+    let firstDevideView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.winey_gray200
+        view.frame = CGRect(x: 0, y: 0, width: 2, height: 10)
+        return view
+    }()
+    
+    let secondDevideView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.winey_gray200
+        view.frame = CGRect(x: 0, y: 0, width: 2, height: 10)
+        return view
+    }()
+
+    
     var goalContainerView: UIView = {
         let containerView = UIView()
-        containerView.backgroundColor = UIColor.winey_gray200
+        containerView.backgroundColor = UIColor.winey_gray50
         containerView.layer.cornerRadius = 10
         return containerView
     }()
@@ -64,7 +104,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     lazy var modifyButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.winey_gray200
+        button.backgroundColor = UIColor.clear
         button.clipsToBounds = true
         button.setImage(.Mypage.pen, for: .normal)
         return button
@@ -158,26 +198,52 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
-    // MARK: Layout
+    // MARK: - View Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+        setUI()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
+    
+    // MARK: - Layout
     
     func setLayout() {
-        contentView.addSubviews(goalContainerView, savingPeriodTitleLabel, savingPeriodLabel,
-                                accumulatedWineyTitleLabel, accumulatedWineyLabel, wineyCountTitleLabel, wineyCountLabel)
+        contentView.addSubviews(goalContainerView, goalInfoStackView)
+        
         goalContainerView.addSubviews(goalTitleLabel, goalLabel, modifyButton)
+
         
-        goalTitleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(13)
-            make.leading.equalToSuperview().inset(22)
+        goalInfoStackView.addSubviews(leftView,centerView,rightView, firstDevideView, secondDevideView)
+        
+        leftView.addSubviews(savingPeriodLabel, savingPeriodTitleLabel)
+        
+        centerView.addSubviews(accumulatedWineyTitleLabel, accumulatedWineyLabel)
+        
+        rightView.addSubviews(wineyCountTitleLabel, wineyCountLabel)
+        
+        leftView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
+            make.width.equalTo(120)
+            make.height.equalTo(74)
         }
-        
-        goalLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(12)
-            make.leading.equalToSuperview().inset(22)
+        centerView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview()
+            make.width.equalTo(120)
+            make.height.equalTo(74)
         }
-        
-        modifyButton.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview()
+        rightView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+            make.width.equalTo(120)
+            make.height.equalTo(74)
         }
         
         goalContainerView.snp.makeConstraints { make in
@@ -185,36 +251,73 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             make.top.equalToSuperview().inset(18)
             make.width.equalTo(358)
             make.height.equalTo(69)
+                        
+            goalTitleLabel.snp.makeConstraints { make in
+                make.top.equalToSuperview().inset(13)
+                make.leading.equalToSuperview().inset(22)
+            }
+            
+            goalLabel.snp.makeConstraints { make in
+                make.bottom.equalToSuperview().inset(12)
+                make.leading.equalToSuperview().inset(22)
+            }
+            
+            modifyButton.snp.makeConstraints { make in
+                make.verticalEdges.equalToSuperview()
+                make.trailing.equalToSuperview()
+                make.width.height.equalTo(69)
+            }
         }
         
-        savingPeriodTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(47)
-            make.top.equalToSuperview().inset(107)
-        }
-        
-        savingPeriodLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(48)
-            make.bottom.equalToSuperview().inset(18)
-        }
-        
-        accumulatedWineyTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(107)
-        }
-        
-        accumulatedWineyLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(18)
-        }
-        
-        wineyCountTitleLabel.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(47)
-            make.top.equalToSuperview().inset(107)
-        }
-        
-        wineyCountLabel.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(48)
-            make.bottom.equalToSuperview().inset(18)
+        goalInfoStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(15)
+            make.bottom.equalToSuperview().inset(6)
+            make.width.equalTo(360)
+            make.height.equalTo(74)
+            
+            savingPeriodTitleLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview().inset(32)
+                make.top.equalToSuperview().inset(14)
+            }
+            
+            savingPeriodLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview().inset(4)
+                make.bottom.equalToSuperview().inset(13)
+            }
+            
+            firstDevideView.snp.makeConstraints { make in
+                make.trailing.equalTo(leftView)
+                make.verticalEdges.equalToSuperview().inset(14)
+                make.width.equalTo(1)
+                make.height.equalTo(22)
+            }
+            
+            secondDevideView.snp.makeConstraints { make in
+                make.trailing.equalTo(centerView)
+                make.verticalEdges.equalToSuperview().inset(14)
+                make.width.equalTo(1)
+                make.height.equalTo(22)
+            }
+            
+            accumulatedWineyTitleLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview().inset(32)
+                make.top.equalToSuperview().inset(14)
+            }
+            
+            accumulatedWineyLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview().inset(4)
+                make.bottom.equalToSuperview().inset(13)
+            }
+            
+            wineyCountTitleLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview().inset(32)
+                make.top.equalToSuperview().inset(14)
+            }
+            
+            wineyCountLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview().inset(4)
+                make.bottom.equalToSuperview().inset(13)
+            }
         }
     }
 }
