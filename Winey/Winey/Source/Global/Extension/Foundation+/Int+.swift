@@ -16,13 +16,3 @@ extension Int {
         return result
     }
 }
-
-extension Int64 {
-    /// 천 단위마다 ,표시
-    func addCommaToString() -> String? {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        let result = numberFormatter.string(from: NSNumber(value: self))
-        return result
-    }
-}
