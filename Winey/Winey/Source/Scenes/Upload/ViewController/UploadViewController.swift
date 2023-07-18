@@ -20,33 +20,11 @@ class UploadViewController: UIViewController {
     
     private var stageIdx: Int = 0 {
         didSet {
-            if stageIdx == 2 {
-                nextButton.isEnabled = false
-                let title = Typography.build(string: "업로드", attributes: Const.nextButtonAttributes)
-                nextButton.setAttributedTitle(title, for: .normal)
-                pageGuide.currentPage = stageIdx
-                navigationBar.leftBarItem = .back
-                // thirdPage.configure(true)
-                secondPage.configure(false)
-                activateBtn(2)
-                nextButton.removeTarget(self, action: #selector(gotoNext), for: .touchUpInside)
-                nextButton.addTarget(self, action: #selector(postData), for: .touchUpInside)
-            } else if stageIdx == 1 {
-                nextButton.isEnabled = true
-                let title = Typography.build(string: "저장하기", attributes: Const.nextButtonAttributes)
-                nextButton.setAttributedTitle(title, for: .normal)
-                pageGuide.currentPage = stageIdx
-                navigationBar.leftBarItem = .back
-                // thirdPage.configure(false)
-                secondPage.configure(true)
-                activateBtn(1)
-            } else {
-                let title = Typography.build(string: "다음", attributes: Const.nextButtonAttributes)
-                nextButton.setAttributedTitle(title, for: .normal)
-                pageGuide.currentPage = stageIdx
-                navigationBar.leftBarItem = .close
-                secondPage.configure(false)
-                activateBtn(0)
+            setUI()
+            setButtonActivate(stageIdx)
+            
+            if stageIdx != 0 {
+                setAddTarget()
             }
         }
     }
@@ -66,14 +44,13 @@ class UploadViewController: UIViewController {
     }
     
     private lazy var safeArea = self.view.safeAreaLayoutGuide
-    
     private let spacing: CGFloat = 17
+    private let titles: [String] = ["다음", "저장하기", "업로드"]
 
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
     private var pageGuide = UploadBaseView()
-    
     private let firstPage = PhotoUploadView()
     private let secondPage = ContentsWriteView()
     private let thirdPage = PriceUploadView()
@@ -82,16 +59,15 @@ class UploadViewController: UIViewController {
     
     private let imagePicker = UIImagePickerController()
     
-    // Upload Target Data
     private var feedImage: UIImage?
     private var feedTitle: String = "" {
         didSet {
-            activateBtn(1)
+            setButtonActivate(1)
         }
     }
     private var feedPrice: Int64 = 0 {
         didSet {
-            activateBtn(2)
+            setButtonActivate(2)
         }
     }
     
@@ -134,7 +110,9 @@ class UploadViewController: UIViewController {
         setUI()
         setLayout()
         bind()
-        setKeyboardObserver()
+        setNotification()
+        setAddTarget()
+        getData()
     }
     
     // MARK: - Methods
@@ -151,64 +129,26 @@ class UploadViewController: UIViewController {
             .store(in: &bag)
     }
     
-    @objc private func tapLeftButton() {
-        if navigationBar.leftBarItem == .back {
-            self.gotoFront()
-        } else {
-            self.viewDismiss()
-        }
-    }
-    
     func setUI() {
         view.backgroundColor = .white
         
         imagePicker.delegate = self
         
-        navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        let title = Typography.build(string: titles[stageIdx], attributes: Const.nextButtonAttributes)
         
+        nextButton.setAttributedTitle(title, for: .normal)
         
-        // 버튼 인덱스 맞춰주기
-        grayDot.progress = Double(stageIdx)
-        pageGuide.currentPage = Int(grayDot.progress)
+        pageGuide.currentPage = stageIdx
         
-        imagePicker.delegate = self
-        
-        navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
-        
-        
-        // 버튼 인덱스 맞춰주기
-        grayDot.progress = Double(stageIdx)
-        pageGuide.currentPage = Int(grayDot.progress)
-        
-        nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
-        
-        firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
-        firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
-        
-        secondPage.textSendClousre = { data in
-            self.feedTitle = data
-        }
-        
-        thirdPage.sendPriceClosure = { data in
-            self.feedPrice = data
-        }
-        
-        nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
-        
-        firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
-        firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
-        
-        secondPage.textSendClousre = { data in
-            self.feedTitle = data
-        }
-        
-        thirdPage.textContentView.uploadPrice = { data in
-            self.feedPrice = data
+        switch stageIdx {
+        case 1, 2:
+            navigationBar.leftBarItem = .back
+        default:
+            navigationBar.leftBarItem = .close
         }
     }
     
-    func setLayout() {
-        
+    func setScrollView() {
         let subViews = [firstPage, secondPage, thirdPage]
         
         var x: CGFloat = 0
@@ -225,35 +165,34 @@ class UploadViewController: UIViewController {
         }
         
         scrollView.contentSize = CGSize(width: x+spacing, height: 182)
+    }
+    
+    func setLayout() {
+        setScrollView()
         
         view.addSubviews(navigationBar, grayDot, pageGuide, scrollView, nextButton)
     
-        // 임의로 만든 네비게이션 바
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeArea)
             $0.horizontalEdges.equalToSuperview()
         }
         
-        // PageControl
         grayDot.snp.makeConstraints {
             $0.top.equalToSuperview().inset(115)
             $0.leading.equalToSuperview().inset(17)
         }
         
-        // UploadBaseView
         pageGuide.snp.makeConstraints {
             $0.top.equalTo(grayDot.snp.bottom).offset(17)
             $0.leading.equalToSuperview().inset(17)
         }
         
-        // ScrollView
         scrollView.snp.makeConstraints {
             $0.top.equalTo(pageGuide.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(182)
         }
         
-        // 다음 버튼
         nextButton.snp.makeConstraints {
             $0.bottom.equalTo(safeArea).inset(4)
             $0.height.equalTo(52)
@@ -261,7 +200,43 @@ class UploadViewController: UIViewController {
         }
     }
     
-    func setKeyboardObserver() {
+    func setAddTarget() {
+        navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
+        firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
+        
+        if stageIdx == 2 {
+            nextButton.removeTarget(self, action: #selector(gotoNext), for: .touchUpInside)
+            nextButton.addTarget(self, action: #selector(postData), for: .touchUpInside)
+        } else {
+            nextButton.removeTarget(self, action: #selector(postData), for: .touchUpInside)
+            nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
+        }
+    }
+    
+    func setFirstResponder() {
+        switch stageIdx {
+        case 1:
+            secondPage.configure(true)
+        case 2:
+            thirdPage.configure(true)
+            secondPage.configure(false)
+        default:
+            secondPage.configure(false)
+        }
+    }
+    
+    func getData() {
+        secondPage.textSendClousre = { data in
+            self.feedTitle = data
+        }
+        
+        thirdPage.textContentView.uploadPrice = { data in
+            self.feedPrice = data
+        }
+    }
+    
+    func setNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -276,7 +251,7 @@ class UploadViewController: UIViewController {
             object:nil)
     }
     
-    func activateBtn(_ step: Int) {
+    func setButtonActivate(_ step: Int) {
         switch step {
         case 0:
             if feedImage != nil {
@@ -298,33 +273,20 @@ class UploadViewController: UIViewController {
             }
         }
     }
-        
-    @objc
-    func viewDismiss() {
-        self.dismiss(animated: true)
-    }
     
-    @objc
-    func postData() {
-        print(feedImage!)
-        print(feedTitle)
-        print(feedPrice)
-    }
+    // NavigationBar
     
-    @objc
-    func gotoNext() {
-        navigationBar.leftButton.isEnabled = false
-            
-        scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
-                                            + UIScreen.main.bounds.width, y: 0), animated: true)
-        
-        stageIdx += 1
-        grayDot.progress += 1
-        pageGuideSubject.send(Void())
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            self.navigationBar.leftButton.isEnabled = true
+    @objc private func tapLeftButton() {
+        if navigationBar.leftBarItem == .back {
+            self.gotoFront()
+        } else {
+            self.dismissUploadViewController()
         }
+    }
+    
+    @objc
+    func dismissUploadViewController() {
+        self.dismiss(animated: true)
     }
     
     @objc
@@ -336,27 +298,62 @@ class UploadViewController: UIViewController {
         
         stageIdx -= 1
         grayDot.progress -= 1
+        grayDot.progress = Double(stageIdx)
+        pageGuide.currentPage = Int(grayDot.progress)
+        
         pageGuideSubject.send(Void())
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.navigationBar.leftButton.isEnabled = true
         }
         
-        if stageIdx == 1 {
-            nextButton.removeTarget(self, action: #selector(postData), for: .touchUpInside)
-            nextButton.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
-        }
+        setFirstResponder()
     }
+    
+    // nextButton
+    
+    @objc
+    func gotoNext() {
+        navigationBar.leftButton.isEnabled = false
+            
+        scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
+                                            + UIScreen.main.bounds.width, y: 0), animated: true)
+        
+        stageIdx += 1
+        grayDot.progress += 1
+        
+        grayDot.progress = Double(stageIdx)
+        pageGuide.currentPage = Int(grayDot.progress)
+        
+        pageGuideSubject.send(Void())
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.navigationBar.leftButton.isEnabled = true
+        }
+        
+        setFirstResponder()
+    }
+    
+    @objc
+    func postData() {
+        print(feedImage!)
+        print(feedTitle)
+        print(feedPrice)
+    }
+    
+    // photoButton
 
     @objc
     func pickPhoto() {
-        galleryAuth()
+        setGalleryAuth()
     }
+    
+    // keyboard
     
     @objc func keyboardWillShow(notification: NSNotification) {
         
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        let contentInset = UIEdgeInsets(
+        _ = UIEdgeInsets(
             top: 0.0,
             left: 0.0,
             bottom: keyboardFrame.size.height,
@@ -376,16 +373,16 @@ class UploadViewController: UIViewController {
 
 extension UploadViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func galleryAuth() {
+    func setGalleryAuth() {
         switch PHPhotoLibrary.authorizationStatus() {
         case .denied:
-            self.showAlertAuth("앨범")
+            self.setAuthAlert("앨범")
         case .authorized:
-            self.openPhotoLibrary()
+            self.openGallery()
         case .notDetermined, .restricted:
             PHPhotoLibrary.requestAuthorization { state in
                 if state == .authorized {
-                    self.openPhotoLibrary()
+                    self.openGallery()
                 } else {
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -395,7 +392,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
     }
     
-    func showAlertAuth(_ type: String) {
+    func setAuthAlert(_ type: String) {
         if let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String {
             let alertVC = UIAlertController(
                 title: "설정",
@@ -444,7 +441,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
     }
     
-    private func openPhotoLibrary() {
+    private func openGallery() {
         if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
             DispatchQueue.main.async {
                 self.imagePicker.sourceType = .photoLibrary
@@ -461,7 +458,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             print("image_info = \(image)")
             feedImage = image
-            activateBtn(stageIdx)
+            setButtonActivate(stageIdx)
             firstPage.configure(image)
         }
         dismiss(animated: true, completion: nil)
