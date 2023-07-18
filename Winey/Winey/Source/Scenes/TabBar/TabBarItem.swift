@@ -32,7 +32,7 @@ enum TabBarItem: CaseIterable {
     var rootViewController: UIViewController {
         switch self {
         case .feed:         return FeedViewController()
-        case .recommend:    return UIViewController()
+        case .recommend:    return RecommendViewController()
         case .mypage:       return GuideViewController()
         }
     }
