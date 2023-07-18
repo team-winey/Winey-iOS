@@ -36,6 +36,14 @@ extension UIView {
         layer.maskedCorners = CACornerMask(arrayLiteral: maskedCorners)
     }
     
+    // UIView -> UIImage로의 변환을 위한 함수
+    func asImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
+    
     func makeCornerCircle() {
         let height = self.frame.height
         layer.cornerRadius = height / 2
