@@ -5,13 +5,13 @@
 //  Created by 김응관 on 2023/07/11.
 //
 
-import UIKit
 import Combine
-import PhotosUI
 import Foundation
+import UIKit
+import PhotosUI
 
-import DesignSystem
 import CHIPageControl
+import DesignSystem
 import SnapKit
 
 class UploadViewController: UIViewController {
@@ -20,7 +20,7 @@ class UploadViewController: UIViewController {
     
     private var stageIdx: Int = 0 {
         didSet {
-            if stageIdx == 2 {
+            if stageIdx == 0 {
                 nextButton.isEnabled = false
                 let title = Typography.build(string: "업로드", attributes: Const.nextButtonAttributes)
                 nextButton.setAttributedTitle(title, for: .normal)
@@ -33,7 +33,7 @@ class UploadViewController: UIViewController {
                 nextButton.addTarget(self, action: #selector(postData), for: .touchUpInside)
             } else if stageIdx == 1 {
                 nextButton.isEnabled = true
-                let title = Typography.build(string: "다음", attributes: Const.nextButtonAttributes)
+                let title = Typography.build(string: "저장하기", attributes: Const.nextButtonAttributes)
                 nextButton.setAttributedTitle(title, for: .normal)
                 pageGuide.currentPage = stageIdx
                 navigationBar.leftBarItem = .back
@@ -41,7 +41,8 @@ class UploadViewController: UIViewController {
                 secondPage.configure(true)
                 activateBtn(1)
             } else {
-                nextButton.setTitle("다음", for: .normal)
+                let title = Typography.build(string: "다음", attributes: Const.nextButtonAttributes)
+                nextButton.setAttributedTitle(title, for: .normal)
                 pageGuide.currentPage = stageIdx
                 navigationBar.leftBarItem = .close
                 secondPage.configure(false)
@@ -261,15 +262,18 @@ class UploadViewController: UIViewController {
     }
     
     func setKeyboardObserver() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object:nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object:nil)
     }
     
     func activateBtn(_ step: Int) {
