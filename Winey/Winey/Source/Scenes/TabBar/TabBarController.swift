@@ -71,7 +71,8 @@ extension TabBarController {
     @objc func hanldeLongPress(_ sender: UILongPressGestureRecognizer) {
         guard sender.state == .began else { return }
         
-        let testViewController = TestViewController()
+        let testViewController = UINavigationController(rootViewController: TestViewController())
+
         present(testViewController, animated: true)
     }
 }
