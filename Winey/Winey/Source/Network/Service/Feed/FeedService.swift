@@ -11,7 +11,7 @@ import Moya
 
 final class FeedService {
     
-    var feedProvider = MoyaProvider<FeedRouter>(plugins: [MoyaLoggerPlugin()])
+    let feedProvider = CustomMoyaProvider<FeedAPI>()
     
     init() { }
     
