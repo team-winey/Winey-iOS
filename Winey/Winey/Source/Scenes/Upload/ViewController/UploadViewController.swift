@@ -63,7 +63,7 @@ class UploadViewController: UIViewController {
     private let imagePicker = UIImagePickerController()
     
     /// feed가 업로드될 때 필요한 데이터들
-    private var feedImage: UIImage = UIImage()
+    private var feedImage: UIImage?
     private var feedTitle: String = "" {
         didSet {
             setButtonActivate(1)
@@ -359,7 +359,7 @@ class UploadViewController: UIViewController {
     /// 피드 업로드 함수
     @objc
     private func postData() {
-        print(feedImage)
+        print(feedImage!)
         print(feedTitle)
         print(feedPrice)
     }
