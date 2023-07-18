@@ -53,18 +53,8 @@ final class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
-        register()
         setupDataSource()
         getTotalFeed(page: currentPage)
-    }
-    
-    private func register() {
-        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.className)
-        collectionView.register(
-            FeedHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: FeedHeaderView.className
-        )
     }
     
     private func setupDataSource() {
