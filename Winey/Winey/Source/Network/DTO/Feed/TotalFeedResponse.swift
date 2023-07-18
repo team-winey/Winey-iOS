@@ -7,13 +7,11 @@
 
 import Foundation
 
-// MARK: - DataClass
 struct TotalFeedResponse: Codable {
     let pageResponseDto: PageResponse
     let getFeedResponseDtoList: [GetFeedResponseList]
 }
 
-// MARK: - GetFeedResponseDtoList
 struct GetFeedResponseList: Codable {
     let feedID, userID: Int
     let nickname: String
@@ -36,7 +34,6 @@ struct GetFeedResponseList: Codable {
     }
 }
 
-// MARK: - PageResponseDto
 struct PageResponse: Codable {
     let totalPageSize, currentPageIndex: Int
     let isEnd: Bool
