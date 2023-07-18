@@ -11,22 +11,10 @@ import SnapKit
 import DesignSystem
 
 final class BubbleView: UIView {
-    
-    // MARK: - View Life Cycles
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
     // MARK: - UI Components
     
-    private var bubbleImageView: UIImageView = {
+    private let bubbleImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Mypage.bubble
         image.sizeToFit()
@@ -42,10 +30,23 @@ final class BubbleView: UIView {
             attributes: .init(
                 style: .body,
                 weight: .medium,
-                textColor: .winey_gray500)
+                textColor: .winey_gray500
+            )
         )
         return label
     }()
+    
+    // MARK: - View Life Cycles
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
     
     // MARK: - UI & Layout
     

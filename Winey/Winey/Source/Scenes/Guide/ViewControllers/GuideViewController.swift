@@ -11,6 +11,14 @@ import SnapKit
 
 final class GuideViewController: UIViewController {
     
+    // MARK: - UI Components
+    
+    private let scrollView = UIScrollView()
+    private let bubbleView = BubbleView()
+    private let levelupDescriptionView = LevelupDescriptionView()
+    private let levelupRuleView = LevelupRuleView()
+    private let cautionView = CautionView()
+    
     // MARK: - View Life Cycles
     
     override func viewDidLoad() {
@@ -19,39 +27,26 @@ final class GuideViewController: UIViewController {
         setLayout()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    // MARK: - UI Components
-    
-    private let scrollView = UIScrollView()
-    private let bubbleView = BubbleView()
-    private let levelupMethodView = LevelupMethodView()
-    private let levelupRuleView = LevelupRuleView()
-    private let cautionView = CautionView()
-    
-    // MARK: - UI & Layout
+    // MARK: - Layout
     
     private func setUI() {
         scrollView.backgroundColor = .winey_gray0
     }
     
     private func setLayout() {
-        navigationController?.isNavigationBarHidden = true
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        scrollView.addSubviews(bubbleView, levelupMethodView, levelupRuleView, cautionView)
+        scrollView.addSubviews(bubbleView, levelupDescriptionView, levelupRuleView, cautionView)
         
         bubbleView.snp.makeConstraints { make in
             make.height.equalTo(120)
             make.top.leading.trailing.equalToSuperview()
         }
         
-        levelupMethodView.snp.makeConstraints { make in
+        levelupDescriptionView.snp.makeConstraints { make in
             make.height.equalTo(374)
             make.top.equalTo(bubbleView.snp.bottom)
             make.leading.trailing.equalToSuperview()
@@ -59,7 +54,7 @@ final class GuideViewController: UIViewController {
         
         levelupRuleView.snp.makeConstraints { make in
             make.height.equalTo(554)
-            make.top.equalTo(levelupMethodView.snp.bottom)
+            make.top.equalTo(levelupDescriptionView.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
         

@@ -12,21 +12,9 @@ import DesignSystem
 
 final class LevelupRuleView: UIView {
     
-    // MARK: - View Life Cycles
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
     // MARK: - UI Components
     
-    private var levelupRuleGuideContainerView: UIView = {
+    private let levelUpContainerVIew: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_lightYellow
         containerView.layer.cornerRadius = 10
@@ -40,7 +28,8 @@ final class LevelupRuleView: UIView {
             attributes: .init(
             style: .headLine3,
             weight: .bold,
-            textColor: .winey_gray900)
+            textColor: .winey_gray900
+            )
         )
         return label
         
@@ -52,7 +41,8 @@ final class LevelupRuleView: UIView {
             attributes: .init(
             style: .body,
             weight: .medium,
-            textColor: .winey_gray600)
+            textColor: .winey_gray600
+            )
         )
         return label
     }()
@@ -135,19 +125,35 @@ final class LevelupRuleView: UIView {
         return label
     }()
 
-    private var levelupRuleGuideImageView: UIImageView = {
+    private let levelupRuleGuideImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Mypage.guide2
         image.sizeToFit()
         return image
     }()
     
+    // MARK: - View Life Cycles
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
+    
     // MARK: - UI & Layout
     
     func setLayout() {
-        levelupRuleGuideContainerView.addSubviews(levelupRuleTitleLabel, levelupRuleLabel, levelupRuleGuideImageView, knightTypeLabel, nobleTypeLabel, emperorTypeLabel, knightTypeExplainLabel, nobleTypeExplainLabel, emperorTypeExplainLabel)
+        levelUpContainerVIew.addSubviews(levelupRuleTitleLabel, levelupRuleLabel,
+                                                  levelupRuleGuideImageView, knightTypeLabel,
+                                                  nobleTypeLabel, emperorTypeLabel,
+                                                  knightTypeExplainLabel, nobleTypeExplainLabel,
+                                                  emperorTypeExplainLabel)
         
-        self.addSubview(levelupRuleGuideContainerView)
+        self.addSubview(levelUpContainerVIew)
         
         levelupRuleTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(22)
@@ -194,7 +200,7 @@ final class LevelupRuleView: UIView {
             make.bottom.equalToSuperview().inset(43)
         }
         
-        levelupRuleGuideContainerView.snp.makeConstraints { make in
+        levelUpContainerVIew.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview().inset(16)
             make.width.equalTo(358)

@@ -12,18 +12,6 @@ import DesignSystem
 
 final class CautionView: UIView {
     
-    // MARK: - View Life Cycles
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setLayout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("SecondView Error!")
-    }
-    
     // MARK: - UI Components
     
     private let cautionTitleLabel: UILabel = {
@@ -33,7 +21,8 @@ final class CautionView: UIView {
             attributes: .init(
             style: .body3,
             weight: .bold,
-            textColor: .winey_gray900)
+            textColor: .winey_gray900
+            )
         )
         return label
     }()
@@ -47,7 +36,8 @@ final class CautionView: UIView {
             attributes: .init(
             style: .body3,
             weight: .medium,
-            textColor: .winey_gray400)
+            textColor: .winey_gray400
+            )
         )
         return label
     }()
@@ -60,6 +50,18 @@ final class CautionView: UIView {
         button.layer.cornerRadius = 10
         return button
     }()
+    
+    // MARK: - View Life Cycles
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setLayout()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("SecondView Error!")
+    }
     
     // MARK: - UI & Layout
     
