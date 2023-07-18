@@ -18,6 +18,7 @@ class UploadViewController: UIViewController {
     
     // MARK: - Properties
     
+    /// stageIdx: 업로드 단계를 가지는 변수 -> 값이 변경되면 UI가 업데이트 되면서 버튼에 부여되는 액션 함수와 활성화 조건을 다시 판별함
     private var stageIdx: Int = 0 {
         didSet {
             setUI()
@@ -29,6 +30,7 @@ class UploadViewController: UIViewController {
         }
     }
     
+    /// isOk: nextButton의 활성화여부를 가지는 변수, isOK 값이 바뀌면 그 값에 따라 버튼 활성화 조건이 바뀐다.
     private var isOk: Bool = false {
         didSet {
             if isOk {
@@ -50,14 +52,17 @@ class UploadViewController: UIViewController {
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
+    /// 업로드 단계별로 나타나는 뷰와 커스텀 네비게이션 바 객체 생성
     private let pageGuide = UploadBaseView()
     private let firstPage = PhotoUploadView()
     private let secondPage = ContentsWriteView()
     private let thirdPage = PriceUploadView()
     private let navigationBar = WINavigationBar(leftBarItem: .close)
     
+    /// 갤러리에서 이미지를 선택할 수 있게 해주는 UIImagePickerController 객체
     private let imagePicker = UIImagePickerController()
     
+    /// feed가 업로드될 때 필요한 데이터들
     private var feedImage: UIImage?
     private var feedTitle: String = "" {
         didSet {
@@ -72,6 +77,7 @@ class UploadViewController: UIViewController {
     
     // MARK: - UI Components
     
+    /// grayDot: 업로드 단계를 알려주는 커스텀 PageControl
     private let grayDot: CHIPageControlAji = {
         let dot = CHIPageControlAji()
         dot.numberOfPages = 3
@@ -82,6 +88,7 @@ class UploadViewController: UIViewController {
         return dot
     }()
     
+    /// scrollView: 업로드 단계들을 위한 뷰를 담은 scrollView
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.isScrollEnabled = false
@@ -92,6 +99,7 @@ class UploadViewController: UIViewController {
         return view
     }()
     
+    /// nextButton: 다음 단계로 이동하는 하단 버튼
     private let nextButton: UIButton = {
         let btn = UIButton()
         btn.layer.cornerRadius = 5
@@ -116,6 +124,7 @@ class UploadViewController: UIViewController {
     
     // MARK: - Methods
     
+    /// touchesBegan: 화면 터치하면 firstResponder resign
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -128,6 +137,7 @@ class UploadViewController: UIViewController {
             .store(in: &bag)
     }
     
+    /// UploadViewController.view의 UI를 설정해주는 함수
     private func setUI() {
         view.backgroundColor = .white
         
@@ -139,6 +149,7 @@ class UploadViewController: UIViewController {
         
         pageGuide.currentPage = stageIdx
         
+        /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
         switch stageIdx {
         case 1, 2:
             navigationBar.leftBarItem = .back
@@ -147,6 +158,7 @@ class UploadViewController: UIViewController {
         }
     }
     
+    /// setScrollView: 스크롤 뷰에 페이지 뷰 객체 저장
     private func setScrollView() {
         let subViews = [firstPage, secondPage, thirdPage]
         
@@ -199,6 +211,7 @@ class UploadViewController: UIViewController {
         }
     }
     
+    /// setAddTarget: 업로드 단계에 따라 버튼과 네비게이션바 등에 다른 액션함수 지정
     private func setAddTarget() {
         navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
         firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
@@ -213,6 +226,7 @@ class UploadViewController: UIViewController {
         }
     }
     
+    /// setFirstResponder: 업로드 단계에 따라 responder를 어디다가 지정할지 결정하는 함수
     private func setFirstResponder() {
         switch stageIdx {
         case 1:
@@ -225,6 +239,9 @@ class UploadViewController: UIViewController {
         }
     }
     
+    /// getData
+    /// 1. secondPage 객체로부터 절약 내용 데이터를 전달 받음
+    /// 2. thridPage 객체로부터 절약 금액 데이터를 전달 받음
     private func getData() {
         secondPage.textSendClousre = { data in
             self.feedTitle = data
@@ -235,6 +252,8 @@ class UploadViewController: UIViewController {
         }
     }
     
+    /// setNotification
+    /// 키보드가 올라오고 내려오고 하는 동작에 관련된 Notification 관찰자 지정
     private func setNotification() {
         NotificationCenter.default.addObserver(
             self,
@@ -250,6 +269,8 @@ class UploadViewController: UIViewController {
             object:nil)
     }
     
+    /// setButtonActivate
+    /// 업로드 단계에 따라 버튼이 활성화 될 지 말지를 결정해주는 함수
     private func setButtonActivate(_ step: Int) {
         switch step {
         case 0:
@@ -274,6 +295,7 @@ class UploadViewController: UIViewController {
     }
     
     // NavigationBar
+    /// NavigationBar 상의 버튼을 클릭했을때의 동작을 정의하는 함수
     
     @objc
     private func tapLeftButton() {
@@ -311,7 +333,7 @@ class UploadViewController: UIViewController {
     }
     
     // nextButton
-    
+    /// nextButton 눌렀을 때의 동작을 정의하는 함수들
     @objc
     private func gotoNext() {
         navigationBar.leftButton.isEnabled = false
@@ -334,6 +356,7 @@ class UploadViewController: UIViewController {
         setFirstResponder()
     }
     
+    /// 피드 업로드 함수
     @objc
     private func postData() {
         print(feedImage!)
@@ -343,6 +366,7 @@ class UploadViewController: UIViewController {
     
     // photoButton
     
+    /// 갤러리 접근 함수
     @objc
     private func pickPhoto() {
         setGalleryAuth()
@@ -350,6 +374,7 @@ class UploadViewController: UIViewController {
     
     // keyboard
     
+    /// 키보드 올리기/내리기에 관련된 함수
     @objc
     private func keyboardWillShow(notification: NSNotification) {
         
@@ -374,7 +399,7 @@ class UploadViewController: UIViewController {
 }
 
 extension UploadViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+    /// 갤러리 접근 권한 상태에 따른 함수 분기처리 
     func setGalleryAuth() {
         switch PHPhotoLibrary.authorizationStatus() {
         case .denied:
@@ -394,6 +419,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
     }
     
+    /// 갤러리 접근권한 허용 Alert에 관한 세팅
     func setAuthAlert(_ type: String) {
         if let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String {
             let alertVC = UIAlertController(
@@ -448,6 +474,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
     }
     
+    /// 앨범 열기 함수
     func openGallery() {
         if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
             DispatchQueue.main.async {
@@ -460,6 +487,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
     }
     
+    /// 이미지 선택 시에 동작할 함수
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
@@ -472,6 +500,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
     }
 }
 
+/// nextButton의 글자 폰트
 private extension UploadViewController {
     enum Const {
         static let nextButtonAttributes = Typography.Attributes(

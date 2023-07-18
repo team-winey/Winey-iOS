@@ -11,6 +11,13 @@ import SnapKit
 
 public final class WITextFieldView: UIView {
     
+    // MARK: - Properties
+    
+    /// uploadPrice: 입력된 금액을 UploadViewController로 전달해주는 클로져
+    /// unit: "원", "일" 등 텍스트필드 뒤에 붙을 단위를 표시해주는 label 객체
+    /// textField: 금액및 일수를 입력하는 텍스트필드
+    /// price: textField의 text에 들어갈 문자열
+    /// label: textField의 숫자 오른쪽에 들어갈 단위의 타입을 담은 변수
     public var uploadPrice: ((_ data: Int64) -> Void)?
     
     private let unit: UILabel = UILabel()
@@ -45,6 +52,7 @@ public final class WITextFieldView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// become, resign: 텍스트필드가 firstResponder가 될지 말지 결정해주는 함수
     public func become() {
         textField.becomeFirstResponder()
     }
@@ -56,10 +64,11 @@ public final class WITextFieldView: UIView {
 
 extension WITextFieldView {
     
+    /// setUI: TextField의 속성값 지정
     private func setUI() {
-        textField.delegate = self
-        textField.addTarget(self, action: #selector(textfieldDidChange), for: .editingChanged)
+        setAddTarget()
         
+        textField.delegate = self
         textField.placeholder = "0"
         textField.tintColor = Const.tintColor
         textField.textAlignment = .right
@@ -72,6 +81,11 @@ extension WITextFieldView {
         textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
         
         unit.setText(label?.text, attributes: Const.labelAttributes)
+    }
+    
+    /// setAddTarget: 텍스트필드가 편집 중일때 액션함수 작동하게끔 설정
+    private func setAddTarget() {
+        textField.addTarget(self, action: #selector(textfieldDidChange), for: .editingChanged)
     }
     
     private func setLayout() {
@@ -90,6 +104,7 @@ extension WITextFieldView {
         }
     }
     
+    /// makeComma: 텍스트필드의 text에 콤마를 붙여주는 함수
     private func makeComma() {
         guard let str = self.textField.text else {
             textField.placeholder = ""
@@ -111,6 +126,7 @@ extension WITextFieldView {
 }
 
 extension WITextFieldView {
+    /// Const: 커스텀 텍스트필드 제작에 필요한 여러 레이아웃, 속성 값들을 단일 상수로 선언
     enum Const {
         
         static let unitTrailing: CGFloat = 18.0
@@ -149,6 +165,7 @@ extension WITextFieldView {
     }
 }
 
+/// 텍스트필드 양옆에 여백을 주는 함수
 extension UITextField {
     func addLeftPadding(width: CGFloat) {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: self.frame.height))
@@ -165,6 +182,7 @@ extension UITextField {
 
 extension WITextFieldView: UITextFieldDelegate {
     
+    /// textFieldDidBeginEditing: textField의 편집이 시작될 때의 동작을 정의한 함수
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.textColor = Const.activeColor
         textField.makeBorder(width: Const.borderWidth, color: Const.activeColor)
@@ -175,7 +193,9 @@ extension WITextFieldView: UITextFieldDelegate {
         }
     }
     
-    @objc private func textfieldDidChange(_ sender: UITextField) {
+    /// textfieldDidChange: textField의 text가 변경되었을때 작동하는 함수
+    @objc
+    private func textfieldDidChange(_ sender: UITextField) {
         makeComma()
 
         guard let text = textField.text else { return }
@@ -186,6 +206,7 @@ extension WITextFieldView: UITextFieldDelegate {
         }
     }
     
+    /// textFieldDidEndEditing: textField의 편집이 종료되었을때 작동하는 함수
     public func textFieldDidEndEditing(_ textField: UITextField) {
         textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
         textField.textColor = Const.inactivateTextColor
@@ -195,6 +216,7 @@ extension WITextFieldView: UITextFieldDelegate {
         }
     }
     
+    /// textField: 텍스트필드에 새로운 문자가 추가되었을때 text를 바꿔주는 함수
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                           replacementString string: String) -> Bool {
         
@@ -212,14 +234,6 @@ extension UIView {
         views.forEach { self.addSubview($0) }
     }
     
-    func makeShadow(radius: CGFloat, offset: CGSize, opacity: Float) {
-        layer.shadowColor = UIColor.darkGray.cgColor
-        layer.shadowOffset = offset
-        layer.shadowRadius = radius
-        layer.shadowOpacity = opacity
-        layer.masksToBounds = false
-    }
-    
     func makeCornerRound(radius: CGFloat) {
         layer.cornerRadius = radius
         layer.masksToBounds = true
@@ -228,26 +242,6 @@ extension UIView {
     func makeBorder(width: CGFloat, color: UIColor ) {
         layer.borderWidth = width
         layer.borderColor = color.cgColor
-    }
-    
-    func roundCorners(cornerRadius: CGFloat, maskedCorners: CACornerMask) {
-        clipsToBounds = true
-        layer.cornerRadius = cornerRadius
-        layer.maskedCorners = CACornerMask(arrayLiteral: maskedCorners)
-    }
-    
-    // UIView -> UIImage로의 변환을 위한 함수
-    func asImage() -> UIImage {
-        let renderer = UIGraphicsImageRenderer(bounds: bounds)
-        return renderer.image { rendererContext in
-            layer.render(in: rendererContext.cgContext)
-        }
-    }
-    
-    func makeCornerCircle() {
-        let height = self.frame.height
-        layer.cornerRadius = height / 2
-        clipsToBounds = true
     }
 }
 

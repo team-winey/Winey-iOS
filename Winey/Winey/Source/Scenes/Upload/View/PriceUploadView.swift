@@ -13,6 +13,7 @@ import SnapKit
 class PriceUploadView: UIView {
 
     // MARK: - UI Components
+    /// textContentView: Winey에서 사용될 커스텀 TextField인 WITextFieldView객체를 선언
     var textContentView = WITextFieldView(price: "0", label: .won)
     
     // MARK: - Life Cycle
@@ -28,6 +29,7 @@ class PriceUploadView: UIView {
     
     // MARK: - Methods
     
+    /// configure: 텍스트 필드가 firstResponder가 될 지 말지를 결정하는 함수
     func configure(_ responder: Bool) {
         if responder {
             textContentView.become()

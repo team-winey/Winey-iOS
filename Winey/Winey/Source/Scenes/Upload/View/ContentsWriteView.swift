@@ -13,13 +13,15 @@ import SnapKit
 class ContentsWriteView: UIView {
     
     // MARK: - Property
+    /// placeholder: textView의 placeholder 문구
+    /// textSendClosure:  선택된 이미지객체를 ViewController로 전달하기 위해 사용되는 클로저
     private let placeholder = "Ex) 버스 타고 가는 길을 운동 삼아 20분 일찍 일어나 걸어갔어요!"
-    
-    // 선택된 이미지객체를 ViewController로 전달하기 위해 사용되는 클로저
     var textSendClousre: ((_ data: String) -> Void)?
     
     // MARK: - UI Components
     
+    /// textView: 절약 내용을 작성하는 textView
+    /// textNum: 텍스트 뷰 길이를 보여주는 label 뷰
     private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.setText(placeholder, attributes: Const.textViewPlaceholderAttributes)
@@ -50,6 +52,7 @@ class ContentsWriteView: UIView {
     
     // MARK: - Methods
     
+    /// configure: textView가 firstResponder가 될지 말지 지정해주는 함수
     func configure(_ responder: Bool) {
         if responder {
             textView.becomeFirstResponder()
@@ -76,7 +79,7 @@ class ContentsWriteView: UIView {
 
 extension ContentsWriteView: UITextViewDelegate {
     
-    // placeholder settings
+    /// textViewDidBeginEditing: 텍스트 뷰의 편집이 시작되었을때의 동작을 정의한 함수
     func textViewDidBeginEditing(_ textView: UITextView) {
         
         textView.makeBorder(width: 1, color: .winey_purple400)
@@ -87,6 +90,7 @@ extension ContentsWriteView: UITextViewDelegate {
         }
     }
     
+    /// textViewDidEndEditing: 텍스트 뷰의 편집이 종료되었을때의 동작을 정의한 함수
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = placeholder
@@ -97,15 +101,18 @@ extension ContentsWriteView: UITextViewDelegate {
         textView.makeBorder(width: 1, color: .winey_gray200)
     }
     
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        textView.endEditing(true)
-        return true
-    }
+//    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+//        textView.endEditing(true)
+//        return true
+//    }
     
+    /// textViewDidChange: 텍스트 뷰가 편집되었을때의 동작을 정의한 함수
     func textViewDidChange(_ textView: UITextView) {
         textSendClousre?(textView.text ?? "")
     }
     
+    /// textView: 텍스트뷰에 새로운 글자가 입력되었을때 문자열을 변경해주는 함수
+    /// 개행문자 입력시 문자열 업데이트 안되도록 처리해주는 코드 추가
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         let currentText = textView.text ?? ""
@@ -124,6 +131,7 @@ extension ContentsWriteView: UITextViewDelegate {
     }
 }
 
+/// textView의 폰트와 글자수알려주는 label의 폰트를 지정
 extension ContentsWriteView {
     enum Const {
         static let textViewPlaceholderAttributes = Typography.Attributes(
