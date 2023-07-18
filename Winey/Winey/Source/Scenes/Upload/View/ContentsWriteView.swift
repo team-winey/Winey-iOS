@@ -101,11 +101,6 @@ extension ContentsWriteView: UITextViewDelegate {
         textView.makeBorder(width: 1, color: .winey_gray200)
     }
     
-//    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-//        textView.endEditing(true)
-//        return true
-//    }
-    
     /// textViewDidChange: 텍스트 뷰가 편집되었을때의 동작을 정의한 함수
     func textViewDidChange(_ textView: UITextView) {
         textSendClousre?(textView.text ?? "")

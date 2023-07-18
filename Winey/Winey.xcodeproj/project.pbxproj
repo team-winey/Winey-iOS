@@ -48,6 +48,7 @@
 		1D69E0242A62B46800D4E3B5 /* LevelupRuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69E0232A62B46800D4E3B5 /* LevelupRuleView.swift */; };
 		1D69E0262A62B4F100D4E3B5 /* CautionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69E0252A62B4F100D4E3B5 /* CautionView.swift */; };
 		1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */; };
+		F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D8F2D2A6708E90041FB94 /* UploadModel.swift */; };
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
@@ -98,6 +99,7 @@
 		1D69E0232A62B46800D4E3B5 /* LevelupRuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelupRuleView.swift; sourceTree = "<group>"; };
 		1D69E0252A62B4F100D4E3B5 /* CautionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionView.swift; sourceTree = "<group>"; };
 		1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCollectionViewCell.swift; sourceTree = "<group>"; };
+		F40D8F2D2A6708E90041FB94 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
 		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 		14A7A4362A56F12600C0CA4E /* Upload */ = {
 			isa = PBXGroup;
 			children = (
+				F40D8F2C2A67087A0041FB94 /* Model */,
 				F4BE08422A5C72BF0052F3B0 /* View */,
 				F4BE083E2A5C6F650052F3B0 /* ViewController */,
 			);
@@ -435,6 +438,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		F40D8F2C2A67087A0041FB94 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F40D8F2D2A6708E90041FB94 /* UploadModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		F4BE083E2A5C6F650052F3B0 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -539,6 +550,7 @@
 			files = (
 				1D69E0222A62B45D00D4E3B5 /* LevelupDescriptionView.swift in Sources */,
 				0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */,
+				F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */,
 				1D69E0202A62B45000D4E3B5 /* BubbleView.swift in Sources */,
 				1D3CBB082A5ECA8E00AE8138 /* MyfeedCollectionViewCell.swift in Sources */,
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
