@@ -15,7 +15,8 @@ extension Typography {
     
     public static func build(
         string: String?,
-        attributes: Attributes
+        attributes: Attributes,
+        customAttributes: [NSAttributedString.Key : Any]? = nil
     ) -> NSMutableAttributedString {
         var stringAttributes: [NSAttributedString.Key: Any] = [:]
         
@@ -30,6 +31,11 @@ extension Typography {
         stringAttributes[.font] = font
         stringAttributes[.baselineOffset] = (attributes.style.lineHeight - font.lineHeight) / 4
         
+        if let customAttributes {
+            for customAttribute in customAttributes {
+                stringAttributes[customAttribute.key] = customAttribute.value
+            }   
+        }
         if let textColor = attributes.textColor {
             stringAttributes[.foregroundColor] = textColor
         }
