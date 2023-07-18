@@ -14,9 +14,13 @@ class UploadBaseView: UIView {
 
     // MARK: - Properties
     
+    /// currentPage: 현재 피드 업로드 단계를 나타내는 정수 값
     var currentPage: Int = 0
     
     // MARK: - UI Components
+    
+    /// title: 업로드 페이지 메인 타이틀
+    /// subTitle: 업로드 페이지 서브 타이틀
     
     private let title: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 3, width: 174, height: 56))
@@ -46,6 +50,7 @@ class UploadBaseView: UIView {
     
     // MARK: - Methods
 
+    /// setUI: currentPage 값에 따라 메인/서브 타이틀을 다르게 보여주게끔 도와주는 함수
     func setUI() {
         backgroundColor = .clear
         
@@ -81,6 +86,7 @@ class UploadBaseView: UIView {
 
 }
 
+/// 페이지 메인 타이틀과 서브 타이틀의 Typography를 지정해줌
 private extension UploadBaseView {
     enum Const {
         static let pageTitleAttributes = Typography.Attributes(
