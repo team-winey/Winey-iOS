@@ -8,16 +8,22 @@
 import UIKit
 
 import DesignSystem
+import Moya
 import SnapKit
 
 final class FeedViewController: UIViewController {
+    
+    // MARK: - Properties
+    
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, FeedModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
     private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration
     
-    // MARK: - Properties
-    
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
+    private let feedService = FeedService()
+    private var feedList: [FeedModel] = []
+    private var currentPage: Int = 1
+    private var isEnd: Bool = false
     
     // MARK: - UI Components
     
@@ -47,22 +53,15 @@ final class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
-        register()
         setupDataSource()
-    }
-    
-    private func register() {
-        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.className)
-        collectionView.register(
-            FeedHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: FeedHeaderView.className
-        )
+        getTotalFeed(page: currentPage)
     }
     
     private func setupDataSource() {
-        let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
-            cell.configure(model: Self.itemdummy[indexPath.item])
+        let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model  in
+            guard let self = self else { return }
+            guard indexPath.item < self.feedList.count else { return }
+            cell.configure(model: self.feedList[indexPath.item])
             cell.moreButtonTappedClosure = { [weak self] in
                 self?.showAlert()
             }
@@ -93,7 +92,7 @@ final class FeedViewController: UIViewController {
     private func snapshot() -> NSDiffableDataSourceSnapshot<Int, FeedModel> {
         var snapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
         snapshot.appendSections([0])
-        snapshot.appendItems(Self.itemdummy)
+        snapshot.appendItems(self.feedList)
         return snapshot
     }
     
@@ -111,6 +110,11 @@ final class FeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func getMoreFeed() {
+        self.currentPage += 1
+        self.getTotalFeed(page: self.currentPage)
     }
 }
 
@@ -144,49 +148,49 @@ extension FeedViewController {
 extension FeedViewController: UICollectionViewDelegate {
 }
 
+// MARK: - ScrollDelegate
+
+extension FeedViewController: UIScrollViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == feedList.count - 2 {
+            getMoreFeed()
+        }
+    }
+}
+
+// MARK: - Network
+
 extension FeedViewController {
-    static var itemdummy: [FeedModel] {
-        [
-            FeedModel(
-                id: 1,
-                nickname: "뇽잉깅",
-                title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: .Sample.sample1 ?? UIImage(),
-                money: 10000,
-                like: 23,
-                isLiked: true,
-                writerLevel: 2
-            ),
-            FeedModel(
-                id: 2,
-                nickname: "뇽잉깅",
-                title: "안녕하세요 처음 만난 사람들도 안녕하세요 하이헬로우하하하하",
-                image: .Sample.sample1 ?? UIImage(),
-                money: 10000,
-                like: 23,
-                isLiked: true,
-                writerLevel: 2
-            ),
-            FeedModel(
-                id: 3,
-                nickname: "뇽잉깅",
-                title: "띄어쓰기가없는경우 띄어쓰기가없는경우 띄어쓰기가없는경우 우하하하",
-                image: .Sample.sample1 ?? UIImage(),
-                money: 100000,
-                like: 23,
-                isLiked: false,
-                writerLevel: 2
-            ),
-            FeedModel(
-                id: 4,
-                nickname: "뇽잉깅",
-                title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: .Sample.sample1 ?? UIImage(),
-                money: 1000,
-                like: 23,
-                isLiked: true,
-                writerLevel: 2
-            )
-        ]
+    
+    private func getTotalFeed(page: Int) {
+        feedService.getTotalFeed(page: page) { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self else { return }
+            let pageData = data.pageResponse
+            var newItems: [FeedModel] = []
+            self.isEnd = pageData.isEnd
+            
+            for feedData in data.getFeedResponseList {
+                let feed = FeedModel(
+                    id: feedData.feedID,
+                    nickname: feedData.nickname,
+                    title: feedData.title,
+                    image: feedData.image,
+                    money: feedData.money,
+                    like: feedData.likes,
+                    isLiked: feedData.isLiked,
+                    writerLevel: feedData.writerLevel
+                )
+                self.feedList.append(feed)
+                newItems.append(feed)
+            }
+            
+            var newSnapshot = self.snapshot()
+            newSnapshot.appendItems(newItems, toSection: 0)
+            
+            DispatchQueue.global().async {
+                self.dataSource.apply(newSnapshot, animatingDifferences: true)
+            }
+        }
     }
 }
