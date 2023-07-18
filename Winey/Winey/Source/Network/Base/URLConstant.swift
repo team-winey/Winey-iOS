@@ -9,8 +9,6 @@ import Foundation
 
 struct URLConstant {
     
-    // MARK: - Base URL
-    
     static let baseURL = (Bundle.main.infoDictionary?["BASE_URL"] as! String).replacingOccurrences(of: " ", with: "")
     
     // MARK: - Route
