@@ -164,23 +164,21 @@ extension FeedViewController {
     private func getTotalFeed(page: Int) {
         feedService.getTotalFeed(page: page) { [weak self] response in
             guard let response = response, let data = response.data else { return }
-            guard let pageData = response.data?.pageResponseDto else { return }
             guard let self else { return }
-            
+            let pageData = data.pageResponseDto
+            var newItems: [FeedModel] = []
             self.isEnd = pageData.isEnd
             
-            var newItems: [FeedModel] = []
-            
-            for data in data.getFeedResponseDtoList {
+            for feedData in data.getFeedResponseDtoList {
                 let feed = FeedModel(
-                    id: data.feedID,
-                    nickname: data.nickname,
-                    title: data.title,
-                    image: data.image,
-                    money: data.money,
-                    like: data.likes,
-                    isLiked: data.isLiked,
-                    writerLevel: data.writerLevel
+                    id: feedData.feedID,
+                    nickname: feedData.nickname,
+                    title: feedData.title,
+                    image: feedData.image,
+                    money: feedData.money,
+                    like: feedData.likes,
+                    isLiked: feedData.isLiked,
+                    writerLevel: feedData.writerLevel
                 )
                 self.feedList.append(feed)
                 newItems.append(feed)
