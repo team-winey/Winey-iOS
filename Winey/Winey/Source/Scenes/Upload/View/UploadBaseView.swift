@@ -8,16 +8,11 @@
 import UIKit
 
 import DesignSystem
-
 import SnapKit
-
-/// 컬렉션 뷰 셀에 공통적으로 들어가는 메인문구/서브문구 뷰의 재사용성을 위한 BaseView
 
 class UploadBaseView: UIView {
 
     // MARK: - Properties
-    
-    /// currentPage: 현재 페이지 인덱스를 나타냄
     
     var currentPage: Int = 0
     
@@ -50,9 +45,6 @@ class UploadBaseView: UIView {
     }
     
     // MARK: - Methods
-    
-    /// setUI(): 배경색 & 페이지 인덱스 별로 다르게 나타날 메인문구/서브문구 텍스트 지정
-    /// setLayout(): 레이아웃 지정 함수
 
     func setUI() {
         backgroundColor = .clear
@@ -72,7 +64,7 @@ class UploadBaseView: UIView {
         }
     }
     
-    func setLayout() {
+    private func setLayout() {
         addSubviews(title, subTitle)
         
         title.snp.makeConstraints {

@@ -7,8 +7,8 @@
 
 import Combine
 import Foundation
-import UIKit
 import PhotosUI
+import UIKit
 
 import CHIPageControl
 import DesignSystem
@@ -50,12 +50,11 @@ class UploadViewController: UIViewController {
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
-    private var pageGuide = UploadBaseView()
+    private let pageGuide = UploadBaseView()
     private let firstPage = PhotoUploadView()
     private let secondPage = ContentsWriteView()
     private let thirdPage = PriceUploadView()
-    
-    private lazy var navigationBar = WINavigationBar(leftBarItem: .close)
+    private let navigationBar = WINavigationBar(leftBarItem: .close)
     
     private let imagePicker = UIImagePickerController()
     
@@ -73,7 +72,7 @@ class UploadViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var grayDot: CHIPageControlAji = {
+    private let grayDot: CHIPageControlAji = {
         let dot = CHIPageControlAji()
         dot.numberOfPages = 3
         dot.radius = 5
@@ -83,7 +82,7 @@ class UploadViewController: UIViewController {
         return dot
     }()
     
-    private lazy var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.isScrollEnabled = false
         view.isPagingEnabled = true
@@ -121,7 +120,7 @@ class UploadViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    func bind() {
+    private func bind() {
         pageGuideSubject
             .sink { [weak self] _ in
                 self?.pageGuide.setUI()
@@ -129,7 +128,7 @@ class UploadViewController: UIViewController {
             .store(in: &bag)
     }
     
-    func setUI() {
+    private func setUI() {
         view.backgroundColor = .white
         
         imagePicker.delegate = self
@@ -148,7 +147,7 @@ class UploadViewController: UIViewController {
         }
     }
     
-    func setScrollView() {
+    private func setScrollView() {
         let subViews = [firstPage, secondPage, thirdPage]
         
         var x: CGFloat = 0
@@ -167,7 +166,7 @@ class UploadViewController: UIViewController {
         scrollView.contentSize = CGSize(width: x+spacing, height: 182)
     }
     
-    func setLayout() {
+    private func setLayout() {
         setScrollView()
         
         view.addSubviews(navigationBar, grayDot, pageGuide, scrollView, nextButton)
@@ -200,7 +199,7 @@ class UploadViewController: UIViewController {
         }
     }
     
-    func setAddTarget() {
+    private func setAddTarget() {
         navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
         firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
         firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
@@ -214,7 +213,7 @@ class UploadViewController: UIViewController {
         }
     }
     
-    func setFirstResponder() {
+    private func setFirstResponder() {
         switch stageIdx {
         case 1:
             secondPage.configure(true)
@@ -226,7 +225,7 @@ class UploadViewController: UIViewController {
         }
     }
     
-    func getData() {
+    private func getData() {
         secondPage.textSendClousre = { data in
             self.feedTitle = data
         }
@@ -236,7 +235,7 @@ class UploadViewController: UIViewController {
         }
     }
     
-    func setNotification() {
+    private func setNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -251,7 +250,7 @@ class UploadViewController: UIViewController {
             object:nil)
     }
     
-    func setButtonActivate(_ step: Int) {
+    private func setButtonActivate(_ step: Int) {
         switch step {
         case 0:
             if feedImage != nil {
@@ -276,7 +275,8 @@ class UploadViewController: UIViewController {
     
     // NavigationBar
     
-    @objc private func tapLeftButton() {
+    @objc
+    private func tapLeftButton() {
         if navigationBar.leftBarItem == .back {
             self.gotoFront()
         } else {
@@ -285,12 +285,12 @@ class UploadViewController: UIViewController {
     }
     
     @objc
-    func dismissUploadViewController() {
+    private func dismissUploadViewController() {
         self.dismiss(animated: true)
     }
     
     @objc
-    func gotoFront() {
+    private func gotoFront() {
         navigationBar.leftButton.isEnabled = false
 
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
@@ -313,7 +313,7 @@ class UploadViewController: UIViewController {
     // nextButton
     
     @objc
-    func gotoNext() {
+    private func gotoNext() {
         navigationBar.leftButton.isEnabled = false
             
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
@@ -335,7 +335,7 @@ class UploadViewController: UIViewController {
     }
     
     @objc
-    func postData() {
+    private func postData() {
         print(feedImage!)
         print(feedTitle)
         print(feedPrice)
@@ -344,13 +344,14 @@ class UploadViewController: UIViewController {
     // photoButton
 
     @objc
-    func pickPhoto() {
+    private func pickPhoto() {
         setGalleryAuth()
     }
     
     // keyboard
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc
+    private func keyboardWillShow(notification: NSNotification) {
         
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         _ = UIEdgeInsets(
@@ -363,7 +364,8 @@ class UploadViewController: UIViewController {
         self.nextButton.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.size.height)
     }
 
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc
+    private func keyboardWillHide(notification: NSNotification) {
         
         UIView.animate(withDuration: 0.2, animations: {
             self.nextButton.transform = .identity
@@ -441,7 +443,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
     }
     
-    private func openGallery() {
+    func openGallery() {
         if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
             DispatchQueue.main.async {
                 self.imagePicker.sourceType = .photoLibrary

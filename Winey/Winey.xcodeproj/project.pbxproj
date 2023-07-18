@@ -95,12 +95,7 @@
 		F4AE68662A65493500EEA198 /* Int64+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int64+.swift"; sourceTree = "<group>"; };
 		F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadBaseView.swift; sourceTree = "<group>"; };
-		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
-		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
-		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUploadView.swift; sourceTree = "<group>"; };
-		F4BE08482A5C7C6D0052F3B0 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
-		F4BE084A2A5C7C740052F3B0 /* NavigationBarType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,7 +204,6 @@
 		14A7A4362A56F12600C0CA4E /* Upload */ = {
 			isa = PBXGroup;
 			children = (
-				F4BE08472A5C7C4E0052F3B0 /* NavigationBar */,
 				F4BE08422A5C72BF0052F3B0 /* View */,
 				F4BE083E2A5C6F650052F3B0 /* ViewController */,
 			);
@@ -422,15 +416,6 @@
 				F4867A642A6061940016389C /* PriceUploadView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		F4BE08472A5C7C4E0052F3B0 /* NavigationBar */ = {
-			isa = PBXGroup;
-			children = (
-				F4BE084A2A5C7C740052F3B0 /* NavigationBarType.swift */,
-				F4BE08482A5C7C6D0052F3B0 /* CustomNavigationBar.swift */,
-			);
-			path = NavigationBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
