@@ -12,6 +12,42 @@ import DesignSystem
 
 final class InquiryCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Properties
+    
+    static let identifier = InquiryCollectionViewCell.className
+    
+    // MARK: - UIComponents
+
+    let moreButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .white
+        return button
+    }()
+    
+    var buttonImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = .Icon.next
+        return image
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.setText(
+            "1:1 문의",
+            attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700),
+            customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]
+        )
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+    
+    private func setUI() {
+        contentView.backgroundColor = .white
+    }
+    
+    // MARK: - View Life Cycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
@@ -23,41 +59,11 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         fatalError("SecondView Error!")
     }
     
-    static let identifier = InquiryCollectionViewCell.className
-    
-    // MARK: Component
-
-    let moreButton: UIButton = {
-        let button = UIButton()
-        // button.setImage(.Icon.next, for: .normal)
-        button.backgroundColor = .white
-        return button
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.setText(
-            "1:1 문의",
-            attributes: .init(
-                style: .body,
-                weight: .medium,
-                textColor: .winey_gray700
-                )
-            )
-            label.textAlignment = .center
-            label.lineBreakMode = .byWordWrapping
-        return label
-    }()
-    
-    private func setUI() {
-        contentView.backgroundColor = .white
-    }
-    
-    
-    // MARK: Layout
+    // MARK: - Layout
     
     private func setLayout() {
-        contentView.addSubviews(titleLabel, moreButton)
+        contentView.addSubviews(moreButton)
+        moreButton.addSubviews(titleLabel, buttonImageView)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
@@ -68,7 +74,12 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         moreButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
-            make.width.height.equalTo(55)
+            make.width.equalTo(390)
+            make.height.equalTo(55)
+        }
+        buttonImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
         }
     }
 }
