@@ -166,11 +166,11 @@ extension FeedViewController {
         feedService.getTotalFeed(page: page) { [weak self] response in
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
-            let pageData = data.pageResponseDto
+            let pageData = data.pageResponse
             var newItems: [FeedModel] = []
             self.isEnd = pageData.isEnd
             
-            for feedData in data.getFeedResponseDtoList {
+            for feedData in data.getFeedResponseList {
                 let feed = FeedModel(
                     id: feedData.feedID,
                     nickname: feedData.nickname,
