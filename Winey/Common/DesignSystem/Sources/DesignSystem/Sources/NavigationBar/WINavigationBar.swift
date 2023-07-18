@@ -31,9 +31,10 @@ public final class WINavigationBar: UIView {
         CGSize(width: UIScreen.main.bounds.width, height: Const.navigationBarHeight)
     }
     
-    public init(leftBarItem: BarItem? = nil, rightBarItem: BarItem? = nil) {
+    public init(leftBarItem: BarItem? = nil, rightBarItem: BarItem? = nil, title: String? = nil) {
         self.leftBarItem = leftBarItem
         self.rightBarItem = rightBarItem
+        self.title = title
         super.init(frame: .zero)
         setUI()
         setLayout()
@@ -52,6 +53,7 @@ extension WINavigationBar {
         leftButton.tintColor = .winey_gray900
         rightButton.setImage(rightBarItem?.icon, for: .normal)
         rightButton.tintColor = .winey_gray900
+        titleLabel.setText(title, attributes: Const.titleAttributes)
     }
     
     private func setLayout() {
