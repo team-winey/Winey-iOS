@@ -9,6 +9,7 @@ import UIKit
 
 import DesignSystem
 import SnapKit
+import Kingfisher
 
 final class FeedCell: UICollectionViewCell {
     
@@ -98,7 +99,8 @@ final class FeedCell: UICollectionViewCell {
         nicknameLabel.setText(model.nickname, attributes: Const.nicknameAttributes)
         configureFeedMoneyLabel(model.money)
         feedTitleLabel.setText(model.title, attributes: Const.feedTitleAttributes)
-        feedImageView.image = model.image
+        let url = URL(string: model.image)
+        feedImageView.kf.setImage(with: url)
         likeCountLabel.setText("\(model.like)", attributes: Const.likeCountAttributes)
         self.isLiked = model.isLiked
     }
