@@ -20,13 +20,13 @@ class UploadViewController: UIViewController {
     
     private var stageIdx: Int = 0 {
         didSet {
-            if stageIdx == 0 {
+            if stageIdx == 2 {
                 nextButton.isEnabled = false
                 let title = Typography.build(string: "업로드", attributes: Const.nextButtonAttributes)
                 nextButton.setAttributedTitle(title, for: .normal)
                 pageGuide.currentPage = stageIdx
                 navigationBar.leftBarItem = .back
-                thirdPage.configure(true)
+                // thirdPage.configure(true)
                 secondPage.configure(false)
                 activateBtn(2)
                 nextButton.removeTarget(self, action: #selector(gotoNext), for: .touchUpInside)
@@ -37,7 +37,7 @@ class UploadViewController: UIViewController {
                 nextButton.setAttributedTitle(title, for: .normal)
                 pageGuide.currentPage = stageIdx
                 navigationBar.leftBarItem = .back
-                thirdPage.configure(false)
+                // thirdPage.configure(false)
                 secondPage.configure(true)
                 activateBtn(1)
             } else {
@@ -202,7 +202,7 @@ class UploadViewController: UIViewController {
             self.feedTitle = data
         }
         
-        thirdPage.sendPriceClosure = { data in
+        thirdPage.textContentView.uploadPrice = { data in
             self.feedPrice = data
         }
     }

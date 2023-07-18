@@ -12,14 +12,9 @@ import DesignSystem
 import SnapKit
 
 class PriceUploadView: UIView {
-    
-    // MARK: - Properties
-    var feedPrice: Int64 = 0
-    
-    var sendPriceClosure: ((_ data: Int64) -> Void)?
 
     // MARK: - UI Components
-    private let textContentView = WITextFieldView(price: "0", label: .won)
+    var textContentView = WITextFieldView(price: "0", label: .won)
     
     // MARK: - Life Cycle
     
@@ -33,15 +28,6 @@ class PriceUploadView: UIView {
     }
     
     // MARK: - Methods
-    
-    func configure(_ responder: Bool) {
-        if responder {
-//            textContentView.
-//            textContentView.becomeFirstResponder()
-        } else {
-//            textContentView.resignFirstResponder()
-        }
-    }
     
     func setLayout() {
         addSubviews(textContentView)

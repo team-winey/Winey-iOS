@@ -10,6 +10,9 @@ import UIKit
 import SnapKit
 
 public final class WITextFieldView: UIView {
+    
+    public var uploadPrice: ((_ data: Int64) -> Void)?
+    
     private let unit: UILabel = UILabel()
     private let textField: UITextField = UITextField()
     
@@ -100,7 +103,8 @@ extension WITextFieldView {
         } else {
             answer = Int64(str) ?? 0
         }
-
+        
+        uploadPrice?(answer)
         self.textField.text = answer.addCommaToString()
     }
     
@@ -145,8 +149,6 @@ extension WITextFieldView {
     }
 }
 
-// 텍스트필드, 뷰 익스텐션
-
 extension UITextField {
     func addLeftPadding(width: CGFloat) {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: self.frame.height))
@@ -187,7 +189,6 @@ extension WITextFieldView: UITextFieldDelegate {
     public func textFieldDidEndEditing(_ textField: UITextField) {
         textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
         textField.textColor = Const.inactivateTextColor
-        
         
         if ((textField.text?.isEmpty) != nil) {
             textField.placeholder = "0"
