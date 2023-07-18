@@ -8,8 +8,13 @@
 import Foundation
 
 struct TotalFeedResponse: Decodable {
-    let pageResponseDto: PageResponse
-    let getFeedResponseDtoList: [GetFeedResponseList]
+    let pageResponse: PageResponse
+    let getFeedResponseList: [GetFeedResponseList]
+    
+    enum CodingKeys: String, CodingKey {
+        case pageResponse = "pageResponseDto"
+        case getFeedResponseList = "getFeedResponseDtoList"
+    }
 }
 
 struct GetFeedResponseList: Decodable {
