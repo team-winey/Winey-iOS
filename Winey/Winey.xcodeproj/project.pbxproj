@@ -35,7 +35,6 @@
 		14F670072A550C45009703AD /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670062A550C45009703AD /* UIStackView+.swift */; };
 		14F670092A550C83009703AD /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670082A550C83009703AD /* UILabel+.swift */; };
 		14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6700A2A550CBA009703AD /* UIButton+.swift */; };
-		14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6700C2A550D4F009703AD /* UITextField+.swift */; };
 		14F670112A550F1A009703AD /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670102A550F1A009703AD /* NSObject+.swift */; };
 		14F670142A551BCF009703AD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670132A551BCF009703AD /* TabBarController.swift */; };
 		1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */; };
@@ -86,7 +85,6 @@
 		14F670062A550C45009703AD /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		14F670082A550C83009703AD /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		14F6700A2A550CBA009703AD /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
-		14F6700C2A550D4F009703AD /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		14F670102A550F1A009703AD /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 		14F670132A551BCF009703AD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageProfileCell.swift; sourceTree = "<group>"; };
@@ -263,7 +261,6 @@
 				14F670062A550C45009703AD /* UIStackView+.swift */,
 				14F670082A550C83009703AD /* UILabel+.swift */,
 				14F6700A2A550CBA009703AD /* UIButton+.swift */,
-				14F6700C2A550D4F009703AD /* UITextField+.swift */,
 				14DB265F2A5E7E7A00F42499 /* CGFloat+.swift */,
 			);
 			path = UIKit;
@@ -567,7 +564,6 @@
 				F4867A672A608B860016389C /* Int+.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
 				143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */,
-				14F6700D2A550D4F009703AD /* UITextField+.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
 				14DB26662A5E97A100F42499 /* MyFeedViewController.swift in Sources */,
