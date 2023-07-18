@@ -56,16 +56,32 @@ class UploadBaseView: UIView {
         
         switch currentPage {
         case 0:
-            title.setText("절약을 실천한\n모습을 보여주세요!", attributes: Const.pageTitleAttributes)
-            subTitle.setText("사진은 피드의 썸네일로 사용됩니다 :)",
-                             attributes: Const.pageSubTitleAttributes)
+            title.setText(
+                "절약을 실천한\n모습을 보여주세요!",
+                attributes: Const.pageTitleAttributes
+            )
+            subTitle.setText(
+                "사진은 피드의 썸네일로 사용됩니다 :)",
+                attributes: Const.pageSubTitleAttributes
+            )
         case 1:
-            title.setText("절약 내용을\n작성해 주세요!", attributes: Const.pageTitleAttributes)
-            subTitle.setText("적어주신 글은 썸네일과 함께 표시됩니다 :)",
-                             attributes: Const.pageSubTitleAttributes)
+            title.setText(
+                "절약 내용을\n작성해 주세요!",
+                attributes: Const.pageTitleAttributes
+            )
+            subTitle.setText(
+                "적어주신 글은 썸네일과 함께 표시됩니다 :)",
+                attributes: Const.pageSubTitleAttributes
+            )
         default:
-            title.setText("얼마나\n절약했나요?", attributes: Const.pageTitleAttributes)
-            subTitle.setText("절약하신 금액을 작성해주세요!", attributes: Const.pageSubTitleAttributes)
+            title.setText(
+                "얼마나\n절약했나요?",
+                attributes: Const.pageTitleAttributes
+            )
+            subTitle.setText(
+                "절약하신 금액을 작성해주세요!",
+                attributes: Const.pageSubTitleAttributes
+            )
         }
     }
     
