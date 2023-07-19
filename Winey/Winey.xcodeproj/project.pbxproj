@@ -726,6 +726,7 @@
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,
 				14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */,
 				14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */,
+				F4FB9B542A67370F00EDB141 /* MyFeedModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
