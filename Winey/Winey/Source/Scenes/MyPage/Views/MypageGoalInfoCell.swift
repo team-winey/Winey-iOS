@@ -21,6 +21,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     // MARK: - Properties
 
+    var saveGoalButtonTappedClosure : (() -> Void)?
     static let identifier = MypageGoalInfoCell.className
     
     // MARK: - UIComponents
@@ -111,11 +112,12 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var modifyButton: UIButton = {
+    private lazy var modifyButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.clear
         button.clipsToBounds = true
         button.setImage(.Mypage.pen, for: .normal)
+        button.addTarget(self, action: #selector(modifyButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -205,6 +207,11 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     func setUI() {
         contentView.backgroundColor = .white
+    }
+    
+    @objc
+    private func modifyButtonTapped() {
+        self.saveGoalButtonTappedClosure?()
     }
     
     // MARK: - View Life Cycle
