@@ -22,7 +22,7 @@ public extension UIImage {
         public static let link              = UIImage(name: "ic_link")
     }
 
-    enum Mypage{
+    enum Mypage {
         public static let info = UIImage(name: "ic_info")
         public static let progressbar = UIImage(name: "level_progressbar")
         public static let pen = UIImage(name: "ic_pen")
@@ -38,6 +38,14 @@ public extension UIImage {
     
     enum Img {
         public static let appbar_logo = UIImage(name: "appbar_logo")
+        public static let mypage_level_one = UIImage(name: "img_mypage_level_one")
+        public static let mypage_level_two = UIImage(name: "img_mypage_level_two")
+        public static let mypage_level_three = UIImage(name: "img_mypage_level_three")
+        public static let mypage_level_four = UIImage(name: "img_mypage_level_four")
+        public static let progressbar_level_one = UIImage(name: "img_progressbar_level_one")
+        public static let progressbar_level_two = UIImage(name: "img_progressbar_level_two")
+        public static let progressbar_level_three = UIImage(name: "img_progressbar_level_three")
+        public static let progressbar_level_four = UIImage(name: "img_progressbar_level_four")
     }
     
     enum Btn {

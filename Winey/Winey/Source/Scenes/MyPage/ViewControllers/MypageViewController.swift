@@ -8,16 +8,16 @@
 import UIKit
 
 import SnapKit
+import Moya
 import DesignSystem
 
 final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Properties
+    private var nickname: String?
+    private var userLevel: UserLevel?
     
-    private lazy var collectionView = UICollectionView(
-        frame: .zero,
-        collectionViewLayout: UICollectionViewFlowLayout()
-    )
+    private let userService = UserService()
     
     // MARK: - UIComponents
     
@@ -25,13 +25,17 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private lazy var safearea = self.view.safeAreaLayoutGuide
     private let topBackgroundColor = UIColor.winey_gray0
     private let bottomBackgroundColor = UIColor.winey_gray50
-    
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewFlowLayout()
+    )
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         setUI()
+        getTotalUser()
     }
     
     // MARK: - UIComponents
@@ -98,39 +102,41 @@ extension MypageViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
         
-        guard let MypageGoalInfoCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: MypageGoalInfoCell.identifier,
-                    for: indexPath
-                )
-                as? MypageGoalInfoCell else { return UICollectionViewCell()}
+        guard let mypageGoalInfoCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MypageGoalInfoCell.identifier,
+            for: indexPath
+        ) as? MypageGoalInfoCell
+        else { return UICollectionViewCell()}
         
-        guard let SetupCollectionViewCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: MyfeedCollectionViewCell.identifier,
-                    for: indexPath
-                )
-                as? MyfeedCollectionViewCell else { return UICollectionViewCell()}
+        guard let setupCollectionViewCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MyfeedCollectionViewCell.identifier,
+            for: indexPath
+        ) as? MyfeedCollectionViewCell
+        else { return UICollectionViewCell()}
         
-        guard let InquiryCollectionViewCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: InquiryCollectionViewCell.identifier,
-                    for: indexPath
-                )
-                as? InquiryCollectionViewCell else { return UICollectionViewCell()}
+        guard let inquiryCollectionViewCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: InquiryCollectionViewCell.identifier,
+            for: indexPath
+        ) as? InquiryCollectionViewCell
+        else { return UICollectionViewCell()}
         
         switch indexPath.section {
         case 0 :
-            guard let MypageProfileCell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: MypageProfileCell.identifier,
-                        for: indexPath
-                    )
-                    as? MypageProfileCell else { return UICollectionViewCell()}
-            
-            return MypageProfileCell
+            guard let mypageProfileCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MypageProfileCell.identifier,
+                for: indexPath
+            )  as? MypageProfileCell
+            else { return UICollectionViewCell()}
+            let nickname = nickname ?? ""
+            let userLevel = userLevel ?? .none
+            mypageProfileCell.configure(model: .init(nickname: nickname, level: userLevel))
+            return mypageProfileCell
         case 1 :
-            return MypageGoalInfoCell
+            return mypageGoalInfoCell
         case 2 :
-            return SetupCollectionViewCell
+            return setupCollectionViewCell
         case 3 :
-            return InquiryCollectionViewCell
+            return inquiryCollectionViewCell
             
         default :
             return UICollectionViewCell()
@@ -187,3 +193,26 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
+
+// MARK: - Server
+
+extension MypageViewController {
+    private func getTotalUser() {
+        userService.getTotalUser() { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self else { return }
+            let userData = data.userResponseUserDto
+            self.userLevel = self.judgeUserLevel(userData.userLevel)
+            self.nickname = userData.nickname
+            
+            print(userData.nickname, userData.userLevel, userData.userID)
+            
+            self.collectionView.reloadData()
+        }
+    }
+    
+    private func judgeUserLevel(_ userLevel: String) -> UserLevel? {
+        return UserLevel(rawValue: userLevel)
+    }
+}
+
