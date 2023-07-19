@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostFeedResponse: Codable {
+struct PostFeedResponse: Decodable {
     let feedID: Int
     let createdAt: Date
 }
