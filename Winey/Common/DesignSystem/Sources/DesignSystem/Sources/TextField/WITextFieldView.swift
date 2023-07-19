@@ -18,10 +18,10 @@ public final class WITextFieldView: UIView {
     /// textField: 금액및 일수를 입력하는 텍스트필드
     /// price: textField의 text에 들어갈 문자열
     /// label: textField의 숫자 오른쪽에 들어갈 단위의 타입을 담은 변수
-    public var uploadPrice: ((_ data: Int64) -> Void)?
+    public var uploadPrice: ((_ data: Int) -> Void)?
     
     private let unitLabel: UILabel = UILabel()
-    private var textField: UITextField = UITextField()
+    private let textField: UITextField = UITextField()
     
     public var price: String? {
         didSet {
@@ -34,15 +34,18 @@ public final class WITextFieldView: UIView {
         }
     }
     
-    public var label: Unit?
+    public let label: Unit?
+    
+    public let textLength: Int?
     
     public override var intrinsicContentSize: CGSize {
         CGSize(width: UIScreen.main.bounds.width, height: Const.textFieldHeight)
     }
     
-    public init(price: String? = nil, label: Unit? = nil) {
+    public init(price: String? = nil, label: Unit? = nil, textLength: NumberType? = nil) {
         self.label = label
         self.price = price
+        self.textLength = textLength?.number
         super.init(frame: .zero)
         setUI()
         setLayout()
@@ -111,12 +114,12 @@ extension WITextFieldView {
             return
         }
 
-        var answer: Int64 = 0
+        var answer: Int = 0
 
         if str.count > 3 {
-            answer = Int64(str.replacingOccurrences(of: ",", with: "")) ?? 0
+            answer = Int(str.replacingOccurrences(of: ",", with: "")) ?? 0
         } else {
-            answer = Int64(str) ?? 0
+            answer = Int(str) ?? 0
         }
         
         uploadPrice?(answer)
@@ -196,7 +199,10 @@ extension WITextFieldView: UITextFieldDelegate {
     /// textfieldDidChange: textField의 text가 변경되었을때 작동하는 함수
     @objc
     private func textfieldDidChange(_ sender: UITextField) {
-        makeComma()
+        
+        if textLength == 11 {
+            makeComma()
+        }
 
         guard let text = textField.text else { return }
         if text == "0" {
@@ -225,7 +231,7 @@ extension WITextFieldView: UITextFieldDelegate {
         if let pureText = textField.text {
             price = pureText.count + string.count - range.length
         }
-        return !(price > 12)
+        return !(price > textLength ?? 0)
     }
 }
 
@@ -245,7 +251,7 @@ extension UIView {
     }
 }
 
-extension Int64 {
+extension Int {
     func addCommaToString() -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -268,6 +274,20 @@ extension WITextFieldView {
                 return "일"
             case .none:
                 return nil
+            }
+        }
+    }
+    
+    public enum NumberType {
+        case price
+        case day
+        
+        var number: Int? {
+            switch self{
+            case .price:
+                return 11
+            case .day:
+                return 3
             }
         }
     }
