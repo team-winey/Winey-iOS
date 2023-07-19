@@ -78,6 +78,8 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_gray50
         containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 1.0
+        containerView.layer.borderColor = UIColor.winey_gray200.cgColor
         return containerView
     }()
     

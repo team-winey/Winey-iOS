@@ -71,6 +71,8 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Layout
     
     private func setLayout() {
+        
+        view.backgroundColor = .white
         view.addSubviews(navigationBar, collectionView)
         
         navigationBar.snp.makeConstraints {
