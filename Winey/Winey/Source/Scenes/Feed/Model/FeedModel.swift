@@ -13,7 +13,7 @@ struct FeedModel: Hashable {
     let title: String
     let image: String
     let money: Int
-    let like: Int
+    var like: Int
     var isLiked: Bool
     let writerLevel: Int
 }
