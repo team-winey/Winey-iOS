@@ -19,7 +19,7 @@ class DotLayerView: UIView {
     }
     
     var dashWidth: CGFloat = 1
-    var dashColor: UIColor = .winey_gray900
+    var dashColor: UIColor = .winey_purple400
     var dashLength: CGFloat = 5
     var betweenDashesSpace: CGFloat = 2
     
