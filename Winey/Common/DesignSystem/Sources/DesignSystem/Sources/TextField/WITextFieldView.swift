@@ -88,6 +88,7 @@ extension WITextFieldView {
         textField.addRightPadding(width: Const.rightPadding)
         textField.makeCornerRound(radius: Const.cornerRadius)
         textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
+        textField.backgroundColor = .winey_gray0
         
         unitLabel.setText(label?.text, attributes: Const.labelAttributes)
     }
