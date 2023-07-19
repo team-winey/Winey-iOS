@@ -359,6 +359,8 @@ class UploadViewController: UIViewController {
     /// 피드 업로드 함수
     @objc
     private func postData() {
+        
+        
         print(feedImage!)
         print(feedTitle)
         print(feedPrice)
