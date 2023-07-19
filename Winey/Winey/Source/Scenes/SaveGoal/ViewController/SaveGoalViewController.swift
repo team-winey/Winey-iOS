@@ -13,6 +13,7 @@ import DesignSystem
 
 final class SaveGoalViewController: UIViewController {
     
+    private let goalService = GoalService()
     private var bag = Set<AnyCancellable>()
     
     private var money: Int = 0
@@ -43,10 +44,6 @@ final class SaveGoalViewController: UIViewController {
 // MARK: - TextField
 
 extension SaveGoalViewController {
-    private func changeStringToInt(string : String) -> Int {
-        let result = Int(string)
-        return result ?? 0
-    }
     
     private func checkMoneyValue(value: Int) {
         if value < 30000 {
@@ -117,7 +114,9 @@ extension SaveGoalViewController {
     @objc
     private func saveButtonTapped() {
         print("save")
-
+        print(self.money)
+        print(self.period)
+        self.postGoal(request: PostGoalRequest(targetMoney: self.money, targetDay: self.period))
     }
 }
 
@@ -224,12 +223,14 @@ extension SaveGoalViewController {
         moneyTextField.pricePublisher
             .sink { [weak self] price in
                 self?.checkMoneyValue(value: price)
+                self?.money = price
             }
             .store(in: &bag)
         
         periodTextField.pricePublisher
             .sink { [weak self] price in
                 self?.checkPeriodValue(value: price)
+                self?.period = price
             }
             .store(in: &bag)
         
@@ -277,5 +278,17 @@ private extension SaveGoalViewController {
             weight: .medium,
             textColor: .winey_gray900
         )
+    }
+}
+
+//MARK: - Network
+
+extension SaveGoalViewController {
+    private func postGoal(request: PostGoalRequest) {
+        goalService.postGoal(request: request) { [weak self] response in
+            guard let response = response else { return }
+            guard let self = self else { return }
+            self.dismiss(animated: true)
+        }
     }
 }
