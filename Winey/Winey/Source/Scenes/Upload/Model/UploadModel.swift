@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 
 struct UploadModel: Codable {
+    typealias Cost = Int
     var feedTitle: String
-    var feedMoney: Int
+    var feedMoney: Cost
     
     init(_ feedTitle: String, _ feedMoney: Int) {
         self.feedTitle = feedTitle
