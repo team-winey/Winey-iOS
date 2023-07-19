@@ -75,7 +75,7 @@ class UploadViewController: UIViewController {
         }
     }
     
-    private let postService = PostService()
+    private let postService = FeedService()
     
     // MARK: - UI Components
     
@@ -517,7 +517,6 @@ extension UploadViewController {
     
     private func postFeed(feed: UploadModel) {
         // 피드 업로드
-        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { result in
-        }
+        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in }
     }
 }
