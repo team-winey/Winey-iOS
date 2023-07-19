@@ -68,7 +68,7 @@ final class FeedViewController: UIViewController {
             cell.likeButtonTappedClosure = { [weak self] selectedFeedId, isLiked in
                 self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
             }
-            cell.moreButtonTappedClosure = { [weak self] in
+            cell.moreButtonTappedClosure = { [weak self] idx in
                 self?.showAlert()
             }
         }
