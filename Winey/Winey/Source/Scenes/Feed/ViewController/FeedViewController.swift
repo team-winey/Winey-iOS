@@ -55,6 +55,7 @@ final class FeedViewController: UIViewController {
         setLayout()
         setupDataSource()
         getTotalFeed(page: currentPage)
+        setAddTarget()
     }
     
     private func setupDataSource() {
@@ -115,6 +116,17 @@ final class FeedViewController: UIViewController {
     private func getMoreFeed() {
         self.currentPage += 1
         self.getTotalFeed(page: self.currentPage)
+    }
+    
+    private func setAddTarget() {
+        writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
+    }
+    
+    @objc
+    private func goToUploadPage() {
+        let vc = UploadViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
 }
 
