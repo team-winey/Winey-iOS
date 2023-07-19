@@ -21,6 +21,9 @@
 		143C00982A603911000FBD3F /* RecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00972A603911000FBD3F /* RecommendCell.swift */; };
 		143C009A2A604810000FBD3F /* RecommendFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00992A604810000FBD3F /* RecommendFeedModel.swift */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
+		14576DBB2A68932C00C79C9C /* GoalAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14576DBA2A68932C00C79C9C /* GoalAPI.swift */; };
+		14576DC02A68969C00C79C9C /* PostGoalResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14576DBF2A68969C00C79C9C /* PostGoalResponse.swift */; };
+		14576DC22A6898D800C79C9C /* PostGoalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14576DC12A6898D800C79C9C /* PostGoalRequest.swift */; };
 		1472F4E92A67342000B00899 /* FeedLikeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1472F4E82A67342000B00899 /* FeedLikeAPI.swift */; };
 		1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1472F4EB2A67347F00B00899 /* FeedLikeResponse.swift */; };
 		147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147CF6D72A6715D200008569 /* CustomMoyaProvider.swift */; };
@@ -95,6 +98,9 @@
 		143C00952A603273000FBD3F /* RecommendHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHeaderView.swift; sourceTree = "<group>"; };
 		143C00972A603911000FBD3F /* RecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCell.swift; sourceTree = "<group>"; };
 		143C00992A604810000FBD3F /* RecommendFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendFeedModel.swift; sourceTree = "<group>"; };
+		14576DBA2A68932C00C79C9C /* GoalAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAPI.swift; sourceTree = "<group>"; };
+		14576DBF2A68969C00C79C9C /* PostGoalResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGoalResponse.swift; sourceTree = "<group>"; };
+		14576DC12A6898D800C79C9C /* PostGoalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGoalRequest.swift; sourceTree = "<group>"; };
 		1472F4E82A67342000B00899 /* FeedLikeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeAPI.swift; sourceTree = "<group>"; };
 		1472F4EB2A67347F00B00899 /* FeedLikeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeResponse.swift; sourceTree = "<group>"; };
 		147CF6D72A6715D200008569 /* CustomMoyaProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMoyaProvider.swift; sourceTree = "<group>"; };
@@ -120,7 +126,7 @@
 		14E28F7E2A654DF200E5E5C2 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeService.swift; sourceTree = "<group>"; };
 		14E28F822A654E4B00E5E5C2 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-    14E28F8E2A6559CF00E5E5C2 /* GetFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedResponse.swift; sourceTree = "<group>"; };
+		14E28F8E2A6559CF00E5E5C2 /* GetFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedResponse.swift; sourceTree = "<group>"; };
 		14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedAPI.swift; path = ../../Base/FeedAPI.swift; sourceTree = "<group>"; };
 		14E9B1132A68526000B85616 /* SaveGoalTextBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveGoalTextBoxView.swift; sourceTree = "<group>"; };
 		14E9B1162A6854E800B85616 /* SaveGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGoalViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +226,15 @@
 				143C00992A604810000FBD3F /* RecommendFeedModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		14576DBC2A6893A300C79C9C /* Goal */ = {
+			isa = PBXGroup;
+			children = (
+				14576DBF2A68969C00C79C9C /* PostGoalResponse.swift */,
+				14576DC12A6898D800C79C9C /* PostGoalRequest.swift */,
+			);
+			path = Goal;
 			sourceTree = "<group>";
 		};
 		1472F4EA2A67346D00B00899 /* FeedLike */ = {
@@ -397,6 +412,7 @@
 		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				14576DBC2A6893A300C79C9C /* Goal */,
 				1D7640B02A68053F00922332 /* Mypage */,
 				1472F4EA2A67346D00B00899 /* FeedLike */,
 				14E28F8D2A6558CF00E5E5C2 /* Feed */,
@@ -408,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				14E28F7C2A654DE100E5E5C2 /* GoalService.swift */,
+				14576DBA2A68932C00C79C9C /* GoalAPI.swift */,
 			);
 			path = Goal;
 			sourceTree = "<group>";
@@ -750,6 +767,7 @@
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
 				14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */,
 				14E28F8F2A6559CF00E5E5C2 /* GetFeedResponse.swift in Sources */,
+				14576DBB2A68932C00C79C9C /* GoalAPI.swift in Sources */,
 				F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
@@ -777,6 +795,7 @@
 				14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */,
 				14E28F702A65351800E5E5C2 /* Encodable.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
+				14576DC02A68969C00C79C9C /* PostGoalResponse.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
 				1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */,
 				14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */,
@@ -785,6 +804,7 @@
 				14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */,
 				14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */,
 				1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */,
+				14576DC22A6898D800C79C9C /* PostGoalRequest.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
 				14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */,
@@ -806,8 +826,6 @@
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,
 				1D7640B32A682E7100922332 /* UserLevel.swift in Sources */,
 				14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */,
-				14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */,
-				F4FB9B542A67370F00EDB141 /* MyFeedModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
