@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TotalFeedResponse: Decodable {
+struct FeedResponse: Decodable {
     let pageResponse: PageResponse
     let getFeedResponseList: [GetFeedResponseList]
     
