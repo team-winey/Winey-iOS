@@ -26,8 +26,16 @@ final class GuideViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setLayout()
+        setupCloseButtonClosure()
     }
     
+    private func setupCloseButtonClosure() {
+        cautionView.closeButtonTappedClosure = { [weak self] in
+            guard let self = self else { return }
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     // MARK: - Layout
     
     private func setUI() {
