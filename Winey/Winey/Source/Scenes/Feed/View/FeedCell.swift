@@ -16,9 +16,11 @@ final class FeedCell: UICollectionViewCell {
     // MARK: - Properties
     
     var moreButtonTappedClosure: (() -> Void)?
+    var likeButtonTappedClosure: ((Int, Bool) -> Void)?
+    var feedId: Int?
     var isLiked: Bool = false {
         didSet {
-            isLiked ? selected() : unselected()
+            self.changeLikeButtonLayout()
         }
     }
     
@@ -84,8 +86,11 @@ final class FeedCell: UICollectionViewCell {
         super.prepareForReuse()
         profileImageView.image = nil
         feedImageView.image = nil
-        nicknameLabel.text = "아아"
-        feedTitleLabel.text = "dkkdkdkdd"
+        nicknameLabel.text = "초기 닉네임"
+        feedTitleLabel.text = "초기 titleLabel"
+        likeCountLabel.text = "0"
+        self.isLiked = false
+        self.feedId = 0
     }
     
     override func layoutSubviews() {
@@ -96,6 +101,7 @@ final class FeedCell: UICollectionViewCell {
     }
     
     func configure(model: FeedModel) {
+        self.feedId = model.id
         nicknameLabel.setText(model.nickname, attributes: Const.nicknameAttributes)
         configureFeedMoneyLabel(model.money)
         feedTitleLabel.setText(model.title, attributes: Const.feedTitleAttributes)
@@ -122,7 +128,10 @@ final class FeedCell: UICollectionViewCell {
     }
     
     @objc private func tapLikeButton() {
-        self.isLiked.toggle()
+        if let feedId = self.feedId {
+            isLiked.toggle()
+            self.likeButtonTappedClosure?(feedId, isLiked)
+        }
     }
 }
 
@@ -187,15 +196,15 @@ extension FeedCell {
             $0.centerX.equalTo(likeButton)
         }
     }
-    
-    private func selected() {
-        likeButton.backgroundColor = .winey_purple400
-        likeButton.setImage(.Icon.like_selected, for: .normal)
-    }
-    
-    private func unselected() {
-        likeButton.backgroundColor = .winey_purple100
-        likeButton.setImage(.Icon.like_unselected, for: .normal)
+
+    private func changeLikeButtonLayout() {
+        if self.isLiked {
+            likeButton.backgroundColor = .winey_purple400
+            likeButton.setImage(.Icon.like_selected, for: .normal)
+        } else {
+            likeButton.backgroundColor = .winey_purple100
+            likeButton.setImage(.Icon.like_unselected, for: .normal)
+        }
     }
 }
 
@@ -229,5 +238,4 @@ private extension FeedCell {
             textColor: .winey_gray700
         )
     }
-    
 }
