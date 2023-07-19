@@ -18,6 +18,10 @@ final class MyFeedViewController: UIViewController {
     // MARK: - Properties
     
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
+    private var myfeedService = FeedService()
+    private var myfeed: [FeedModel] = []
+    private var currentPage: Int = 1
+    private var isEnd: Bool = false
     
     // MARK: - UI Components
     
@@ -56,6 +60,7 @@ final class MyFeedViewController: UIViewController {
         setLayout()
         register()
         setupDataSource()
+        getMyFeed(page: currentPage)
     }
     
     private func register() {
@@ -64,7 +69,7 @@ final class MyFeedViewController: UIViewController {
     
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
-            cell.configure(model: Self.itemdummy[indexPath.item])
+            cell.configure(model: self.myfeed[indexPath.item])
             cell.moreButtonTappedClosure = { [weak self] in
                 self?.showAlert()
             }
@@ -84,7 +89,7 @@ final class MyFeedViewController: UIViewController {
     private func snapshot() -> NSDiffableDataSourceSnapshot<Int, FeedModel> {
         var snapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
         snapshot.appendSections([0])
-        snapshot.appendItems(Self.itemdummy)
+        snapshot.appendItems(self.myfeed)
         return snapshot
     }
     
@@ -102,6 +107,11 @@ final class MyFeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func getMoreFeed() {
+        self.currentPage += 1
+        self.getMyFeed(page: self.currentPage)
     }
 }
 
@@ -132,49 +142,43 @@ extension MyFeedViewController {
 
 extension MyFeedViewController: UICollectionViewDelegate {}
 
+extension MyFeedViewController: UIScrollViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == myfeed.count - 2 {
+            getMoreFeed()
+        }
+    }
+}
 extension MyFeedViewController {
-    static var itemdummy: [FeedModel] {
-        [
-            FeedModel(
-                id: 1,
-                nickname: "뇽잉깅",
-                title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: "hahahaha",
-                money: 10000,
-                like: 23,
-                isLiked: true,
-                writerLevel: 2
-            ),
-            FeedModel(
-                id: 2,
-                nickname: "뇽잉깅",
-                title: "안녕하세요 처음 만난 사람들도 안녕하세요 하이헬로우하하하하",
-                image: "hahahaha",
-                money: 10000,
-                like: 23,
-                isLiked: true,
-                writerLevel: 2
-            ),
-            FeedModel(
-                id: 3,
-                nickname: "뇽잉깅",
-                title: "띄어쓰기가없는경우 띄어쓰기가없는경우 띄어쓰기가없는경우 우하하하",
-                image: "hahahaha",
-                money: 100000,
-                like: 23,
-                isLiked: false,
-                writerLevel: 2
-            ),
-            FeedModel(
-                id: 4,
-                nickname: "뇽잉깅",
-                title: "가갸거거갸갸거갸거갸거갸걱 갸거갸ㅓ갸거갸ㅓㄱ 거갸거갸ㅓ갸갸거 거갸",
-                image: "hahahaha",
-                money: 1000,
-                like: 23,
-                isLiked: true,
-                writerLevel: 2
-            )
-        ]
+    private func getMyFeed(page: Int) {
+        myfeedService.getMyFeed(page: page) { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self else { return }
+            let pageData = data.pageResponse
+            var newItems: [FeedModel] = []
+            self.isEnd = pageData.isEnd
+            
+            for feedData in data.getFeedResponseList {
+                let feed = FeedModel(
+                    id: feedData.feedID,
+                    nickname: feedData.nickname,
+                    title: feedData.title,
+                    image: feedData.image,
+                    money: feedData.money,
+                    like: feedData.likes,
+                    isLiked: feedData.isLiked,
+                    writerLevel: feedData.writerLevel
+                )
+                self.myfeed.append(feed)
+                newItems.append(feed)
+            }
+            print(newItems)
+            var newSnapshot = self.snapshot()
+            newSnapshot.appendItems(newItems, toSection: 0)
+            
+            DispatchQueue.global().async {
+                self.dataSource.apply(newSnapshot, animatingDifferences: true)
+            }
+        }
     }
 }
