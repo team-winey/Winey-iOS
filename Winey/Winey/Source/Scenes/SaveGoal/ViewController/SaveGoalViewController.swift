@@ -36,6 +36,7 @@ final class SaveGoalViewController: UIViewController {
         setUI()
         setLayout()
         bind()
+        addKeyboardObserver()
     }
 }
 
@@ -70,6 +71,42 @@ extension SaveGoalViewController {
             self.periodDetailLabel.textColor = .winey_gray400
             
         }
+    }
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+}
+
+// MARK: - @objc
+
+extension SaveGoalViewController {
+    
+    @objc
+    private func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        self.saveContainerView.snp.updateConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+                .inset(keyboardFrame.size.height - 14)
+        }
+        view.layoutIfNeeded()
+    }
+        
+    @objc
+    private func keyboardWillHide(notification: NSNotification) {
+        self.saveContainerView.snp.updateConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        view.layoutIfNeeded()
     }
     
     @objc
