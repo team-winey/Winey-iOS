@@ -21,6 +21,7 @@ final class FeedViewController: UIViewController {
     
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
     private let feedService = FeedService()
+    private let feedLikeServie = FeedLikeService()
     private var feedList: [FeedModel] = []
     private var currentPage: Int = 1
     private var isEnd: Bool = false
@@ -55,13 +56,18 @@ final class FeedViewController: UIViewController {
         setLayout()
         setupDataSource()
         getTotalFeed(page: currentPage)
+        setAddTarget()
     }
     
     private func setupDataSource() {
-        let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model  in
+        let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
             guard indexPath.item < self.feedList.count else { return }
+            
             cell.configure(model: self.feedList[indexPath.item])
+            cell.likeButtonTappedClosure = { [weak self] selectedFeedId, isLiked in
+                self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
+            }
             cell.moreButtonTappedClosure = { [weak self] in
                 self?.showAlert()
             }
@@ -115,6 +121,17 @@ final class FeedViewController: UIViewController {
     private func getMoreFeed() {
         self.currentPage += 1
         self.getTotalFeed(page: self.currentPage)
+    }
+    
+    private func setAddTarget() {
+        writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
+    }
+    
+    @objc
+    private func goToUploadPage() {
+        let vc = UploadViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
     }
 }
 
@@ -190,6 +207,20 @@ extension FeedViewController {
             
             DispatchQueue.global().async {
                 self.dataSource.apply(newSnapshot, animatingDifferences: true)
+            }
+        }
+    }
+    
+    private func postFeedLike(feedId: Int, feedLike: Bool) {
+        feedLikeServie.postFeedLike(feedId: feedId, feedLike: feedLike) { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self = self else { return }
+            if let feedIndex = self.feedList.firstIndex(where: { $0.id == feedId }) {
+                self.feedList[feedIndex].isLiked = feedLike
+                self.feedList[feedIndex].like = data.likes
+            }
+            DispatchQueue.global().async {
+                self.dataSource.apply(self.snapshot(), animatingDifferences: true)
             }
         }
     }

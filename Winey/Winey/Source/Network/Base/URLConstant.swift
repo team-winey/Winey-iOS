@@ -14,6 +14,7 @@ struct URLConstant {
     // MARK: - Route
     
     static let feed = "/feed"
+    static let myfeed = "/feed/myFeed"
     static let goal = "/goal"
     static let feedLike = "/feedLike"
     static let user = "/user"

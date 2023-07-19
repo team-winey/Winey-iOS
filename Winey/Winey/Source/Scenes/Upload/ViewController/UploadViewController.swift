@@ -69,11 +69,13 @@ class UploadViewController: UIViewController {
             setButtonActivate(1)
         }
     }
-    private var feedPrice: Int64 = 0 {
+    private var feedPrice: Int = 0 {
         didSet {
             setButtonActivate(2)
         }
     }
+    
+    private let postService = FeedService()
     
     // MARK: - UI Components
     
@@ -359,9 +361,8 @@ class UploadViewController: UIViewController {
     /// 피드 업로드 함수
     @objc
     private func postData() {
-        print(feedImage)
-        print(feedTitle)
-        print(feedPrice)
+        let feed = UploadModel(feedTitle, feedPrice)
+        postFeed(feed: feed)
     }
     
     // photoButton
@@ -493,6 +494,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             print("image_info = \(image)")
             feedImage = image
+            print(feedImage.description)
             setButtonActivate(stageIdx)
             firstPage.configure(image)
         }
@@ -508,5 +510,13 @@ private extension UploadViewController {
             weight: .medium,
             textColor: .winey_gray500
         )
+    }
+}
+
+extension UploadViewController {
+    
+    private func postFeed(feed: UploadModel) {
+        // 피드 업로드
+        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in }
     }
 }
