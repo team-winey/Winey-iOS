@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FeedResponse: Decodable {
+struct GetFeedResponse: Codable {
     let pageResponse: PageResponse
     let getFeedResponseList: [GetFeedResponseList]
     
@@ -17,7 +17,7 @@ struct FeedResponse: Decodable {
     }
 }
 
-struct GetFeedResponseList: Decodable {
+struct GetFeedResponseList: Codable {
     let feedID, userID: Int
     let nickname: String
     let writerLevel: Int
@@ -39,7 +39,7 @@ struct GetFeedResponseList: Decodable {
     }
 }
 
-struct PageResponse: Decodable {
+struct PageResponse: Codable {
     let totalPageSize, currentPageIndex: Int
     let isEnd: Bool
 }
