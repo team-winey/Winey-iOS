@@ -129,7 +129,8 @@ final class FeedViewController: UIViewController {
     
     @objc
     private func goToUploadPage() {
-        let vc = UploadViewController()
+        let vc = UINavigationController(rootViewController: UploadViewController())
+        vc.setNavigationBarHidden(true, animated: false)
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)
     }
