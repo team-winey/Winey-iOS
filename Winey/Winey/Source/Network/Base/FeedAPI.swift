@@ -45,7 +45,7 @@ extension FeedAPI: TargetType {
     var headers: [String : String]? {
         switch self {
         case .getMyFeed, .getTotalFeed:
-            return NetworkConstant.getfeedHeader
+            return NetworkConstant.defaultHeader
         }
     }
 }

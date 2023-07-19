@@ -516,7 +516,12 @@ private extension UploadViewController {
 extension UploadViewController {
     
     private func postFeed(feed: UploadModel) {
-        // 피드 업로드
-        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in }
+        let productPolicy = ProductPolicy.productBy(feed.feedMoney)
+        let loadingViewController = UploadLoadingViewController(keyword: productPolicy.rawValue)
+        self.navigationController?.pushViewController(loadingViewController, animated: true)
+        
+        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in
+            NotificationCenter.default.post(name: .whenFeedUploaded, object: nil)
+        }
     }
 }
