@@ -34,4 +34,22 @@ final class FeedService {
             }
         }
     }
+    
+    // 2. 마이 피드 조회하기
+    
+    func getMyFeed(page: Int, completion: @escaping (BaseResponse<TotalFeedResponse>?) -> Void) {
+        feedProvider.request(.getMyFeed(page: page)) { [self] (result) in
+            switch result {
+            case .success(let response):
+                do {
+                    self.totalFeedData = try response.map(BaseResponse<TotalFeedResponse>.self)
+                    completion(totalFeedData)
+                } catch let error {
+                    print(error.localizedDescription, 500)
+                }
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
 }
