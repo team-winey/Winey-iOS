@@ -9,12 +9,12 @@ import Foundation
 
 import Moya
 
-enum API {
+enum FeedAPI {
     case getTotalFeed(page: Int)
     case getMyFeed(page: Int)
 }
 
-extension API: TargetType {
+extension FeedAPI: TargetType {
     var baseURL: URL {
         return URL(string: URLConstant.baseURL)!
     }
