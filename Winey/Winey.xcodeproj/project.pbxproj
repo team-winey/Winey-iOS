@@ -37,7 +37,6 @@
 		14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F7E2A654DF200E5E5C2 /* FeedService.swift */; };
 		14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */; };
 		14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F822A654E4B00E5E5C2 /* UserService.swift */; };
-		14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F842A654E5500E5E5C2 /* RecommendService.swift */; };
 		14E28F8F2A6559CF00E5E5C2 /* TotalFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F8E2A6559CF00E5E5C2 /* TotalFeedResponse.swift */; };
 		14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
@@ -107,7 +106,6 @@
 		14E28F7E2A654DF200E5E5C2 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		14E28F802A654DFD00E5E5C2 /* FeedLikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeService.swift; sourceTree = "<group>"; };
 		14E28F822A654E4B00E5E5C2 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		14E28F842A654E5500E5E5C2 /* RecommendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendService.swift; sourceTree = "<group>"; };
 		14E28F8E2A6559CF00E5E5C2 /* TotalFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalFeedResponse.swift; sourceTree = "<group>"; };
 		14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
@@ -413,7 +411,6 @@
 		14E28F8A2A654F4400E5E5C2 /* Recommend */ = {
 			isa = PBXGroup;
 			children = (
-				14E28F842A654E5500E5E5C2 /* RecommendService.swift */,
 			);
 			path = Recommend;
 			sourceTree = "<group>";
@@ -749,7 +746,6 @@
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,
 				1D7640B32A682E7100922332 /* UserLevel.swift in Sources */,
 				14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */,
-				14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

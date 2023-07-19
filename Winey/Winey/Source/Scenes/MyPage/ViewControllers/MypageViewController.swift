@@ -16,7 +16,10 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     private var nickname: String?
     private var userLevel: UserLevel?
-    
+    private var duringGoalAmount: Int?
+    private var duringGoalCount: Int?
+    private var targetMoney: Int?
+    private var dday: Int?
     private let userService = UserService()
     
     // MARK: - UIComponents
@@ -41,6 +44,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - UIComponents
     
     private func setUI() {
+        navigationBar.hideBottomSeperatorView = false
         collectionView.backgroundColor = bottomBackgroundColor
         collectionView.register(
             MypageProfileCell.self,
@@ -101,25 +105,6 @@ extension MypageViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
-        
-        guard let mypageGoalInfoCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MypageGoalInfoCell.identifier,
-            for: indexPath
-        ) as? MypageGoalInfoCell
-        else { return UICollectionViewCell()}
-        
-        guard let setupCollectionViewCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MyfeedCollectionViewCell.identifier,
-            for: indexPath
-        ) as? MyfeedCollectionViewCell
-        else { return UICollectionViewCell()}
-        
-        guard let inquiryCollectionViewCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: InquiryCollectionViewCell.identifier,
-            for: indexPath
-        ) as? InquiryCollectionViewCell
-        else { return UICollectionViewCell()}
-        
         switch indexPath.section {
         case 0 :
             guard let mypageProfileCell = collectionView.dequeueReusableCell(
@@ -131,11 +116,37 @@ extension MypageViewController: UICollectionViewDataSource {
             let userLevel = userLevel ?? .none
             mypageProfileCell.configure(model: .init(nickname: nickname, level: userLevel))
             return mypageProfileCell
+            
         case 1 :
+            guard let mypageGoalInfoCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MypageGoalInfoCell.identifier,
+                for: indexPath
+            ) as? MypageGoalInfoCell
+            else { return UICollectionViewCell()}
+            mypageGoalInfoCell.configure(
+                model: .init(
+                    duringGoalAmount: self.duringGoalAmount ?? .zero,
+                    duringGoalCount: self.duringGoalCount ?? .zero,
+                    targetMoney: self.targetMoney ?? .zero,
+                    dday: self.dday ?? .zero
+                )
+            )
             return mypageGoalInfoCell
+            
         case 2 :
+            guard let setupCollectionViewCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MyfeedCollectionViewCell.identifier,
+                for: indexPath
+            ) as? MyfeedCollectionViewCell
+            else { return UICollectionViewCell()}
             return setupCollectionViewCell
+            
         case 3 :
+            guard let inquiryCollectionViewCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: InquiryCollectionViewCell.identifier,
+                for: indexPath
+            ) as? InquiryCollectionViewCell
+            else { return UICollectionViewCell()}
             return inquiryCollectionViewCell
             
         default :
