@@ -86,4 +86,17 @@ final class FeedService {
             }
         }
     }
+    
+    // 4. 마이 피드 삭제하기
+        func deleteMyFeed(_ idx: Int, _ completion: @escaping ((Bool) -> Void)) {
+            feedProvider.request(.deleteMyFeed(idx: idx)) { result in
+                switch result {
+                case .success:
+                    completion(true)
+                case .failure(let err):
+                    print(err.localizedDescription)
+                    completion(false)
+                }
+            }
+        }
 }
