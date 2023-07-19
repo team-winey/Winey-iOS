@@ -38,7 +38,6 @@ public final class WITextFieldView: UIView {
     
     public let textLength: Int?
     
-    
     public override var intrinsicContentSize: CGSize {
         CGSize(width: UIScreen.main.bounds.width, height: Const.textFieldHeight)
     }
@@ -201,7 +200,7 @@ extension WITextFieldView: UITextFieldDelegate {
     @objc
     private func textfieldDidChange(_ sender: UITextField) {
         
-        if textLength == 12 {
+        if textLength == 11 {
             makeComma()
         }
 
@@ -286,9 +285,9 @@ extension WITextFieldView {
         var number: Int? {
             switch self{
             case .price:
-                return 12
+                return 11
             case .day:
-                return 2
+                return 3
             }
         }
     }
