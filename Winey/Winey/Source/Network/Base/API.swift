@@ -12,7 +12,6 @@ import Moya
 enum API {
     case getTotalFeed(page: Int)
     case getMyFeed(page: Int)
-    case postFeed(feed: UploadModel)
 }
 
 extension API: TargetType {
@@ -22,7 +21,7 @@ extension API: TargetType {
     
     var path: String {
         switch self {
-        case .getTotalFeed, .postFeed:
+        case .getTotalFeed:
             return URLConstant.feed
         case .getMyFeed:
             return URLConstant.myfeed
@@ -33,8 +32,6 @@ extension API: TargetType {
         switch self {
         case .getMyFeed, .getTotalFeed:
             return .get
-        case .postFeed:
-            return .post
         }
     }
     
@@ -42,8 +39,6 @@ extension API: TargetType {
         switch self {
         case .getTotalFeed(let page), .getMyFeed(page: let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
-        case .postFeed(let feed):
-            return .requestJSONEncodable(feed)
         }
     }
     
@@ -51,8 +46,6 @@ extension API: TargetType {
         switch self {
         case .getMyFeed, .getTotalFeed:
             return NetworkConstant.getfeedHeader
-        case .postFeed:
-            return NetworkConstant.postfeedHeader
         }
     }
 }

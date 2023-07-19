@@ -7,14 +7,14 @@
 
 import Foundation
 
+import UIKit
+
 struct UploadModel: Codable {
-    let feedImage: String
-    let feedTitle: String
-    let feedPrcie: Int
+    var feedTitle: String
+    var feedMoney: Int
     
-    init(_ feedImage: String, _ feedTitle: String, _ feedPrcie: Int) {
-        self.feedImage = feedImage
+    init(_ feedTitle: String, _ feedMoney: Int) {
         self.feedTitle = feedTitle
-        self.feedPrcie = feedPrcie
+        self.feedMoney = feedMoney
     }
 }

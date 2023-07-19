@@ -82,8 +82,9 @@ class PhotoUploadView: UIView {
     /// 이미지가 targetImage에 들어가면서, tagetImage의 didSet 옵저버가 작동하면서 자동으로 galleryBtn이 hidden, photoBtn이 !ishidden 됨
     func configure(_ img: UIImage) {
         targetImage = img
-        photoBtn.setImage(targetImage?.resizing(
-            width: self.frame.width, height: self.frame.height), for: .normal)
+//        photoBtn.setImage(targetImage?.resizing(
+//            width: self.frame.width, height: self.frame.height), for: .normal)
+        photoBtn.setImage(targetImage?.resizeWithWidth(width: self.frame.width), for: .normal)
     }
     
     private func setLayout() {
