@@ -78,6 +78,7 @@
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
+		F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BCFA762A68913900D97B1E /* DotLayerView.swift */; };
 		F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */; };
 		F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */; };
 		F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */; };
@@ -155,6 +156,7 @@
 		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		F4BCFA762A68913900D97B1E /* DotLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotLayerView.swift; sourceTree = "<group>"; };
 		F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadBaseView.swift; sourceTree = "<group>"; };
 		F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUploadView.swift; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */,
 				F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */,
 				F4867A642A6061940016389C /* PriceUploadView.swift */,
+				F4BCFA762A68913900D97B1E /* DotLayerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				14576DC22A6898D800C79C9C /* PostGoalRequest.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
+				F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */,
 				14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */,
 				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
@@ -965,6 +969,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BASE_URL = "http://43.200.246.118";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -984,6 +989,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.winey-iOS.Winey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -996,6 +1002,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				BASE_URL = "http://43.200.246.118";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -1015,6 +1022,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.winey-iOS.Winey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
