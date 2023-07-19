@@ -18,7 +18,7 @@ final class SaveGoalViewController: UIViewController {
     private var money: Int = 0
     private var period: Int = 0
     
-    private let cancelButton = UIButton()
+    private lazy var cancelButton = UIButton()
     private let moneyTitleLabel = UILabel()
     private let moneyTextField = WITextFieldView(price: "0", label: .won, textLength: .price)
     private let moneyDetailLabel = UILabel()
@@ -27,6 +27,10 @@ final class SaveGoalViewController: UIViewController {
     private let periodTextField = WITextFieldView(price: "0", label: .day, textLength: .day)
     private let periodDetailLabel = UILabel()
 
+    private let saveContainerView = UIView()
+    private let saveLabel = UILabel()
+    private lazy var saveButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -67,6 +71,16 @@ extension SaveGoalViewController {
             
         }
     }
+    
+    @objc
+    private func cancelButtonTapped() {
+        self.dismiss(animated: true)
+    }
+    
+    @objc
+    private func saveButtonTapped() {
+        print("save")
+    }
 }
 
 // MARK: - UI & Layout
@@ -77,8 +91,19 @@ extension SaveGoalViewController {
         moneyDetailLabel.setText(Const.moneyDetail, attributes: Const.detailAttributes)
         periodTitleLabel.setText(Const.periodTitle, attributes: Const.titleAttributes)
         periodDetailLabel.setText(Const.periodDetail, attributes: Const.detailAttributes)
+        saveLabel.setText(Const.saveDetail, attributes: Const.saveLabelAttributes)
+        
         let cancelAtrributeString = Typography.build(string: "취소", attributes: Const.cancelButtonAttributes)
         cancelButton.setAttributedTitle(cancelAtrributeString, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        
+        saveLabel.textAlignment = .center
+        saveLabel.numberOfLines = 2
+        
+        let saveAtrributeString = Typography.build(string: "저장하기", attributes: Const.saveButtonAttributes)
+        saveButton.setAttributedTitle(saveAtrributeString, for: .normal)
+        saveButton.backgroundColor = .winey_yellow
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
     }
     
     private func setLayout() {
@@ -87,9 +112,10 @@ extension SaveGoalViewController {
         let moneyBoxView = UIView()
         let periodBoxView = UIView()
         
-        view.addSubviews(cancelButton, moneyBoxView, periodBoxView)
+        view.addSubviews(cancelButton, moneyBoxView, periodBoxView, saveContainerView)
         moneyBoxView.addSubviews(moneyTitleLabel, moneyTextField, moneyDetailLabel)
         periodBoxView.addSubviews(periodTitleLabel, periodTextField, periodDetailLabel)
+        saveContainerView.addSubviews(saveLabel, saveButton)
         
         cancelButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(3)
@@ -137,6 +163,23 @@ extension SaveGoalViewController {
         periodDetailLabel.snp.makeConstraints {
             $0.leading.bottom.equalToSuperview()
         }
+        
+        saveContainerView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(14)
+            $0.height.equalTo(94)
+        }
+        
+        saveLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.centerX.equalToSuperview()
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(52)
+        }
     }
     
     private func bind() {
@@ -175,6 +218,7 @@ private extension SaveGoalViewController {
         static let periodTitle = "목표 절약 일수를 설정해주세요"
         static let moneyDetail = "절약 금액을 3만원 이상으로 설정해주세요"
         static let periodDetail = "절약 일수를 5일 이상으로 설정해주세요"
+        static let saveDetail = "설정한 목표는 목표 절약 일수 전까지 변경이 불가능합니다.\n신중하게 작성해주세요! "
         
         static let titleAttributes = Typography.Attributes(style: .headLine3, weight: .bold)
         static let detailAttributes = Typography.Attributes(
@@ -186,6 +230,16 @@ private extension SaveGoalViewController {
             style: .body,
             weight: .medium,
             textColor: .winey_gray400
+        )
+        static let saveLabelAttributes = Typography.Attributes(
+            style: .detail2,
+            weight: .medium,
+            textColor: .winey_gray400
+        )
+        static let saveButtonAttributes = Typography.Attributes(
+            style: .body,
+            weight: .medium,
+            textColor: .winey_gray900
         )
     }
 }
