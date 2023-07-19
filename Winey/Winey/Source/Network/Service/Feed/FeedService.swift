@@ -61,7 +61,7 @@ final class FeedService {
                   _ completionHandler: @escaping ((Bool) -> Void)) {
         
         let url = "\(URLConstant.baseURL)/feed"
-        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "userId": "1"]
+        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "userId": "3"]
         
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
