@@ -46,6 +46,7 @@ public extension UIImage {
         public static let progressbar_level_two = UIImage(name: "img_progressbar_level_two")
         public static let progressbar_level_three = UIImage(name: "img_progressbar_level_three")
         public static let progressbar_level_four = UIImage(name: "img_progressbar_level_four")
+        public static let loading_arrow = UIImage(name: "img_loading_arrow")
     }
     
     enum Btn {
