@@ -39,6 +39,6 @@ extension UserAPI: TargetType {
     }
     
     var headers: [String : String]? {
-        return NetworkConstant.getfeedHeader
+        return NetworkConstant.defaultHeader
     }
 }
