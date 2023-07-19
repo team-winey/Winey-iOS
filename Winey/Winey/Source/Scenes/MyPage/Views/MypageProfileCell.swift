@@ -26,7 +26,7 @@ final class MypageProfileCell: UICollectionViewCell {
     var levelContainerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_yellow
-        containerView.layer.cornerRadius = 10
+        containerView.layer.cornerRadius = 12
         return containerView
     }()
     
@@ -91,9 +91,23 @@ final class MypageProfileCell: UICollectionViewCell {
         fatalError("SecondView Error!")
     }
     
-    func configure(model: ViewModel) { //뷰와 뷰컨을 연결하는
-        levelLabel.text = "레벨: \(model.level.rawValue)"
-        nicknameLabel.text = "\(model.nickname)"
+    func configure(model: ViewModel) {
+        levelLabel.setText(
+            "LV. \(model.level.rawValue)",
+            attributes: .init(
+                style: .detail2,
+                weight: .medium,
+                textColor: .winey_gray900
+            )
+        )
+        nicknameLabel.setText(
+            "\(model.nickname)",
+            attributes: .init(
+                style: .headLine,
+                weight: .bold,
+                textColor: .winey_gray900
+            )
+        )
         characterImageView.image = model.level.characterImage
         progressbarImageView.image = model.level.progressbarImage
     }
@@ -129,7 +143,7 @@ final class MypageProfileCell: UICollectionViewCell {
                 
                 nicknameLabel.snp.makeConstraints { make in
                     make.leading.equalToSuperview().offset(23)
-                    make.top.equalTo(levelLabel.snp.bottom).offset(8)
+                    make.top.equalTo(levelContainerView.snp.bottom).offset(8)
                 }
                 
                 progressbarImageView.snp.makeConstraints { make in
