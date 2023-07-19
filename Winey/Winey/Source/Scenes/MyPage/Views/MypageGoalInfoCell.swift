@@ -12,6 +12,13 @@ import DesignSystem
 
 final class MypageGoalInfoCell: UICollectionViewCell {
     
+    struct ViewModel {
+        let duringGoalAmount : Int
+        let duringGoalCount : Int
+        let targetMoney : Int
+        let dday: Int
+    }
+    
     // MARK: - Properties
 
     static let identifier = MypageGoalInfoCell.className
@@ -209,6 +216,41 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("SecondView Error!")
+    }
+    
+    func configure(model: ViewModel) {
+        accumulatedWineyLabel.setText(
+            "\(model.duringGoalAmount)원",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
+        wineyCountLabel.setText(
+            "\(model.duringGoalCount)번",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
+        goalLabel.setText(
+            "\(model.targetMoney)원",
+                attributes: .init(
+                    style: .headLine4,
+                    weight: .bold,
+                    textColor: .winey_gray900
+                    )
+                )
+        savingPeriodLabel.setText(
+            "D-\(model.dday)",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
     }
     
     // MARK: - Layout

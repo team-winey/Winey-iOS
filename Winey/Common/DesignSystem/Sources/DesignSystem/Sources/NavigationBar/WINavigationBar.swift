@@ -13,7 +13,7 @@ public final class WINavigationBar: UIView {
     public let leftButton = UIButton(type: .system)
     public let rightButton = UIButton(type: .system)
     private let titleLabel = UILabel()
-    // private var bottomSeparatorView = UIView()
+    private var bottomSeparatorView = UIView()
     
     public var title: String? {
         didSet { titleLabel.setText(title, attributes: Const.titleAttributes) }
@@ -25,6 +25,10 @@ public final class WINavigationBar: UIView {
     
     public var rightBarItem: BarItem? {
         didSet { rightButton.setImage(rightBarItem?.icon, for: .normal) }
+    }
+    
+    public var hideBottomSeperatorView: Bool = true {
+        didSet { bottomSeparatorView.isHidden = hideBottomSeperatorView }
     }
     
     public override var intrinsicContentSize: CGSize {
@@ -48,7 +52,8 @@ public final class WINavigationBar: UIView {
 extension WINavigationBar {
     private func setUI() {
         self.backgroundColor = .winey_gray0
-        // bottomSeparatorView.backgroundColor = .winey_gray200
+        bottomSeparatorView.backgroundColor = .winey_gray200
+        bottomSeparatorView.isHidden = true
         leftButton.setImage(leftBarItem?.icon, for: .normal)
         leftButton.tintColor = .winey_gray900
         rightButton.setImage(rightBarItem?.icon, for: .normal)
@@ -73,11 +78,11 @@ extension WINavigationBar {
             $0.width.equalTo(48)
             $0.height.equalTo(Const.navigationBarHeight)
         }
-//        addSubview(bottomSeparatorView)
-//        bottomSeparatorView.snp.makeConstraints {
-//            $0.leading.trailing.bottom.equalToSuperview()
-//            $0.height.equalTo(1)
-//        }
+        addSubview(bottomSeparatorView)
+        bottomSeparatorView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(1)
+        }
     }
 }
 

@@ -12,6 +12,11 @@ import DesignSystem
 
 final class MypageProfileCell: UICollectionViewCell {
 
+    struct ViewModel {
+        let nickname : String
+        let level : UserLevel
+    }
+    
     // MARK: - Properties
 
     static let identifier = MypageProfileCell.className
@@ -25,11 +30,11 @@ final class MypageProfileCell: UICollectionViewCell {
         return containerView
     }()
     
-    var characterBackgroundView: UIView = {
-        let containerView = UIView()
-        containerView.backgroundColor = UIColor.winey_purple100
-        containerView.layer.cornerRadius = 10
-        return containerView
+    var characterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 10
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
     
     let levelLabel: UILabel = {
@@ -62,28 +67,6 @@ final class MypageProfileCell: UICollectionViewCell {
         return label
     }()
     
-    var subtitleContainerView: UIView = {
-        let containerView = UIView()
-        containerView.backgroundColor = UIColor.winey_gray900
-        return containerView
-    }()
-    
-    let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.setText(
-            "\"헛둘 헛둘, 올라가보자!\"",
-            attributes: .init(
-                style: .detail,
-                weight: .medium,
-                textColor: .winey_gray0
-                )
-            )
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.lineBreakMode = .byTruncatingTail
-        return label
-    }()
-    
     private var progressbarImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Mypage.progressbar
@@ -108,33 +91,28 @@ final class MypageProfileCell: UICollectionViewCell {
         fatalError("SecondView Error!")
     }
     
+    func configure(model: ViewModel) { //뷰와 뷰컨을 연결하는
+        levelLabel.text = "레벨: \(model.level.rawValue)"
+        nicknameLabel.text = "\(model.nickname)"
+        characterImageView.image = model.level.characterImage
+        progressbarImageView.image = model.level.progressbarImage
+    }
+    
     // MARK: - Layout
     
     func setLayout() {
-        contentView.addSubviews(levelContainerView, nicknameLabel, subtitleContainerView,
-                                progressbarImageView, infoButton, characterBackgroundView)
+        contentView.addSubviews(levelContainerView, nicknameLabel)
+        contentView.addSubviews(progressbarImageView, infoButton, characterImageView)
         contentView.backgroundColor = .white
         levelContainerView.addSubview(levelLabel)
-        subtitleContainerView.addSubview(subtitleLabel)
-        characterBackgroundView.addSubview(subtitleContainerView)
         
-        characterBackgroundView.snp.makeConstraints { make in
+        characterImageView.snp.makeConstraints { make in
             make.width.equalTo(358)
             make.height.equalTo(196)
             make.center.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(52)
             make.top.equalToSuperview().inset(91)
             
-            subtitleLabel.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.bottom.equalTo(characterBackgroundView.snp.bottom).inset(13)
-            }
-            subtitleContainerView.snp.makeConstraints { make in
-                make.horizontalEdges.equalTo(subtitleLabel).inset(-8)
-                make.verticalEdges.equalTo(subtitleLabel).inset(-2)
-                make.centerX.equalToSuperview()
-                make.bottom.equalTo(characterBackgroundView.snp.bottom).inset(13)
-            }
             levelContainerView.snp.makeConstraints { make in
                 make.top.equalToSuperview().offset(12)
                 make.leading.equalToSuperview().offset(23)
@@ -155,7 +133,7 @@ final class MypageProfileCell: UICollectionViewCell {
                 }
                 
                 progressbarImageView.snp.makeConstraints { make in
-                    make.top.equalTo(characterBackgroundView.snp.bottom).offset(13)
+                    make.top.equalTo(characterImageView.snp.bottom).offset(13)
                     make.centerX.equalToSuperview()
                 }
             }
