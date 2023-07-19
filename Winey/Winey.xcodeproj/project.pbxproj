@@ -45,6 +45,8 @@
 		14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F822A654E4B00E5E5C2 /* UserService.swift */; };
 		14E28F8F2A6559CF00E5E5C2 /* GetFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F8E2A6559CF00E5E5C2 /* GetFeedResponse.swift */; };
 		14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */; };
+		14E9B1142A68526000B85616 /* SaveGoalTextBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9B1132A68526000B85616 /* SaveGoalTextBoxView.swift */; };
+		14E9B1172A6854E800B85616 /* SaveGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9B1162A6854E800B85616 /* SaveGoalViewController.swift */; };
 		14F66FE52A50562F009703AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE42A50562F009703AD /* SnapKit */; };
 		14F66FE82A505A27009703AD /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FE72A505A27009703AD /* Moya */; };
 		14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14F66FEA2A505E3A009703AD /* Kingfisher */; };
@@ -120,6 +122,8 @@
 		14E28F822A654E4B00E5E5C2 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
     14E28F8E2A6559CF00E5E5C2 /* GetFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedResponse.swift; sourceTree = "<group>"; };
 		14E28F902A655CCB00E5E5C2 /* FeedAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedAPI.swift; path = ../../Base/FeedAPI.swift; sourceTree = "<group>"; };
+		14E9B1132A68526000B85616 /* SaveGoalTextBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveGoalTextBoxView.swift; sourceTree = "<group>"; };
+		14E9B1162A6854E800B85616 /* SaveGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGoalViewController.swift; sourceTree = "<group>"; };
 		14F66FFC2A550928009703AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		14F670002A550AAC009703AD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		14F670042A550BED009703AD /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -276,6 +280,8 @@
 		14A7A4372A56F12F00C0CA4E /* SaveGoal */ = {
 			isa = PBXGroup;
 			children = (
+				14E9B1152A68548000B85616 /* ViewController */,
+				14E9B1122A68526000B85616 /* View */,
 			);
 			path = SaveGoal;
 			sourceTree = "<group>";
@@ -459,6 +465,22 @@
 				F4FB9B5B2A67ACC100EDB141 /* PostFeedResponse.swift */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		14E9B1122A68526000B85616 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				14E9B1132A68526000B85616 /* SaveGoalTextBoxView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		14E9B1152A68548000B85616 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				14E9B1162A6854E800B85616 /* SaveGoalViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		14F66FEC2A54846C009703AD /* Source */ = {
@@ -731,6 +753,7 @@
 				F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
+				14E9B1142A68526000B85616 /* SaveGoalTextBoxView.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
 				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
 				1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */,
@@ -740,6 +763,7 @@
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
 				1D69E0242A62B46800D4E3B5 /* LevelupRuleView.swift in Sources */,
+				14E9B1172A6854E800B85616 /* SaveGoalViewController.swift in Sources */,
 				F4867A672A608B860016389C /* Int+.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
 				0DC31E042A68571F003BB220 /* NotificationName+.swift in Sources */,
@@ -782,6 +806,7 @@
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,
 				1D7640B32A682E7100922332 /* UserLevel.swift in Sources */,
 				14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */,
+				14E28F852A654E5500E5E5C2 /* RecommendService.swift in Sources */,
 				F4FB9B542A67370F00EDB141 /* MyFeedModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

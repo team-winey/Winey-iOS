@@ -131,6 +131,11 @@ extension MypageViewController: UICollectionViewDataSource {
                     dday: self.dday ?? .zero
                 )
             )
+            mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
+                let saveGoalVC = SaveGoalViewController()
+                saveGoalVC.modalPresentationStyle = .pageSheet
+                self?.present(saveGoalVC, animated: true, completion: nil)
+            }
             return mypageGoalInfoCell
             
         case 2 :
