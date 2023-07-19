@@ -113,9 +113,6 @@ extension SaveGoalViewController {
     
     @objc
     private func saveButtonTapped() {
-        print("save")
-        print(self.money)
-        print(self.period)
         self.postGoal(request: PostGoalRequest(targetMoney: self.money, targetDay: self.period))
     }
 }
