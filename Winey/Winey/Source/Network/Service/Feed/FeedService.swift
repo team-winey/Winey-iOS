@@ -11,21 +11,21 @@ import Moya
 
 final class FeedService {
     
-    let feedProvider = CustomMoyaProvider<FeedAPI>()
+    let feedProvider = CustomMoyaProvider<API>()
     
     init() { }
     
-    private(set) var totalFeedData: BaseResponse<TotalFeedResponse>?
+    private(set) var feedData: BaseResponse<FeedResponse>?
     
     // 1, 전체 피드 조회하기
     
-    func getTotalFeed(page: Int, completion: @escaping (BaseResponse<TotalFeedResponse>?) -> Void) {
+    func getTotalFeed(page: Int, completion: @escaping (BaseResponse<FeedResponse>?) -> Void) {
         feedProvider.request(.getTotalFeed(page: page)) { [self] (result) in
             switch result {
             case .success(let response):
                 do {
-                    self.totalFeedData = try response.map(BaseResponse<TotalFeedResponse>.self)
-                    completion(totalFeedData)
+                    self.feedData = try response.map(BaseResponse<FeedResponse>.self)
+                    completion(feedData)
                 } catch let error {
                     print(error.localizedDescription, 500)
                 }
@@ -37,13 +37,13 @@ final class FeedService {
     
     // 2. 마이 피드 조회하기
     
-    func getMyFeed(page: Int, completion: @escaping (BaseResponse<TotalFeedResponse>?) -> Void) {
+    func getMyFeed(page: Int, completion: @escaping (BaseResponse<FeedResponse>?) -> Void) {
         feedProvider.request(.getMyFeed(page: page)) { [self] (result) in
             switch result {
             case .success(let response):
                 do {
-                    self.totalFeedData = try response.map(BaseResponse<TotalFeedResponse>.self)
-                    completion(totalFeedData)
+                    self.feedData = try response.map(BaseResponse<FeedResponse>.self)
+                    completion(feedData)
                 } catch let error {
                     print(error.localizedDescription, 500)
                 }
