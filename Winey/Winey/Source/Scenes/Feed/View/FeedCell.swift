@@ -15,7 +15,7 @@ final class FeedCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var moreButtonTappedClosure: (() -> Void)?
+    var moreButtonTappedClosure: ((Int) -> Void)?
     var likeButtonTappedClosure: ((Int, Bool) -> Void)?
     var feedId: Int?
     var isLiked: Bool = false {
@@ -124,7 +124,9 @@ final class FeedCell: UICollectionViewCell {
     }
     
     @objc private func tapMoreButton() {
-        self.moreButtonTappedClosure?()
+        if let feedId = self.feedId {
+            self.moreButtonTappedClosure?(feedId)
+        }
     }
     
     @objc private func tapLikeButton() {

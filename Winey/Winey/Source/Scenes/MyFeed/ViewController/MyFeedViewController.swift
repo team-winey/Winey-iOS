@@ -70,8 +70,8 @@ final class MyFeedViewController: UIViewController {
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
             cell.configure(model: self.myfeed[indexPath.item])
-            cell.moreButtonTappedClosure = { [weak self] in
-                self?.showAlert()
+            cell.moreButtonTappedClosure = { [weak self] idx in
+                self?.showAlert(idx)
             }
         }
         
@@ -93,11 +93,12 @@ final class MyFeedViewController: UIViewController {
         return snapshot
     }
     
-    private func showAlert() {
+    private func showAlert(_ idx: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
             // 삭제버튼 클릭 시
+            self.deleteMyFeed(idx: idx)
         }
         alertController.addAction(deleteAction)
         
