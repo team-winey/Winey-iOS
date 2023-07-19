@@ -117,6 +117,10 @@ extension MypageViewController: UICollectionViewDataSource {
             let nickname = nickname ?? ""
             let userLevel = userLevel ?? .none
             mypageProfileCell.configure(model: .init(nickname: nickname, level: userLevel))
+            mypageProfileCell.infoButtonTappedClosure = {
+                let guideViewController = GuideViewController()
+                self.navigationController?.pushViewController(guideViewController, animated: true)
+            }
             return mypageProfileCell
             
         case 1 :

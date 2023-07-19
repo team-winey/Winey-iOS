@@ -18,7 +18,8 @@ final class MypageProfileCell: UICollectionViewCell {
     }
     
     // MARK: - Properties
-
+    
+    var infoButtonTappedClosure: (() -> Void)?
     static let identifier = MypageProfileCell.className
     
     // MARK: - UIComponents
@@ -50,9 +51,10 @@ final class MypageProfileCell: UICollectionViewCell {
         return label
     }()
     
-    let infoButton: UIButton = {
+    lazy var infoButton: UIButton = {
         let button = UIButton()
         button.setImage(.Mypage.info, for: .normal)
+        button.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -76,6 +78,11 @@ final class MypageProfileCell: UICollectionViewCell {
     
     func setUI() {
         contentView.backgroundColor = .white
+    }
+    
+    @objc
+    private func infoButtonTapped() {
+        self.infoButtonTappedClosure?()
     }
     
     // MARK: - View Life Cycle
