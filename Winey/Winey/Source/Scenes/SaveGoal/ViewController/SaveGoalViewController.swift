@@ -61,7 +61,7 @@ extension SaveGoalViewController {
     }
     
     private func checkPeriodValue(value: Int) {
-        if value < 3 {
+        if value < 5 {
             // red
             self.periodTextField.makeErrorView()
             self.periodDetailLabel.textColor = .winey_red500
@@ -117,6 +117,7 @@ extension SaveGoalViewController {
     @objc
     private func saveButtonTapped() {
         print("save")
+
     }
 }
 
@@ -222,14 +223,12 @@ extension SaveGoalViewController {
     private func bind() {
         moneyTextField.pricePublisher
             .sink { [weak self] price in
-                print("금액 ", price)
                 self?.checkMoneyValue(value: price)
             }
             .store(in: &bag)
         
         periodTextField.pricePublisher
             .sink { [weak self] price in
-                print("기간", price)
                 self?.checkPeriodValue(value: price)
             }
             .store(in: &bag)
