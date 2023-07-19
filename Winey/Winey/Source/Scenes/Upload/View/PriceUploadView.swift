@@ -14,7 +14,7 @@ class PriceUploadView: UIView {
 
     // MARK: - UI Components
     /// textContentView: Winey에서 사용될 커스텀 TextField인 WITextFieldView객체를 선언
-    var textContentView = WITextFieldView(price: "0", label: .won)
+    var textContentView = WITextFieldView(price: "0", label: .won, textLength: .price)
     
     // MARK: - Life Cycle
     
