@@ -12,6 +12,7 @@ import Moya
 enum FeedAPI {
     case getTotalFeed(page: Int)
     case getMyFeed(page: Int)
+    case deleteMyFeed(idx: Int)
 }
 
 extension FeedAPI: TargetType {
@@ -25,6 +26,8 @@ extension FeedAPI: TargetType {
             return URLConstant.feed
         case .getMyFeed:
             return URLConstant.myfeed
+        case .deleteMyFeed(let idx):
+            return "\(URLConstant.feed)/\(idx)"
         }
     }
     
@@ -32,6 +35,8 @@ extension FeedAPI: TargetType {
         switch self {
         case .getMyFeed, .getTotalFeed:
             return .get
+        case .deleteMyFeed:
+            return .delete
         }
     }
     
@@ -39,13 +44,15 @@ extension FeedAPI: TargetType {
         switch self {
         case .getTotalFeed(let page), .getMyFeed(page: let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
+        case .deleteMyFeed:
+            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getMyFeed, .getTotalFeed:
-            return NetworkConstant.getfeedHeader
+        case .getMyFeed, .getTotalFeed, .deleteMyFeed:
+            return NetworkConstant.defaultHeader
         }
     }
 }

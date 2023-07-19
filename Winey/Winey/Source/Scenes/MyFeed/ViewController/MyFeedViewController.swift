@@ -181,4 +181,18 @@ extension MyFeedViewController {
             }
         }
     }
+    
+    private func deleteMyFeed(idx: Int) {
+        let currentOffset = collectionView.contentOffset.y
+        
+        myfeedService.deleteMyFeed(idx) { [weak self] response in
+            
+            guard let self else { return }
+            
+            if response {
+                getMyFeed(page: self.currentPage)
+                collectionView.contentOffset.y = currentOffset
+            }
+        }
+    }
 }
