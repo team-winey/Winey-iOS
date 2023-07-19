@@ -14,6 +14,7 @@ final class CautionView: UIView {
     
     // MARK: - UI Components
     
+    var closeButtonTappedClosure: (() -> Void)?
     private let cautionTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
@@ -48,8 +49,17 @@ final class CautionView: UIView {
         button.setTitleColor(.winey_gray500, for: .normal)
         button.backgroundColor = .winey_gray200
         button.layer.cornerRadius = 10
+        button.addTarget(self,
+                         action: #selector(closeButtonTapped),
+                         for: .touchUpInside
+        )
         return button
     }()
+    
+    @objc
+    private func closeButtonTapped() {
+        self.closeButtonTappedClosure?()
+    }
     
     // MARK: - View Life Cycles
 
