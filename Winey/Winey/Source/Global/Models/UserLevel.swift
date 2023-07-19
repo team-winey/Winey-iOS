@@ -18,7 +18,16 @@ enum UserLevel: String {
 }
 
 extension UserLevel {
-   
+    var profileImage: UIImage? {
+        switch self {
+        case .none: return nil
+        case .one: return .Img.profile_level_one
+        case .two: return .Img.profile_level_two
+        case .three: return .Img.profile_level_three
+        case .four: return .Img.profile_level_four
+        }
+    }
+    
     var characterImage: UIImage? {
         switch self {
         case .none: return nil
