@@ -13,12 +13,12 @@ import DesignSystem
 final class MypageGoalInfoCell: UICollectionViewCell {
     
     struct ViewModel {
-        let duringGoalAmount : Int
-        let duringGoalCount : Int
-        let targetMoney : Int
-        let dday: Int
+        let duringGoalAmount : Int?
+        let duringGoalCount : Int?
+        let targetMoney : Int?
+        let dday: Int?
         
-        init(_ duringGoalAmount: Int, _ duringGoalCount: Int, _ targetMoney: Int, _ dday: Int) {
+        init(_ duringGoalAmount: Int?, _ duringGoalCount: Int?, _ targetMoney: Int?, _ dday: Int?) {
             self.duringGoalCount = duringGoalCount
             self.duringGoalAmount = duringGoalAmount
             self.targetMoney = targetMoney
@@ -108,7 +108,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     var goalLabel: UILabel = {
         let label = UILabel()
         label.setText(
-            "10,000원",
+            "아직 없어요",
             attributes: .init(
                 style: .headLine4,
                 weight: .bold,
@@ -145,7 +145,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     var savingPeriodLabel: UILabel = {
         let label = UILabel()
         label.setText(
-            "D-18",
+            "아직 없어요",
             attributes: .init(
                 style: .headLine4,
                 weight: .bold,
@@ -173,7 +173,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     var accumulatedWineyLabel: UILabel = {
         let label = UILabel()
         label.setText(
-            "50,000원",
+            "0원",
             attributes: .init(
                 style: .headLine4,
                 weight: .bold,
@@ -201,7 +201,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     var wineyCountLabel: UILabel = {
         let label = UILabel()
         label.setText(
-            "80번",
+            "0번",
             attributes: .init(
                 style: .headLine4,
                 weight: .bold,
@@ -235,32 +235,37 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }
     
     func configure(model: ViewModel) {
+        let goalAmount = model.duringGoalAmount ?? 0
         accumulatedWineyLabel.setText(
-            "\(model.duringGoalAmount)원",
+            "\(goalAmount)원",
             attributes: .init(
                 style: .headLine4,
                 weight: .bold,
                 textColor: .winey_gray900
                 )
             )
+        let goalCount = model.duringGoalCount ?? 0
         wineyCountLabel.setText(
-            "\(model.duringGoalCount)번",
+            "\(goalCount)번",
             attributes: .init(
                 style: .headLine4,
                 weight: .bold,
                 textColor: .winey_gray900
                 )
             )
+        let targetMoney = model.targetMoney == nil ? "아직 없어요" : "\(model.targetMoney ?? 0)원"
         goalLabel.setText(
-            "\(model.targetMoney)원",
+            "\(targetMoney)",
                 attributes: .init(
                     style: .headLine4,
                     weight: .bold,
                     textColor: .winey_gray900
                     )
                 )
+        
+        let dday = model.dday == nil ? "아직 없어요" : "D-\(model.dday ?? 0)"
         savingPeriodLabel.setText(
-            "D-\(model.dday)",
+            dday,
             attributes: .init(
                 style: .headLine4,
                 weight: .bold,
