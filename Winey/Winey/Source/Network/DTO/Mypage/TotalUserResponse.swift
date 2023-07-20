@@ -9,7 +9,7 @@ import Foundation
 
 struct TotalUserResponse: Codable {
     let userResponseUserDto: UserResponseUserDto
-    let userResponseGoalDto: UserResponseGoalDto
+    let userResponseGoalDto: UserResponseGoalDto?
 }
 
 struct UserResponseGoalDto: Codable {

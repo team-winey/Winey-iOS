@@ -166,10 +166,10 @@ extension MypageViewController: UICollectionViewDataSource {
             else { return UICollectionViewCell()}
             mypageGoalInfoCell.configure(
                 model: .init(
-                    duringGoalAmount ?? .zero,
-                    duringGoalCount ?? .zero,
-                    targetMoney ?? .zero,
-                    dday ?? .zero
+                    duringGoalAmount,
+                    duringGoalCount,
+                    targetMoney,
+                    dday
                 )
             )
             mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
@@ -297,10 +297,11 @@ extension MypageViewController {
             self.userLevel = self.judgeUserLevel(userData.userLevel)
             self.nickname = userData.nickname
             
-            self.duringGoalCount = data.userResponseGoalDto.duringGoalCount
-            self.duringGoalAmount = data.userResponseGoalDto.duringGoalAmount
-            self.dday = data.userResponseGoalDto.dday
-            self.targetMoney = data.userResponseGoalDto.targetMoney
+            let goal = data.userResponseGoalDto
+            self.duringGoalCount = goal?.duringGoalCount
+            self.duringGoalAmount = goal?.duringGoalAmount
+            self.dday = goal?.dday
+            self.targetMoney = goal?.targetMoney
             self.isOver = isOver
             
             print(userData.nickname, userData.userLevel, userData.userID)
