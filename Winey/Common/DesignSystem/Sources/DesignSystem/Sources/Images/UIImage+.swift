@@ -37,7 +37,7 @@ public extension UIImage {
     }
     
     enum Img {
-        public static let appbar_logo = UIImage(name: "appbar_logo")
+        public static let appbar_logo = UIImage(name: "img_appbar_logo")
         public static let mypage_level_one = UIImage(name: "img_mypage_level_one")
         public static let mypage_level_two = UIImage(name: "img_mypage_level_two")
         public static let mypage_level_three = UIImage(name: "img_mypage_level_three")
