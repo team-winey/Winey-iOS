@@ -19,11 +19,14 @@
 		143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00932A602E8F000FBD3F /* RecommendViewController.swift */; };
 		143C00962A603273000FBD3F /* RecommendHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00952A603273000FBD3F /* RecommendHeaderView.swift */; };
 		143C00982A603911000FBD3F /* RecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00972A603911000FBD3F /* RecommendCell.swift */; };
-		143C009A2A604810000FBD3F /* RecommendFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00992A604810000FBD3F /* RecommendFeedModel.swift */; };
+		143C009A2A604810000FBD3F /* RecommendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00992A604810000FBD3F /* RecommendModel.swift */; };
 		14489F142A56A8A800F042CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C1F6212A50501D0079FA20 /* Assets.xcassets */; };
 		14576DBB2A68932C00C79C9C /* GoalAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14576DBA2A68932C00C79C9C /* GoalAPI.swift */; };
 		14576DC02A68969C00C79C9C /* PostGoalResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14576DBF2A68969C00C79C9C /* PostGoalResponse.swift */; };
 		14576DC22A6898D800C79C9C /* PostGoalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14576DC12A6898D800C79C9C /* PostGoalRequest.swift */; };
+		145B44B52A68AC050043D10C /* RecommendAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145B44B42A68AC050043D10C /* RecommendAPI.swift */; };
+		145B44B72A68AC0D0043D10C /* RecommendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145B44B62A68AC0D0043D10C /* RecommendService.swift */; };
+		145B44BA2A68AC410043D10C /* TotalRecommendResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145B44B92A68AC410043D10C /* TotalRecommendResponse.swift */; };
 		1472F4E92A67342000B00899 /* FeedLikeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1472F4E82A67342000B00899 /* FeedLikeAPI.swift */; };
 		1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1472F4EB2A67347F00B00899 /* FeedLikeResponse.swift */; };
 		147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147CF6D72A6715D200008569 /* CustomMoyaProvider.swift */; };
@@ -98,10 +101,13 @@
 		143C00932A602E8F000FBD3F /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		143C00952A603273000FBD3F /* RecommendHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHeaderView.swift; sourceTree = "<group>"; };
 		143C00972A603911000FBD3F /* RecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCell.swift; sourceTree = "<group>"; };
-		143C00992A604810000FBD3F /* RecommendFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendFeedModel.swift; sourceTree = "<group>"; };
+		143C00992A604810000FBD3F /* RecommendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendModel.swift; sourceTree = "<group>"; };
 		14576DBA2A68932C00C79C9C /* GoalAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAPI.swift; sourceTree = "<group>"; };
 		14576DBF2A68969C00C79C9C /* PostGoalResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGoalResponse.swift; sourceTree = "<group>"; };
 		14576DC12A6898D800C79C9C /* PostGoalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGoalRequest.swift; sourceTree = "<group>"; };
+		145B44B42A68AC050043D10C /* RecommendAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAPI.swift; sourceTree = "<group>"; };
+		145B44B62A68AC0D0043D10C /* RecommendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendService.swift; sourceTree = "<group>"; };
+		145B44B92A68AC410043D10C /* TotalRecommendResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalRecommendResponse.swift; sourceTree = "<group>"; };
 		1472F4E82A67342000B00899 /* FeedLikeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeAPI.swift; sourceTree = "<group>"; };
 		1472F4EB2A67347F00B00899 /* FeedLikeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLikeResponse.swift; sourceTree = "<group>"; };
 		147CF6D72A6715D200008569 /* CustomMoyaProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMoyaProvider.swift; sourceTree = "<group>"; };
@@ -225,7 +231,7 @@
 		143C00922A602E61000FBD3F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				143C00992A604810000FBD3F /* RecommendFeedModel.swift */,
+				143C00992A604810000FBD3F /* RecommendModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -237,6 +243,23 @@
 				14576DC12A6898D800C79C9C /* PostGoalRequest.swift */,
 			);
 			path = Goal;
+			sourceTree = "<group>";
+		};
+		145B44B32A68ABF20043D10C /* Recommend */ = {
+			isa = PBXGroup;
+			children = (
+				145B44B42A68AC050043D10C /* RecommendAPI.swift */,
+				145B44B62A68AC0D0043D10C /* RecommendService.swift */,
+			);
+			path = Recommend;
+			sourceTree = "<group>";
+		};
+		145B44B82A68AC2C0043D10C /* Recommend */ = {
+			isa = PBXGroup;
+			children = (
+				145B44B92A68AC410043D10C /* TotalRecommendResponse.swift */,
+			);
+			path = Recommend;
 			sourceTree = "<group>";
 		};
 		1472F4EA2A67346D00B00899 /* FeedLike */ = {
@@ -414,6 +437,7 @@
 		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				145B44B82A68AC2C0043D10C /* Recommend */,
 				14576DBC2A6893A300C79C9C /* Goal */,
 				1D7640B02A68053F00922332 /* Mypage */,
 				1472F4EA2A67346D00B00899 /* FeedLike */,
@@ -458,17 +482,10 @@
 			path = User;
 			sourceTree = "<group>";
 		};
-		14E28F8A2A654F4400E5E5C2 /* Recommend */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Recommend;
-			sourceTree = "<group>";
-		};
 		14E28F8C2A6550CE00E5E5C2 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				14E28F8A2A654F4400E5E5C2 /* Recommend */,
+				145B44B32A68ABF20043D10C /* Recommend */,
 				14E28F892A654F3E00E5E5C2 /* User */,
 				14E28F882A654F3800E5E5C2 /* FeedLike */,
 				14E28F872A654F3300E5E5C2 /* Feed */,
@@ -525,6 +542,7 @@
 		14F66FEE2A548497009703AD /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				1D7640B12A682E6600922332 /* Models */,
 				14F66FEF2A5484A2009703AD /* Extension */,
 				14F66FF02A5484AC009703AD /* Supports */,
 			);
@@ -592,7 +610,6 @@
 		1D3CBAFB2A5E7C5300AE8138 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1D7640B12A682E6600922332 /* Models */,
 				1D3CBAE62A5C05FD00AE8138 /* Cells */,
 				1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */,
 				1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */,
@@ -778,7 +795,7 @@
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
 				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
 				1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */,
-				143C009A2A604810000FBD3F /* RecommendFeedModel.swift in Sources */,
+				143C009A2A604810000FBD3F /* RecommendModel.swift in Sources */,
 				14DB265C2A5C840100F42499 /* FeedHeaderView.swift in Sources */,
 				14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
@@ -801,8 +818,10 @@
 				14576DC02A68969C00C79C9C /* PostGoalResponse.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
 				1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */,
+				145B44BA2A68AC410043D10C /* TotalRecommendResponse.swift in Sources */,
 				14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */,
 				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
+				145B44B52A68AC050043D10C /* RecommendAPI.swift in Sources */,
 				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
 				14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */,
 				14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */,
@@ -817,6 +836,7 @@
 				1D7640AA2A67C27A00922332 /* UserAPI.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
 				F4FB9B5C2A67ACC100EDB141 /* PostFeedResponse.swift in Sources */,
+				145B44B72A68AC0D0043D10C /* RecommendService.swift in Sources */,
 				14E28F782A653B5000E5E5C2 /* URLConstant.swift in Sources */,
 				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,

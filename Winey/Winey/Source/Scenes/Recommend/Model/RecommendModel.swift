@@ -7,11 +7,11 @@
 
 import UIKit
 
-struct RecommendFeedModel: Hashable {
+struct RecommendModel: Hashable {
     let id: Int
     let link: String
     let title: String
     let subtitle: String
     let discount: String
-    let image: UIImage
+    let image: String
 }
