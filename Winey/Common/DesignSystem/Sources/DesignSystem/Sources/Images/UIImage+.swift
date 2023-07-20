@@ -49,10 +49,10 @@ public extension UIImage {
         public static let guide_character = UIImage(name: "img_guide_character")
         public static let guide_character_hand = UIImage(name: "img_guide_character_hand")
         public static let loading_arrow = UIImage(name: "img_loading_arrow")
-        public static let profile_level_one = UIImage(named: "img_profile_level_one")
-        public static let profile_level_two = UIImage(named: "img_profile_level_two")
-        public static let profile_level_three = UIImage(named: "img_profile_level_three")
-        public static let profile_level_four = UIImage(named: "img_profile_level_four")
+        public static let profile_level_one = UIImage(name: "img_profile_level_one")
+        public static let profile_level_two = UIImage(name: "img_profile_level_two")
+        public static let profile_level_three = UIImage(name: "img_profile_level_three")
+        public static let profile_level_four = UIImage(name: "img_profile_level_four")
         
     }
     
