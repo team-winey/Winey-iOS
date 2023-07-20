@@ -12,7 +12,8 @@ import SnapKit
 final class GuideViewController: UIViewController {
     
     // MARK: - UI Components
-    
+    private let navigationBar = WINavigationBar.init(title: "더 즐거운 위니 사용법")
+    private lazy var safearea = self.view.safeAreaLayoutGuide
     private let scrollView = UIScrollView()
     private let bubbleView = BubbleView()
     private let levelupDescriptionView = LevelupDescriptionView()
@@ -25,37 +26,57 @@ final class GuideViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setLayout()
+        setupCloseButtonClosure()
     }
     
+    private func setupCloseButtonClosure() {
+        cautionView.closeButtonTappedClosure = { [weak self] in
+            guard let self = self else { return }
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     // MARK: - Layout
     
     private func setUI() {
+        navigationBar.hideBottomSeperatorView = false
         scrollView.backgroundColor = .winey_gray0
     }
     
     private func setLayout() {
-        view.addSubview(scrollView)
+        view.backgroundColor = .winey_gray0
+        view.addSubviews(navigationBar)
+        view.addSubviews(scrollView)
+
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(navigationBar.snp.bottom)
+            make.directionalHorizontalEdges.bottom.equalToSuperview()
         }
         
         scrollView.addSubviews(bubbleView, levelupDescriptionView, levelupRuleView, cautionView)
         
+        navigationBar.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.centerX.equalToSuperview()
+        }
         bubbleView.snp.makeConstraints { make in
             make.height.equalTo(120)
             make.top.leading.trailing.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
         levelupDescriptionView.snp.makeConstraints { make in
             make.height.equalTo(374)
             make.top.equalTo(bubbleView.snp.bottom)
             make.leading.trailing.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
         levelupRuleView.snp.makeConstraints { make in
             make.height.equalTo(554)
             make.top.equalTo(levelupDescriptionView.snp.bottom)
             make.leading.trailing.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
         cautionView.snp.makeConstraints { make in
@@ -63,6 +84,7 @@ final class GuideViewController: UIViewController {
             make.top.equalTo(levelupRuleView.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
     }
 }

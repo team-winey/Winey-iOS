@@ -13,7 +13,7 @@ public final class MIButton: UIButton {
     public override var isHighlighted: Bool {
         didSet {
             var transform = CGAffineTransform.identity
-            if self.isHighlighted { transform = transform.scaledBy(x: 0.9, y: 0.9) }
+            if self.isHighlighted { transform = transform.scaledBy(x: 0.95, y: 0.95) }
             UIView.animate(
                 withDuration: 0.2,
                 delay: 0,
@@ -44,8 +44,10 @@ public final class MIButton: UIButton {
     private func setUI() {
         setTitleColor(self.type.titleColor, for: .normal)
         setTitleColor(self.type.titleColor, for: .highlighted)
+        setTitleColor(self.type.disabledTitleColor, for: .disabled)
         setBackgroundColor(self.type.backgroundColor, for: .normal)
         setBackgroundColor(self.type.backgroundColor, for: .highlighted)
+        setBackgroundColor(self.type.disabledBackgroundColor, for: .disabled)
     }
 }
 

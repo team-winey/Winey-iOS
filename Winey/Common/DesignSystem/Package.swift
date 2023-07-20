@@ -17,12 +17,17 @@ let package = Package(
             url: "https://github.com/SnapKit/SnapKit",
             .upToNextMajor(from: "5.0.0")
         ),
+        .package(
+            url: "https://github.com/airbnb/lottie-ios.git",
+            .upToNextMajor(from: "4.2.0")
+        ),
     ],
     targets: [
         .target(
             name: "DesignSystem",
             dependencies: [
-                .product(name: "SnapKit", package: "SnapKit")
+                .product(name: "SnapKit", package: "SnapKit"),
+                .product(name: "Lottie", package: "lottie-ios")
             ],
             resources: [.process("Resources")]
         ),
