@@ -189,6 +189,7 @@ extension FeedViewController {
             self.isEnd = pageData.isEnd
             
             for feedData in data.getFeedResponseList {
+                let userLevel = UserLevel(value: feedData.writerLevel) ?? .none
                 let feed = FeedModel(
                     id: feedData.feedID,
                     nickname: feedData.nickname,
@@ -197,7 +198,8 @@ extension FeedViewController {
                     money: feedData.money,
                     like: feedData.likes,
                     isLiked: feedData.isLiked,
-                    writerLevel: feedData.writerLevel
+                    writerLevel: feedData.writerLevel,
+                    profileImage: userLevel.profileImage
                 )
                 self.feedList.append(feed)
                 newItems.append(feed)
@@ -221,7 +223,7 @@ extension FeedViewController {
                 self.feedList[feedIndex].like = data.likes
             }
             DispatchQueue.global().async {
-                self.dataSource.apply(self.snapshot(), animatingDifferences: true)
+                self.dataSource.apply(self.snapshot(), animatingDifferences: false)
             }
         }
     }

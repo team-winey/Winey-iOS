@@ -182,6 +182,7 @@ extension MyFeedViewController {
             self.isEnd = pageData.isEnd
             
             for feedData in data.getFeedResponseList {
+                let userLevel = UserLevel(value: feedData.writerLevel) ?? .none
                 let feed = FeedModel(
                     id: feedData.feedID,
                     nickname: feedData.nickname,
@@ -190,7 +191,8 @@ extension MyFeedViewController {
                     money: feedData.money,
                     like: feedData.likes,
                     isLiked: feedData.isLiked,
-                    writerLevel: feedData.writerLevel
+                    writerLevel: feedData.writerLevel,
+                    profileImage: userLevel.profileImage
                 )
                 self.myfeed.append(feed)
                 newItems.append(feed)
