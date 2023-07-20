@@ -16,4 +16,5 @@ struct FeedModel: Hashable {
     var like: Int
     var isLiked: Bool
     let writerLevel: Int
+    let profileImage: UIImage?
 }
