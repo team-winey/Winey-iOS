@@ -33,10 +33,11 @@ struct UserManager: UserDefaultManager {
 }
 
 // TODO: 데모데이를 위한 객체 ㅠㅠ
-
 struct UserSingleton {
     private static let userManager = UserManager(key: .user)
     private init() {}
+    
+    private static var hasGoal: Bool = true
     
     static func getId() -> Int {
         userManager.value ?? -1
@@ -45,4 +46,8 @@ struct UserSingleton {
     static func saveId(_ id: Int) {
         userManager.save(id)
     }
+    
+    static func getGaol() -> Bool { return hasGoal }
+    
+    static func saveGoal(_ direction: Bool) { self.hasGoal = direction}
 }

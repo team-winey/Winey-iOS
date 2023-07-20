@@ -304,7 +304,8 @@ extension MypageViewController {
             self.targetMoney = goal?.targetMoney
             self.isOver = isOver
             
-            print(userData.nickname, userData.userLevel, userData.userID)
+            let hasGoal = data.userResponseGoalDto != nil
+            UserSingleton.saveGoal(hasGoal)
             
             let goalData = data.userResponseGoalDto
             self.dday = goalData.dday

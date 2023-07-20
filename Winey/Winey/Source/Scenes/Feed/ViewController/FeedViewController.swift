@@ -148,6 +148,22 @@ final class FeedViewController: UIViewController {
     
     @objc
     private func goToUploadPage() {
+        guard UserSingleton.getGaol() else {
+            let warningViewController = MIPopupViewController(
+                content: .init(
+                    title: "목표 설정 시 피드 작성이 가능해요!",
+                    subtitle: "지금 마이프로필에서 간단한 목표를\n설정해보세요!"
+                )
+            )
+            warningViewController.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+            
+            warningViewController.addButton(title: "목표 설정하러가기", type: .yellow) {
+                self.tabBarController?.selectedIndex = 2
+            }
+            
+            self.present(warningViewController, animated: true)
+            return
+        }
         let vc = UINavigationController(rootViewController: UploadViewController())
         vc.setNavigationBarHidden(true, animated: false)
         vc.modalPresentationStyle = .fullScreen
