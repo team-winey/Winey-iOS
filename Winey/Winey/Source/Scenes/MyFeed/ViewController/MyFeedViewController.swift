@@ -95,22 +95,25 @@ final class MyFeedViewController: UIViewController {
     }
     
     private func showAlert(_ idx: Int, _ path: Int) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { [self] _ in
-            
-            DispatchQueue.global(qos: .utility).async {
-                self.deleteMyFeed(idx: idx)
+        let alertContent = MIPopupContent(
+            title: "진짜 게시물을 삭제하시겠어요?",
+            subtitle: "지금 게시물을 삭제하면 누적 금액이 \n 삭감되어 레벨이 내려갈 수 있으니 주의하세요!"
+        )
+        
+        let alertController = MIPopupViewController(content: alertContent)
+        
+        alertController.addButton(title: "삭제하기", type: .yellow) { [weak self] in
+            DispatchQueue.global(qos: .userInteractive).async {
+                self?.deleteMyFeed(idx: idx)
             }
-
-            self.deleteCell(path)
+            
+            self?.deleteCell(path)
         }
-        alertController.addAction(deleteAction)
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-            // 취소버튼 클릭 시
+        alertController.addButton(title: "취소", type: .gray) { [weak self] in
+            self?.dismiss(animated: true)
         }
-        alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
     }
@@ -120,13 +123,16 @@ final class MyFeedViewController: UIViewController {
         self.getMyFeed(page: self.currentPage)
     }
     
-    func deleteCell(_ idx: Int) {
+    func deleteCell(_ path: Int) {
+        
         var snapshot = dataSource.snapshot()
         
-        let targetItem = snapshot.itemIdentifiers[idx]
+        let targetItem = snapshot.itemIdentifiers[path]
         snapshot.deleteItems([targetItem])
         
         dataSource.apply(snapshot)
+        
+        myfeed.remove(at: path)
     }
 }
 
@@ -134,6 +140,7 @@ final class MyFeedViewController: UIViewController {
 
 extension MyFeedViewController {
     private func setLayout() {
+        
         view.addSubviews(naviBar, collectionView, writeButton)
         
         naviBar.snp.makeConstraints {
@@ -159,6 +166,7 @@ extension MyFeedViewController: UICollectionViewDelegate {}
 
 extension MyFeedViewController: UIScrollViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
         if indexPath.item == myfeed.count - 2 {
             getMoreFeed()
         }
