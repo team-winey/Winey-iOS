@@ -10,17 +10,23 @@ import UIKit
 import SnapKit
 import DesignSystem
 
+protocol InquiryCollectionViewCellDelegate: AnyObject{
+    func buttonDidTapped()
+}
+
 final class InquiryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
     static let identifier = InquiryCollectionViewCell.className
+    weak var delegate: InquiryCollectionViewCellDelegate?
     
     // MARK: - UIComponents
 
     let moreButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
+        button.addTarget(self, action: #selector(myfeedButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -44,6 +50,10 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     
     private func setUI() {
         contentView.backgroundColor = .white
+    }
+
+    @objc private func myfeedButtonTapped() {
+        delegate?.buttonDidTapped()
     }
     
     // MARK: - View Life Cycle
