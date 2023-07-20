@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D09FB002A696CF800893A6D /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FAFF2A696CF800893A6D /* UserDefaultsManager.swift */; };
+		0D09FB022A696D1300893A6D /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB012A696D1300893A6D /* UserManager.swift */; };
+		0D09FB042A696D2900893A6D /* UserDefaults+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB032A696D2900893A6D /* UserDefaults+Name.swift */; };
 		0D2E89792A683ADE00733BE1 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0D2E89782A683ADE00733BE1 /* Lottie */; };
 		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
 		0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */; };
@@ -90,6 +93,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D09FAFF2A696CF800893A6D /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		0D09FB012A696D1300893A6D /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		0D09FB032A696D2900893A6D /* UserDefaults+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Name.swift"; sourceTree = "<group>"; };
 		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		0D6519662A61905300643F46 /* TestTypoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypoViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +192,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D09FAFE2A696CE100893A6D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				0D09FAFF2A696CF800893A6D /* UserDefaultsManager.swift */,
+				0D09FB012A696D1300893A6D /* UserManager.swift */,
+				0D09FB032A696D2900893A6D /* UserDefaults+Name.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		0D4DFA092A5F2E3C008F6D63 /* Test */ = {
 			isa = PBXGroup;
 			children = (
@@ -542,6 +558,7 @@
 		14F66FEE2A548497009703AD /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				0D09FAFE2A696CE100893A6D /* Manager */,
 				1D7640B12A682E6600922332 /* Models */,
 				14F66FEF2A5484A2009703AD /* Extension */,
 				14F66FF02A5484AC009703AD /* Supports */,
@@ -796,6 +813,7 @@
 				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
 				1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */,
 				143C009A2A604810000FBD3F /* RecommendModel.swift in Sources */,
+				0D09FB022A696D1300893A6D /* UserManager.swift in Sources */,
 				14DB265C2A5C840100F42499 /* FeedHeaderView.swift in Sources */,
 				14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
@@ -834,6 +852,7 @@
 				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
 				1D7640AA2A67C27A00922332 /* UserAPI.swift in Sources */,
+				0D09FB042A696D2900893A6D /* UserDefaults+Name.swift in Sources */,
 				14F670012A550AAC009703AD /* String+.swift in Sources */,
 				F4FB9B5C2A67ACC100EDB141 /* PostFeedResponse.swift in Sources */,
 				145B44B72A68AC0D0043D10C /* RecommendService.swift in Sources */,
@@ -845,6 +864,7 @@
 				F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */,
 				147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
+				0D09FB002A696CF800893A6D /* UserDefaultsManager.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
 				1D69E0262A62B4F100D4E3B5 /* CautionView.swift in Sources */,
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,

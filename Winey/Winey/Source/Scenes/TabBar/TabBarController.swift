@@ -10,6 +10,8 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
+    private let userService = UserService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
@@ -74,5 +76,19 @@ extension TabBarController {
         let testViewController = UINavigationController(rootViewController: TestViewController())
 
         present(testViewController, animated: true)
+    }
+}
+
+extension TabBarController {
+    private func getUser() {
+        userService.getTotalUser() { [weak self] response in
+            guard let response, let data = response.data else { return }
+            guard let self else { return }
+            let userData = data.userResponseUserDto
+            let userLevel = UserLevel(rawValue: userData.userLevel)
+            let nickname = userData.nickname
+
+            // TODO: 레벨정보가 필요하다면 이곳에서 저장하고 사용합니다. 이것도 임시 구현 (시간 이슈)
+        }
     }
 }
