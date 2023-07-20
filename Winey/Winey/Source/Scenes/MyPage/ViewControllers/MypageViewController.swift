@@ -306,12 +306,6 @@ extension MypageViewController {
             let hasGoal = data.userResponseGoalDto != nil
             UserSingleton.saveGoal(hasGoal)
             
-            let goalData = data.userResponseGoalDto
-            self.dday = goalData?.dday
-            self.targetMoney = goalData?.targetMoney
-            self.duringGoalAmount = goalData?.duringGoalAmount
-            self.duringGoalCount = goalData?.duringGoalCount
-            
             self.collectionView.reloadData()
         }
     }
