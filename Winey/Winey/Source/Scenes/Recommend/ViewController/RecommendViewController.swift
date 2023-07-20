@@ -11,6 +11,8 @@ import DesignSystem
 import SnapKit
 import Moya
 
+import SafariServices
+
 final class RecommendViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, RecommendModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
@@ -23,6 +25,7 @@ final class RecommendViewController: UIViewController {
     private var recommendList: [RecommendModel] = []
     private var currentPage: Int = 1
     private var isEnd: Bool = false
+    private var linkString: String = ""
     
     // MARK: - UI Components
     
@@ -56,6 +59,12 @@ final class RecommendViewController: UIViewController {
             guard indexPath.item < self.recommendList.count else { return }
             
             cell.configure(model: self.recommendList[indexPath.item])
+            cell.linkButtonTappedClosure = { [weak self] linkString in
+                if let url = URL(string: linkString) {
+                    let safariViewController = SFSafariViewController(url: url)
+                    self?.present(safariViewController, animated: true)
+                }
+            }
         }
         
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
