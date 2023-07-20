@@ -19,11 +19,8 @@ final class MyFeedViewController: UIViewController {
     
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
     private var myfeedService = FeedService()
-    private var myfeed: [FeedModel] = [] {
-        didSet {
-            self.collectionView.reloadData()
-        }
-    }
+    private var myfeed: [FeedModel] = []
+
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
@@ -79,8 +76,8 @@ final class MyFeedViewController: UIViewController {
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
             cell.configure(model: self.myfeed[indexPath.item])
-            cell.moreButtonTappedClosure = { [weak self] in
-                self?.showAlert()
+            cell.moreButtonTappedClosure = { [weak self] idx in
+                self?.showAlert(idx, indexPath.item)
             }
         }
         
@@ -102,18 +99,26 @@ final class MyFeedViewController: UIViewController {
         return snapshot
     }
     
-    private func showAlert() {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    private func showAlert(_ idx: Int, _ path: Int) {
         
-        let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
-            // 삭제버튼 클릭 시
-        }
-        alertController.addAction(deleteAction)
+        let alertContent = MIPopupContent(
+            title: "진짜 게시물을 삭제하시겠어요?",
+            subtitle: "지금 게시물을 삭제하면 누적 금액이 \n 삭감되어 레벨이 내려갈 수 있으니 주의하세요!"
+        )
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-            // 취소버튼 클릭 시
+        let alertController = MIPopupViewController(content: alertContent)
+        
+        alertController.addButton(title: "취소", type: .gray) { [weak self] in
+            self?.dismiss(animated: true)
         }
-        alertController.addAction(cancelAction)
+        
+        alertController.addButton(title: "삭제하기", type: .yellow) { [weak self] in
+            DispatchQueue.global(qos: .userInteractive).async {
+                self?.deleteMyFeed(idx: idx)
+            }
+            
+            self?.deleteCell(path)
+        }
         
         present(alertController, animated: true, completion: nil)
     }
@@ -122,12 +127,25 @@ final class MyFeedViewController: UIViewController {
         self.currentPage += 1
         self.getMyFeed(page: self.currentPage)
     }
+    
+    func deleteCell(_ path: Int) {
+        
+        var snapshot = dataSource.snapshot()
+        
+        let targetItem = snapshot.itemIdentifiers[path]
+        snapshot.deleteItems([targetItem])
+        
+        dataSource.apply(snapshot)
+        
+        myfeed.remove(at: path)
+    }
 }
 
 // MARK: - UI & Layout
 
 extension MyFeedViewController {
     private func setLayout() {
+        
         view.addSubviews(naviBar, collectionView, writeButton)
         
         naviBar.snp.makeConstraints {
@@ -153,6 +171,7 @@ extension MyFeedViewController: UICollectionViewDelegate {}
 
 extension MyFeedViewController: UIScrollViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
         if indexPath.item == myfeed.count - 2 {
             getMoreFeed()
         }
@@ -168,6 +187,7 @@ extension MyFeedViewController {
             self.isEnd = pageData.isEnd
             
             for feedData in data.getFeedResponseList {
+                let userLevel = UserLevel(value: feedData.writerLevel) ?? .none
                 let feed = FeedModel(
                     id: feedData.feedID,
                     nickname: feedData.nickname,
@@ -176,7 +196,8 @@ extension MyFeedViewController {
                     money: feedData.money,
                     like: feedData.likes,
                     isLiked: feedData.isLiked,
-                    writerLevel: feedData.writerLevel
+                    writerLevel: feedData.writerLevel,
+                    profileImage: userLevel.profileImage
                 )
                 self.myfeed.append(feed)
                 newItems.append(feed)
@@ -187,6 +208,19 @@ extension MyFeedViewController {
             
             DispatchQueue.global().async {
                 self.dataSource.apply(newSnapshot, animatingDifferences: true)
+            }
+        }
+    }
+    
+    private func deleteMyFeed(idx: Int) {
+        myfeedService.deleteMyFeed(idx) { [weak self] response in
+            
+            guard let self else { return }
+            
+            if response {
+                print("게시글이 삭제되었습니다")
+            } else {
+                print("게시글 삭제에 오류가 생겼습니다")
             }
         }
     }

@@ -15,7 +15,7 @@ final class FeedCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var moreButtonTappedClosure: (() -> Void)?
+    var moreButtonTappedClosure: ((Int) -> Void)?
     var likeButtonTappedClosure: ((Int, Bool) -> Void)?
     var feedId: Int?
     var isLiked: Bool = false {
@@ -44,6 +44,8 @@ final class FeedCell: UICollectionViewCell {
     private let feedImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .Sample.sample1
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .winey_gray200
         imageView.makeCornerRound(radius: 5)
         return imageView
     }()
@@ -105,10 +107,15 @@ final class FeedCell: UICollectionViewCell {
         nicknameLabel.setText(model.nickname, attributes: Const.nicknameAttributes)
         configureFeedMoneyLabel(model.money)
         feedTitleLabel.setText(model.title, attributes: Const.feedTitleAttributes)
+        feedImageView.kf.indicatorType = .activity
         let url = URL(string: model.image)
-        feedImageView.kf.setImage(with: url)
+        feedImageView.kf.setImage(
+            with: url,
+            options: [.transition(.fade(0.8)), .fromMemoryCacheOrRefresh]
+        )
         likeCountLabel.setText("\(model.like)", attributes: Const.likeCountAttributes)
         self.isLiked = model.isLiked
+        profileImageView.image = model.profileImage
     }
     
     private func configureFeedMoneyLabel(_ money: Int) {
@@ -124,7 +131,9 @@ final class FeedCell: UICollectionViewCell {
     }
     
     @objc private func tapMoreButton() {
-        self.moreButtonTappedClosure?()
+        if let feedId = self.feedId {
+            self.moreButtonTappedClosure?(feedId)
+        }
     }
     
     @objc private func tapLikeButton() {
@@ -196,7 +205,7 @@ extension FeedCell {
             $0.centerX.equalTo(likeButton)
         }
     }
-
+    
     private func changeLikeButtonLayout() {
         if self.isLiked {
             likeButton.backgroundColor = .winey_purple400
