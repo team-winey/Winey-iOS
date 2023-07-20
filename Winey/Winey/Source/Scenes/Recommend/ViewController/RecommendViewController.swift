@@ -9,15 +9,20 @@ import UIKit
 
 import DesignSystem
 import SnapKit
+import Moya
 
 final class RecommendViewController: UIViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Int, RecommendFeedModel>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Int, RecommendModel>
     private typealias CellRegistration = UICollectionView.CellRegistration
     private typealias SupplementaryRegistration = UICollectionView.SupplementaryRegistration
     
     // MARK: - Properties
     
-    var dataSource : UICollectionViewDiffableDataSource<Int, RecommendFeedModel>!
+    var dataSource : UICollectionViewDiffableDataSource<Int, RecommendModel>!
+    private let recommendService = RecommendService()
+    private var recommendList: [RecommendModel] = []
+    private var currentPage: Int = 1
+    private var isEnd: Bool = false
     
     // MARK: - UI Components
     
@@ -42,11 +47,15 @@ final class RecommendViewController: UIViewController {
         super.viewDidLoad()
         setLayout()
         setupDataSource()
+        getTotalRecommend(page: currentPage)
     }
     
     private func setupDataSource() {
-        let cellRegistration = CellRegistration<RecommendCell, RecommendFeedModel> { cell, indexPath, model  in
-            cell.configure(model: Self.itemdummy[indexPath.item])
+        let cellRegistration = CellRegistration<RecommendCell, RecommendModel> { [weak self] cell, indexPath, model in
+            guard let self = self else { return }
+            guard indexPath.item < self.recommendList.count else { return }
+            
+            cell.configure(model: self.recommendList[indexPath.item])
         }
         
         dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, item in
@@ -71,11 +80,16 @@ final class RecommendViewController: UIViewController {
         dataSource.apply(snapshot(), animatingDifferences: false)
     }
     
-    private func snapshot() -> NSDiffableDataSourceSnapshot<Int, RecommendFeedModel> {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, RecommendFeedModel>()
+    private func snapshot() -> NSDiffableDataSourceSnapshot<Int, RecommendModel> {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, RecommendModel>()
         snapshot.appendSections([0])
-        snapshot.appendItems(Self.itemdummy)
+        snapshot.appendItems(self.recommendList)
         return snapshot
+    }
+    
+    private func getMorePage() {
+        self.currentPage += 1
+        self.getTotalRecommend(page: self.currentPage)
     }
 }
 
@@ -98,43 +112,49 @@ extension RecommendViewController {
     }
 }
 
+// MARK: - ScrollDelegate
+
+extension RecommendViewController: UIScrollViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == recommendList.count - 2 && self.isEnd == false {
+            getMorePage()
+        }
+    }
+}
+
 extension RecommendViewController: UICollectionViewDelegate {}
 
+// MARK: - Network
+
 extension RecommendViewController {
-    static var itemdummy: [RecommendFeedModel] {
-        [
-            RecommendFeedModel(
-                id: 1,
-                link: "서울시 청년 대중교통비 지원 사업",
-                title: "타이틀1",
-                subtitle: "서브타이틀",
-                discount: "1000원 절약",
-                image: UIImage()
-            ),
-            RecommendFeedModel(
-                id: 2,
-                link: "서울시 청년 대중교통비 지원 사업",
-                title: "타이틀2",
-                subtitle: "서브타이틀",
-                discount: "1000원 절약",
-                image: UIImage()
-            ),
-            RecommendFeedModel(
-                id: 3,
-                link: "서울시 청년 대중교통비 지원 사업",
-                title: "서울시\n지원해줘",
-                subtitle: "서브타이틀",
-                discount: "100000원 절약",
-                image: UIImage()
-            ),
-            RecommendFeedModel(
-                id: 4,
-                link: "서울시 청년 대중교통비 지원 사업",
-                title: "서울시\n지원해줘",
-                subtitle: "서브타이틀",
-                discount: "100000원 절약",
-                image: UIImage()
-            )
-        ]
+    
+    private func getTotalRecommend(page: Int) {
+        recommendService.getTotalRecommend(page: page) { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self else { return }
+            let pageData = data.pageResponseDto
+            var newItems: [RecommendModel] = []
+            self.isEnd = pageData.isEnd
+            
+            for recommendData in data.recommendsResponseDto {
+                let recommend = RecommendModel(
+                    id: recommendData.recommendID,
+                    link: recommendData.recommendLink,
+                    title: recommendData.recommendTitle,
+                    subtitle: recommendData.recommendSubTitle ?? "",
+                    discount: recommendData.recommendDiscount,
+                    image: recommendData.recommendImage
+                )
+                self.recommendList.append(recommend)
+                newItems.append(recommend)
+            }
+            
+            var newSnapshot = self.snapshot()
+            newSnapshot.appendItems(newItems, toSection: 0)
+            
+            DispatchQueue.global().async {
+                self.dataSource.apply(newSnapshot, animatingDifferences: true)
+            }
+        }
     }
 }
