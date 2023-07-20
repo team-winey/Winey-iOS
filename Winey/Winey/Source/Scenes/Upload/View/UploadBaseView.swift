@@ -99,20 +99,19 @@ class UploadBaseView: UIView {
             $0.bottom.equalToSuperview()
         }
     }
-
 }
 
 /// 페이지 메인 타이틀과 서브 타이틀의 Typography를 지정해줌
 private extension UploadBaseView {
     enum Const {
         static let pageTitleAttributes = Typography.Attributes(
-            style: .headLine3,
+            style: .headLine2,
             weight: .bold,
             textColor: .winey_gray900
         )
         
         static let pageSubTitleAttributes = Typography.Attributes(
-            style: .detail2,
+            style: .body3,
             weight: .medium,
             textColor: .winey_gray400
         )

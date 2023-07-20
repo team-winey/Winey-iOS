@@ -29,6 +29,7 @@ class ContentsWriteView: UIView {
         textView.textContainerInset = UIEdgeInsets(top: 14, left: 17, bottom: 54, right: 17)
         textView.makeCornerRound(radius: 5)
         textView.makeBorder(width: 1, color: .winey_gray200)
+        textView.backgroundColor = .winey_gray0
         return textView
     }()
     
@@ -130,7 +131,7 @@ extension ContentsWriteView: UITextViewDelegate {
 extension ContentsWriteView {
     enum Const {
         static let textViewPlaceholderAttributes = Typography.Attributes(
-            style: .body3,
+            style: .body2,
             weight: .medium,
             textColor: .winey_gray400
         )

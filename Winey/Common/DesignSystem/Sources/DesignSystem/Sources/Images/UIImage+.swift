@@ -55,6 +55,7 @@ public extension UIImage {
         public static let close     = UIImage(name: "btn_close")
         public static let back      = UIImage(name: "btn_back")
         public static let floating  = UIImage(name: "btn_floating")
+        public static let btn_plus  = UIImage(name: "btn_plus")
     }
 }
 
