@@ -132,11 +132,13 @@ extension MypageViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? MypageGoalInfoCell
             else { return UICollectionViewCell()}
-            mypageGoalInfoCell.configure(model: .init(
-                duringGoalAmount ?? 0,
-                duringGoalCount ?? 0,
-                targetMoney ?? 0,
-                dday ?? 0)
+            mypageGoalInfoCell.configure(
+                model: .init(
+                    duringGoalAmount ?? .zero,
+                    duringGoalCount ?? .zero,
+                    targetMoney ?? .zero,
+                    dday ?? .zero
+                )
             )
             mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
                 let saveGoalVC = SaveGoalViewController()
