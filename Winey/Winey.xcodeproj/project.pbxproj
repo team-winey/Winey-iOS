@@ -542,6 +542,7 @@
 		14F66FEE2A548497009703AD /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				1D7640B12A682E6600922332 /* Models */,
 				14F66FEF2A5484A2009703AD /* Extension */,
 				14F66FF02A5484AC009703AD /* Supports */,
 			);
@@ -609,7 +610,6 @@
 		1D3CBAFB2A5E7C5300AE8138 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1D7640B12A682E6600922332 /* Models */,
 				1D3CBAE62A5C05FD00AE8138 /* Cells */,
 				1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */,
 				1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */,
