@@ -5,6 +5,7 @@
 //  Created by 고영민 on 2023/07/12.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
@@ -73,19 +74,12 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     // MARK: - Layout
     
     private func setLayout() {
-        contentView.addSubviews(moreButton)
-        moreButton.addSubviews(myfeedLabel, buttonImageView)
+        contentView.addSubviews(myfeedLabel, buttonImageView)
         
         myfeedLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
-        }
-        moreButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
-            make.verticalEdges.equalToSuperview()
-            make.width.equalTo(390)
-            make.height.equalTo(55)
         }
         buttonImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()

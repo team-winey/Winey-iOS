@@ -5,6 +5,7 @@
 //  Created by 고영민 on 2023/07/12.
 //
 
+import SafariServices
 import UIKit
 
 import SnapKit
@@ -90,7 +91,19 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     }
 }
 
-extension MypageViewController: UICollectionViewDelegate {}
+extension MypageViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 2 { // 마이피드
+            let myFeedViewController = MyFeedViewController()
+            myFeedViewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(myFeedViewController, animated: true)
+        } else if indexPath.section == 3 {
+            let url = URL(string: "https://open.kakao.com/o/s751Susf")!
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true)
+        }
+    }
+}
 
 extension MypageViewController: UICollectionViewDataSource {
     
@@ -122,6 +135,7 @@ extension MypageViewController: UICollectionViewDataSource {
             mypageProfileCell.configure(model: .init(nickname: nickname, level: userLevel))
             mypageProfileCell.infoButtonTappedClosure = {
                 let guideViewController = GuideViewController()
+                guideViewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(guideViewController, animated: true)
             }
             return mypageProfileCell

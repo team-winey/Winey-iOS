@@ -26,11 +26,14 @@ final class MyFeedViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let naviBar: WINavigationBar = {
+    private lazy var naviBar: WINavigationBar = {
         let naviBar = WINavigationBar(leftBarItem: .back)
         naviBar.title = "마이피드"
+        naviBar.hideBottomSeperatorView = false
+        naviBar.leftButton.addTarget(self, action: #selector(didTapLeftButton), for: .touchUpInside)
         return naviBar
     }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -63,10 +66,15 @@ final class MyFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUI()
         setLayout()
         register()
         setupDataSource()
         getMyFeed(page: currentPage)
+    }
+    
+    private func setUI() {
+        view.backgroundColor = .winey_gray0
     }
     
     private func register() {
@@ -138,6 +146,10 @@ final class MyFeedViewController: UIViewController {
         dataSource.apply(snapshot)
         
         myfeed.remove(at: path)
+    }
+    
+    @objc private func didTapLeftButton() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

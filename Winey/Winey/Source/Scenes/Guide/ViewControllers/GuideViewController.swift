@@ -51,6 +51,11 @@ final class GuideViewController: UIViewController {
     
     private func setUI() {
         navigationBar.hideBottomSeperatorView = false
+        navigationBar.rightButton.addTarget(
+            self,
+            action: #selector(didTapRightButton),
+            for: .touchUpInside
+        )
         scrollView.backgroundColor = .winey_gray0
     }
     
@@ -97,5 +102,9 @@ final class GuideViewController: UIViewController {
             make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()
         }
+    }
+    
+    @objc private func didTapRightButton() {
+        self.navigationController?.popViewController(animated: true)
     }
 }

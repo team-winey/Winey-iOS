@@ -23,13 +23,6 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UIComponents
 
-    let moreButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(myfeedButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
     var buttonImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Icon.next
@@ -72,20 +65,12 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     // MARK: - Layout
     
     private func setLayout() {
-        contentView.addSubviews(moreButton)
-        moreButton.addSubviews(titleLabel, buttonImageView)
+        contentView.addSubviews(titleLabel, buttonImageView)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
-        }
-        
-        moreButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
-            make.verticalEdges.equalToSuperview()
-            make.width.equalTo(390)
-            make.height.equalTo(55)
         }
         buttonImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
