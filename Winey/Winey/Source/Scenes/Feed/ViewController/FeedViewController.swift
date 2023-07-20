@@ -49,6 +49,7 @@ final class FeedViewController: UIViewController {
         button.backgroundColor = .winey_yellow
         button.setImage(.Btn.floating, for: .normal)
         button.makeCornerRound(radius: 28)
+        button.makeShadow(radius: 10, offset: .init(width: 4, height: 4), opacity: 0.4)
         return button
     }()
     

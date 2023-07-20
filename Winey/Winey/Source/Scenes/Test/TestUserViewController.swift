@@ -1,21 +1,23 @@
 //
-//  TestViewController.swift
+//  TestUserViewController.swift
 //  Winey
 //
-//  Created by Woody Lee on 2023/07/13.
+//  Created by Woody Lee on 2023/07/20.
 //
 
 import UIKit
 
-import SnapKit
 import DesignSystem
 
-// TODO: 테스트 메뉴 구성
-final class TestViewController: UIViewController {
+class TestUserViewController: UIViewController {
     private let tableView = UITableView()
+    private var userIds: [Int] = (1..<21).map { $0 }
+    private var selectedUserId: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.title = "개발자 메뉴"
+        
+        selectedUserId = UserSingleton.getId()
         view.backgroundColor = .white
         tableView.backgroundColor = .white
         tableView.delegate = self
@@ -27,9 +29,9 @@ final class TestViewController: UIViewController {
     }
 }
 
-extension TestViewController: UITableViewDataSource, UITableViewDelegate {
+extension TestUserViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return TestMenu.allCases.count
+        return userIds.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -37,9 +39,14 @@ extension TestViewController: UITableViewDataSource, UITableViewDelegate {
     
         var content = cell.defaultContentConfiguration()
         content.attributedText = Typography.build(
-            string: TestMenu.allCases[indexPath.row].title,
+            string: "\(userIds[indexPath.row])",
             attributes: .init(style: .detail, weight: .bold, textColor: .winey_gray900)
         )
+        let image: UIImage? = userIds[indexPath.row] == selectedUserId
+        ? UIImage(systemName: "checkmark")
+        : nil
+        
+        content.image = image
         cell.contentConfiguration = content
         cell.backgroundColor = .clear
         return cell
@@ -47,29 +54,12 @@ extension TestViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let viewController = TestMenu.allCases[indexPath.row].destinationViewController
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
-}
-
-enum TestMenu: CaseIterable {
-    case typo
-    case popup
-    case userId
-    
-    var title: String {
-        switch self {
-        case .typo: return "디자인시스템 - 타이포그래피"
-        case .popup: return "디자인시스템 - 팝업"
-        case .userId: return "유저아이디 수정"
-        }
-    }
-    
-    var destinationViewController: UIViewController {
-        switch self {
-        case .typo: return TestTypoViewController()
-        case .popup: return TestPopupViewController()
-        case .userId: return TestUserViewController()
+        let userId = userIds[indexPath.row]
+        UserSingleton.saveId(userId)
+        
+        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            exit(0) 
         }
     }
 }
