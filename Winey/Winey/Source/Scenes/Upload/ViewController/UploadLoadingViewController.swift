@@ -66,7 +66,7 @@ final class UploadLoadingViewController: UIViewController {
         let difference = Date().timeIntervalSince(animationStartedTime)
         
         if difference > 3 {
-            navigationController?.dismiss(animated: true)
+            dismiss()
         }
     }
     
@@ -94,7 +94,13 @@ final class UploadLoadingViewController: UIViewController {
     
     @objc private func didTimerEnd() {
         if didCompleteUpload {
-            navigationController?.dismiss(animated: true)
+            dismiss()
+        }
+    }
+    
+    private func dismiss() {
+        navigationController?.dismiss(animated: true) {
+            NotificationCenter.default.post(name: .whenUploadFeedCompleted, object: nil)
         }
     }
 }

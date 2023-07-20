@@ -5,6 +5,7 @@
 //  Created by 김인영 on 2023/07/10.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -25,6 +26,8 @@ final class FeedViewController: UIViewController {
     private var feedList: [FeedModel] = []
     private var currentPage: Int = 1
     private var isEnd: Bool = false
+    
+    private var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
     
@@ -57,6 +60,7 @@ final class FeedViewController: UIViewController {
         setupDataSource()
         getTotalFeed(page: currentPage)
         setAddTarget()
+        bind()
     }
     
     private func setupDataSource() {
@@ -116,6 +120,21 @@ final class FeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func bind() {
+        NotificationCenter.default.publisher(for: .whenUploadFeedCompleted)
+            .sink { [weak self] _ in
+                self?.refresh()
+            }
+            .store(in: &bag)
+    }
+    
+    private func refresh() {
+        feedList = []
+        currentPage = 1
+        
+        getTotalFeed(page: currentPage)
     }
     
     private func getMoreFeed() {
@@ -205,6 +224,8 @@ extension FeedViewController {
                 newItems.append(feed)
             }
             
+            self.feedList = self.feedList.removeDuplicates()
+            
             var newSnapshot = self.snapshot()
             newSnapshot.appendItems(newItems, toSection: 0)
             
@@ -226,5 +247,12 @@ extension FeedViewController {
                 self.dataSource.apply(self.snapshot(), animatingDifferences: false)
             }
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }
