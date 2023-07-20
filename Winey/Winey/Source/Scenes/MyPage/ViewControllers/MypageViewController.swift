@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Moya
 import DesignSystem
+import WebKit
 
 final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
@@ -21,6 +22,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var targetMoney: Int?
     private var dday: Int?
     private let userService = UserService()
+    let inquiryCollectionViewCell = InquiryCollectionViewCell()
     
     // MARK: - UIComponents
     
@@ -39,6 +41,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         setLayout()
         setUI()
         getTotalUser()
+        setupWebView()
     }
     
     // MARK: - UIComponents
@@ -129,13 +132,11 @@ extension MypageViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? MypageGoalInfoCell
             else { return UICollectionViewCell()}
-            mypageGoalInfoCell.configure(
-                model: .init(
-                    duringGoalAmount: self.duringGoalAmount ?? .zero,
-                    duringGoalCount: self.duringGoalCount ?? .zero,
-                    targetMoney: self.targetMoney ?? .zero,
-                    dday: self.dday ?? .zero
-                )
+            mypageGoalInfoCell.configure(model: .init(
+                duringGoalAmount ?? 0,
+                duringGoalCount ?? 0,
+                targetMoney ?? 0,
+                dday ?? 0)
             )
             mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
                 let saveGoalVC = SaveGoalViewController()
@@ -145,12 +146,18 @@ extension MypageViewController: UICollectionViewDataSource {
             return mypageGoalInfoCell
             
         case 2 :
-            guard let setupCollectionViewCell = collectionView.dequeueReusableCell(
+            guard let myfeedCollectionViewCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: MyfeedCollectionViewCell.identifier,
                 for: indexPath
             ) as? MyfeedCollectionViewCell
             else { return UICollectionViewCell()}
-            return setupCollectionViewCell
+            myfeedCollectionViewCell.myfeedButtonTappedClosure = {
+                let myfeedViewController = MyFeedViewController()
+                myfeedViewController.viewDidLoad()
+                self.navigationController?
+                    .pushViewController(myfeedViewController, animated: true)
+            }
+            return myfeedCollectionViewCell
             
         case 3 :
             guard let inquiryCollectionViewCell = collectionView.dequeueReusableCell(
@@ -158,6 +165,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? InquiryCollectionViewCell
             else { return UICollectionViewCell()}
+            inquiryCollectionViewCell.delegate = self
             return inquiryCollectionViewCell
             
         default :
@@ -216,6 +224,34 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+
+
+extension MypageViewController: WKNavigationDelegate, InquiryCollectionViewCellDelegate {
+    private func setupWebView() {
+        let webView = WKWebView(frame: self.view.bounds)
+        webView.navigationDelegate = self // 웹뷰의 네비게이션 이벤트를 처리할 delegate 설정
+        webView.isHidden = true // 일단 숨겨둡니다.
+        self.view.addSubview(webView)
+    }
+    
+    func buttonDidTapped() {
+        print("___________ 델리게이트 체크 ____________")
+        setupWebView()
+    }
+
+    @objc private func myfeedButtonTapped() {
+        // 버튼을 클릭했을 때 호출될 메소드
+        // 웹뷰를 보여주고 웹페이지를 로드합니다.
+        if let url = URL(string: "https://www.naver.com") {
+            if let webView = view.subviews.first(where: { $0 is WKWebView }) as? WKWebView {
+                webView.isHidden = false
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+        }
+    }
+}
+
 // MARK: - Server
 
 extension MypageViewController {
@@ -228,6 +264,12 @@ extension MypageViewController {
             self.nickname = userData.nickname
             
             print(userData.nickname, userData.userLevel, userData.userID)
+            
+            let goalData = data.userResponseGoalDto
+            self.dday = goalData.dday
+            self.targetMoney = goalData.targetMoney
+            self.duringGoalAmount = goalData.duringGoalAmount
+            self.duringGoalCount = goalData.duringGoalCount
             
             self.collectionView.reloadData()
         }

@@ -19,7 +19,11 @@ final class MyFeedViewController: UIViewController {
     
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
     private var myfeedService = FeedService()
-    private var myfeed: [FeedModel] = []
+    private var myfeed: [FeedModel] = [] {
+        didSet {
+            self.collectionView.reloadData()
+        }
+    }
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
@@ -54,6 +58,11 @@ final class MyFeedViewController: UIViewController {
     }()
     
     // MARK: - View Life Cycles
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getMyFeed(page: currentPage)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
