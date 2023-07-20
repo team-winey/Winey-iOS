@@ -6,6 +6,7 @@
 //
 
 import SafariServices
+import Combine
 import UIKit
 
 import SnapKit
@@ -36,12 +37,16 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
     )
+    
+    private var bag = Set<AnyCancellable>()
+    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         setUI()
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +98,14 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
             $0.top.equalTo(navigationBar.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    private func bind() {
+        NotificationCenter.default.publisher(for: .whenSetGoalCompleted)
+            .sink { [weak self] _ in
+                self?.getTotalUser()
+            }
+            .store(in: &bag)
     }
 }
 

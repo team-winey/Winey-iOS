@@ -283,9 +283,10 @@ private extension SaveGoalViewController {
 extension SaveGoalViewController {
     private func postGoal(request: PostGoalRequest) {
         goalService.postGoal(request: request) { [weak self] response in
-            guard let response = response else { return }
             guard let self = self else { return }
-            self.dismiss(animated: true)
+            self.dismiss(animated: true) {
+                NotificationCenter.default.post(name: .whenSetGoalCompleted, object: nil)
+            }
         }
     }
 }
