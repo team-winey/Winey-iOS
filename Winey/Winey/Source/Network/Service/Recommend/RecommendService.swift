@@ -13,19 +13,18 @@ final class RecommendService {
     
     let recommendProvider = CustomMoyaProvider<RecommendAPI>()
     
-    init() { }
-    
-    private(set) var recommendData: BaseResponse<TotalRecommendResponse>?
+    init() {}
     
     // 1, 추천 절약법 조회
     
-    func getTotalRecommend(page: Int, completion: @escaping (BaseResponse<TotalRecommendResponse>?) -> Void) {
-        recommendProvider.request(.getTotalRecommend(page: page)) { [self] (result) in
+    func getTotalRecommend(page: Int, completion: @escaping (TotalRecommendResponse) -> Void) {
+        recommendProvider.request(.getTotalRecommend(page: page)) { result in
             switch result {
             case .success(let response):
                 do {
-                    self.recommendData = try response.map(BaseResponse<TotalRecommendResponse>.self)
-                    completion(recommendData)
+                    let dto = try response.map(BaseResponse<TotalRecommendResponse>.self)
+                    guard let recommendsDTO = dto.data else { return }
+                    completion(recommendsDTO)
                 } catch let error {
                     print(error.localizedDescription, 500)
                 }

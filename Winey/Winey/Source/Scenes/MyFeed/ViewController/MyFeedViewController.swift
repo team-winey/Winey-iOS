@@ -26,11 +26,14 @@ final class MyFeedViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let naviBar: WINavigationBar = {
+    private lazy var naviBar: WINavigationBar = {
         let naviBar = WINavigationBar(leftBarItem: .back)
         naviBar.title = "마이피드"
+        naviBar.hideBottomSeperatorView = false
+        naviBar.leftButton.addTarget(self, action: #selector(didTapLeftButton), for: .touchUpInside)
         return naviBar
     }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -63,10 +66,15 @@ final class MyFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUI()
         setLayout()
         register()
         setupDataSource()
         getMyFeed(page: currentPage)
+    }
+    
+    private func setUI() {
+        view.backgroundColor = .winey_gray0
     }
     
     private func register() {
@@ -139,6 +147,10 @@ final class MyFeedViewController: UIViewController {
         
         myfeed.remove(at: path)
     }
+    
+    @objc private func didTapLeftButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - UI & Layout
@@ -202,7 +214,8 @@ extension MyFeedViewController {
                 self.myfeed.append(feed)
                 newItems.append(feed)
             }
-            print(newItems)
+            
+            self.myfeed = myfeed.removeDuplicates()
             var newSnapshot = self.snapshot()
             newSnapshot.appendItems(newItems, toSection: 0)
             
@@ -223,5 +236,12 @@ extension MyFeedViewController {
                 print("게시글 삭제에 오류가 생겼습니다")
             }
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }

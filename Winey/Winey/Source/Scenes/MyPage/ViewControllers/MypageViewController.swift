@@ -5,6 +5,8 @@
 //  Created by 고영민 on 2023/07/12.
 //
 
+import SafariServices
+import Combine
 import UIKit
 
 import SnapKit
@@ -21,6 +23,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var duringGoalCount: Int?
     private var targetMoney: Int?
     private var dday: Int?
+    private var isOver: Bool = false
     private let userService = UserService()
     let inquiryCollectionViewCell = InquiryCollectionViewCell()
     
@@ -34,12 +37,20 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
     )
+    
+    private var bag = Set<AnyCancellable>()
+    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         setUI()
+        bind()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getTotalUser()
         setupWebView()
     }
@@ -88,9 +99,28 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
+    
+    private func bind() {
+        NotificationCenter.default.publisher(for: .whenSetGoalCompleted)
+            .sink { [weak self] _ in
+                self?.getTotalUser()
+            }
+            .store(in: &bag)
+    }
 }
 
-extension MypageViewController: UICollectionViewDelegate {}
+extension MypageViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 2 { // 마이피드
+            let myFeedViewController = MyFeedViewController()
+            self.navigationController?.pushViewController(myFeedViewController, animated: true)
+        } else if indexPath.section == 3 {
+            let url = URL(string: "https://open.kakao.com/o/s751Susf")!
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true)
+        }
+    }
+}
 
 extension MypageViewController: UICollectionViewDataSource {
     
@@ -122,6 +152,7 @@ extension MypageViewController: UICollectionViewDataSource {
             mypageProfileCell.configure(model: .init(nickname: nickname, level: userLevel))
             mypageProfileCell.infoButtonTappedClosure = {
                 let guideViewController = GuideViewController()
+                guideViewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(guideViewController, animated: true)
             }
             return mypageProfileCell
@@ -132,11 +163,13 @@ extension MypageViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? MypageGoalInfoCell
             else { return UICollectionViewCell()}
-            mypageGoalInfoCell.configure(model: .init(
-                duringGoalAmount ?? 0,
-                duringGoalCount ?? 0,
-                targetMoney ?? 0,
-                dday ?? 0)
+            mypageGoalInfoCell.configure(
+                model: .init(
+                    duringGoalAmount,
+                    duringGoalCount,
+                    targetMoney,
+                    dday
+                )
             )
             mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
                 let saveGoalVC = SaveGoalViewController()
@@ -263,13 +296,21 @@ extension MypageViewController {
             self.userLevel = self.judgeUserLevel(userData.userLevel)
             self.nickname = userData.nickname
             
-            print(userData.nickname, userData.userLevel, userData.userID)
+            let goal = data.userResponseGoalDto
+            self.duringGoalCount = goal?.duringGoalCount
+            self.duringGoalAmount = goal?.duringGoalAmount
+            self.dday = goal?.dday
+            self.targetMoney = goal?.targetMoney
+            self.isOver = isOver
+            
+            let hasGoal = data.userResponseGoalDto != nil
+            UserSingleton.saveGoal(hasGoal)
             
             let goalData = data.userResponseGoalDto
-            self.dday = goalData.dday
-            self.targetMoney = goalData.targetMoney
-            self.duringGoalAmount = goalData.duringGoalAmount
-            self.duringGoalCount = goalData.duringGoalCount
+            self.dday = goalData?.dday
+            self.targetMoney = goalData?.targetMoney
+            self.duringGoalAmount = goalData?.duringGoalAmount
+            self.duringGoalCount = goalData?.duringGoalCount
             
             self.collectionView.reloadData()
         }

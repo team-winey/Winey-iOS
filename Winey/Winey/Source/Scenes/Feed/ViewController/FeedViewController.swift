@@ -5,6 +5,7 @@
 //  Created by 김인영 on 2023/07/10.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -25,6 +26,8 @@ final class FeedViewController: UIViewController {
     private var feedList: [FeedModel] = []
     private var currentPage: Int = 1
     private var isEnd: Bool = false
+    
+    private var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
     
@@ -57,6 +60,7 @@ final class FeedViewController: UIViewController {
         setupDataSource()
         getTotalFeed(page: currentPage)
         setAddTarget()
+        bind()
     }
     
     private func setupDataSource() {
@@ -118,6 +122,21 @@ final class FeedViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    private func bind() {
+        NotificationCenter.default.publisher(for: .whenUploadFeedCompleted)
+            .sink { [weak self] _ in
+                self?.refresh()
+            }
+            .store(in: &bag)
+    }
+    
+    private func refresh() {
+        feedList = []
+        currentPage = 1
+        
+        getTotalFeed(page: currentPage)
+    }
+    
     private func getMoreFeed() {
         self.currentPage += 1
         self.getTotalFeed(page: self.currentPage)
@@ -129,6 +148,22 @@ final class FeedViewController: UIViewController {
     
     @objc
     private func goToUploadPage() {
+        guard UserSingleton.getGaol() else {
+            let warningViewController = MIPopupViewController(
+                content: .init(
+                    title: "목표 설정 시 피드 작성이 가능해요!",
+                    subtitle: "지금 마이프로필에서 간단한 목표를\n설정해보세요!"
+                )
+            )
+            warningViewController.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+            
+            warningViewController.addButton(title: "목표 설정하러가기", type: .yellow) {
+                self.tabBarController?.selectedIndex = 2
+            }
+            
+            self.present(warningViewController, animated: true)
+            return
+        }
         let vc = UINavigationController(rootViewController: UploadViewController())
         vc.setNavigationBarHidden(true, animated: false)
         vc.modalPresentationStyle = .fullScreen
@@ -205,6 +240,8 @@ extension FeedViewController {
                 newItems.append(feed)
             }
             
+            self.feedList = self.feedList.removeDuplicates()
+            
             var newSnapshot = self.snapshot()
             newSnapshot.appendItems(newItems, toSection: 0)
             
@@ -226,5 +263,12 @@ extension FeedViewController {
                 self.dataSource.apply(self.snapshot(), animatingDifferences: false)
             }
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }

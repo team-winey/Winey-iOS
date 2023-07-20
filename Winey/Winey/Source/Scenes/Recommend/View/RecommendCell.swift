@@ -15,13 +15,19 @@ final class RecommendCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    private var linkString: String = ""
+    private var linkString: String?
     private var id: Int?
-    var linkButtonTappedClosure: ((String) -> Void)?
+    var linkButtonTappedClosure: ((String?) -> Void)?
     
     // MARK: - UIComponents
     
-    private let imageView = UIImageView()
+    private let imageView: UIImageView = {
+        let v = UIImageView()
+        v.layer.borderColor = UIColor.winey_gray200.cgColor
+        v.layer.borderWidth = 1
+        return v
+    }()
+    
     private let discountLabel = UILabel()
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -46,6 +52,7 @@ final class RecommendCell: UICollectionViewCell {
         )
         return label
     }()
+    private let secondContainerView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -74,7 +81,10 @@ final class RecommendCell: UICollectionViewCell {
         self.linkString = model.link
         self.id = model.id
         let url = URL(string: model.image)
-        imageView.kf.setImage(with: url)
+        imageView.kf.setImage(
+            with: url,
+            options: [.transition(.fade(0.8)), .fromMemoryCacheOrRefresh]
+        )
         discountLabel.setText(model.discount, attributes: Const.discountAttributes)
         titleLabel.setText(model.title, attributes: Const.titleAttributes)
         linkTitleLabel.setText(model.subtitle, attributes: Const.linkTitleAttributes)
@@ -82,6 +92,10 @@ final class RecommendCell: UICollectionViewCell {
     
     @objc
     private func linkButtonTapped() {
+        self.linkButtonTappedClosure?(self.linkString)
+    }
+    
+    @objc private func didTapSecondContainerView() {
         self.linkButtonTappedClosure?(self.linkString)
     }
 }
@@ -92,7 +106,10 @@ extension RecommendCell {
         contentView.makeShadow(radius: 3, offset: CGSize(width: 0, height: 2), opacity: 0.1)
         contentView.backgroundColor = .winey_gray0
         separatorLineView.backgroundColor = .winey_gray100
-        imageView.backgroundColor = .winey_gray700
+        imageView.backgroundColor = .winey_gray200
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSecondContainerView))
+        secondContainerView.isUserInteractionEnabled = true
+        secondContainerView.addGestureRecognizer(tapGesture)
     }
     
     private func setLayout() {
@@ -103,7 +120,6 @@ extension RecommendCell {
         containerStackView.distribution = .fill
         
         let firstContainerView = UIView()
-        let secondContainerView = UIView()
         let textStackView = UIStackView()
         textStackView.axis = .vertical
         textStackView.spacing = 2
