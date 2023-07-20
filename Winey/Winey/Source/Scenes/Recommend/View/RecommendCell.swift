@@ -9,17 +9,18 @@ import UIKit
 
 import DesignSystem
 import SnapKit
+import Kingfisher
 
 final class RecommendCell: UICollectionViewCell {
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.makeCornerRound(radius: 6)
-        return imageView
-    }()
+    
+    private var link: String = ""
+    private var id: Int?
+    
+    private let imageView = UIImageView()
     private let discountLabel = UILabel()
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         return label
     }()
     private let separatorLineView = UIView()
@@ -50,8 +51,23 @@ final class RecommendCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(model: RecommendFeedModel) {
-        imageView.image = model.image
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        discountLabel.text = "초기 discount"
+        titleLabel.text = "초기 titleLabel"
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.makeCornerRound(radius: 6)
+    }
+    
+    func configure(model: RecommendModel) {
+        self.link = model.link
+        self.id = model.id
+        let url = URL(string: model.image)
+        imageView.kf.setImage(with: url)
         discountLabel.setText(model.discount, attributes: Const.discountAttributes)
         titleLabel.setText(model.title, attributes: Const.titleAttributes)
         linkTitleLabel.setText(model.link, attributes: Const.linkTitleAttributes)
