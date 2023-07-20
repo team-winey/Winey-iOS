@@ -13,8 +13,13 @@ import Kingfisher
 
 final class RecommendCell: UICollectionViewCell {
     
-    private var link: String = ""
+    // MARK: - Properties
+    
+    private var linkString: String = ""
     private var id: Int?
+    var linkButtonTappedClosure: ((String) -> Void)?
+    
+    // MARK: - UIComponents
     
     private let imageView = UIImageView()
     private let discountLabel = UILabel()
@@ -28,6 +33,7 @@ final class RecommendCell: UICollectionViewCell {
     private lazy var linkButton: UIButton = {
         let button = UIButton()
         button.setImage(.Icon.link, for: .normal)
+        button.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
         return button
     }()
     private let moreLinkLabel: UILabel = {
@@ -56,6 +62,7 @@ final class RecommendCell: UICollectionViewCell {
         imageView.image = nil
         discountLabel.text = "초기 discount"
         titleLabel.text = "초기 titleLabel"
+        self.linkString = ""
     }
     
     override func layoutSubviews() {
@@ -64,13 +71,18 @@ final class RecommendCell: UICollectionViewCell {
     }
     
     func configure(model: RecommendModel) {
-        self.link = model.link
+        self.linkString = model.link
         self.id = model.id
         let url = URL(string: model.image)
         imageView.kf.setImage(with: url)
         discountLabel.setText(model.discount, attributes: Const.discountAttributes)
         titleLabel.setText(model.title, attributes: Const.titleAttributes)
-        linkTitleLabel.setText(model.link, attributes: Const.linkTitleAttributes)
+        linkTitleLabel.setText(model.subtitle, attributes: Const.linkTitleAttributes)
+    }
+    
+    @objc
+    private func linkButtonTapped() {
+        self.linkButtonTappedClosure?(self.linkString)
     }
 }
 
@@ -129,6 +141,7 @@ extension RecommendCell {
         linkTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(15)
             $0.leading.equalToSuperview().inset(17)
+            $0.trailing.equalTo(linkButton.snp.leading).offset(-17)
             $0.bottom.equalToSuperview().inset(13)
         }
         
