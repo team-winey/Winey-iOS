@@ -595,6 +595,10 @@
 		1D3CBAE62A5C05FD00AE8138 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */,
+				1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */,
+				1D3CBB062A5EC94800AE8138 /* MyfeedCollectionViewCell.swift */,
+				1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -611,10 +615,6 @@
 			isa = PBXGroup;
 			children = (
 				1D3CBAE62A5C05FD00AE8138 /* Cells */,
-				1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */,
-				1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */,
-				1D3CBB062A5EC94800AE8138 /* MyfeedCollectionViewCell.swift */,
-				1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
