@@ -9,7 +9,7 @@ import UIKit
 
 struct RecommendModel: Hashable {
     let id: Int
-    let link: String
+    let link: String?
     let title: String
     let subtitle: String
     let discount: String

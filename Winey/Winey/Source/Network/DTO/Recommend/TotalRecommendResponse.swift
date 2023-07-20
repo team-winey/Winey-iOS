@@ -7,26 +7,31 @@
 
 import Foundation
 
-struct TotalRecommendResponse: Codable {
+struct TotalRecommendResponse: Decodable {
     let pageResponseDto: PageResponseDto
     let recommendsResponseDto: [RecommendsResponseDto]
 }
 
-// MARK: - PageResponseDto
-struct PageResponseDto: Codable {
-    let totalPageSize, currentPageIndex: Int
+struct PageResponseDto: Decodable {
+    let totalPageSize: Int
+    let currentPageIndex: Int
     let isEnd: Bool
 }
 
-// MARK: - RecommendsResponseDto
-struct RecommendsResponseDto: Codable {
+struct RecommendsResponseDto: Decodable {
     let recommendID: Int
-    let recommendLink, recommendTitle, recommendDiscount, recommendImage: String
-    let createdAt: String
-    let recommendSubTitle: String?
+    let recommendLink: String?
+    let recommendTitle: String
+    let recommendDiscount: String
+    let recommendImage: String
+    let recommendSubtitle: String?
 
     enum CodingKeys: String, CodingKey {
         case recommendID = "recommendId"
-        case recommendLink, recommendTitle, recommendDiscount, recommendImage, createdAt, recommendSubTitle
+        case recommendLink
+        case recommendTitle
+        case recommendDiscount
+        case recommendImage
+        case recommendSubtitle = "recommendSubTitle"
     }
 }

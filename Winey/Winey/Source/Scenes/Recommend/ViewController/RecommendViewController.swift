@@ -32,7 +32,7 @@ final class RecommendViewController: UIViewController {
     private let naviBar = WIMainNavigationBar()
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
         layout.itemSize = CGSize(width: view.frame.width - 32, height: RecommendCell.cellHeight())
         layout.minimumLineSpacing = 16
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 154)
@@ -57,12 +57,17 @@ final class RecommendViewController: UIViewController {
         let cellRegistration = CellRegistration<RecommendCell, RecommendModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
             guard indexPath.item < self.recommendList.count else { return }
-            
             cell.configure(model: self.recommendList[indexPath.item])
             cell.linkButtonTappedClosure = { [weak self] linkString in
-                if let url = URL(string: linkString) {
+                if let linkString, let url = URL(string: linkString) {
                     let safariViewController = SFSafariViewController(url: url)
                     self?.present(safariViewController, animated: true)
+                } else {
+                    let alertViewController = MIPopupViewController(
+                        content: .init(title: "속았지.\n이건 링크 없지롱")
+                    )
+                    alertViewController.addButton(title: "닫기", type: .gray, tapButtonHandler: nil)
+                    self?.present(alertViewController, animated: true)
                 }
             }
         }
@@ -138,26 +143,25 @@ extension RecommendViewController: UICollectionViewDelegate {}
 extension RecommendViewController {
     
     private func getTotalRecommend(page: Int) {
-        recommendService.getTotalRecommend(page: page) { [weak self] response in
-            guard let response = response, let data = response.data else { return }
+        recommendService.getTotalRecommend(page: page) { [weak self] recommends in
             guard let self else { return }
-            let pageData = data.pageResponseDto
+            let pageData = recommends.pageResponseDto
             var newItems: [RecommendModel] = []
             self.isEnd = pageData.isEnd
             
-            for recommendData in data.recommendsResponseDto {
+            for recommendData in recommends.recommendsResponseDto {
                 let recommend = RecommendModel(
                     id: recommendData.recommendID,
                     link: recommendData.recommendLink,
                     title: recommendData.recommendTitle,
-                    subtitle: recommendData.recommendSubTitle ?? "",
+                    subtitle: recommendData.recommendSubtitle ?? "",
                     discount: recommendData.recommendDiscount,
                     image: recommendData.recommendImage
                 )
                 self.recommendList.append(recommend)
                 newItems.append(recommend)
             }
-            
+
             var newSnapshot = self.snapshot()
             newSnapshot.appendItems(newItems, toSection: 0)
             
