@@ -12,7 +12,12 @@ import SnapKit
 final class GuideViewController: UIViewController {
     
     // MARK: - UI Components
-    private let navigationBar = WINavigationBar.init(title: "더 즐거운 위니 사용법")
+    
+    private let navigationBar: WINavigationBar = {
+        let naviBar = WINavigationBar(leftBarItem: .back)
+        naviBar.title = "더 즐거운 위니 사용법"
+        return naviBar
+    }()
     private lazy var safearea = self.view.safeAreaLayoutGuide
     private let scrollView = UIScrollView()
     private let bubbleView = BubbleView()
@@ -27,6 +32,7 @@ final class GuideViewController: UIViewController {
         setUI()
         setLayout()
         setupCloseButtonClosure()
+//        setAddTartget()
     }
     
     private func setupCloseButtonClosure() {
@@ -36,6 +42,11 @@ final class GuideViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
+    
+//    private func setAddTartget() {
+//        navigationBar.leftButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
+//    }
+    
     // MARK: - Layout
     
     private func setUI() {
