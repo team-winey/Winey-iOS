@@ -17,6 +17,13 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         let duringGoalCount : Int
         let targetMoney : Int
         let dday: Int
+        
+        init(_ duringGoalAmount: Int, _ duringGoalCount: Int, _ targetMoney: Int, _ dday: Int) {
+            self.duringGoalCount = duringGoalCount
+            self.duringGoalAmount = duringGoalAmount
+            self.targetMoney = targetMoney
+            self.dday = dday
+        }
     }
     
     // MARK: - Properties
