@@ -49,13 +49,6 @@ final class MyFeedViewController: UIViewController {
         collectionView.delegate = self
         return collectionView
     }()
-    private lazy var writeButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .winey_yellow
-        button.setImage(.Btn.floating, for: .normal)
-        button.makeCornerRound(radius: 28)
-        return button
-    }()
     
     // MARK: - View Life Cycles
     
@@ -158,7 +151,7 @@ final class MyFeedViewController: UIViewController {
 extension MyFeedViewController {
     private func setLayout() {
         
-        view.addSubviews(naviBar, collectionView, writeButton)
+        view.addSubviews(naviBar, collectionView)
         
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -168,11 +161,6 @@ extension MyFeedViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(naviBar.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        writeButton.snp.makeConstraints {
-            $0.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(23)
-            $0.size.equalTo(56)
         }
     }
 }
