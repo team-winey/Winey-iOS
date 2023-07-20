@@ -132,6 +132,20 @@ final class LevelupRuleView: UIView {
         return image
     }()
     
+    let firstDevideView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.winey_gray900
+        view.frame = CGRect(x: 0, y: 0, width: 319, height: 3)
+        return view
+    }()
+    
+    let secondDevideView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.winey_gray900
+        view.frame = CGRect(x: 0, y: 0, width: 319, height: 3)
+        return view
+    }()
+    
     // MARK: - View Life Cycles
 
     override init(frame: CGRect) {
@@ -152,8 +166,19 @@ final class LevelupRuleView: UIView {
                                                   nobleTypeLabel, emperorTypeLabel,
                                                   knightTypeExplainLabel, nobleTypeExplainLabel,
                                                   emperorTypeExplainLabel)
+        levelUpContainerVIew.addSubviews(firstDevideView, secondDevideView)
         
         self.addSubview(levelUpContainerVIew)
+        
+        firstDevideView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(levelupRuleGuideImageView.snp.bottom).inset(59)
+        }
+        
+        secondDevideView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(emperorTypeExplainLabel.snp.top).offset(105)
+        }
         
         levelupRuleTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(22)

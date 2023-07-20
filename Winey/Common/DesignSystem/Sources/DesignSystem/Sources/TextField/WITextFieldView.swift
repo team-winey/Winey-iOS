@@ -5,6 +5,7 @@
 //  Created by 김응관 on 2023/07/17.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
@@ -23,20 +24,26 @@ public final class WITextFieldView: UIView {
     private let unitLabel: UILabel = UILabel()
     private let textField: UITextField = UITextField()
     
-    public var price: String? {
-        didSet {
-            if price == "0" || price == nil {
-                textField.placeholder = ""
-                textField.text = ""
-            } else {
-                textField.text = price
-            }
-        }
+    public let pricePublisher = PassthroughSubject<Int, Never>()
+    public let textFieldDidEndEditingPublisher = PassthroughSubject<Void, Never>()
+    
+    private var price: Int = 0 {
+        didSet { pricePublisher.send(price) }
     }
     
-    public let label: Unit?
+    public var label: Unit?
     
     public let textLength: Int?
+    
+    public func makeErrorView() {
+        textField.makeBorder(width: Const.borderWidth, color: Const.errorColor)
+        textField.textColor = Const.errorColor
+    }
+    
+    public func makeDefaultView() {
+        textField.makeBorder(width: Const.borderWidth, color: Const.activeColor)
+        textField.textColor = Const.activeColor
+    }
     
     public override var intrinsicContentSize: CGSize {
         CGSize(width: UIScreen.main.bounds.width, height: Const.textFieldHeight)
@@ -44,7 +51,6 @@ public final class WITextFieldView: UIView {
     
     public init(price: String? = nil, label: Unit? = nil, textLength: NumberType? = nil) {
         self.label = label
-        self.price = price
         self.textLength = textLength?.number
         super.init(frame: .zero)
         setUI()
@@ -82,6 +88,7 @@ extension WITextFieldView {
         textField.addRightPadding(width: Const.rightPadding)
         textField.makeCornerRound(radius: Const.cornerRadius)
         textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
+        textField.backgroundColor = .winey_gray0
         
         unitLabel.setText(label?.text, attributes: Const.labelAttributes)
     }
@@ -123,6 +130,8 @@ extension WITextFieldView {
         }
         
         uploadPrice?(answer)
+        
+        self.price = answer
         self.textField.text = answer.addCommaToString()
     }
     
@@ -142,6 +151,7 @@ extension WITextFieldView {
         
         static let tintColor = UIColor.winey_purple400
         static let activeColor = UIColor.winey_purple400
+        static let errorColor = UIColor.winey_red500
         
         static let unitColor = UIColor.winey_gray900
         
@@ -190,6 +200,7 @@ extension WITextFieldView: UITextFieldDelegate {
         textField.textColor = Const.activeColor
         textField.makeBorder(width: Const.borderWidth, color: Const.activeColor)
         
+        pricePublisher.send(price)
         if let pure = textField.text {
             if pure == "0" { textField.text = nil }
             else { textField.text = pure }
@@ -200,10 +211,8 @@ extension WITextFieldView: UITextFieldDelegate {
     @objc
     private func textfieldDidChange(_ sender: UITextField) {
         
-        if textLength == 11 {
-            makeComma()
-        }
-
+        makeComma()
+        
         guard let text = textField.text else { return }
         if text == "0" {
             textField.text = ""
@@ -214,6 +223,7 @@ extension WITextFieldView: UITextFieldDelegate {
     
     /// textFieldDidEndEditing: textField의 편집이 종료되었을때 작동하는 함수
     public func textFieldDidEndEditing(_ textField: UITextField) {
+        textFieldDidEndEditingPublisher.send(Void())
         textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
         textField.textColor = Const.inactivateTextColor
         

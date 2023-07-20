@@ -12,8 +12,16 @@ import DesignSystem
 
 final class MypageGoalInfoCell: UICollectionViewCell {
     
+    struct ViewModel {
+        let duringGoalAmount : Int
+        let duringGoalCount : Int
+        let targetMoney : Int
+        let dday: Int
+    }
+    
     // MARK: - Properties
 
+    var saveGoalButtonTappedClosure : (() -> Void)?
     static let identifier = MypageGoalInfoCell.className
     
     // MARK: - UIComponents
@@ -71,6 +79,8 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_gray50
         containerView.layer.cornerRadius = 10
+        containerView.layer.borderWidth = 1.0
+        containerView.layer.borderColor = UIColor.winey_gray200.cgColor
         return containerView
     }()
     
@@ -102,11 +112,12 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var modifyButton: UIButton = {
+    private lazy var modifyButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.clear
         button.clipsToBounds = true
         button.setImage(.Mypage.pen, for: .normal)
+        button.addTarget(self, action: #selector(modifyButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -198,6 +209,11 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
+    @objc
+    private func modifyButtonTapped() {
+        self.saveGoalButtonTappedClosure?()
+    }
+    
     // MARK: - View Life Cycle
     
     override init(frame: CGRect) {
@@ -209,6 +225,41 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("SecondView Error!")
+    }
+    
+    func configure(model: ViewModel) {
+        accumulatedWineyLabel.setText(
+            "\(model.duringGoalAmount)원",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
+        wineyCountLabel.setText(
+            "\(model.duringGoalCount)번",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
+        goalLabel.setText(
+            "\(model.targetMoney)원",
+                attributes: .init(
+                    style: .headLine4,
+                    weight: .bold,
+                    textColor: .winey_gray900
+                    )
+                )
+        savingPeriodLabel.setText(
+            "D-\(model.dday)",
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+                )
+            )
     }
     
     // MARK: - Layout

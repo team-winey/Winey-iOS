@@ -32,17 +32,7 @@ class UploadViewController: UIViewController {
     
     /// isOk: nextButton의 활성화여부를 가지는 변수, isOK 값이 바뀌면 그 값에 따라 버튼 활성화 조건이 바뀐다.
     private var isOk: Bool = false {
-        didSet {
-            if isOk {
-                nextButton.isEnabled = true
-                nextButton.backgroundColor = .winey_yellow
-                nextButton.setTitleColor(.winey_gray900, for: .normal)
-            } else {
-                nextButton.isEnabled = false
-                nextButton.backgroundColor = .winey_gray200
-                nextButton.setTitleColor(.winey_gray500, for: .normal)
-            }
-        }
+        didSet { nextButton.isEnabled = isOk }
     }
     
     private lazy var safeArea = self.view.safeAreaLayoutGuide
@@ -102,13 +92,10 @@ class UploadViewController: UIViewController {
     }()
     
     /// nextButton: 다음 단계로 이동하는 하단 버튼
-    private let nextButton: UIButton = {
-        let btn = UIButton()
-        btn.layer.cornerRadius = 5
-        btn.backgroundColor = .winey_gray200
+    private let nextButton: MIButton = {
+        let btn = MIButton(type: .yellow)
         btn.isEnabled = false
-        let title = Typography.build(string: "다음", attributes: Const.nextButtonAttributes)
-        btn.setAttributedTitle(title, for: .normal)
+        btn.setTitle("다음", for: .normal)
         return btn
     }()
     
@@ -145,11 +132,9 @@ class UploadViewController: UIViewController {
         
         imagePicker.delegate = self
         
-        let title = Typography.build(string: titles[stageIdx], attributes: Const.nextButtonAttributes)
-        
-        nextButton.setAttributedTitle(title, for: .normal)
-        
         pageGuide.currentPage = stageIdx
+        
+        nextButton.setTitle(titles[stageIdx], for: .normal)
         
         /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
         switch stageIdx {
@@ -380,22 +365,19 @@ class UploadViewController: UIViewController {
     private func keyboardWillShow(notification: NSNotification) {
         
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        _ = UIEdgeInsets(
-            top: 0.0,
-            left: 0.0,
-            bottom: keyboardFrame.size.height,
-            right: 0.0
-        )
-        
-        self.nextButton.transform = CGAffineTransform(translationX: 0, y: -keyboardFrame.size.height)
+        self.nextButton.snp.updateConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+                .inset(keyboardFrame.size.height - 12)
+        }
+        view.layoutIfNeeded()
     }
     
     @objc
     private func keyboardWillHide(notification: NSNotification) {
-        
-        UIView.animate(withDuration: 0.2, animations: {
-            self.nextButton.transform = .identity
-        })
+        self.nextButton.snp.updateConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        view.layoutIfNeeded()
     }
 }
 
@@ -502,21 +484,15 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
     }
 }
 
-/// nextButton의 글자 폰트
-private extension UploadViewController {
-    enum Const {
-        static let nextButtonAttributes = Typography.Attributes(
-            style: .body,
-            weight: .medium,
-            textColor: .winey_gray500
-        )
-    }
-}
-
 extension UploadViewController {
     
     private func postFeed(feed: UploadModel) {
-        // 피드 업로드
-        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in }
+        let productPolicy = ProductPolicy.productBy(feed.feedMoney)
+        let loadingViewController = UploadLoadingViewController(keyword: productPolicy.rawValue)
+        self.navigationController?.pushViewController(loadingViewController, animated: true)
+        
+        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in
+            NotificationCenter.default.post(name: .whenFeedUploaded, object: nil)
+        }
     }
 }
