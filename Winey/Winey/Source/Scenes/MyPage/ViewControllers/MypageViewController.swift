@@ -113,7 +113,6 @@ extension MypageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 2 { // 마이피드
             let myFeedViewController = MyFeedViewController()
-            myFeedViewController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(myFeedViewController, animated: true)
         } else if indexPath.section == 3 {
             let url = URL(string: "https://open.kakao.com/o/s751Susf")!
