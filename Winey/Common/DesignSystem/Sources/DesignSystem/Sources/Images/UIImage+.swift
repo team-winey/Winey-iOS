@@ -53,6 +53,8 @@ public extension UIImage {
         public static let profile_level_two = UIImage(name: "img_profile_level_two")
         public static let profile_level_three = UIImage(name: "img_profile_level_three")
         public static let profile_level_four = UIImage(name: "img_profile_level_four")
+        public static let feed_character = UIImage(name: "img_feed_character")
+        public static let recommend_character = UIImage(name: "img_recommend_character")
         
     }
     
