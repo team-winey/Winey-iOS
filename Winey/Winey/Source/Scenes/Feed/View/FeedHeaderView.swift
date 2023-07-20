@@ -48,7 +48,7 @@ final class FeedHeaderView: UICollectionReusableView {
     
     private let characterImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .Sample.sample1
+        imageView.image = .Img.feed_character
         return imageView
     }()
     
@@ -85,10 +85,9 @@ final class FeedHeaderView: UICollectionReusableView {
         }
         
         characterImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(18)
+            $0.top.equalToSuperview().inset(50)
             $0.trailing.equalTo(containerView)
-            $0.width.equalTo(112)
-            $0.height.equalTo(140)
+            $0.size.equalTo(107)
         }
     }
 }
