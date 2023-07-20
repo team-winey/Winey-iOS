@@ -103,16 +103,16 @@ final class MyFeedViewController: UIViewController {
         
         let alertController = MIPopupViewController(content: alertContent)
         
+        alertController.addButton(title: "취소", type: .gray) { [weak self] in
+            self?.dismiss(animated: true)
+        }
+        
         alertController.addButton(title: "삭제하기", type: .yellow) { [weak self] in
             DispatchQueue.global(qos: .userInteractive).async {
                 self?.deleteMyFeed(idx: idx)
             }
             
             self?.deleteCell(path)
-        }
-        
-        alertController.addButton(title: "취소", type: .gray) { [weak self] in
-            self?.dismiss(animated: true)
         }
         
         present(alertController, animated: true, completion: nil)
