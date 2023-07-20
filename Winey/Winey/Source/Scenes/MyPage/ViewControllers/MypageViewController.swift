@@ -22,6 +22,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var duringGoalCount: Int?
     private var targetMoney: Int?
     private var dday: Int?
+    private var isOver: Bool = false
     private let userService = UserService()
     let inquiryCollectionViewCell = InquiryCollectionViewCell()
     
@@ -41,6 +42,10 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         setLayout()
         setUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getTotalUser()
         setupWebView()
     }
@@ -278,6 +283,12 @@ extension MypageViewController {
             let userData = data.userResponseUserDto
             self.userLevel = self.judgeUserLevel(userData.userLevel)
             self.nickname = userData.nickname
+            
+            self.duringGoalCount = data.userResponseGoalDto.duringGoalCount
+            self.duringGoalAmount = data.userResponseGoalDto.duringGoalAmount
+            self.dday = data.userResponseGoalDto.dday
+            self.targetMoney = data.userResponseGoalDto.targetMoney
+            self.isOver = isOver
             
             print(userData.nickname, userData.userLevel, userData.userID)
             
