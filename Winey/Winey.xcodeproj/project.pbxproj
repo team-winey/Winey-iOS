@@ -10,6 +10,7 @@
 		0D09FB002A696CF800893A6D /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FAFF2A696CF800893A6D /* UserDefaultsManager.swift */; };
 		0D09FB022A696D1300893A6D /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB012A696D1300893A6D /* UserManager.swift */; };
 		0D09FB042A696D2900893A6D /* UserDefaults+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB032A696D2900893A6D /* UserDefaults+Name.swift */; };
+		0D09FB062A697C3C00893A6D /* TestUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB052A697C3C00893A6D /* TestUserViewController.swift */; };
 		0D2E89792A683ADE00733BE1 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0D2E89782A683ADE00733BE1 /* Lottie */; };
 		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
 		0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */; };
@@ -96,6 +97,7 @@
 		0D09FAFF2A696CF800893A6D /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		0D09FB012A696D1300893A6D /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0D09FB032A696D2900893A6D /* UserDefaults+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Name.swift"; sourceTree = "<group>"; };
+		0D09FB052A697C3C00893A6D /* TestUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserViewController.swift; sourceTree = "<group>"; };
 		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		0D6519662A61905300643F46 /* TestTypoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypoViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */,
+				0D09FB052A697C3C00893A6D /* TestUserViewController.swift */,
 				0D6519662A61905300643F46 /* TestTypoViewController.swift */,
 				0D6519682A6191F700643F46 /* TestPopupViewController.swift */,
 			);
@@ -836,6 +839,7 @@
 				14576DC02A68969C00C79C9C /* PostGoalResponse.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
 				1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */,
+				0D09FB062A697C3C00893A6D /* TestUserViewController.swift in Sources */,
 				145B44BA2A68AC410043D10C /* TotalRecommendResponse.swift in Sources */,
 				14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */,
 				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
