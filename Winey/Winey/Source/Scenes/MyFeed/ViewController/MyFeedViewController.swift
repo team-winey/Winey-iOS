@@ -214,7 +214,8 @@ extension MyFeedViewController {
                 self.myfeed.append(feed)
                 newItems.append(feed)
             }
-            print(newItems)
+            
+            self.myfeed = myfeed.removeDuplicates()
             var newSnapshot = self.snapshot()
             newSnapshot.appendItems(newItems, toSection: 0)
             
@@ -235,5 +236,12 @@ extension MyFeedViewController {
                 print("게시글 삭제에 오류가 생겼습니다")
             }
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }
