@@ -20,6 +20,7 @@ final class MyFeedViewController: UIViewController {
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
     private var myfeedService = FeedService()
     private var myfeed: [FeedModel] = []
+
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
@@ -71,7 +72,7 @@ final class MyFeedViewController: UIViewController {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
             cell.configure(model: self.myfeed[indexPath.item])
             cell.moreButtonTappedClosure = { [weak self] idx in
-                self?.showAlert(idx)
+                self?.showAlert(idx, indexPath.item)
             }
         }
         
@@ -93,12 +94,16 @@ final class MyFeedViewController: UIViewController {
         return snapshot
     }
     
-    private func showAlert(_ idx: Int) {
+    private func showAlert(_ idx: Int, _ path: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
-            // 삭제버튼 클릭 시
-            self.deleteMyFeed(idx: idx)
+        let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { [self] _ in
+            
+            DispatchQueue.global(qos: .utility).async {
+                self.deleteMyFeed(idx: idx)
+            }
+
+            self.deleteCell(path)
         }
         alertController.addAction(deleteAction)
         
@@ -113,6 +118,15 @@ final class MyFeedViewController: UIViewController {
     private func getMoreFeed() {
         self.currentPage += 1
         self.getMyFeed(page: self.currentPage)
+    }
+    
+    func deleteCell(_ idx: Int) {
+        var snapshot = dataSource.snapshot()
+        
+        let targetItem = snapshot.itemIdentifiers[idx]
+        snapshot.deleteItems([targetItem])
+        
+        dataSource.apply(snapshot)
     }
 }
 
@@ -184,15 +198,14 @@ extension MyFeedViewController {
     }
     
     private func deleteMyFeed(idx: Int) {
-        let currentOffset = collectionView.contentOffset.y
-        
         myfeedService.deleteMyFeed(idx) { [weak self] response in
             
             guard let self else { return }
             
             if response {
-                getMyFeed(page: self.currentPage)
-                collectionView.contentOffset.y = currentOffset
+                print("게시글이 삭제되었습니다")
+            } else {
+                print("게시글 삭제에 오류가 생겼습니다")
             }
         }
     }
