@@ -44,7 +44,8 @@ final class MyFeedViewController: UIViewController {
             frame: .zero,
             collectionViewLayout: layout
         )
-        collectionView.backgroundColor = .winey_gray0
+        
+        collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         return collectionView
