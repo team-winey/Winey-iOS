@@ -230,9 +230,7 @@ extension MyFeedViewController {
                 self.myfeed[feedIndex].isLiked = feedLike
                 self.myfeed[feedIndex].like = data.likes
             }
-            DispatchQueue.global().async {
-                self.dataSource.apply(self.snapshot(), animatingDifferences: false)
-            }
+            self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
     }
 }
