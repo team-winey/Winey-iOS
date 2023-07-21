@@ -201,7 +201,6 @@ class UploadViewController: UIViewController {
     /// setAddTarget: 업로드 단계에 따라 버튼과 네비게이션바 등에 다른 액션함수 지정
     private func setAddTarget() {
         navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
-        firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
         firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
         
         if stageIdx == 2 {
@@ -448,8 +447,6 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
                 self.imagePicker.modalPresentationStyle = .currentContext
                 self.present(self.imagePicker, animated: true, completion: nil)
             }
-        } else {
-            print("앨범에 접근할 수 없습니다.")
         }
     }
     

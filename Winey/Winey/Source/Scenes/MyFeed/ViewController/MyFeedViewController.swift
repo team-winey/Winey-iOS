@@ -219,13 +219,7 @@ extension MyFeedViewController {
     }
     
     private func deleteMyFeed(idx: Int) {
-        feedService.deleteMyFeed(idx) { [weak self] response in
-            if response {
-                print("게시글이 삭제되었습니다")
-            } else {
-                print("게시글 삭제에 오류가 생겼습니다")
-            }
-        }
+        feedService.deleteMyFeed(idx) { _ in }
     }
     
     private func postFeedLike(feedId: Int, feedLike: Bool) {

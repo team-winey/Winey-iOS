@@ -78,10 +78,8 @@ final class FeedService {
             
             switch statusCode {
             case 200..<300:
-                print("게시물 등록 성공")
                 completionHandler(true)
             default:
-                print("게시물 등록 실패")
                 completionHandler(false)
             }
         }

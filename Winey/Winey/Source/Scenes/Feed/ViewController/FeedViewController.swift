@@ -211,8 +211,7 @@ extension FeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension FeedViewController: UICollectionViewDelegate {
-}
+extension FeedViewController: UICollectionViewDelegate {}
 
 // MARK: - ScrollDelegate
 
@@ -227,7 +226,6 @@ extension FeedViewController: UIScrollViewDelegate {
 // MARK: - Network
 
 extension FeedViewController {
-    
     private func getTotalFeed(page: Int) {
         feedService.getTotalFeed(page: page) { [weak self] response in
             guard let response = response, let data = response.data else { return }
