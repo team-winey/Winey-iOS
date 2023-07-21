@@ -39,7 +39,7 @@ final class MyFeedViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width, height: 367)
+        layout.itemSize = CGSize(width: view.bounds.width, height: 367)
         layout.minimumLineSpacing = 1
 
         let collectionView = UICollectionView(
@@ -66,7 +66,7 @@ final class MyFeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refresh()
+        
     }
     
     private func setUI() {
@@ -210,7 +210,6 @@ extension MyFeedViewController {
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
             let pageData = data.pageResponse
-            var newItems: [FeedModel] = []
             self.isEnd = pageData.isEnd
             
             for feedData in data.getFeedResponseList {
@@ -228,33 +227,20 @@ extension MyFeedViewController {
                     profileImage: userLevel.profileImage
                 )
                 self.myfeed.append(feed)
-                newItems.append(feed)
+                self.myfeed = myfeed.removeDuplicates()
             }
+           
+            var newSnapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
+            newSnapshot.appendSections([0])
+            newSnapshot.appendItems(self.myfeed)
             
-            self.myfeed = myfeed.removeDuplicates()
-            
+            self.dataSource.apply(newSnapshot, animatingDifferences: true)
             checkEmpty()
-            
-            var newSnapshot = self.snapshot()
-            newSnapshot.appendItems(newItems, toSection: 0)
-            
-            DispatchQueue.global().async {
-                self.dataSource.apply(newSnapshot, animatingDifferences: true)
-            }
         }
     }
     
     private func deleteMyFeed(idx: Int) {
-        feedService.deleteMyFeed(idx) { [weak self] response in
-            
-            guard self != nil else { return }
-            
-            if response {
-                print("게시글이 삭제되었습니다")
-            } else {
-                print("게시글 삭제에 오류가 생겼습니다")
-            }
-        }
+        feedService.deleteMyFeed(idx) { _ in }
     }
     
     private func postFeedLike(feedId: Int, feedLike: Bool) {
@@ -265,9 +251,7 @@ extension MyFeedViewController {
                 self.myfeed[feedIndex].isLiked = feedLike
                 self.myfeed[feedIndex].like = data.likes
             }
-            DispatchQueue.global().async {
-                self.dataSource.apply(self.snapshot(), animatingDifferences: false)
-            }
+            self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
     }
 }

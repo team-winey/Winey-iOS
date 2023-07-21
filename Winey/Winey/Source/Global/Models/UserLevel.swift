@@ -19,7 +19,6 @@ enum UserLevel: String, CaseIterable {
 
 extension UserLevel {
     init?(value: Int) {
-        print(UserLevel.allCases[value - 1].rawValue)
         self.init(rawValue: UserLevel.allCases[value - 1].rawValue)
     }
 }

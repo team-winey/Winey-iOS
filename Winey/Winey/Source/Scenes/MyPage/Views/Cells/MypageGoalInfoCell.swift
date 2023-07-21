@@ -35,8 +35,9 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     var goalInfoStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.spacing = 0
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.alignment = .fill
         return stackView
     }()
@@ -242,8 +243,8 @@ final class MypageGoalInfoCell: UICollectionViewCell {
                 style: .headLine4,
                 weight: .bold,
                 textColor: .winey_gray900
-                )
             )
+        )
         let goalCount = model.duringGoalCount ?? 0
         wineyCountLabel.setText(
             "\(goalCount)번",
@@ -251,17 +252,17 @@ final class MypageGoalInfoCell: UICollectionViewCell {
                 style: .headLine4,
                 weight: .bold,
                 textColor: .winey_gray900
-                )
             )
+        )
         let targetMoney = model.targetMoney == nil ? "아직 없어요" : "\(model.targetMoney ?? 0)원"
         goalLabel.setText(
             "\(targetMoney)",
-                attributes: .init(
-                    style: .headLine4,
-                    weight: .bold,
-                    textColor: .winey_gray900
-                    )
-                )
+            attributes: .init(
+                style: .headLine4,
+                weight: .bold,
+                textColor: .winey_gray900
+            )
+        )
         
         let dday = model.dday == nil ? "아직 없어요" : "D-\(model.dday ?? 0)"
         savingPeriodLabel.setText(
@@ -270,50 +271,41 @@ final class MypageGoalInfoCell: UICollectionViewCell {
                 style: .headLine4,
                 weight: .bold,
                 textColor: .winey_gray900
-                )
             )
+        )
+        savingPeriodLabel.textAlignment = .center
+        wineyCountLabel.textAlignment = .center
+        accumulatedWineyLabel.textAlignment = .center
     }
     
     // MARK: - Layout
     
     func setLayout() {
         contentView.addSubviews(goalContainerView, goalInfoStackView)
+        contentView.addSubviews(firstDevideView, secondDevideView)
         
         goalContainerView.addSubviews(goalTitleLabel, goalLabel, modifyButton)
-
-        
-        goalInfoStackView.addSubviews(leftView,centerView,rightView, firstDevideView, secondDevideView)
-        
+        goalInfoStackView.addArrangedSubviews(leftView, centerView, rightView)
         leftView.addSubviews(savingPeriodLabel, savingPeriodTitleLabel)
-        
         centerView.addSubviews(accumulatedWineyTitleLabel, accumulatedWineyLabel)
-        
         rightView.addSubviews(wineyCountTitleLabel, wineyCountLabel)
         
         leftView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.top.equalToSuperview()
-            make.width.equalTo(120)
-            make.height.equalTo(74)
         }
         centerView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
-            make.width.equalTo(120)
-            make.height.equalTo(74)
         }
         rightView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.top.equalToSuperview()
-            make.width.equalTo(120)
-            make.height.equalTo(74)
         }
         
         goalContainerView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(18)
-            make.width.equalTo(358)
-            make.height.equalTo(69)
                         
             goalTitleLabel.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(13)
@@ -321,65 +313,71 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             }
             
             goalLabel.snp.makeConstraints { make in
-                make.bottom.equalToSuperview().inset(12)
+                make.top.equalTo(goalTitleLabel.snp.bottom).offset(2)
                 make.leading.equalToSuperview().inset(22)
+                make.bottom.equalToSuperview().inset(12)
             }
             
             modifyButton.snp.makeConstraints { make in
                 make.verticalEdges.equalToSuperview()
                 make.trailing.equalToSuperview()
-                make.width.height.equalTo(69)
+                make.width.equalTo(modifyButton.snp.height)
             }
         }
         
         goalInfoStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(15)
             make.bottom.equalToSuperview().inset(6)
-            make.width.equalTo(360)
-            make.height.equalTo(74)
             
             savingPeriodTitleLabel.snp.makeConstraints { make in
-                make.centerX.equalToSuperview().inset(32)
                 make.top.equalToSuperview().inset(14)
+                make.horizontalEdges.equalToSuperview()
+                make.centerX.equalToSuperview().inset(32)
             }
             
             savingPeriodLabel.snp.makeConstraints { make in
+                make.top.equalTo(savingPeriodTitleLabel.snp.bottom).offset(6)
+                make.horizontalEdges.equalToSuperview()
                 make.centerX.equalToSuperview().inset(4)
                 make.bottom.equalToSuperview().inset(13)
             }
             
             firstDevideView.snp.makeConstraints { make in
-                make.trailing.equalTo(leftView)
-                make.verticalEdges.equalToSuperview().inset(14)
+                make.leading.equalTo(leftView.snp.trailing)
+                make.centerY.equalTo(leftView)
                 make.width.equalTo(1)
                 make.height.equalTo(22)
             }
             
             secondDevideView.snp.makeConstraints { make in
-                make.trailing.equalTo(centerView)
-                make.verticalEdges.equalToSuperview().inset(14)
+                make.leading.equalTo(centerView.snp.trailing)
+                make.centerY.equalTo(centerView)
                 make.width.equalTo(1)
                 make.height.equalTo(22)
             }
             
             accumulatedWineyTitleLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(32)
+                make.horizontalEdges.equalToSuperview()
                 make.top.equalToSuperview().inset(14)
             }
             
             accumulatedWineyLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(4)
+                make.horizontalEdges.equalToSuperview()
                 make.bottom.equalToSuperview().inset(13)
             }
             
             wineyCountTitleLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(32)
                 make.top.equalToSuperview().inset(14)
+                make.horizontalEdges.equalToSuperview()
             }
             
             wineyCountLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(4)
                 make.bottom.equalToSuperview().inset(13)
+                make.horizontalEdges.equalToSuperview()
             }
         }
     }

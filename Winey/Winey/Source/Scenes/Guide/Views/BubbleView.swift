@@ -51,9 +51,8 @@ final class BubbleView: UIView {
     // MARK: - UI & Layout
     
     func setLayout() {
-        bubbleImageView.addSubview(bubbleLabel)
-        
         self.addSubview(bubbleImageView)
+        bubbleImageView.addSubview(bubbleLabel)
         
         bubbleLabel.snp.makeConstraints { make in
             make.top.equalTo(bubbleImageView).inset(11)
