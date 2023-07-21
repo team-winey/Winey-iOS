@@ -19,6 +19,7 @@ final class SaveGoalViewController: UIViewController {
     private var money: Int = 0
     private var period: Int = 0
     
+    private let scrollView = UIScrollView()
     private lazy var cancelButton = UIButton()
     private let moneyTitleLabel = UILabel()
     private let moneyTextField = WITextFieldView(price: "0", label: .won, textLength: .price)
@@ -52,7 +53,7 @@ extension SaveGoalViewController {
             self.moneyDetailLabel.textColor = .winey_red500
         } else {
             // purple
-            self.moneyTextField.makeDefaultView()
+            self.moneyTextField.makeActiveView()
             self.moneyDetailLabel.textColor = .winey_gray400
         }
     }
@@ -64,9 +65,16 @@ extension SaveGoalViewController {
             self.periodDetailLabel.textColor = .winey_red500
         } else {
             // purple
-            self.periodTextField.makeDefaultView()
+            self.periodTextField.makeActiveView()
             self.periodDetailLabel.textColor = .winey_gray400
-            
+        }
+    }
+    
+    private func checkSaveButtonEnabled() {
+        if money >= 30000 && period >= 5  {
+            saveButton.isEnabled = true
+        } else {
+            saveButton.isEnabled = false
         }
     }
     
@@ -93,7 +101,7 @@ extension SaveGoalViewController {
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         self.saveContainerView.snp.updateConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-                .inset(keyboardFrame.size.height - 14)
+                .inset(keyboardFrame.size.height)
         }
         view.layoutIfNeeded()
     }
@@ -127,6 +135,8 @@ extension SaveGoalViewController {
         periodDetailLabel.setText(Const.periodDetail, attributes: Const.detailAttributes)
         saveLabel.setText(Const.saveDetail, attributes: Const.saveLabelAttributes)
         
+        scrollView.keyboardDismissMode = .onDrag
+        
         let cancelAtrributeString = Typography.build(string: "취소", attributes: Const.cancelButtonAttributes)
         cancelButton.setAttributedTitle(cancelAtrributeString, for: .normal)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
@@ -146,10 +156,15 @@ extension SaveGoalViewController {
         let moneyBoxView = UIView()
         let periodBoxView = UIView()
         
-        view.addSubviews(cancelButton, moneyBoxView, periodBoxView, saveContainerView)
+        view.addSubviews(scrollView, saveContainerView)
+        scrollView.addSubviews(cancelButton, moneyBoxView, periodBoxView)
         moneyBoxView.addSubviews(moneyTitleLabel, moneyTextField, moneyDetailLabel)
         periodBoxView.addSubviews(periodTitleLabel, periodTextField, periodDetailLabel)
         saveContainerView.addSubviews(saveLabel, saveButton)
+        
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         cancelButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(3)
@@ -159,15 +174,16 @@ extension SaveGoalViewController {
         }
         
         moneyBoxView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(66)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(55)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.height.equalTo(113)
         }
         
         periodBoxView.snp.makeConstraints {
             $0.top.equalTo(moneyBoxView.snp.bottom).offset(34)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.height.equalTo(113)
+            $0.bottom.equalToSuperview()
         }
         
         moneyTitleLabel.snp.makeConstraints {
@@ -221,6 +237,7 @@ extension SaveGoalViewController {
             .sink { [weak self] price in
                 self?.checkMoneyValue(value: price)
                 self?.money = price
+                self?.checkSaveButtonEnabled()
             }
             .store(in: &bag)
         
@@ -228,12 +245,21 @@ extension SaveGoalViewController {
             .sink { [weak self] price in
                 self?.checkPeriodValue(value: price)
                 self?.period = price
+                self?.checkSaveButtonEnabled()
             }
             .store(in: &bag)
         
         moneyTextField.textFieldDidEndEditingPublisher
             .sink { [weak self] in
-                self?.moneyDetailLabel.textColor = .winey_gray400
+                if let money = self?.money {
+                    if money < 30000 {
+                        self?.moneyTextField.makeErrorView()
+                        self?.moneyDetailLabel.textColor = .winey_red500
+                    } else {
+                        self?.moneyTextField.makeActiveView()
+                        self?.moneyDetailLabel.textColor = .winey_gray400
+                    }
+                }
             }
             .store(in: &bag)
         
