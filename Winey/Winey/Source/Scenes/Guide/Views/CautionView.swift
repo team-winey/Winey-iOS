@@ -43,7 +43,7 @@ final class CautionView: UIView {
         return label
     }()
     
-    private let closeButton: UIButton = {
+    private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setTitle("닫기", for: .normal)
         button.setTitleColor(.winey_gray500, for: .normal)
