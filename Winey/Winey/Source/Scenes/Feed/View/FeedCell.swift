@@ -76,6 +76,8 @@ final class FeedCell: UICollectionViewCell {
         return button
     }()
     
+    private let underLineView = UIView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
@@ -151,9 +153,10 @@ extension FeedCell {
     private func setLayout() {
         
         backgroundColor = .winey_gray0
+        underLineView.backgroundColor = .winey_gray100
         
         addSubviews(profileImageView, nicknameLabel, moreButton, feedImageView, feedTitleLabel)
-        addSubviews(feedMoneyContainerView, likeCountLabel, likeButton)
+        addSubviews(feedMoneyContainerView, likeCountLabel, likeButton, underLineView)
         feedMoneyContainerView.addSubview(feedMoneyLabel)
         
         profileImageView.snp.makeConstraints {
@@ -205,6 +208,11 @@ extension FeedCell {
         likeCountLabel.snp.makeConstraints {
             $0.top.equalTo(likeButton.snp.bottom).offset(2)
             $0.centerX.equalTo(likeButton)
+        }
+        
+        underLineView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(1)
         }
     }
     
