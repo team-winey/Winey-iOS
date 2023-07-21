@@ -176,7 +176,7 @@ class UploadViewController: UIViewController {
         }
         
         grayDot.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(115)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(14)
             $0.leading.equalToSuperview().inset(17)
         }
         
@@ -437,34 +437,6 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
             alertVC.addAction(cancelAction)
             alertVC.addAction(confirmAction)
             self.present(alertVC, animated: true, completion: nil)
-        }
-        
-        view.addSubviews(grayDot, pageGuide, scrollView, nextButton)
-        
-        // PageControl
-        grayDot.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(115)
-            $0.leading.equalToSuperview().inset(17)
-        }
-        
-        // UploadBaseView
-        pageGuide.snp.makeConstraints {
-            $0.top.equalTo(grayDot.snp.bottom).offset(17)
-            $0.leading.equalToSuperview().inset(17)
-        }
-        
-        // ScrollView
-        scrollView.snp.makeConstraints {
-            $0.top.equalTo(pageGuide.snp.bottom).offset(20)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(182)
-        }
-        
-        // 다음 버튼
-        nextButton.snp.makeConstraints {
-            $0.bottom.equalTo(safeArea).inset(4)
-            $0.height.equalTo(52)
-            $0.horizontalEdges.equalToSuperview().inset(16)
         }
     }
     
