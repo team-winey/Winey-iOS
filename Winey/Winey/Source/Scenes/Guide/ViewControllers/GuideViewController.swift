@@ -62,6 +62,7 @@ extension GuideViewController {
     // MARK: - Layout
     
     private func setUI() {
+        levelupRuleView.makeCornerRound(radius: 12)
         navigationBar.hideBottomSeperatorView = false
         navigationBar.rightButton.addTarget(
             self,
@@ -101,16 +102,14 @@ extension GuideViewController {
         }
         
         levelupRuleView.snp.makeConstraints { make in
-            make.top.equalTo(levelupDescriptionView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(554)
+            make.top.equalTo(levelupDescriptionView.snp.bottom).offset(9)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
         
         cautionView.snp.makeConstraints { make in
-            make.top.equalTo(levelupRuleView.snp.bottom)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalToSuperview()
-            make.height.equalTo(206)
+            make.top.equalTo(levelupRuleView.snp.bottom).offset(69)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.bottom.equalTo(view.safeAreaInsets.bottom).inset(4)
         }
     }
 }
