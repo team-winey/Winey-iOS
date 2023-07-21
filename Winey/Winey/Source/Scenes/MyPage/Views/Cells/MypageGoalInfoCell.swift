@@ -236,7 +236,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }
     
     func configure(model: ViewModel) {
-        let goalAmount = model.duringGoalAmount ?? 0
+        let goalAmount = model.duringGoalAmount?.addCommaToString() ?? ""
         accumulatedWineyLabel.setText(
             "\(goalAmount)원",
             attributes: .init(
@@ -254,15 +254,26 @@ final class MypageGoalInfoCell: UICollectionViewCell {
                 textColor: .winey_gray900
             )
         )
-        let targetMoney = model.targetMoney == nil ? "아직 없어요" : "\(model.targetMoney ?? 0)원"
-        goalLabel.setText(
-            "\(targetMoney)",
-            attributes: .init(
-                style: .headLine4,
-                weight: .bold,
-                textColor: .winey_gray900
+        if let targetMoney = model.targetMoney {
+            let money = targetMoney.addCommaToString() ?? "0"
+            goalLabel.setText(
+                "\(money)원",
+                attributes: .init(
+                    style: .headLine4,
+                    weight: .bold,
+                    textColor: .winey_gray900
+                )
             )
-        )
+        } else {
+            goalLabel.setText(
+                "아직 없어요",
+                attributes: .init(
+                    style: .headLine4,
+                    weight: .bold,
+                    textColor: .winey_gray900
+                )
+            )
+        }
         
         let dday = model.dday == nil ? "아직 없어요" : "D-\(model.dday ?? 0)"
         savingPeriodLabel.setText(
