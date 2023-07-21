@@ -53,11 +53,6 @@ final class MyFeedViewController: UIViewController {
     
     // MARK: - View Life Cycles
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        getMyFeed(page: currentPage)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -65,6 +60,11 @@ final class MyFeedViewController: UIViewController {
         register()
         setupDataSource()
         getMyFeed(page: currentPage)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
     }
     
     private func setUI() {
@@ -126,6 +126,13 @@ final class MyFeedViewController: UIViewController {
         }
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func refresh() {
+        myfeed = []
+        currentPage = 1
+        
+        getMyFeed(page: currentPage)
     }
     
     private func getMoreFeed() {
