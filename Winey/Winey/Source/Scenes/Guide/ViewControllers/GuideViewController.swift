@@ -13,7 +13,7 @@ final class GuideViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let navigationBar: WINavigationBar = {
+    private lazy var navigationBar: WINavigationBar = {
         let naviBar = WINavigationBar(leftBarItem: .back)
         naviBar.title = "더 즐거운 위니 사용법"
         return naviBar
@@ -31,8 +31,8 @@ final class GuideViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setLayout()
+        setAddTartget()
         setupCloseButtonClosure()
-//        setAddTartget()
     }
     
     private func setupCloseButtonClosure() {
@@ -43,9 +43,21 @@ final class GuideViewController: UIViewController {
         }
     }
     
-//    private func setAddTartget() {
-//        navigationBar.leftButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
-//    }
+    private func setAddTartget() {
+        navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func didTapRightButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+
+extension GuideViewController {
     
     // MARK: - Layout
     
@@ -73,7 +85,7 @@ final class GuideViewController: UIViewController {
         
         navigationBar.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         bubbleView.snp.makeConstraints { make in
             make.height.equalTo(120)
@@ -102,9 +114,5 @@ final class GuideViewController: UIViewController {
             make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-    }
-    
-    @objc private func didTapRightButton() {
-        self.navigationController?.popViewController(animated: true)
     }
 }
