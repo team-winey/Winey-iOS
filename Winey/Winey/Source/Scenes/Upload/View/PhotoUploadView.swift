@@ -114,7 +114,6 @@ class PhotoUploadView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        // setLineDot(view: galleryBtn, color: .winey_purple100, radius: 10)
     }
     
     required init?(coder: NSCoder) {
