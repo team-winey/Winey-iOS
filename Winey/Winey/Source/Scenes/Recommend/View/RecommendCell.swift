@@ -85,7 +85,7 @@ final class RecommendCell: UICollectionViewCell {
             with: url,
             options: [.transition(.fade(0.8)), .fromMemoryCacheOrRefresh]
         )
-        discountLabel.setText(model.discount, attributes: Const.discountAttributes)
+        discountLabel.setText(model.discount + " 절약", attributes: Const.discountAttributes)
         titleLabel.setText(model.title, attributes: Const.titleAttributes)
         linkTitleLabel.setText(model.subtitle, attributes: Const.linkTitleAttributes)
     }

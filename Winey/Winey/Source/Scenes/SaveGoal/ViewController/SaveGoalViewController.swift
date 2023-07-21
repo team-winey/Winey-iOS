@@ -31,7 +31,7 @@ final class SaveGoalViewController: UIViewController {
 
     private let saveContainerView = UIView()
     private let saveLabel = UILabel()
-    private lazy var saveButton = UIButton()
+    private let saveButton = MIButton(type: .yellow)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,10 +154,19 @@ extension SaveGoalViewController {
         saveLabel.textAlignment = .center
         saveLabel.numberOfLines = 2
         
-        let saveAtrributeString = Typography.build(string: "저장하기", attributes: Const.saveButtonAttributes)
+        let saveAtrributeString = Typography.build(
+            string: "저장하기",
+            attributes: Const.saveButtonAttributes
+        )
+        let disabledSaveAttributedSTring = Typography.build(
+            string: "저장하기",
+            attributes: Const.saveButtonDisabledAttributes
+        )
         saveButton.setAttributedTitle(saveAtrributeString, for: .normal)
+        saveButton.setAttributedTitle(disabledSaveAttributedSTring, for: .disabled)
         saveButton.backgroundColor = .winey_yellow
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        saveButton.isEnabled = false
     }
     
     private func setLayout() {
@@ -314,6 +323,11 @@ private extension SaveGoalViewController {
             style: .body,
             weight: .medium,
             textColor: .winey_gray900
+        )
+        static let saveButtonDisabledAttributes = Typography.Attributes(
+            style: .body,
+            weight: .medium,
+            textColor: .winey_gray500
         )
     }
 }

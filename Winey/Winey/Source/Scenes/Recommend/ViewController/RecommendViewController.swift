@@ -111,6 +111,7 @@ final class RecommendViewController: UIViewController {
 
 extension RecommendViewController {
     private func setLayout() {
+        collectionView.backgroundColor = .winey_gray50
         view.backgroundColor = .winey_gray0
         view.addSubviews(naviBar, collectionView)
         

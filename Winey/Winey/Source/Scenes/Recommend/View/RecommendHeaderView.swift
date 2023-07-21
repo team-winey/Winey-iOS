@@ -60,7 +60,8 @@ final class RecommendHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setLayout(){
+    private func setLayout() {
+        backgroundColor = .winey_gray50
         addSubviews(titleLabel, containerView, characterImageView)
         containerView.addSubview(descriptionLabel)
         

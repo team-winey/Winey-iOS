@@ -163,6 +163,11 @@ extension MypageViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? MypageGoalInfoCell
             else { return UICollectionViewCell()}
+            
+            if isOver {
+                duringGoalCount = nil
+                duringGoalAmount = nil
+            }
             mypageGoalInfoCell.configure(
                 model: .init(
                     duringGoalAmount,
@@ -300,7 +305,7 @@ extension MypageViewController {
             self.duringGoalAmount = goal?.duringGoalAmount
             self.dday = goal?.dday
             self.targetMoney = goal?.targetMoney
-            self.isOver = isOver
+            self.isOver = data.userResponseGoalDto?.isOver ?? false
             
             let hasGoal = data.userResponseGoalDto != nil
             UserSingleton.saveGoal(hasGoal)
@@ -313,4 +318,3 @@ extension MypageViewController {
         return UserLevel(rawValue: userLevel)
     }
 }
-
