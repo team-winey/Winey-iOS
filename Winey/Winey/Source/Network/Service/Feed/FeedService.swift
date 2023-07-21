@@ -74,15 +74,12 @@ final class FeedService {
             )
         }, to: url, method: .post, headers: header)
         .responseData { response in
-            guard let statusCode = response.response?.statusCode, let data = response.data else { return }
+            guard let statusCode = response.response?.statusCode else { return }
             
-            print(statusCode, String(data: data, encoding: .utf8))
             switch statusCode {
             case 200..<300:
-                print("게시물 등록 성공")
                 completionHandler(true)
             default:
-                print("게시물 등록 실패")
                 completionHandler(false)
             }
         }

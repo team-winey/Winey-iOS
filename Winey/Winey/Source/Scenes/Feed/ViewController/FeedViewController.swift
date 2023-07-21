@@ -41,7 +41,7 @@ final class FeedViewController: UIViewController {
         layout.minimumLineSpacing = 1
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .winey_gray100
+        collectionView.backgroundColor = .winey_gray0
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         return collectionView
@@ -68,7 +68,7 @@ final class FeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refresh()
+        // refresh()
     }
     
     private func setupDataSource() {
@@ -225,8 +225,7 @@ extension FeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension FeedViewController: UICollectionViewDelegate {
-}
+extension FeedViewController: UICollectionViewDelegate {}
 
 // MARK: - ScrollDelegate
 
@@ -241,13 +240,11 @@ extension FeedViewController: UIScrollViewDelegate {
 // MARK: - Network
 
 extension FeedViewController {
-    
     private func getTotalFeed(page: Int) {
         feedService.getTotalFeed(page: page) { [weak self] response in
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
             let pageData = data.pageResponse
-            var newItems: [FeedModel] = []
             self.isEnd = pageData.isEnd
             
             for feedData in data.getFeedResponseList {
@@ -264,20 +261,17 @@ extension FeedViewController {
                     writerLevel: feedData.writerLevel,
                     profileImage: userLevel.profileImage
                 )
+                
                 self.feedList.append(feed)
-                newItems.append(feed)
+                self.feedList = self.feedList.removeDuplicates()
             }
             
-            self.feedList = self.feedList.removeDuplicates()
+            var newSnapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
+            newSnapshot.appendSections([0])
+            newSnapshot.appendItems(self.feedList)
             
+            self.dataSource.apply(newSnapshot, animatingDifferences: true)
             checkEmpty()
-            
-            var newSnapshot = self.snapshot()
-            newSnapshot.appendItems(newItems, toSection: 0)
-            
-            DispatchQueue.global().async {
-                self.dataSource.apply(newSnapshot, animatingDifferences: true)
-            }
         }
     }
     
@@ -289,16 +283,13 @@ extension FeedViewController {
                 self.feedList[feedIndex].isLiked = feedLike
                 self.feedList[feedIndex].like = data.likes
             }
-            DispatchQueue.global().async {
-                self.dataSource.apply(self.snapshot(), animatingDifferences: false)
-            }
+            self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
     }
     
     private func deleteMyFeed(feedId: Int) {
         feedService.deleteMyFeed(feedId) { [weak self] response in
             guard self != nil else { return }
-            print("🤓🍀🍀🍀 삭제 성공 🤓🍀🍀🍀")
         }
     }
 }

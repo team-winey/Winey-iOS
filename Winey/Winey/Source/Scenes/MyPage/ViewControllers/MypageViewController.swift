@@ -268,7 +268,6 @@ extension MypageViewController: WKNavigationDelegate, InquiryCollectionViewCellD
     }
     
     func buttonDidTapped() {
-        print("___________ 델리게이트 체크 ____________")
         setupWebView()
     }
 

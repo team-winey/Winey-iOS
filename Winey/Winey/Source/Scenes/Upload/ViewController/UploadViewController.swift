@@ -175,7 +175,7 @@ class UploadViewController: UIViewController {
         }
         
         grayDot.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(115)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(14)
             $0.leading.equalToSuperview().inset(17)
         }
         
@@ -200,7 +200,6 @@ class UploadViewController: UIViewController {
     /// setAddTarget: 업로드 단계에 따라 버튼과 네비게이션바 등에 다른 액션함수 지정
     private func setAddTarget() {
         navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
-        firstPage.galleryBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
         firstPage.photoBtn.addTarget(self, action: #selector(pickPhoto), for: .touchUpInside)
         
         if stageIdx == 2 {
@@ -253,6 +252,9 @@ class UploadViewController: UIViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object:nil)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     /// setButtonActivate
@@ -364,9 +366,17 @@ class UploadViewController: UIViewController {
     private func keyboardWillShow(notification: NSNotification) {
         
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        var bottomInset: CGFloat = 0
+        
+        if #available(iOS 11.0, *) {
+            bottomInset = view.safeAreaInsets.bottom
+        }
+        
+        let adjustedBottomSpace = keyboardFrame.size.height - bottomInset + 12
         self.nextButton.snp.updateConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-                .inset(keyboardFrame.size.height - 12)
+                .inset(adjustedBottomSpace)
         }
         view.layoutIfNeeded()
     }
@@ -374,7 +384,7 @@ class UploadViewController: UIViewController {
     @objc
     private func keyboardWillHide(notification: NSNotification) {
         self.nextButton.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
         }
         view.layoutIfNeeded()
     }
@@ -436,6 +446,33 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
     }
     
+    /// 갤러리 접근권한 허용 Alert에 관한 세팅
+    func setAuthAlert(_ type: String) {
+        if let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String {
+            let alertVC = UIAlertController(
+                title: "설정",
+                message: "\(appName)이(가) \(type) 접근 허용되어 있지 않습니다. 설정화면으로 가시겠습니까?",
+                preferredStyle: .alert
+            )
+            let cancelAction = UIAlertAction(
+                title: "취소",
+                style: .cancel,
+                handler: nil
+            )
+            let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+                UIApplication.shared.open(
+                    URL(
+                        string: UIApplication.openSettingsURLString)!,
+                    options: [:],
+                    completionHandler: nil
+                )
+            }
+            alertVC.addAction(cancelAction)
+            alertVC.addAction(confirmAction)
+            self.present(alertVC, animated: true, completion: nil)
+        }
+    }
+    
     /// 앨범 열기 함수
     func openGallery() {
         if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
@@ -444,8 +481,6 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
                 self.imagePicker.modalPresentationStyle = .currentContext
                 self.present(self.imagePicker, animated: true, completion: nil)
             }
-        } else {
-            print("갤러리에 접근할 수 없습니다.")
         }
     }
 

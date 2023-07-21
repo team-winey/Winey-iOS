@@ -11,7 +11,7 @@ import SnapKit
 import DesignSystem
 
 final class MypageProfileCell: UICollectionViewCell {
-
+    
     struct ViewModel {
         let nickname : String
         let level : UserLevel
@@ -64,7 +64,7 @@ final class MypageProfileCell: UICollectionViewCell {
             style: .headLine,
             weight: .bold,
             textColor: .winey_gray900
-            )
+        )
         )
         return label
     }()
@@ -122,42 +122,39 @@ final class MypageProfileCell: UICollectionViewCell {
     // MARK: - Layout
     
     func setLayout() {
+        contentView.backgroundColor = .white
         contentView.addSubviews(levelContainerView, nicknameLabel)
         contentView.addSubviews(progressbarImageView, infoButton, characterImageView)
-        contentView.backgroundColor = .white
+        
         levelContainerView.addSubview(levelLabel)
         
-        characterImageView.snp.makeConstraints { make in
-            make.width.equalTo(358)
-            make.height.equalTo(196)
-            make.center.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().inset(52)
-            make.top.equalToSuperview().inset(91)
+        levelContainerView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalToSuperview().offset(23)
             
-            levelContainerView.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(12)
-                make.leading.equalToSuperview().offset(23)
-                
-                levelLabel.snp.makeConstraints { make in
-                    make.verticalEdges.equalToSuperview().inset(4)
-                    make.horizontalEdges.equalToSuperview().inset(10)
-                }
-                
-                infoButton.snp.makeConstraints { make in
-                    make.leading.equalTo(levelContainerView.snp.trailing)
-                    make.top.equalToSuperview().offset(12)
-                }
-                
-                nicknameLabel.snp.makeConstraints { make in
-                    make.leading.equalToSuperview().offset(23)
-                    make.top.equalTo(levelContainerView.snp.bottom).offset(8)
-                }
-                
-                progressbarImageView.snp.makeConstraints { make in
-                    make.top.equalTo(characterImageView.snp.bottom).offset(13)
-                    make.centerX.equalToSuperview()
-                }
+            levelLabel.snp.makeConstraints { make in
+                make.verticalEdges.equalToSuperview().inset(4)
+                make.horizontalEdges.equalToSuperview().inset(10)
             }
+        }
+        
+        infoButton.snp.makeConstraints { make in
+            make.leading.equalTo(levelContainerView.snp.trailing)
+            make.top.bottom.equalTo(levelContainerView)
+        }
+        
+        nicknameLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(23)
+            make.top.equalTo(levelContainerView.snp.bottom).offset(8)
+        }
+        
+        characterImageView.snp.makeConstraints { make in
+            make.directionalHorizontalEdges.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(91)
+        }
+        progressbarImageView.snp.makeConstraints { make in
+            make.top.equalTo(characterImageView.snp.bottom).offset(13)
+            make.centerX.equalToSuperview()
         }
     }
 }

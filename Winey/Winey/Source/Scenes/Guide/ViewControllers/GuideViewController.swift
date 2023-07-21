@@ -76,6 +76,11 @@ extension GuideViewController {
         view.addSubviews(navigationBar)
         view.addSubviews(scrollView)
 
+        navigationBar.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview()
+        }
+        
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(navigationBar.snp.bottom)
             make.directionalHorizontalEdges.bottom.equalToSuperview()
@@ -83,36 +88,29 @@ extension GuideViewController {
         
         scrollView.addSubviews(bubbleView, levelupDescriptionView, levelupRuleView, cautionView)
         
-        navigationBar.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview()
-        }
         bubbleView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(120)
-            make.top.leading.trailing.equalToSuperview()
-            make.centerX.equalToSuperview()
         }
         
         levelupDescriptionView.snp.makeConstraints { make in
-            make.height.equalTo(374)
             make.top.equalTo(bubbleView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(374)
         }
         
         levelupRuleView.snp.makeConstraints { make in
-            make.height.equalTo(554)
             make.top.equalTo(levelupDescriptionView.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.height.equalTo(554)
         }
         
         cautionView.snp.makeConstraints { make in
-            make.height.equalTo(206)
             make.top.equalTo(levelupRuleView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.height.equalTo(206)
         }
     }
 }
