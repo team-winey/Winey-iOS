@@ -15,16 +15,17 @@ final class RecommendService {
     
     init() {}
     
+    private(set) var recommendData: BaseResponse<TotalRecommendResponse>?
+    
     // 1, 추천 절약법 조회
     
-    func getTotalRecommend(page: Int, completion: @escaping (TotalRecommendResponse) -> Void) {
-        recommendProvider.request(.getTotalRecommend(page: page)) { result in
+    func getTotalRecommend(page: Int, completion: @escaping (BaseResponse<TotalRecommendResponse>?) -> Void) {
+        recommendProvider.request(.getTotalRecommend(page: page)) { [self] (result) in
             switch result {
             case .success(let response):
                 do {
-                    let dto = try response.map(BaseResponse<TotalRecommendResponse>.self)
-                    guard let recommendsDTO = dto.data else { return }
-                    completion(recommendsDTO)
+                    self.recommendData = try response.map(BaseResponse<TotalRecommendResponse>.self)
+                    completion(self.recommendData)
                 } catch let error {
                     print(error.localizedDescription, 500)
                 }

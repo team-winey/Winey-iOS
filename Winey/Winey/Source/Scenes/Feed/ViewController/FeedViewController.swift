@@ -66,7 +66,7 @@ final class FeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refresh()
+        // refresh()
     }
     
     private func setupDataSource() {
@@ -233,7 +233,6 @@ extension FeedViewController {
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
             let pageData = data.pageResponse
-            var newItems: [FeedModel] = []
             self.isEnd = pageData.isEnd
             
             for feedData in data.getFeedResponseList {
@@ -250,18 +249,16 @@ extension FeedViewController {
                     writerLevel: feedData.writerLevel,
                     profileImage: userLevel.profileImage
                 )
+                
                 self.feedList.append(feed)
-                newItems.append(feed)
+                self.feedList = self.feedList.removeDuplicates()
             }
             
-            self.feedList = self.feedList.removeDuplicates()
+            var newSnapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
+            newSnapshot.appendSections([0])
+            newSnapshot.appendItems(self.feedList)
             
-            var newSnapshot = self.snapshot()
-            newSnapshot.appendItems(newItems, toSection: 0)
-            
-            DispatchQueue.global().async {
-                self.dataSource.apply(newSnapshot, animatingDifferences: true)
-            }
+            self.dataSource.apply(newSnapshot, animatingDifferences: true)
         }
     }
     
@@ -273,9 +270,7 @@ extension FeedViewController {
                 self.feedList[feedIndex].isLiked = feedLike
                 self.feedList[feedIndex].like = data.likes
             }
-            DispatchQueue.global().async {
-                self.dataSource.apply(self.snapshot(), animatingDifferences: false)
-            }
+            self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
     }
     

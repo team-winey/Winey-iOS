@@ -457,9 +457,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            print("image_info = \(image)")
             feedImage = image
-            print(feedImage.description)
             setButtonActivate(stageIdx)
             firstPage.configure(image)
         }

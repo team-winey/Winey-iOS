@@ -33,9 +33,9 @@ final class RecommendViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width - 32, height: RecommendCell.cellHeight())
+        layout.itemSize = CGSize(width: view.bounds.width - 32, height: RecommendCell.cellHeight())
         layout.minimumLineSpacing = 16
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 154)
+        layout.headerReferenceSize = CGSize(width: view.bounds.width, height: 154)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray0
@@ -143,13 +143,13 @@ extension RecommendViewController: UICollectionViewDelegate {}
 extension RecommendViewController {
     
     private func getTotalRecommend(page: Int) {
-        recommendService.getTotalRecommend(page: page) { [weak self] recommends in
+        recommendService.getTotalRecommend(page: page) { [weak self] response in
+            guard let response = response, let data = response.data else { return }
             guard let self else { return }
-            let pageData = recommends.pageResponseDto
-            var newItems: [RecommendModel] = []
+            let pageData = data.pageResponseDto
             self.isEnd = pageData.isEnd
             
-            for recommendData in recommends.recommendsResponseDto {
+            for recommendData in data.recommendsResponseDto {
                 let recommend = RecommendModel(
                     id: recommendData.recommendID,
                     link: recommendData.recommendLink,
@@ -159,15 +159,21 @@ extension RecommendViewController {
                     image: recommendData.recommendImage
                 )
                 self.recommendList.append(recommend)
-                newItems.append(recommend)
+                self.recommendList = self.recommendList.removeDuplicates()
             }
 
-            var newSnapshot = self.snapshot()
-            newSnapshot.appendItems(newItems, toSection: 0)
+            var newSnapshot = NSDiffableDataSourceSnapshot<Int, RecommendModel>()
+            newSnapshot.appendSections([0])
+            newSnapshot.appendItems(self.recommendList)
             
-            DispatchQueue.global().async {
-                self.dataSource.apply(newSnapshot, animatingDifferences: true)
-            }
+            self.dataSource.apply(newSnapshot, animatingDifferences: true)
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }

@@ -157,7 +157,7 @@ extension RecommendCell {
         linkTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(15)
             $0.leading.equalToSuperview().inset(17)
-            $0.trailing.equalTo(linkButton.snp.leading).offset(-17)
+            $0.width.equalTo(225)
             $0.bottom.equalToSuperview().inset(13)
         }
         
