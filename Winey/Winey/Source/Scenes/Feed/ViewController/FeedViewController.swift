@@ -39,7 +39,7 @@ final class FeedViewController: UIViewController {
         layout.minimumLineSpacing = 1
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .winey_gray0
+        collectionView.backgroundColor = .winey_gray100
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         return collectionView
@@ -64,6 +64,11 @@ final class FeedViewController: UIViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
+    }
+    
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
@@ -73,8 +78,8 @@ final class FeedViewController: UIViewController {
             cell.likeButtonTappedClosure = { [weak self] selectedFeedId, isLiked in
                 self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
             }
-            cell.moreButtonTappedClosure = { [weak self] idx in
-                self?.showAlert()
+            cell.moreButtonTappedClosure = { [weak self] feedId, userId in
+                self?.showAlert(feedId: feedId, userId: userId)
             }
         }
         
@@ -107,19 +112,26 @@ final class FeedViewController: UIViewController {
         return snapshot
     }
     
-    private func showAlert() {
+    private func showAlert(feedId: Int, userId: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
-            // 삭제버튼 클릭 시
-        }
-        alertController.addAction(deleteAction)
-        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-            // 취소버튼 클릭 시
+            print("쫄?")
         }
         alertController.addAction(cancelAction)
-        
+        if userId == UserSingleton.getId() {
+            let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
+                // 삭제버튼 클릭 시
+                self.deleteMyFeed(feedId: feedId)
+                self.refresh()
+            }
+            alertController.addAction(deleteAction)
+        } else {
+            print("으딜.")
+            let reportAction = UIAlertAction(title: "신고하기", style: .destructive) { _ in
+                // 신고버튼 클릭 시
+            }
+            alertController.addAction(reportAction)
+        }
         present(alertController, animated: true, completion: nil)
     }
     
@@ -227,7 +239,8 @@ extension FeedViewController {
             for feedData in data.getFeedResponseList {
                 let userLevel = UserLevel(value: feedData.writerLevel) ?? .none
                 let feed = FeedModel(
-                    id: feedData.feedID,
+                    feedId: feedData.feedID,
+                    userId: feedData.userID,
                     nickname: feedData.nickname,
                     title: feedData.title,
                     image: feedData.image,
@@ -256,13 +269,20 @@ extension FeedViewController {
         feedLikeServie.postFeedLike(feedId: feedId, feedLike: feedLike) { [weak self] response in
             guard let response = response, let data = response.data else { return }
             guard let self = self else { return }
-            if let feedIndex = self.feedList.firstIndex(where: { $0.id == feedId }) {
+            if let feedIndex = self.feedList.firstIndex(where: { $0.feedId == feedId }) {
                 self.feedList[feedIndex].isLiked = feedLike
                 self.feedList[feedIndex].like = data.likes
             }
             DispatchQueue.global().async {
                 self.dataSource.apply(self.snapshot(), animatingDifferences: false)
             }
+        }
+    }
+    
+    private func deleteMyFeed(feedId: Int) {
+        feedService.deleteMyFeed(feedId) { [weak self] response in
+            guard let self = self else { return }
+            print("🤓🍀🍀🍀 삭제 성공 🤓🍀🍀🍀")
         }
     }
 }
