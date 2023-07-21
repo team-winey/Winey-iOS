@@ -55,7 +55,7 @@ public extension UIImage {
         public static let profile_level_four = UIImage(name: "img_profile_level_four")
         public static let feed_character = UIImage(name: "img_feed_character")
         public static let recommend_character = UIImage(name: "img_recommend_character")
-        
+        public static let img_empty = UIImage(name: "img_empty")
     }
     
     enum Btn {

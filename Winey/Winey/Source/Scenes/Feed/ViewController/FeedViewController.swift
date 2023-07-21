@@ -27,6 +27,8 @@ final class FeedViewController: UIViewController {
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
+    private let emptyView: WIEmptyView = WIEmptyView()
+    
     private var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
@@ -148,6 +150,8 @@ final class FeedViewController: UIViewController {
         currentPage = 1
         
         getTotalFeed(page: currentPage)
+        
+        checkEmpty()
     }
     
     private func getMoreFeed() {
@@ -157,6 +161,16 @@ final class FeedViewController: UIViewController {
     
     private func setAddTarget() {
         writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
+    }
+    
+    private func checkEmpty() {
+        if feedList.isEmpty {
+            collectionView.isHidden = true
+            emptyView.isHidden = false
+        } else {
+            collectionView.isHidden = false
+            emptyView.isHidden = true
+        }
     }
     
     @objc
@@ -257,6 +271,7 @@ extension FeedViewController {
             newSnapshot.appendItems(self.feedList)
             
             self.dataSource.apply(newSnapshot, animatingDifferences: true)
+            checkEmpty()
         }
     }
     
@@ -274,8 +289,7 @@ extension FeedViewController {
     
     private func deleteMyFeed(feedId: Int) {
         feedService.deleteMyFeed(feedId) { [weak self] response in
-            guard let self = self else { return }
-            print("🤓🍀🍀🍀 삭제 성공 🤓🍀🍀🍀")
+            guard self != nil else { return }
         }
     }
 }
