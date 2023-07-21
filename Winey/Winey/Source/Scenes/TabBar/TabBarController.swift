@@ -33,7 +33,7 @@ final class TabBarController: UITabBarController {
         rootViewController: UIViewController
     ) -> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
-      
+        
         nav.tabBarItem.image = item.image
         nav.tabBarItem.title = item.title
         nav.tabBarItem.setTitleTextAttributes(Const.tabBarAttributes, for: .normal)
