@@ -89,6 +89,9 @@ extension SaveGoalViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
 }
 
@@ -99,9 +102,16 @@ extension SaveGoalViewController {
     @objc
     private func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        var bottomInset: CGFloat = 0
+        
+        if #available(iOS 11.0, *) {
+            bottomInset = view.safeAreaInsets.bottom
+        }
+        
+        let adjustedBottomSpace = keyboardFrame.size.height - bottomInset + 14
         self.saveContainerView.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-                .inset(keyboardFrame.size.height)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(adjustedBottomSpace)
         }
         view.layoutIfNeeded()
     }
@@ -109,7 +119,7 @@ extension SaveGoalViewController {
     @objc
     private func keyboardWillHide(notification: NSNotification) {
         self.saveContainerView.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(14)
         }
         view.layoutIfNeeded()
     }
@@ -135,7 +145,7 @@ extension SaveGoalViewController {
         periodDetailLabel.setText(Const.periodDetail, attributes: Const.detailAttributes)
         saveLabel.setText(Const.saveDetail, attributes: Const.saveLabelAttributes)
         
-        scrollView.keyboardDismissMode = .onDrag
+        scrollView.keyboardDismissMode = .onDragWithAccessory
         
         let cancelAtrributeString = Typography.build(string: "취소", attributes: Const.cancelButtonAttributes)
         cancelButton.setAttributedTitle(cancelAtrributeString, for: .normal)
@@ -174,13 +184,13 @@ extension SaveGoalViewController {
         }
         
         moneyBoxView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(55)
+            $0.top.equalToSuperview().inset(Const.boxTop.adjustedH)
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.height.equalTo(113)
         }
         
         periodBoxView.snp.makeConstraints {
-            $0.top.equalTo(moneyBoxView.snp.bottom).offset(34)
+            $0.top.equalTo(moneyBoxView.snp.bottom).offset(Const.boxSpace.adjustedH)
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.height.equalTo(113)
             $0.bottom.equalToSuperview()
@@ -226,8 +236,8 @@ extension SaveGoalViewController {
         }
         
         saveButton.snp.makeConstraints {
+            $0.top.equalTo(saveLabel.snp.bottom).offset(Const.buttonSpace.adjustedH)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
             $0.height.equalTo(52)
         }
     }
@@ -274,6 +284,10 @@ extension SaveGoalViewController {
 private extension SaveGoalViewController {
     
     enum Const {
+        static let boxTop: CGFloat = 66
+        static let boxSpace: CGFloat = 34
+        static let buttonSpace: CGFloat = 10
+        
         static let moneyTitle = "목표 절약 금액을 설정해주세요"
         static let periodTitle = "목표 절약 일수를 설정해주세요"
         static let moneyDetail = "절약 금액을 3만원 이상으로 설정해주세요"

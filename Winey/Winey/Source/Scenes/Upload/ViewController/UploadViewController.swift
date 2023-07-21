@@ -365,9 +365,17 @@ class UploadViewController: UIViewController {
     private func keyboardWillShow(notification: NSNotification) {
         
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        var bottomInset: CGFloat = 0
+        
+        if #available(iOS 11.0, *) {
+            bottomInset = view.safeAreaInsets.bottom
+        }
+        
+        let adjustedBottomSpace = keyboardFrame.size.height - bottomInset + 12
         self.nextButton.snp.updateConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-                .inset(keyboardFrame.size.height - 12)
+                .inset(adjustedBottomSpace)
         }
         view.layoutIfNeeded()
     }
@@ -375,7 +383,7 @@ class UploadViewController: UIViewController {
     @objc
     private func keyboardWillHide(notification: NSNotification) {
         self.nextButton.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
         }
         view.layoutIfNeeded()
     }
