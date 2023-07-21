@@ -19,8 +19,8 @@ final class MyFeedViewController: UIViewController {
     
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
     private var myfeedService = FeedService()
+    private let feedLikeService = FeedLikeService()
     private var myfeed: [FeedModel] = []
-
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
@@ -78,6 +78,9 @@ final class MyFeedViewController: UIViewController {
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { cell, indexPath, model  in
             cell.configure(model: self.myfeed[indexPath.item])
+            cell.likeButtonTappedClosure = { [weak self] selectedFeedId, isLiked in
+                self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
+            }
             cell.moreButtonTappedClosure = { [weak self] idx in
                 self?.showAlert(idx, indexPath.item)
             }
@@ -223,6 +226,20 @@ extension MyFeedViewController {
                 print("게시글이 삭제되었습니다")
             } else {
                 print("게시글 삭제에 오류가 생겼습니다")
+            }
+        }
+    }
+    
+    private func postFeedLike(feedId: Int, feedLike: Bool) {
+        feedLikeService.postFeedLike(feedId: feedId, feedLike: feedLike) { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self = self else { return }
+            if let feedIndex = self.myfeed.firstIndex(where: { $0.id == feedId }) {
+                self.myfeed[feedIndex].isLiked = feedLike
+                self.myfeed[feedIndex].like = data.likes
+            }
+            DispatchQueue.global().async {
+                self.dataSource.apply(self.snapshot(), animatingDifferences: false)
             }
         }
     }
