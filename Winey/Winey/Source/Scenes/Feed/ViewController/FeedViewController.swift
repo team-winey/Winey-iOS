@@ -64,6 +64,11 @@ final class FeedViewController: UIViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
+    }
+    
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
@@ -117,6 +122,7 @@ final class FeedViewController: UIViewController {
             let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
                 // 삭제버튼 클릭 시
                 self.deleteMyFeed(feedId: feedId)
+                self.refresh()
             }
             alertController.addAction(deleteAction)
         } else {
