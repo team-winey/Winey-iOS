@@ -24,6 +24,8 @@ final class MyFeedViewController: UIViewController {
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
+    private let emptyView: WIEmptyView = WIEmptyView()
+    
     // MARK: - UI Components
     
     private lazy var naviBar: WINavigationBar = {
@@ -146,10 +148,22 @@ final class MyFeedViewController: UIViewController {
         snapshot.deleteItems([targetItem])
         dataSource.apply(snapshot)
         myfeed.remove(at: path)
+        
+        checkEmpty()
     }
     
     @objc private func didTapLeftButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func checkEmpty() {
+        if myfeed.isEmpty {
+            collectionView.isHidden = true
+            emptyView.isHidden = false
+        } else {
+            collectionView.isHidden = false
+            emptyView.isHidden = true
+        }
     }
 }
 
@@ -158,11 +172,17 @@ final class MyFeedViewController: UIViewController {
 extension MyFeedViewController {
     private func setLayout() {
         
-        view.addSubviews(naviBar, collectionView)
+        view.addSubviews(naviBar, emptyView, collectionView)
         
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
+        }
+        
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(naviBar.snp.bottom).offset(96)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.centerX.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints {
@@ -212,6 +232,9 @@ extension MyFeedViewController {
             }
             
             self.myfeed = myfeed.removeDuplicates()
+            
+            checkEmpty()
+            
             var newSnapshot = self.snapshot()
             newSnapshot.appendItems(newItems, toSection: 0)
             
@@ -224,7 +247,7 @@ extension MyFeedViewController {
     private func deleteMyFeed(idx: Int) {
         feedService.deleteMyFeed(idx) { [weak self] response in
             
-            guard let self else { return }
+            guard self != nil else { return }
             
             if response {
                 print("게시글이 삭제되었습니다")
