@@ -18,7 +18,7 @@ final class MyFeedViewController: UIViewController {
     // MARK: - Properties
     
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
-    private var myfeedService = FeedService()
+    private var feedService = FeedService()
     private let feedLikeService = FeedLikeService()
     private var myfeed: [FeedModel] = []
     private var currentPage: Int = 1
@@ -81,8 +81,8 @@ final class MyFeedViewController: UIViewController {
             cell.likeButtonTappedClosure = { [weak self] selectedFeedId, isLiked in
                 self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
             }
-            cell.moreButtonTappedClosure = { [weak self] idx in
-                self?.showAlert(idx, indexPath.item)
+            cell.moreButtonTappedClosure = { [weak self] feedId, _ in
+                self?.showAlert(feedId, indexPath.item)
             }
         }
         
@@ -134,14 +134,10 @@ final class MyFeedViewController: UIViewController {
     }
     
     func deleteCell(_ path: Int) {
-        
         var snapshot = dataSource.snapshot()
-        
         let targetItem = snapshot.itemIdentifiers[path]
         snapshot.deleteItems([targetItem])
-        
         dataSource.apply(snapshot)
-        
         myfeed.remove(at: path)
     }
     
@@ -183,7 +179,7 @@ extension MyFeedViewController: UIScrollViewDelegate {
 }
 extension MyFeedViewController {
     private func getMyFeed(page: Int) {
-        myfeedService.getMyFeed(page: page) { [weak self] response in
+        feedService.getMyFeed(page: page) { [weak self] response in
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
             let pageData = data.pageResponse
@@ -193,7 +189,8 @@ extension MyFeedViewController {
             for feedData in data.getFeedResponseList {
                 let userLevel = UserLevel(value: feedData.writerLevel) ?? .none
                 let feed = FeedModel(
-                    id: feedData.feedID,
+                    feedId: feedData.feedID,
+                    userId: feedData.userID,
                     nickname: feedData.nickname,
                     title: feedData.title,
                     image: feedData.image,
@@ -218,7 +215,7 @@ extension MyFeedViewController {
     }
     
     private func deleteMyFeed(idx: Int) {
-        myfeedService.deleteMyFeed(idx) { [weak self] response in
+        feedService.deleteMyFeed(idx) { [weak self] response in
             
             guard let self else { return }
             
@@ -234,7 +231,7 @@ extension MyFeedViewController {
         feedLikeService.postFeedLike(feedId: feedId, feedLike: feedLike) { [weak self] response in
             guard let response = response, let data = response.data else { return }
             guard let self = self else { return }
-            if let feedIndex = self.myfeed.firstIndex(where: { $0.id == feedId }) {
+            if let feedIndex = self.myfeed.firstIndex(where: { $0.feedId == feedId }) {
                 self.myfeed[feedIndex].isLiked = feedLike
                 self.myfeed[feedIndex].like = data.likes
             }

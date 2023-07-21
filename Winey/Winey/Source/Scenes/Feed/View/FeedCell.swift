@@ -15,9 +15,10 @@ final class FeedCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var moreButtonTappedClosure: ((Int) -> Void)?
+    var moreButtonTappedClosure: ((Int, Int) -> Void)?
     var likeButtonTappedClosure: ((Int, Bool) -> Void)?
     var feedId: Int?
+    var userId: Int?
     var isLiked: Bool = false {
         didSet {
             self.changeLikeButtonLayout()
@@ -103,7 +104,8 @@ final class FeedCell: UICollectionViewCell {
     }
     
     func configure(model: FeedModel) {
-        self.feedId = model.id
+        self.feedId = model.feedId
+        self.userId = model.userId
         nicknameLabel.setText(model.nickname, attributes: Const.nicknameAttributes)
         configureFeedMoneyLabel(model.money)
         feedTitleLabel.setText(model.title, attributes: Const.feedTitleAttributes)
@@ -131,8 +133,8 @@ final class FeedCell: UICollectionViewCell {
     }
     
     @objc private func tapMoreButton() {
-        if let feedId = self.feedId {
-            self.moreButtonTappedClosure?(feedId)
+        if let feedId = self.feedId, let userId = self.userId {
+            self.moreButtonTappedClosure?(feedId, userId)
         }
     }
     
