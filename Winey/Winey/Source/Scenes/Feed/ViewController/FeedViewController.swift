@@ -27,8 +27,6 @@ final class FeedViewController: UIViewController {
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
-    private let emptyView: WIEmptyView = WIEmptyView()
-    
     private var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
@@ -61,6 +59,7 @@ final class FeedViewController: UIViewController {
         super.viewDidLoad()
         setLayout()
         setupDataSource()
+        setupRefreshControl()
         getTotalFeed(page: currentPage)
         setAddTarget()
         bind()
@@ -114,6 +113,20 @@ final class FeedViewController: UIViewController {
         return snapshot
     }
     
+    private func setupRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(didBeginRefresh),
+            for: .valueChanged
+        )
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc private func didBeginRefresh() {
+        refresh()
+    }
+    
     private func showAlert(feedId: Int, userId: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
@@ -150,8 +163,6 @@ final class FeedViewController: UIViewController {
         currentPage = 1
         
         getTotalFeed(page: currentPage)
-        
-        checkEmpty()
     }
     
     private func getMoreFeed() {
@@ -161,16 +172,6 @@ final class FeedViewController: UIViewController {
     
     private func setAddTarget() {
         writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
-    }
-    
-    private func checkEmpty() {
-        if feedList.isEmpty {
-            collectionView.isHidden = true
-            emptyView.isHidden = false
-        } else {
-            collectionView.isHidden = false
-            emptyView.isHidden = true
-        }
     }
     
     @objc
@@ -270,8 +271,9 @@ extension FeedViewController {
             newSnapshot.appendSections([0])
             newSnapshot.appendItems(self.feedList)
             
-            self.dataSource.apply(newSnapshot, animatingDifferences: true)
-            checkEmpty()
+            self.dataSource.apply(newSnapshot, animatingDifferences: true) {
+                self.stopRefreshControl()
+            }
         }
     }
     
@@ -288,8 +290,14 @@ extension FeedViewController {
     }
     
     private func deleteMyFeed(feedId: Int) {
-        feedService.deleteMyFeed(feedId) { [weak self] response in
-            guard self != nil else { return }
+        feedService.deleteMyFeed(feedId) { [weak self] response in }
+    }
+    
+    private func stopRefreshControl() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) { [weak self] in
+            guard let self else { return }
+            guard collectionView.refreshControl?.isRefreshing == true else { return }
+            collectionView.refreshControl?.endRefreshing()
         }
     }
 }
@@ -300,3 +308,4 @@ private extension Sequence where Element: Hashable {
         return filter { set.insert($0).inserted }
     }
 }
+
