@@ -40,9 +40,14 @@ public final class WITextFieldView: UIView {
         textField.textColor = Const.errorColor
     }
     
-    public func makeDefaultView() {
+    public func makeActiveView() {
         textField.makeBorder(width: Const.borderWidth, color: Const.activeColor)
         textField.textColor = Const.activeColor
+    }
+    
+    public func makeInactiveView() {
+        textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
+        textField.textColor = Const.inactivateTextColor
     }
     
     public override var intrinsicContentSize: CGSize {
@@ -223,13 +228,11 @@ extension WITextFieldView: UITextFieldDelegate {
     
     /// textFieldDidEndEditing: textField의 편집이 종료되었을때 작동하는 함수
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        textFieldDidEndEditingPublisher.send(Void())
-        textField.makeBorder(width: Const.borderWidth, color: Const.inactivateBorderColor)
-        textField.textColor = Const.inactivateTextColor
-        
         if ((textField.text?.isEmpty) != nil) {
             textField.placeholder = "0"
+            self.makeInactiveView()
         }
+        textFieldDidEndEditingPublisher.send(Void())
     }
     
     /// textField: 텍스트필드에 새로운 문자가 추가되었을때 text를 바꿔주는 함수
