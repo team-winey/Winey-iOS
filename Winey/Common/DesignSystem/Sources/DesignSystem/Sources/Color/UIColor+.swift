@@ -10,6 +10,7 @@ import UIKit
 public extension UIColor {
     @nonobjc static var winey_yellow = UIColor(pallete: .mainYellow)
     @nonobjc static var winey_lightYellow = UIColor(pallete: .lightYellow)
+    @nonobjc static var winey_darkYellow = UIColor(pallete: .darkYellow)
     
     @nonobjc static var winey_blue500    = UIColor(pallete: .blue500)
     @nonobjc static var winey_green500   = UIColor(pallete: .green500)
