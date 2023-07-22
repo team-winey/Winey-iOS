@@ -236,7 +236,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }
     
     func configure(model: ViewModel) {
-        let goalAmount = model.duringGoalAmount?.addCommaToString() ?? ""
+        let goalAmount = model.duringGoalAmount?.addCommaToString() ?? "0"
         accumulatedWineyLabel.setText(
             "\(goalAmount)원",
             attributes: .init(

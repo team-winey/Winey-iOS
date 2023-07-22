@@ -59,7 +59,7 @@ extension SaveGoalViewController {
     }
     
     private func checkPeriodValue(value: Int) {
-        if value < 5 {
+        if value < 5 || value > 365 {
             // red
             self.periodTextField.makeErrorView()
             self.periodDetailLabel.textColor = .winey_red500
@@ -71,7 +71,7 @@ extension SaveGoalViewController {
     }
     
     private func checkSaveButtonEnabled() {
-        if money >= 30000 && period >= 5  {
+        if money >= 30000 && period >= 5 && period <= 365  {
             saveButton.isEnabled = true
         } else {
             saveButton.isEnabled = false

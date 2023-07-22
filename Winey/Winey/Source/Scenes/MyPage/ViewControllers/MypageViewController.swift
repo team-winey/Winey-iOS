@@ -300,7 +300,7 @@ extension MypageViewController {
             self.userLevel = self.judgeUserLevel(userData.userLevel)
             self.nickname = userData.nickname
             
-            let goal = data.userResponseGoalDto
+            let goal = data.userResponseGoalDto 
             self.duringGoalCount = goal?.duringGoalCount
             self.duringGoalAmount = goal?.duringGoalAmount
             self.dday = goal?.dday
