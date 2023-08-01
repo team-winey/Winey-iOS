@@ -81,6 +81,8 @@
 		1D7640AA2A67C27A00922332 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640A92A67C27A00922332 /* UserAPI.swift */; };
 		1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640AB2A67C28700922332 /* TotalUserResponse.swift */; };
 		1D7640B32A682E7100922332 /* UserLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640B22A682E7100922332 /* UserLevel.swift */; };
+		1DBB85B62A7806EC00F084EA /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 1DBB85B52A7806EC00F084EA /* KakaoSDK */; };
+		1DBB85B92A7806FC00F084EA /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 1DBB85B82A7806FC00F084EA /* RxKakaoSDK */; };
 		1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */; };
 		F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D8F2D2A6708E90041FB94 /* UploadModel.swift */; };
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
@@ -189,7 +191,9 @@
 				14F66FE82A505A27009703AD /* Moya in Frameworks */,
 				14F66FE52A50562F009703AD /* SnapKit in Frameworks */,
 				0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */,
+				1DBB85B92A7806FC00F084EA /* RxKakaoSDK in Frameworks */,
 				0D2E89792A683ADE00733BE1 /* Lottie in Frameworks */,
+				1DBB85B62A7806EC00F084EA /* KakaoSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +751,8 @@
 				0D6D9BF12A5D74C8000AA356 /* DesignSystem */,
 				F4BE08522A5D98EA0052F3B0 /* CHIPageControl */,
 				0D2E89782A683ADE00733BE1 /* Lottie */,
+				1DBB85B52A7806EC00F084EA /* KakaoSDK */,
+				1DBB85B82A7806FC00F084EA /* RxKakaoSDK */,
 			);
 			productName = Winey;
 			productReference = 14C1F6152A50501C0079FA20 /* Winey.app */;
@@ -782,6 +788,8 @@
 				14F66FE92A505E3A009703AD /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				F4BE08512A5D98EA0052F3B0 /* XCRemoteSwiftPackageReference "CHIPageControl" */,
 				0D2E89772A683ADE00733BE1 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				1DBB85B42A7806EC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				1DBB85B72A7806FC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 			);
 			productRefGroup = 14C1F6162A50501C0079FA20 /* Products */;
 			projectDirPath = "";
@@ -1147,6 +1155,22 @@
 				kind = branch;
 			};
 		};
+		1DBB85B42A7806EC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		1DBB85B72A7806FC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk-rx";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		F4BE08512A5D98EA0052F3B0 /* XCRemoteSwiftPackageReference "CHIPageControl" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ChiliLabs/CHIPageControl.git";
@@ -1181,6 +1205,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14F66FE92A505E3A009703AD /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		1DBB85B52A7806EC00F084EA /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1DBB85B42A7806EC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+		1DBB85B82A7806FC00F084EA /* RxKakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1DBB85B72A7806FC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDK;
 		};
 		F4BE08522A5D98EA0052F3B0 /* CHIPageControl */ = {
 			isa = XCSwiftPackageProductDependency;
