@@ -25,9 +25,14 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+    }
+    
+    private func setUI() {
+        view.backgroundColor = .winey_gray0
     }
     
     private func setLayout() {

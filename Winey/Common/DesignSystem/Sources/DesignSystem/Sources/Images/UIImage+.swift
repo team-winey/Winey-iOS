@@ -66,6 +66,11 @@ public extension UIImage {
         public static let floating  = UIImage(name: "btn_floating")
         public static let btn_plus  = UIImage(name: "btn_plus")
     }
+    
+    enum Login {
+        public static let character = UIImage(name: "img_loginCharacter")
+        public static let logo = UIImage(name: "img_loginLogo")
+    }
 }
 
 extension UIImage {
