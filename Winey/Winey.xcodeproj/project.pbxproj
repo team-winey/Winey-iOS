@@ -86,6 +86,7 @@
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
+		F4A80EBD2A7A35A8006EA2F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A80EBC2A7A35A8006EA2F8 /* LoginViewController.swift */; };
 		F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BCFA762A68913900D97B1E /* DotLayerView.swift */; };
 		F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */; };
 		F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */; };
@@ -173,6 +174,7 @@
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		F4A80EBB2A7970E3006EA2F8 /* Winey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Winey.entitlements; sourceTree = "<group>"; };
+		F4A80EBC2A7A35A8006EA2F8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F4BCFA762A68913900D97B1E /* DotLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotLayerView.swift; sourceTree = "<group>"; };
 		F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadBaseView.swift; sourceTree = "<group>"; };
@@ -709,8 +711,17 @@
 		F4A80EBA2A7968CF006EA2F8 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				F4A80EBE2A7A35B4006EA2F8 /* ViewController */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		F4A80EBE2A7A35B4006EA2F8 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F4A80EBC2A7A35A8006EA2F8 /* LoginViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		F4BE083E2A5C6F650052F3B0 /* ViewController */ = {
@@ -843,6 +854,7 @@
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
 				1D69E0242A62B46800D4E3B5 /* LevelupRuleView.swift in Sources */,
+				F4A80EBD2A7A35A8006EA2F8 /* LoginViewController.swift in Sources */,
 				14E9B1172A6854E800B85616 /* SaveGoalViewController.swift in Sources */,
 				F4867A672A608B860016389C /* Int+.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
