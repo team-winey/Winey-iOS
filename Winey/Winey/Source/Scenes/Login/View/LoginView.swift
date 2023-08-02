@@ -10,7 +10,7 @@ import UIKit
 import DesignSystem
 import SnapKit
 
-final class LoginView {
+final class LoginView: UIView {
     
     // MARK: - UI Components
     
@@ -22,14 +22,13 @@ final class LoginView {
     
     private let title: UILabel = {
         let text = UILabel()
-        text.textColor = .winey_gray600
-        text.setText("절약을 더 쉽고 재밌게", attributes: .headLine4)
+        text.setText("절약을 더 쉽고 재밌게", attributes: Const.titleAttributes)
         return text
     }()
     
     private let character: UIImageView = {
         let img = UIImageView()
-        img.image = .Login.character?.resizeWithWidth(width: 196)
+        img.image = .Login.character?.resizeWithWidth(width: 280)
         return img
     }()
     
@@ -47,23 +46,34 @@ final class LoginView {
     // MARK: - Methods
     
     private func setLayout() {
-        addSubViews(logo, title, character)
+        addSubviews(logo, title, character)
         
         logo.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.centerX.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(27)
+            $0.leading.equalToSuperview().inset(57)
         }
         
         title.snp.makeConstraints {
             $0.top.equalTo(logo.snp.bottom).offset(2)
-            $0.centerX.equalToSuperview()
+            $0.leading.equalToSuperview().inset(80)
+            $0.trailing.equalToSuperview().inset(50)
         }
         
         character.snp.makeConstraints {
             $0.top.equalTo(title.snp.bottom).offset(88)
-            $0.leading.equalToSuperview().inset(40)
-            $0.trailing.equalToSuperview().inset(70)
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+    }
+}
+
+private extension LoginView {
+    enum Const {
+        static let titleAttributes = Typography.Attributes(
+            style: .headLine4,
+            weight: .medium,
+            textColor: .winey_gray600
+        )
     }
 }
