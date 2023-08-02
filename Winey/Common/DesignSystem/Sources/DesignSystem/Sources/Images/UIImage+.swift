@@ -21,6 +21,7 @@ public extension UIImage {
         public static let floating          = UIImage(name: "btn_floating")
         public static let link              = UIImage(name: "ic_link")
         public static let apple             = UIImage(name: "ic_apple")
+        public static let kakao             = UIImage(name: "ic_kakao")
     }
 
     enum Mypage {

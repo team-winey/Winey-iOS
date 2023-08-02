@@ -11,6 +11,7 @@ enum Pallete: String {
     case mainYellow
     case lightYellow
     case darkYellow
+    case kakaoYellow
     
     case blue500
     case green500
