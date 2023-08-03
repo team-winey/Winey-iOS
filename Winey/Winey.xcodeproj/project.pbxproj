@@ -87,6 +87,7 @@
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
 		F4A4E0472A7AD79B00673741 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4E0462A7AD79B00673741 /* LoginView.swift */; };
+		F4A6D53E2A7C3C48006905AE /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */; };
 		F4A80EBD2A7A35A8006EA2F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A80EBC2A7A35A8006EA2F8 /* LoginViewController.swift */; };
 		F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BCFA762A68913900D97B1E /* DotLayerView.swift */; };
 		F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */; };
@@ -175,6 +176,7 @@
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		F4A4E0462A7AD79B00673741 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		F4A80EBB2A7970E3006EA2F8 /* Winey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Winey.entitlements; sourceTree = "<group>"; };
 		F4A80EBC2A7A35A8006EA2F8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F4BCFA762A68913900D97B1E /* DotLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotLayerView.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				F4A6D53C2A7C3BD4006905AE /* Login */,
 				145B44B82A68AC2C0043D10C /* Recommend */,
 				14576DBC2A6893A300C79C9C /* Goal */,
 				1D7640B02A68053F00922332 /* Mypage */,
@@ -718,6 +721,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		F4A6D53C2A7C3BD4006905AE /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		F4A80EBA2A7968CF006EA2F8 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -895,6 +906,7 @@
 				14576DC22A6898D800C79C9C /* PostGoalRequest.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
+				F4A6D53E2A7C3C48006905AE /* LoginResponse.swift in Sources */,
 				F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */,
 				0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */,
 				14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */,
