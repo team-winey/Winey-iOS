@@ -13,6 +13,9 @@ import SnapKit
 import Moya
 import DesignSystem
 import WebKit
+import KakaoSDKAuth
+import KakaoSDKUser
+import RxKakaoSDKCommon
 
 final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
@@ -26,6 +29,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var isOver: Bool = false
     private let userService = UserService()
     let inquiryCollectionViewCell = InquiryCollectionViewCell()
+    var oauthToken: OAuthToken?
     
     // MARK: - UIComponents
     
@@ -316,5 +320,72 @@ extension MypageViewController {
     
     private func judgeUserLevel(_ userLevel: String) -> UserLevel? {
         return UserLevel(rawValue: userLevel)
+    }
+}
+
+// MARK: - Login
+// 카카오톡 실행 가능 여부 확인
+extension MypageViewController {
+    func loginWithKakao() {
+        if (KakaoSDKUser.UserApi.isKakaoTalkLoginAvailable()) {
+            
+            //카톡 설치되어있으면 -> 카톡으로 로그인
+            KakaoSDKUser.UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("카카오 톡으로 로그인 성공")
+                    
+                    _ = oauthToken
+                    /// 로그인 관련 메소드 추가
+                }
+            }
+        } else {
+            
+            // 카톡 없으면 -> 계정으로 로그인
+            KakaoSDKUser.UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("카카오 계정으로 로그인 성공")
+                    
+                    _ = oauthToken
+                    // 관련 메소드 추가
+                }
+            }
+        }
+    }
+// MARK: - Send To Server
+    //사용자 정보 불러옴
+    func loadUserInfo(ouathToken: Int?) {
+        UserApi.shared.me { [self] user, error in
+            if let error = error {
+                print(error)
+            } else {
+                
+                guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
+                      let name = user?.kakaoAccount?.profile?.nickname else{
+                    print("token/email/name is nil")
+                    return
+                }
+                
+                self.email = email
+                self.accessToken = token
+                self.name = name
+                
+                //서버에 이메일/토큰/이름 보내주기
+            }
+        }
+    }
+    // MARK: - Logout
+    func logout() {
+        UserApi.shared.logout {(error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("logout() success.")
+            }
+        }
     }
 }
