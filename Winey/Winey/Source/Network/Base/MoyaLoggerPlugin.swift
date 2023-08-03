@@ -21,15 +21,15 @@ final class MoyaLoggerPlugin: PluginType {
         let method = httpRequest.httpMethod ?? "unknown method"
         var log = "----------------------------------------------------\n"
         log.append("☘️ [\(method)] \(url)\n")
-//        log.append("----------------------------------------------------\n")
-//        log.append("☘️ API: \(target)\n")
-//        if let headers = httpRequest.allHTTPHeaderFields, !headers.isEmpty {
-//            log.append("header: \(headers)\n")
-//        }
-//        if let body = httpRequest.httpBody, let bodyString = String(bytes: body, encoding: String.Encoding.utf8) {
-//            log.append("\(bodyString)\n")
-//        }
-//        log.append("------------------- Request End \(method) -------------------")
+        log.append("----------------------------------------------------\n")
+        log.append("☘️ API: \(target)\n")
+        if let headers = httpRequest.allHTTPHeaderFields, !headers.isEmpty {
+            log.append("header: \(headers)\n")
+        }
+        if let body = httpRequest.httpBody, let bodyString = String(bytes: body, encoding: String.Encoding.utf8) {
+            log.append("\(bodyString)\n")
+        }
+        log.append("------------------- Request End \(method) -------------------")
         print(log)
     }
 
@@ -49,12 +49,12 @@ final class MoyaLoggerPlugin: PluginType {
         let statusCode = response.statusCode
         var log = " ✅✅✅ 네트워크 통신 성공 ✅✅✅ "
         log.append("\n [\(statusCode)] \(url)\n")
-//        log.append("-------------------------------------------------------\n")
+        log.append("-------------------------------------------------------\n")
         log.append("response: \n")
-//        if let reString = String(bytes: response.data, encoding: String.Encoding.utf8) {
-//            log.append("4️⃣\(reString)\n")
-//        }
-//        log.append("------------------- END HTTP -------------------")
+        if let reString = String(bytes: response.data, encoding: String.Encoding.utf8) {
+            log.append("4️⃣\(reString)\n")
+        }
+        log.append("------------------- END HTTP -------------------")
         print(log)
     }
 
