@@ -14,7 +14,7 @@ struct LoginResponse {
 }
 
 struct UserData {
-    let userID: Int
+    let userId: Int
     let refreshToken, accessToken: String
     let isRegistered: Bool
 }
