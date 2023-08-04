@@ -15,20 +15,18 @@ struct KeychainManager {
         case tokenParsingError
     }
     
-    let service: String
     var id: String
     
-    init(service: String, id: String) {
-        self.service = service
+    init(id: String) {
         self.id = id
     }
     
-    private static func keychainQuery(withService service: String,
-                                      id: String) -> [String: AnyObject] {
+    private static func keychainQuery(id: String) -> [String: AnyObject] {
+        let service = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String
+        
         var query = [String: AnyObject]()
         query[kSecClass as String] = kSecClassGenericPassword
         query[kSecAttrService as String] = service as AnyObject?
-        
         query[kSecAttrAccount as String] = id as AnyObject?
         
         return query
@@ -36,7 +34,7 @@ struct KeychainManager {
     
     func readToken() throws -> String {
         // 쿼리 생성
-        var query = KeychainManager.keychainQuery(withService: service, id: id)
+        var query = KeychainManager.keychainQuery(id: id)
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         query[kSecReturnData as String] = kCFBooleanTrue
@@ -72,14 +70,14 @@ struct KeychainManager {
             attributesToUpdate[kSecValueData as String] = token as AnyObject?
             
             // 쿼리 작성하여 Item 패키징 & 패키징된 Item 키 체인에 추가
-            let query = KeychainManager.keychainQuery(withService: service, id: id)
+            let query = KeychainManager.keychainQuery(id: id)
             let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
             
             // 에러 처리
             guard status == noErr else { throw KeychainError.unhandledError }
         } catch KeychainError.noToken {
             // 키체인에 원하는 Item이 없는 경우
-            var newItem = KeychainManager.keychainQuery(withService: service, id: id)
+            var newItem = KeychainManager.keychainQuery(id: id)
             newItem[kSecValueData as String] = token as AnyObject?
             
             // 키체인에 패키징된 Item 새로 추가
@@ -90,7 +88,7 @@ struct KeychainManager {
         }
     }
     
-    func getToken() throws -> (String)? {
+    func getToken() throws -> (String, String)? {
         do {
             // 유저 id key에 해당하는 value가 존재하는지 확인
             try _ = readToken()
@@ -114,13 +112,13 @@ struct KeychainManager {
             // 찾은 토큰 decoding
             guard let data = result as? [String: AnyObject],
                   let tokenData = data[kSecValueData as String] as? Data,
-                  let token = String(data: tokenData, encoding: String.Encoding.utf8)
-                    // let userId = data[kSecAttrAccount as String] as? String
+                  let token = String(data: tokenData, encoding: String.Encoding.utf8),
+                  let userId = data[kSecAttrAccount as String] as? String
             else {
                 throw KeychainError.tokenParsingError
             }
             
-            return token
+            return (token, userId)
         } catch {
             // 키체인에 원하는 Item이 없는 경우
             throw KeychainError.noToken
