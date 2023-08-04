@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum LoginAPI {
-    case appleLogin(provider: String, token: String)
+    case appleLogin(socialType: String, token: String)
 }
 
 extension LoginAPI: TargetType {
@@ -34,8 +34,8 @@ extension LoginAPI: TargetType {
     
     var task: Moya.Task {
         switch self {
-        case .appleLogin(let provider, _):
-            return .requestJSONEncodable(provider)
+        case .appleLogin(let socialType, _):
+            return .requestJSONEncodable(socialType)
         }
     }
     
