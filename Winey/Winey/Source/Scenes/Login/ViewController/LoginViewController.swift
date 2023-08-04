@@ -40,7 +40,7 @@ class LoginViewController: UIViewController {
         activityIndicator.center = self.view.center
         activityIndicator.color = .winey_gray600
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
 
         activityIndicator.stopAnimating()
         return activityIndicator
@@ -126,7 +126,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 UserDefaults.standard.set(true, forKey: "Signed")
                 
                 DispatchQueue.global(qos: .utility).async {
-                    self.loginWithApple(provider: "APPLE", token: identifyTokenString)
+                    self.loginWithApple(socialType: "APPLE", token: identifyTokenString)
                 }
                 
                 DispatchQueue.main.async {
@@ -170,8 +170,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 }
 
 extension LoginViewController {
-    private func loginWithApple(provider: String, token: String) {
-        loginService.loginWithApple(provider: provider, token: token) {
+    private func loginWithApple(socialType: String, token: String) {
+        loginService.loginWithApple(socialType: socialType, token: token) {
             [weak self] response in
             guard let response = response,
                     let data = response.data else { return }

@@ -19,9 +19,9 @@ final class LoginService {
     
     // 1. 애플 로그인
     
-    func loginWithApple(provider: String, token: String,
+    func loginWithApple(socialType: String, token: String,
                         completion: @escaping (BaseResponse<LoginResponse>?) -> Void) {
-        loginProvider.request(.appleLogin(provider: provider, token: token)) { [self] (result) in
+        loginProvider.request(.appleLogin(socialType: socialType, token: token)) { [self] (result) in
             switch result {
             case .success(let response):
                 do {
