@@ -41,13 +41,28 @@ final class SplashViewController: UIViewController {
     }
     
     @objc private func didFinishSplash() {
-        let tabBarController = TabBarController()
+        
+        var rootViewController = UIViewController()
+        
+        switch UserDefaults.standard.bool(forKey: "launched") {
+        case true:
+            let signed = UserDefaults.standard.bool(forKey: "Signed")
+            if signed {
+                rootViewController = TabBarController()
+            } else {
+                rootViewController = LoginViewController()
+            }
+        case false:
+            print("onBoarding")
+            rootViewController = LoginViewController()
+        }
+        
         UIView.transition(
             with: self.window!,
             duration: 0.2,
             options: .transitionCrossDissolve,
             animations: {
-                self.window?.rootViewController = tabBarController
+                self.window?.rootViewController = rootViewController
             },
             completion: nil
         )

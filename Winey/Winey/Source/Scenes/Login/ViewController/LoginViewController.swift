@@ -111,27 +111,28 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 print("identifyTokenString: \(identifyTokenString)")
                 
                 saveToken(identityToken, String(describing: userIdentifier))
+                UserDefaults.standard.set(true, forKey: "Signed")
             }
             
             print("useridentifier: \(userIdentifier)")
-            print("fullName: \(String(describing: fullName))")
-            print("email: \(String(describing: email))")
+            print(UserDefaults.standard.bool(forKey: "Signed"))
             
-            //let validVC = SignValidViewController()
-            //validVC.modalPresentationStyle = .fullScreen
-            //present(validVC, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                let vc = TabBarController()
+                self.switchRootViewController(rootViewController: vc, animated: true)
+            }
             
         case let passwordCredential as ASPasswordCredential:
-            // 키체인 사용하여 로그인 -> 목업
-            let username = passwordCredential.user
-            let password = passwordCredential.password
-            
-            print("username: \(username)")
-            print("password: \(password)")
+            UserDefaults.standard.set(true, forKey: "Signed")
+            print(UserDefaults.standard.bool(forKey: "Signed"))
             
         default:
             break
         }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Authorization Failed")
     }
     
     private func saveToken(_ token: Data, _ id: String) {
