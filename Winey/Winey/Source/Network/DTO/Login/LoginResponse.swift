@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct LoginResponse {
+struct LoginResponse: Decodable {
     let code: Int
     let message: String
     let data: UserData
 }
 
-struct UserData {
+struct UserData: Decodable {
     let userId: Int
     let refreshToken, accessToken: String
     let isRegistered: Bool

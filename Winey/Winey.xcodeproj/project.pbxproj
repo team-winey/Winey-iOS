@@ -83,6 +83,7 @@
 		1D7640B32A682E7100922332 /* UserLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640B22A682E7100922332 /* UserLevel.swift */; };
 		1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */; };
 		F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D8F2D2A6708E90041FB94 /* UploadModel.swift */; };
+		F40E8FC32A7CE59E0092D280 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FC22A7CE59E0092D280 /* LoginService.swift */; };
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
@@ -174,6 +175,7 @@
 		1D7640B22A682E7100922332 /* UserLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLevel.swift; sourceTree = "<group>"; };
 		1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F40D8F2D2A6708E90041FB94 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
+		F40E8FC22A7CE59E0092D280 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
@@ -739,6 +741,7 @@
 			isa = PBXGroup;
 			children = (
 				F4A6D5402A7C3D30006905AE /* LoginAPI.swift */,
+				F40E8FC22A7CE59E0092D280 /* LoginService.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -898,6 +901,7 @@
 				143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,
 				F4A6D5412A7C3D30006905AE /* LoginAPI.swift in Sources */,
+				F40E8FC32A7CE59E0092D280 /* LoginService.swift in Sources */,
 				1472F4E92A67342000B00899 /* FeedLikeAPI.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
 				14DB26662A5E97A100F42499 /* MyFeedViewController.swift in Sources */,
@@ -1095,6 +1099,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Winey/Resource/info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "'Winey' 앱이 Face ID를 사용하도록 허용하겠습니까?";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리 접근권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1132,6 +1137,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Winey/Resource/info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "'Winey' 앱이 Face ID를 사용하도록 허용하겠습니까?";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리 접근권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
