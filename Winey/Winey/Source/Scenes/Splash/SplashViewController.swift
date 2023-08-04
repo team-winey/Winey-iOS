@@ -43,17 +43,11 @@ final class SplashViewController: UIViewController {
     @objc private func didFinishSplash() {
         
         var rootViewController = UIViewController()
+        let signed = UserDefaults.standard.bool(forKey: "Signed")
         
-        switch UserDefaults.standard.bool(forKey: "launched") {
-        case true:
-            let signed = UserDefaults.standard.bool(forKey: "Signed")
-            if signed {
-                rootViewController = TabBarController()
-            } else {
-                rootViewController = LoginViewController()
-            }
-        case false:
-            print("onBoarding")
+        if signed {
+            rootViewController = TabBarController()
+        } else {
             rootViewController = LoginViewController()
         }
         
