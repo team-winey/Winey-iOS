@@ -34,6 +34,18 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = .winey_gray600
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
+    
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +59,7 @@ class LoginViewController: UIViewController {
     }
     
     private func setLayout() {
-        view.addSubviews(loginView, kakaoButton, appleButton)
+        view.addSubviews(loginView, kakaoButton, appleButton, activityIndicator)
         
         loginView.snp.makeConstraints {
             $0.top.equalTo(safeArea).offset(72)
@@ -116,15 +128,20 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 DispatchQueue.global(qos: .utility).async {
                     self.loginWithApple(provider: "APPLE", token: identifyTokenString)
                 }
+                
+                DispatchQueue.main.async {
+                    self.activityIndicator.startAnimating()
+                    self.kakaoButton.isHidden = true
+                    self.appleButton.isHidden = true
+                    self.loginView.isHidden = true
+                }
             }
             
-            print("useridentifier: \(userIdentifier)")
-            
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 let vc = TabBarController()
                 self.switchRootViewController(rootViewController: vc, animated: true)
             }
-            
+        
         case let passwordCredential as ASPasswordCredential:
 
             // Sign in using an existing iCloud Keychain credential.
@@ -163,10 +180,6 @@ extension LoginViewController {
             self.refreshToken = data.data.refreshToken
             self.accessToken = data.data.accessToken
             self.isRegistered = data.data.isRegistered
-            print(userId)
-            print(refreshToken)
-            print(accessToken)
-            print(isRegistered)
         }
     }
 }
