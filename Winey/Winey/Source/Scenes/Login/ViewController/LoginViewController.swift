@@ -72,12 +72,13 @@ class LoginViewController: UIViewController {
     }
 }
 
-extension LoginViewController: ASAuthorizationControllerDelegate,
-                               ASAuthorizationControllerPresentationContextProviding {
-    
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
+}
+
+extension LoginViewController: ASAuthorizationControllerDelegate {
     
     @objc
     private func appleLogin() {
@@ -108,6 +109,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate,
                 let identifyTokenString = String(data: identityToken, encoding: .utf8) {
                 print("authCodeString: \(authCodeString)")
                 print("identifyTokenString: \(identifyTokenString)")
+                
+                saveToken(identityToken, String(describing: userIdentifier))
             }
             
             print("useridentifier: \(userIdentifier)")
@@ -128,6 +131,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate,
             
         default:
             break
+        }
+    }
+    
+    private func saveToken(_ token: Data, _ id: String) {
+        do {
+            try KeychainManager(id: id).saveToken(token)
+        } catch {
+            print("token saving error")
         }
     }
 }
