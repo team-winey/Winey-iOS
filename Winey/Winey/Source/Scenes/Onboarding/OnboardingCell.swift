@@ -43,7 +43,7 @@ extension OnboardingCell {
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = .center
         
-        //imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
     }
     
@@ -68,8 +68,16 @@ extension OnboardingCell {
 
 extension OnboardingCell {
     enum Const {
-        static let titleAttributes = Typography.Attributes(style: .headLine2, weight: .bold, textColor: .winey_gray800)
-        static let subtitleAttributes = Typography.Attributes(style: .body, weight: .medium, textColor: .winey_gray600)
+        static let titleAttributes = Typography.Attributes(
+            style: .headLine2,
+            weight: .bold,
+            textColor: .winey_gray800
+        )
+        static let subtitleAttributes = Typography.Attributes(
+            style: .body,
+            weight: .medium,
+            textColor: .winey_gray600
+        )
     }
 }
 
