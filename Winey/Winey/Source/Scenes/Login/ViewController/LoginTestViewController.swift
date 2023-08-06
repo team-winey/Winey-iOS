@@ -56,6 +56,7 @@ class LoginTestViewController: UIViewController {
         }
         
         logOutButton.addTarget(self, action: #selector(appleLogout), for: .touchUpInside)
+        withDrawButton.addTarget(self, action: #selector(appleWithdraw), for: .touchUpInside)
     }
     
     @objc
@@ -67,12 +68,29 @@ class LoginTestViewController: UIViewController {
         }
     }
     
+    @objc
+    private func appleWithdraw() {
+        let token = getToken("accessToken")!
+        
+        DispatchQueue.global(qos: .utility).async {
+            self.withdrawApple(token: token)
+        }
+    }
+    
     private func getToken(_ id: String) -> String? {
         do {
             let token = try KeychainManager(id: id).getToken()
             return token
         } catch {
             return nil
+        }
+    }
+    
+    private func deleteToken(_ id: String) {
+        do {
+            try KeychainManager(id: id).deleteToken()
+        } catch {
+            print("token delete failed")
         }
     }
 }
@@ -94,11 +112,21 @@ extension LoginTestViewController {
         }
     }
     
-    private func withdrawApple(token: String) -> Bool {
-        var result = false
-        loginService.withdrawApple(token: token) { withdrawResult in
-            result = withdrawResult
+    private func withdrawApple(token: String) {
+        loginService.withdrawApple(token: token) { result in
+            if result {
+                self.deleteToken("accessToken")
+                self.deleteToken("refreshToken")
+                self.deleteToken("identityToken")
+                UserDefaults.standard.set(false, forKey: "Signed")
+                
+                DispatchQueue.main.async {
+                    let vc = LoginViewController()
+                    self.switchRootViewController(rootViewController: vc, animated: true)
+                }
+            } else {
+                print("회원탈퇴 실패")
+            }
         }
-        return result
     }
 }
