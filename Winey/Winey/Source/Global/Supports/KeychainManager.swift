@@ -22,16 +22,6 @@ struct KeychainManager {
         self.id = id
     }
     
-    private static func keychainQuery(id: String) -> [String: AnyObject] {
-        
-        var query = [String: AnyObject]()
-        query[kSecClass as String] = kSecClassGenericPassword
-        // query[kSecAttrService as String] = KeychainManager.service as AnyObject
-        query[kSecAttrAccount as String] = id as AnyObject
-        
-        return query
-    }
-    
     func saveToken(_ token: String) throws {
         let encodedToken = token.data(using: String.Encoding.utf8)!
         
@@ -80,10 +70,10 @@ struct KeychainManager {
         }
     }
     
-    static func deleteToken() throws {
-        let query: [String: AnyObject] = [
-            kSecClass as String: kSecClassGenericPassword,
-        ]
+    func deleteToken() throws {
+        let query: NSDictionary = [kSecClass: kSecClassGenericPassword,
+                                 kSecAttrAccount: id,
+                             kSecAttrService: service]
         
         let status = SecItemDelete(query as CFDictionary)
         

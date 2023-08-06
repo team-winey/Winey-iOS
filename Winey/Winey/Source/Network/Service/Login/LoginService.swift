@@ -52,8 +52,6 @@ final class LoginService {
                 case 200..<300:
                     do {
                         self.logoutResponse = try response.map(LogoutResponse.self)
-                        
-                        guard logoutResponse != nil else { return }
                         completion(true)
                     } catch let error {
                         print(error.localizedDescription)
@@ -67,11 +65,19 @@ final class LoginService {
         }
     }
     
+    // 3. 애플 회원탈퇴
+    
     func withdrawApple(token: String, _ completion: @escaping ((Bool) -> Void)) {
         authProvider.request(.appleWithdraw(token: token)) { result in
             switch result {
-            case .success:
-                completion(true)
+            case .success(let response):
+                switch response.statusCode {
+                case 200..<300:
+                    completion(true)
+                default:
+                    print(500)
+                    completion(false)
+                }
             case .failure(let err):
                 print(err.localizedDescription)
                 completion(false)
