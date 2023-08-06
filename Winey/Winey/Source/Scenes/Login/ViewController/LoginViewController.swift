@@ -12,16 +12,17 @@ import DesignSystem
 import SnapKit
 
 class LoginViewController: UIViewController {
-
+    
     // MARK: - Properties
     private let loginView = LoginView()
     private let loginService = LoginService()
-    private var userId: Int = 0
-    private var refreshToken: String = ""
-    private var accessToken: String = ""
+    
+    private var userId: Int?
+    private var refreshToken: String?
     private var isRegistered: Bool = false
+    
     private lazy var safeArea = self.view.safeAreaLayoutGuide
-
+    
     // MARK: - UI Components
     
     private let appleButton: LoginButton = {
@@ -41,7 +42,7 @@ class LoginViewController: UIViewController {
         activityIndicator.color = .winey_gray600
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.medium
-
+        
         activityIndicator.stopAnimating()
         return activityIndicator
     }()
@@ -112,38 +113,49 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             
-            // Create an account in your system.
             let userIdentifier = appleIDCredential.user
             
-            if  let authorizationCode = appleIDCredential.authorizationCode,
-                let identityToken = appleIDCredential.identityToken,
-                let authCodeString = String(data: authorizationCode, encoding: .utf8),
-                let identifyTokenString = String(data: identityToken, encoding: .utf8) {
-                print("authCodeString: \(authCodeString)")
-                print("identifyTokenString: \(identifyTokenString)")
-                
-                saveToken(identityToken, String(describing: userIdentifier))
-                UserDefaults.standard.set(true, forKey: "Signed")
-                
-                DispatchQueue.global(qos: .utility).async {
-                    self.loginWithApple(socialType: "APPLE", token: identifyTokenString)
-                }
-                
-                DispatchQueue.main.async {
-                    self.activityIndicator.startAnimating()
-                    self.kakaoButton.isHidden = true
-                    self.appleButton.isHidden = true
-                    self.loginView.isHidden = true
+            // refreshToken이 있는지 확인
+            let refreshToken = getToken("refreshToken")
+                        
+            // refreshToken이 없을 경우에는 identityToken으로 로그인 후, refreshToken을 keychain에 저장
+            if refreshToken == nil {
+                if let authorizationCode = appleIDCredential.authorizationCode,
+                   let identityToken = appleIDCredential.identityToken,
+                   let authCodeString = String(data: authorizationCode, encoding: .utf8),
+                   let identifyTokenString = String(data: identityToken, encoding: .utf8) {
+                    
+                    print("authCodeString: \(authCodeString)")
+                    print("identifyTokenString: \(identifyTokenString)")
+                    
+                    DispatchQueue.global(qos: .background).async {
+                        let req = LoginRequest(socialType: "APPLE")
+                    self.loginWithApple(request: req,
+                                        token: identifyTokenString,
+                                    id: String(describing:userIdentifier))
+                        
+                        DispatchQueue.main.async {
+                            self.activityIndicator.startAnimating()
+                            self.kakaoButton.isHidden = true
+                            self.appleButton.isHidden = true
+                            self.loginView.isHidden = true
+                        }
+                        UserDefaults.standard.set(true, forKey: "Signed")
+                    }
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                let vc = TabBarController()
-                self.switchRootViewController(rootViewController: vc, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                if getToken("refreshToken") != nil {
+                    print("login Succeed")
+                    print(getToken("refreshToken") ?? "")
+                    let vc = LoginTestViewController()
+                    self.switchRootViewController(rootViewController: vc, animated: true)
+                }
             }
-        
+            
         case let passwordCredential as ASPasswordCredential:
-
+            
             // Sign in using an existing iCloud Keychain credential.
             _ = passwordCredential.user
             _ = passwordCredential.password
@@ -155,31 +167,48 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             break
         }
     }
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("Authorization Failed")
-    }
-    
-    private func saveToken(_ token: Data, _ id: String) {
-        do {
-            try KeychainManager(id: id).saveToken(token)
-        } catch {
-            print("token saving error")
-        }
+}
+
+func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    print("Authorization Failed")
+}
+
+func saveToken(_ token: String, _ id: String) {
+    do {
+        try KeychainManager(id: id).saveToken(token)
+        print("save token")
+    } catch {
+        print("token saving error")
     }
 }
 
+func getToken(_ id: String) -> String? {
+    do {
+        let token = try KeychainManager(id: id).getToken()
+        print("get token")
+        return token
+    } catch {
+        print("get token failed")
+        return nil
+    }
+}
+
+func deleteToken(_ id: String) {
+    do {
+        try KeychainManager.deleteToken()
+    } catch {
+        print("delete error")
+    }
+}
+
+// MARK: - Network
+
 extension LoginViewController {
-    private func loginWithApple(socialType: String, token: String) {
-        loginService.loginWithApple(socialType: socialType, token: token) {
-            [weak self] response in
-            guard let response = response,
-                    let data = response.data else { return }
-            guard let self = self else { return }
-            self.userId = data.data.userId
-            self.refreshToken = data.data.refreshToken
-            self.accessToken = data.data.accessToken
-            self.isRegistered = data.data.isRegistered
+    private func loginWithApple(request: LoginRequest, token: String, id: String) {
+        loginService.loginWithApple(request: request, token: token) { response in
+            guard let response = response else { return }
+            saveToken(response.data.refreshToken, "refreshToken")
+            print(response.data.userID)
         }
     }
 }
