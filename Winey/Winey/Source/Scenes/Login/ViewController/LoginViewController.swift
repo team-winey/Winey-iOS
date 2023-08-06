@@ -116,10 +116,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let userIdentifier = appleIDCredential.user
             
             // refreshToken이 있는지 확인
+            let accessToken = getToken("accessToken")
             let refreshToken = getToken("refreshToken")
+            let identityToken = getToken("identityToken")
+            let req = LoginRequest(socialType: "APPLE")
                         
-            // refreshToken이 없을 경우에는 identityToken으로 로그인 후, refreshToken을 keychain에 저장
-            if refreshToken == nil {
+            // 신규회원
+            if identityToken == nil {
                 if let authorizationCode = appleIDCredential.authorizationCode,
                    let identityToken = appleIDCredential.identityToken,
                    let authCodeString = String(data: authorizationCode, encoding: .utf8),
@@ -129,26 +132,32 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     print("identifyTokenString: \(identifyTokenString)")
                     
                     DispatchQueue.global(qos: .background).async {
-                        let req = LoginRequest(socialType: "APPLE")
-                    self.loginWithApple(request: req,
-                                        token: identifyTokenString,
-                                    id: String(describing:userIdentifier))
-                        
-                        DispatchQueue.main.async {
-                            self.activityIndicator.startAnimating()
-                            self.kakaoButton.isHidden = true
-                            self.appleButton.isHidden = true
-                            self.loginView.isHidden = true
-                        }
-                        UserDefaults.standard.set(true, forKey: "Signed")
+                        self.loginWithApple(request: req,
+                                            token: identifyTokenString,
+                                            id: String(describing:userIdentifier),
+                                            newbie: true)
                     }
+                }
+            } else {
+                DispatchQueue.global(qos: .background).async {
+                    self.loginWithApple(request: req,
+                                        token: identityToken!,
+                                        id: String(describing:userIdentifier),
+                                        newbie: false)
                 }
             }
             
+            DispatchQueue.main.async {
+                self.activityIndicator.startAnimating()
+                self.kakaoButton.isHidden = true
+                self.appleButton.isHidden = true
+                self.loginView.isHidden = true
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                if getToken("refreshToken") != nil {
+                if UserDefaults.standard.bool(forKey: "Signed") {
                     print("login Succeed")
-                    print(getToken("refreshToken") ?? "")
+                    print(identityToken ?? "")
                     let vc = LoginTestViewController()
                     self.switchRootViewController(rootViewController: vc, animated: true)
                 }
@@ -193,6 +202,15 @@ func getToken(_ id: String) -> String? {
     }
 }
 
+func updateToken(_ token: String, _ id: String) {
+    do {
+        try KeychainManager(id: id).updateToken(token)
+        print("update token")
+    } catch {
+        print("token updating error")
+    }
+}
+
 func deleteToken(_ id: String) {
     do {
         try KeychainManager.deleteToken()
@@ -204,10 +222,26 @@ func deleteToken(_ id: String) {
 // MARK: - Network
 
 extension LoginViewController {
-    private func loginWithApple(request: LoginRequest, token: String, id: String) {
+    private func loginWithApple(request: LoginRequest, token: String, id: String, newbie: Bool) {
         loginService.loginWithApple(request: request, token: token) { response in
             guard let response = response else { return }
-            saveToken(response.data.refreshToken, "refreshToken")
+            
+            switch response.code {
+            case 200..<300:
+                UserDefaults.standard.set(true, forKey: "Signed")
+                print(UserDefaults.standard.bool(forKey: "Signed"))
+                if newbie {
+                    saveToken(response.data.refreshToken, "refreshToken")
+                    saveToken(response.data.accessToken, "accessToken")
+                    saveToken(token, "identityToken")
+                } else {
+                    updateToken(response.data.refreshToken, "refreshToken")
+                    updateToken(response.data.accessToken, "accessToken")
+                    updateToken(token, "identityToken")
+                }
+            default:
+                print(500)
+            }
             print(response.data.userID)
         }
     }
