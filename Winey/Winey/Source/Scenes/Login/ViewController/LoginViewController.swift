@@ -211,14 +211,6 @@ func updateToken(_ token: String, _ id: String) {
     }
 }
 
-func deleteToken(_ id: String) {
-    do {
-        try KeychainManager.deleteToken()
-    } catch {
-        print("delete error")
-    }
-}
-
 // MARK: - Network
 
 extension LoginViewController {

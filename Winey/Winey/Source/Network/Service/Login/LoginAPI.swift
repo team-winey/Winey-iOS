@@ -59,10 +59,10 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
     
     var headers: [String : String]? {
         switch self {
-        case .appleLogin(_, let token), .appleWithdraw(let token):
+        case .appleLogin(_, let token):
             return ["Content-Type": "application/json",
                                               "Authorization": token]
-        case .appleLogout(let token):
+        case .appleLogout(let token), .appleWithdraw(let token):
             return ["Content-Type": "application/json",
                                               "accessToken": token]
         }
