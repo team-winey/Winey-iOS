@@ -14,7 +14,18 @@ struct LoginResponse: Decodable {
 }
 
 struct UserData: Decodable {
-    let userId: Int
-    let refreshToken, accessToken: String
+    let userID: Int
+    let refreshToken: String
+    let accessToken: String
     let isRegistered: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case userID = "userId"
+        case refreshToken, accessToken, isRegistered
+    }
+}
+
+struct LogoutResponse: Decodable {
+    let code: Int
+    let message: String
 }

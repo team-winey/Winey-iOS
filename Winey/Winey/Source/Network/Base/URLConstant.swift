@@ -20,4 +20,6 @@ struct URLConstant {
     static let user = "/user"
     static let recommend = "/recommend"
     static let signIn = "/auth"
+    static let signOut = "/auth/sign-out"
+    static let withdraw = "/auth/withdraw"
 }
