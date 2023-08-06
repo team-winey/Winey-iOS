@@ -46,7 +46,7 @@ final class SplashViewController: UIViewController {
         let signed = UserDefaults.standard.bool(forKey: "Signed")
         
         if signed {
-            rootViewController = TabBarController()
+            rootViewController = LoginTestViewController()
         } else {
             rootViewController = LoginViewController()
         }
