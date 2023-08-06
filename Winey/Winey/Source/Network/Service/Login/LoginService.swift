@@ -16,7 +16,7 @@ final class LoginService {
     init() {}
     
     private(set) var loginResponse: LoginResponse?
-    private(set) var logoutData: BaseResponse<LogoutResponse>?
+    private(set) var logoutResponse: LogoutResponse?
     
     // 1. 애플 로그인
     
@@ -48,21 +48,18 @@ final class LoginService {
         authProvider.request(.appleLogout(token: token)) { [self] (result) in
             switch result {
             case .success(let response):
-                do {
-                    self.logoutData = try response.map(BaseResponse<LogoutResponse>.self)
-                    
-                    guard let data = logoutData else { return }
-                    
-                    switch data.code {
-                    case 200..<300:
-                        print(data.message!)
+                switch response.statusCode {
+                case 200..<300:
+                    do {
+                        self.logoutResponse = try response.map(LogoutResponse.self)
+                        
+                        guard logoutResponse != nil else { return }
                         completion(true)
-                    default:
-                        print(data.message!)
-                        completion(false)
+                    } catch let error {
+                        print(error.localizedDescription)
                     }
-                } catch let error {
-                    print(error.localizedDescription, 500)
+                default:
+                    print(500)
                 }
             case .failure(let err):
                 print(err)
