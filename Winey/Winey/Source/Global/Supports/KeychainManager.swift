@@ -45,6 +45,20 @@ struct KeychainManager {
         guard status == errSecSuccess else { throw KeychainError.unhandledError }
     }
     
+    func updateToken(_ token: String) throws {
+        let encodedToken = token.data(using: String.Encoding.utf8)!
+
+        let query: NSDictionary = [kSecClass: kSecClassGenericPassword,
+                             kSecAttrAccount: id,
+                             kSecAttrService: service]
+        
+        let targetQuery: NSDictionary = [kSecValueData: encodedToken]
+        
+        let status = SecItemUpdate(query, targetQuery)
+        
+        guard status == errSecSuccess else { throw KeychainError.unhandledError }
+    }
+    
     func getToken() throws -> String? {
         let query: NSDictionary = [kSecClass: kSecClassGenericPassword,
                                  kSecAttrAccount: id,
