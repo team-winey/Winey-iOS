@@ -60,50 +60,12 @@ class LoginTestViewController: UIViewController {
     
     @objc
     private func appleLogout() {
-        var success = false
-        
-        let userId = UserDefaults.standard.string(forKey: "userId")
-        let token = getToken(userId!)
-        
+        let token = getToken("accessToken")!
+
         DispatchQueue.global(qos: .utility).async {
-            success = self.logoutWithApple(token: token!)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            if success == true {
-                UserDefaults.standard.set(false, forKey: "Signed")
-                
-                let vc = LoginViewController()
-                self.switchRootViewController(rootViewController: vc, animated: true)
-            } else {
-                print("로그아웃 실패")
-            }
+            self.logoutWithApple(token: token)
         }
     }
-    
-    @objc
-    private func appleWithdraw() {
-        var success = false
-        
-        let userId = UserDefaults.standard.string(forKey: "userId")
-        let token = getToken("refreshToken")
-        
-        DispatchQueue.global(qos: .utility).async {
-            success = self.logoutWithApple(token: token!)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            if success == true {
-                UserDefaults.standard.set(false, forKey: "Signed")
-                
-                let vc = LoginViewController()
-                self.switchRootViewController(rootViewController: vc, animated: true)
-            } else {
-                print("로그아웃 실패")
-            }
-        }
-    }
-    
     
     private func getToken(_ id: String) -> String? {
         do {
@@ -117,12 +79,19 @@ class LoginTestViewController: UIViewController {
 
 extension LoginTestViewController {
     
-    private func logoutWithApple(token: String) -> Bool {
-        var logoutResult = false
+    private func logoutWithApple(token: String) {
         loginService.logoutWithApple(token: token) { result in
-            logoutResult = result
+            if result {
+                UserDefaults.standard.set(false, forKey: "Signed")
+                
+                DispatchQueue.main.async {
+                    let vc = LoginViewController()
+                    self.switchRootViewController(rootViewController: vc, animated: true)
+                }
+            } else {
+                print("로그아웃 실패")
+            }
         }
-        return logoutResult
     }
     
     private func withdrawApple(token: String) -> Bool {
