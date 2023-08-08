@@ -14,9 +14,14 @@
 		0D2E89792A683ADE00733BE1 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0D2E89782A683ADE00733BE1 /* Lottie */; };
 		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
 		0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */; };
+		0D5FE5EB2A829BCC00434E1C /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5FE5EA2A829BCC00434E1C /* UITableView+.swift */; };
 		0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519662A61905300643F46 /* TestTypoViewController.swift */; };
 		0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519682A6191F700643F46 /* TestPopupViewController.swift */; };
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
+		0DB4A2C42A8280D200C40CCC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB4A2C32A8280D200C40CCC /* DetailViewController.swift */; };
+		0DB4A2C62A8282F600C40CCC /* DetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB4A2C52A8282F600C40CCC /* DetailSection.swift */; };
+		0DB4A2CA2A82896900C40CCC /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB4A2C92A82896900C40CCC /* CommentCell.swift */; };
+		0DB4A2CD2A828BD500C40CCC /* DetailInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB4A2CC2A828BD500C40CCC /* DetailInfoCell.swift */; };
 		0DC31E022A685467003BB220 /* ProductPolicyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC31E012A685467003BB220 /* ProductPolicyModel.swift */; };
 		0DC31E042A68571F003BB220 /* NotificationName+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC31E032A68571F003BB220 /* NotificationName+.swift */; };
 		0DE7E5E62A68385D006E36FF /* UploadLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */; };
@@ -115,9 +120,14 @@
 		0D09FB052A697C3C00893A6D /* TestUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserViewController.swift; sourceTree = "<group>"; };
 		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		0D5FE5EA2A829BCC00434E1C /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		0D6519662A61905300643F46 /* TestTypoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypoViewController.swift; sourceTree = "<group>"; };
 		0D6519682A6191F700643F46 /* TestPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPopupViewController.swift; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
+		0DB4A2C32A8280D200C40CCC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		0DB4A2C52A8282F600C40CCC /* DetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSection.swift; sourceTree = "<group>"; };
+		0DB4A2C92A82896900C40CCC /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		0DB4A2CC2A828BD500C40CCC /* DetailInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoCell.swift; sourceTree = "<group>"; };
 		0DC31E012A685467003BB220 /* ProductPolicyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPolicyModel.swift; sourceTree = "<group>"; };
 		0DC31E032A68571F003BB220 /* NotificationName+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+.swift"; sourceTree = "<group>"; };
 		0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLoadingViewController.swift; sourceTree = "<group>"; };
@@ -259,6 +269,25 @@
 				0D6D9BF82A5D799A000AA356 /* DesignSystem */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		0DB4A2C22A8280C900C40CCC /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				0DB4A2CB2A828BBD00C40CCC /* Views */,
+				0DB4A2C32A8280D200C40CCC /* DetailViewController.swift */,
+				0DB4A2C52A8282F600C40CCC /* DetailSection.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		0DB4A2CB2A828BBD00C40CCC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0DB4A2C92A82896900C40CCC /* CommentCell.swift */,
+				0DB4A2CC2A828BD500C40CCC /* DetailInfoCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		0DFF7D3A2A69C2C20073ADAD /* Splash */ = {
@@ -430,6 +459,7 @@
 				14F670082A550C83009703AD /* UILabel+.swift */,
 				14F6700A2A550CBA009703AD /* UIButton+.swift */,
 				14DB265F2A5E7E7A00F42499 /* CGFloat+.swift */,
+				0D5FE5EA2A829BCC00434E1C /* UITableView+.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -645,6 +675,7 @@
 				F4A80EBA2A7968CF006EA2F8 /* Login */,
 				1D65BD492A7E6B7000F77202 /* Alert */,
 				142FE3862A7C012400421732 /* Onboarding */,
+				0DB4A2C22A8280C900C40CCC /* Detail */,
 				0DFF7D3A2A69C2C20073ADAD /* Splash */,
 				1D69E0162A61A55500D4E3B5 /* Guide */,
 				0D4DFA092A5F2E3C008F6D63 /* Test */,
@@ -956,11 +987,13 @@
 				143C009A2A604810000FBD3F /* RecommendModel.swift in Sources */,
 				0D09FB022A696D1300893A6D /* UserManager.swift in Sources */,
 				14DB265C2A5C840100F42499 /* FeedHeaderView.swift in Sources */,
+				0DB4A2CD2A828BD500C40CCC /* DetailInfoCell.swift in Sources */,
 				14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
 				1D69E0242A62B46800D4E3B5 /* LevelupRuleView.swift in Sources */,
 				F4A80EBD2A7A35A8006EA2F8 /* LoginViewController.swift in Sources */,
+				0D5FE5EB2A829BCC00434E1C /* UITableView+.swift in Sources */,
 				14E9B1172A6854E800B85616 /* SaveGoalViewController.swift in Sources */,
 				F4867A672A608B860016389C /* Int+.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
@@ -978,12 +1011,14 @@
 				14E28F702A65351800E5E5C2 /* Encodable.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14576DC02A68969C00C79C9C /* PostGoalResponse.swift in Sources */,
+				0DB4A2C42A8280D200C40CCC /* DetailViewController.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
 				1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */,
 				0D09FB062A697C3C00893A6D /* TestUserViewController.swift in Sources */,
 				145B44BA2A68AC410043D10C /* TotalRecommendResponse.swift in Sources */,
 				14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */,
 				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
+				0DB4A2C62A8282F600C40CCC /* DetailSection.swift in Sources */,
 				145B44B52A68AC050043D10C /* RecommendAPI.swift in Sources */,
 				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
 				14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */,
@@ -1008,6 +1043,7 @@
 				145B44B72A68AC0D0043D10C /* RecommendService.swift in Sources */,
 				14E28F782A653B5000E5E5C2 /* URLConstant.swift in Sources */,
 				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
+				0DB4A2CA2A82896900C40CCC /* CommentCell.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				F4867A652A6061940016389C /* PriceUploadView.swift in Sources */,
 				F4A6D5432A7C4568006905AE /* KeychainManager.swift in Sources */,
