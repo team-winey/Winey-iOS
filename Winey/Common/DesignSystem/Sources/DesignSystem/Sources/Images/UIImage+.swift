@@ -20,6 +20,7 @@ public extension UIImage {
         public static let danger            = UIImage(name: "ic_danger")
         public static let floating          = UIImage(name: "btn_floating")
         public static let link              = UIImage(name: "ic_link")
+        public static let comment           = UIImage(name: "ic_comment")
     }
 
     enum Mypage {
@@ -63,6 +64,7 @@ public extension UIImage {
         public static let back      = UIImage(name: "btn_back")
         public static let floating  = UIImage(name: "btn_floating")
         public static let btn_plus  = UIImage(name: "btn_plus")
+        public static let more  = UIImage(name: "btn_more")
     }
 }
 
