@@ -93,7 +93,7 @@ extension DetailViewController {
                 }
                 cell.selectionStyle = .none
                 return cell
-                
+
             case .emptyComment:
                 return nil
             }

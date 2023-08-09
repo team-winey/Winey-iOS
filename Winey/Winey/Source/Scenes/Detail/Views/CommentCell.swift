@@ -100,7 +100,6 @@ extension CommentCell {
         dotView.snp.makeConstraints { make in
             make.width.height.equalTo(2)
         }
-        
         return stackView
     }
 }
