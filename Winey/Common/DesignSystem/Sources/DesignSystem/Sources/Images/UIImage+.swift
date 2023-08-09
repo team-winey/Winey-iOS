@@ -58,6 +58,9 @@ public extension UIImage {
         public static let feed_character = UIImage(name: "img_feed_character")
         public static let recommend_character = UIImage(name: "img_recommend_character")
         public static let img_empty = UIImage(name: "img_empty")
+        public static let img_onboarding1 = UIImage(name: "img_onboarding1")
+        public static let img_onboarding2 = UIImage(name: "img_onboarding2")
+        public static let img_onboarding3 = UIImage(name: "img_onboarding3")
     }
     
     enum Btn {
