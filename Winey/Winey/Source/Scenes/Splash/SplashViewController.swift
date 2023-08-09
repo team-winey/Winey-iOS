@@ -46,9 +46,11 @@ final class SplashViewController: UIViewController {
         let signed = UserDefaults.standard.bool(forKey: "Signed")
         
         if signed {
-            rootViewController = LoginTestViewController()
+            // rootViewController = LoginTestViewController()
+            rootViewController = TabBarController()
         } else {
             rootViewController = LoginViewController()
+            // rootViewController = FeedViewController()
         }
         
         UIView.transition(

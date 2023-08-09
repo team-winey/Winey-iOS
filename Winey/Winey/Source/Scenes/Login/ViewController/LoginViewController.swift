@@ -115,13 +115,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             
             let userIdentifier = appleIDCredential.user
             
-            // refreshToken이 있는지 확인
+            // accessToken이 있는지 확인
             let accessToken = getToken("accessToken")
             let refreshToken = getToken("refreshToken")
             let identityToken = getToken("identityToken")
             let req = LoginRequest(socialType: "APPLE")
                         
-            // 신규회원
+            // 기기 최초로 로그인 시
             if identityToken == nil {
                 if let authorizationCode = appleIDCredential.authorizationCode,
                    let identityToken = appleIDCredential.identityToken,
@@ -158,7 +158,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 if UserDefaults.standard.bool(forKey: "Signed") {
                     print("login Succeed")
                     print(identityToken ?? "")
-                    let vc = LoginTestViewController()
+                    // let vc = LoginTestViewController()
+                    let vc = TabBarController()
                     self.switchRootViewController(rootViewController: vc, animated: true)
                 }
             }
@@ -181,6 +182,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
     print("Authorization Failed")
 }
+
+// MARK: - Keychain
 
 func saveToken(_ token: String, _ id: String) {
     do {
