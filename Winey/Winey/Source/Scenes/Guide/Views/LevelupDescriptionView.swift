@@ -66,7 +66,7 @@ final class LevelupDescriptionView: UIView {
     
     private let levelupDescriptionGuideImageView: UIImageView = {
         let image = UIImageView()
-        image.image = .Mypage.guide1
+        image.image = .Img.guide1
         image.sizeToFit()
         return image
     }()
