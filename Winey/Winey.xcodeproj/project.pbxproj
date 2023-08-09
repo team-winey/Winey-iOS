@@ -75,6 +75,9 @@
 		1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3CBAFE2A5E7CF100AE8138 /* MypageViewController.swift */; };
 		1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */; };
 		1D3CBB082A5ECA8E00AE8138 /* MyfeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3CBB062A5EC94800AE8138 /* MyfeedCollectionViewCell.swift */; };
+		1D65BD502A7E6BB800F77202 /* AlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D65BD4F2A7E6BB800F77202 /* AlertCell.swift */; };
+		1D65BD522A7E6DD300F77202 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D65BD512A7E6DD300F77202 /* AlertViewController.swift */; };
+		1D65BD552A7E70B000F77202 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D65BD542A7E70B000F77202 /* Content.swift */; };
 		1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69E01A2A61A64C00D4E3B5 /* GuideViewController.swift */; };
 		1D69E0202A62B45000D4E3B5 /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69E01F2A62B45000D4E3B5 /* BubbleView.swift */; };
 		1D69E0222A62B45D00D4E3B5 /* LevelupDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69E0212A62B45D00D4E3B5 /* LevelupDescriptionView.swift */; };
@@ -83,6 +86,7 @@
 		1D7640AA2A67C27A00922332 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640A92A67C27A00922332 /* UserAPI.swift */; };
 		1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640AB2A67C28700922332 /* TotalUserResponse.swift */; };
 		1D7640B32A682E7100922332 /* UserLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640B22A682E7100922332 /* UserLevel.swift */; };
+		1D8F02792A827A5300658B41 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8F02782A827A5300658B41 /* AlertModel.swift */; };
 		1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */; };
 		F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D8F2D2A6708E90041FB94 /* UploadModel.swift */; };
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
@@ -163,6 +167,9 @@
 		1D3CBAFE2A5E7CF100AE8138 /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
 		1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageGoalInfoCell.swift; sourceTree = "<group>"; };
 		1D3CBB062A5EC94800AE8138 /* MyfeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyfeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		1D65BD4F2A7E6BB800F77202 /* AlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCell.swift; sourceTree = "<group>"; };
+		1D65BD512A7E6DD300F77202 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		1D65BD542A7E70B000F77202 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		1D69E01A2A61A64C00D4E3B5 /* GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		1D69E01F2A62B45000D4E3B5 /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
 		1D69E0212A62B45D00D4E3B5 /* LevelupDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelupDescriptionView.swift; sourceTree = "<group>"; };
@@ -171,6 +178,7 @@
 		1D7640A92A67C27A00922332 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		1D7640AB2A67C28700922332 /* TotalUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalUserResponse.swift; sourceTree = "<group>"; };
 		1D7640B22A682E7100922332 /* UserLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLevel.swift; sourceTree = "<group>"; };
+		1D8F02782A827A5300658B41 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F40D8F2D2A6708E90041FB94 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
 		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
@@ -613,6 +621,7 @@
 		14F66FFA2A550864009703AD /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				1D65BD492A7E6B7000F77202 /* Alert */,
 				142FE3862A7C012400421732 /* Onboarding */,
 				0DFF7D3A2A69C2C20073ADAD /* Splash */,
 				1D69E0162A61A55500D4E3B5 /* Guide */,
@@ -662,6 +671,41 @@
 				1D3CBAE62A5C05FD00AE8138 /* Cells */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1D65BD492A7E6B7000F77202 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				1D65BD532A7E70A500F77202 /* Model */,
+				1D65BD4B2A7E6B8600F77202 /* ViewController */,
+				1D65BD4A2A7E6B8200F77202 /* View */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		1D65BD4A2A7E6B8200F77202 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1D65BD4F2A7E6BB800F77202 /* AlertCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1D65BD4B2A7E6B8600F77202 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1D65BD512A7E6DD300F77202 /* AlertViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		1D65BD532A7E70A500F77202 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1D65BD542A7E70B000F77202 /* Content.swift */,
+				1D8F02782A827A5300658B41 /* AlertModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		1D69E0162A61A55500D4E3B5 /* Guide */ = {
@@ -876,12 +920,14 @@
 				14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */,
 				1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */,
 				14576DC22A6898D800C79C9C /* PostGoalRequest.swift in Sources */,
+				1D65BD502A7E6BB800F77202 /* AlertCell.swift in Sources */,
 				14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */,
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
 				F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */,
 				0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */,
 				14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */,
 				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
+				1D65BD552A7E70B000F77202 /* Content.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
 				1D7640AA2A67C27A00922332 /* UserAPI.swift in Sources */,
 				0D09FB042A696D2900893A6D /* UserDefaults+Name.swift in Sources */,
@@ -893,9 +939,11 @@
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				F4867A652A6061940016389C /* PriceUploadView.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
+				1D8F02792A827A5300658B41 /* AlertModel.swift in Sources */,
 				F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */,
 				147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
+				1D65BD522A7E6DD300F77202 /* AlertViewController.swift in Sources */,
 				0D09FB002A696CF800893A6D /* UserDefaultsManager.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
 				1D69E0262A62B4F100D4E3B5 /* CautionView.swift in Sources */,
