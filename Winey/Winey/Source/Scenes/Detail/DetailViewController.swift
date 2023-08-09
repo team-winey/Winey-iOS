@@ -29,33 +29,22 @@ final class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        applySections()
+        testApplySection()
     }
     
-    private func applySections() {
+    private func testApplySection() {
         var snapshot = Snapshot()
-        let viewModel = DetailInfoCell.ViewModel(
-            userLevel: .one,
-            nickname: "카페인 중독자",
-            isLike: false,
-            title: "dsafdsafsadf",
-            likeCount: 4,
-            commentCount: 1,
-            timeAgo: "몇 분전",
-            imageInfo: .init(
-                imageUrl: URL(string: "https://i.namu.wiki/i/0dzqJuL0LTSp5yj0k0W5YMoBophY0WDVKRqU33VjbSH1GaCFCJHp0etEe0FPCVnPdPe0ykg4cpcPM117ECDt7w.webp")!,
-                height: 100
-            ),
-            money: 4500
-        )
-        let section = Section.info(item: .info(viewModel))
-        snapshot.appendSections([section])
-        snapshot.appendItems([.info(viewModel)], toSection: section)
+        let commentItems: [Section.Item] = Self.dummyCommentsViewModel.map { .comment($0) }
+        snapshot.appendSections([.info])
+        snapshot.appendItems([Section.Item.info(Self.dummyInfoViewModel)], toSection: Section.info)
+        dataSource.apply(snapshot)
+        
+        snapshot.appendSections([.comments])
+        snapshot.appendItems(commentItems, toSection: .comments)
         dataSource.apply(snapshot)
     }
 }
-//https://i.namu.wiki/i/0dzqJuL0LTSp5yj0k0W5YMoBophY0WDVKRqU33VjbSH1GaCFCJHp0etEe0FPCVnPdPe0ykg4cpcPM117ECDt7w.webp
-// https://github.com/team-winey/Winey-iOS/assets/56102421/958a96f1-3c20-4feb-b3df-5ac7bfdb4018
+
 extension DetailViewController {
     private func setupAttribute() {
         view.backgroundColor = .white
@@ -104,24 +93,55 @@ extension DetailViewController {
                 }
                 cell.selectionStyle = .none
                 return cell
+                
+            case .emptyComment:
+                return nil
             }
         }
     }
     
     private func updateSnapshot(imageInfo: DetailInfoCell.ViewModel.ImageInfo) {
         var snapshot = dataSource.snapshot()
-        guard snapshot.numberOfItems > 0,
-              snapshot.numberOfSections > 0,
+        guard snapshot.numberOfItems > 1,
+              snapshot.numberOfSections > 1,
               case let .info(viewModel) = snapshot.itemIdentifiers[0]
         else { return }
-        
+        let beforeItem = snapshot.itemIdentifiers[0]
+        let infoSection = snapshot.sectionIdentifiers[0]
         var newViewModel = viewModel
         newViewModel.imageInfo = imageInfo
+        
         let newItem = Section.Item.info(newViewModel)
-        let diff = [newItem].difference(from: snapshot.itemIdentifiers)
-        guard let newIdentifiers = snapshot.itemIdentifiers.applying(diff) else { return }
-        snapshot.deleteItems(snapshot.itemIdentifiers)
-        snapshot.appendItems(newIdentifiers)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        snapshot.appendItems([newItem], toSection: infoSection)
+        snapshot.deleteItems([beforeItem])
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+private extension DetailViewController {
+    static var dummyInfoViewModel: DetailInfoCell.ViewModel {
+        .init(
+            userLevel: .one,
+            nickname: "카페인 중독자",
+            isLike: false,
+            title: "어디까지길어질까?어디까지길어질까?어디 ㅁㄴㅇㄹㅁㄴ?ghjkQP 🙏🏻 🤔",
+            likeCount: 4,
+            commentCount: 1,
+            timeAgo: "몇 분전",
+            imageInfo: .init(
+                imageUrl: URL(string: "https://i.namu.wiki/i/0dzqJuL0LTSp5yj0k0W5YMoBophY0WDVKRqU33VjbSH1GaCFCJHp0etEe0FPCVnPdPe0ykg4cpcPM117ECDt7w.webp")!,
+                height: 100
+            ),
+            money: 4500
+        )
+    }
+
+    static var dummyCommentsViewModel: [CommentCell.ViewModel] {
+        [
+            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
+            .init(level: "황제", nickname: "김응관", comment: "굿... 기왕, 캐시워크까지 해서 꽁돈 버시는 건 어떨는지?.\n휘바고 ~ ", isMine: false),
+            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
+            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false)
+        ]
     }
 }
