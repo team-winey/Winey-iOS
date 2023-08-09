@@ -59,6 +59,9 @@ public extension UIImage {
         public static let knight = UIImage(name: "img_knight")
         public static let noble = UIImage(name: "img_noble")
         public static let emperor = UIImage(name: "img_emperor")
+        public static let img_onboarding1 = UIImage(name: "img_onboarding1")
+        public static let img_onboarding2 = UIImage(name: "img_onboarding2")
+        public static let img_onboarding3 = UIImage(name: "img_onboarding3")
     }
     
     enum Btn {
