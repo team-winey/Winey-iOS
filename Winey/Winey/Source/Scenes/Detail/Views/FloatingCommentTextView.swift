@@ -14,8 +14,8 @@ import SnapKit
 final class FloatingCommentTextView: UITextView {
     private var placeholderLabel: UILabel?
     
-    private let commentSubject = PassthroughSubject<String, Never>()
-    private let shouldWarnLimitCountSubject = PassthroughSubject<Bool, Never>()
+    private let commentSubject = CurrentValueSubject<String, Never>("")
+    private let shouldWarnLimitCountSubject = CurrentValueSubject<Bool, Never>(false)
     
     var placeholderText: String? {
         get { placeholderLabel?.text }

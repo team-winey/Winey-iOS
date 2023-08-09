@@ -61,6 +61,7 @@ extension FloatingCommentView {
         sendButton.setTitle("등록", for: .normal)
         sendButton.setTitleColor(.winey_purple400, for: .normal)
         limitLabel.textColor = .red
+        textView.placeholderText = "댓글을 입력하세요"
     }
     
     private func setupLayout() {
@@ -99,6 +100,7 @@ extension FloatingCommentView {
                 let maximumLimitCount = FloatingCommentTextView.Const.maximumLimitCount
                 let limit = "\(comment.count)/\(maximumLimitCount)"
                 self.limitLabel.setText(limit, attributes: Const.limitAttributes)
+                self.sendButton.isHidden = comment.count <= 0
             }
             .store(in: &bag)
         
