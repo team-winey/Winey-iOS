@@ -16,7 +16,7 @@ final class BubbleView: UIView {
     
     private let bubbleImageView: UIImageView = {
         let image = UIImageView()
-        image.image = .Mypage.bubble
+        image.image = .Img.bubble
         image.sizeToFit()
         return image
     }()
