@@ -80,14 +80,14 @@ extension FloatingCommentView {
         }
         sendButton.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.equalTo(textView.snp.trailing)
-            make.trailing.equalToSuperview().inset(9)
+            make.leading.equalTo(textView.snp.trailing).offset(2)
+            make.trailing.equalToSuperview().inset(5)
             make.width.equalTo(44)
             make.height.equalTo(42)
         }
         limitLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(14)
-            make.trailing.equalToSuperview().inset(6)
+            make.centerX.equalTo(sendButton)
         }
     }
     

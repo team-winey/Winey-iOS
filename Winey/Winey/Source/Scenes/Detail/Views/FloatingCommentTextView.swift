@@ -101,15 +101,21 @@ extension FloatingCommentTextView {
 
 extension FloatingCommentTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        guard var newText = textView.text else { return }
+         
+        if textView.text.count > Const.maximumLimitCount {
+            newText = String(newText.prefix(Const.maximumLimitCount))
+        }
+        
+        updateTextViewScrollableIfNeeded(text: newText)
+        
         let selectedRange = textView.selectedRange
-        updateText(textView.text)
+        updateText(newText)
         textView.selectedRange = selectedRange
-        commentSubject.send(textView.text)
+        commentSubject.send(newText)
         
-        let shouldWarn = textView.text.count >= Const.minimumWarningCount
+        let shouldWarn = newText.count >= Const.minimumWarningCount
         shouldWarnLimitCountSubject.send(shouldWarn)
-        
-        updateTextViewScrollableIfNeeded(text: textView.text)
     }
     
     private func updateTextViewScrollableIfNeeded(text: String) {
