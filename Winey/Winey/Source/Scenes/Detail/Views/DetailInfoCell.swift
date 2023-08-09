@@ -106,11 +106,13 @@ final class DetailInfoCell: UITableViewCell {
 
 extension DetailInfoCell {
     private func setupAttribute() {
-        titleLabel.numberOfLines = 0
-        likeButton.backgroundColor = .winey_purple100
+        titleLabel.numberOfLines = 2
         likeButton.setImage(.Icon.like_selected, for: .selected)
         likeButton.setImage(.Icon.like_selected, for: .highlighted)
         likeButton.setImage(.Icon.like_unselected, for: .normal)
+        likeButton.setBackgroundColor(.winey_purple100, for: .normal)
+        likeButton.setBackgroundColor(.winey_purple400, for: .highlighted)
+        likeButton.setBackgroundColor(.winey_purple400, for: .selected)
         likeButton.makeCornerRound(radius: Const.buttonCornerRadius)
         profileImageView.makeBorder(width: 1, color: .winey_gray100)
         profileImageView.makeCornerRound(radius: Const.profileImageCornerRadius)
@@ -128,10 +130,10 @@ extension DetailInfoCell {
         let detailImageView = setupDetailImageView()
         let detailMetaInfoView = setupDetailMetaInfoView()
         
-        self.addSubview(userInfoView)
-        self.addSubview(detailImageView)
-        self.addSubview(detailMetaInfoView)
-        self.addSubview(dividerView)
+        contentView.addSubview(userInfoView)
+        contentView.addSubview(detailImageView)
+        contentView.addSubview(detailMetaInfoView)
+        contentView.addSubview(dividerView)
         
         userInfoView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Const.userInfoViewTopSpacing)
@@ -216,6 +218,7 @@ extension DetailInfoCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().inset(10)
+            make.height.equalTo(46)
         }
         metaContainerView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
@@ -242,14 +245,13 @@ extension DetailInfoCell {
         }
         likeButton.snp.makeConstraints { make in
             make.top.equalTo(titleLabel)
-            make.leading.equalTo(titleLabel.snp.trailing).offset(4)
+            make.leading.equalTo(titleLabel.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(10)
             make.size.equalTo(Const.buttonSize)
         }
         likeCountLabel.snp.makeConstraints { make in
             make.top.equalTo(likeButton.snp.bottom).offset(4)
             make.centerX.equalTo(likeButton)
-            make.bottom.greaterThanOrEqualToSuperview()
         }
         
         return containerView
@@ -299,11 +301,25 @@ private extension DetailInfoCell {
     }
 }
 
-extension KFCrossPlatformImage {
+private extension KFCrossPlatformImage {
     func getHeightOfResizedImageView(avaliableWidth: CGFloat) -> CGFloat {
         let ratio = avaliableWidth / self.size.width
         let scaledHeight = self.size.height * ratio
         
         return scaledHeight
+    }
+}
+
+private extension UIButton {
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
+        UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        context.setFillColor(color.cgColor)
+        context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
+        
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.setBackgroundImage(backgroundImage, for: state)
     }
 }
