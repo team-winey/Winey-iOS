@@ -20,6 +20,8 @@ public extension UIImage {
         public static let danger            = UIImage(name: "ic_danger")
         public static let floating          = UIImage(name: "btn_floating")
         public static let link              = UIImage(name: "ic_link")
+        public static let apple             = UIImage(name: "ic_apple")
+        public static let kakao             = UIImage(name: "ic_kakao")
         public static let info              = UIImage(name: "ic_info")
         public static let progressbar       = UIImage(name: "level_progressbar")
         public static let pen               = UIImage(name: "ic_pen")
@@ -69,6 +71,11 @@ public extension UIImage {
         public static let back      = UIImage(name: "btn_back")
         public static let floating  = UIImage(name: "btn_floating")
         public static let btn_plus  = UIImage(name: "btn_plus")
+    }
+    
+    enum Login {
+        public static let character = UIImage(name: "img_loginCharacter")
+        public static let logo = UIImage(name: "img_loginLogo")
     }
 }
 
