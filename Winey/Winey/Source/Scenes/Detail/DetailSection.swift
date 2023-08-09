@@ -10,11 +10,12 @@ import Foundation
 enum DetailSection: Hashable {
     typealias Item = DetailSectionItem
     
-    case info(item: Item)
-    case comments(items: [Item])
+    case info
+    case comments
 }
 
 enum DetailSectionItem: Hashable {
     case info(DetailInfoCell.ViewModel)
     case comment(CommentCell.ViewModel)
+    case emptyComment
 }
