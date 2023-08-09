@@ -21,6 +21,8 @@
 		0DC31E042A68571F003BB220 /* NotificationName+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC31E032A68571F003BB220 /* NotificationName+.swift */; };
 		0DE7E5E62A68385D006E36FF /* UploadLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */; };
 		0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFF7D3B2A69C2DB0073ADAD /* SplashViewController.swift */; };
+		142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FE3842A7C011E00421732 /* OnboardingViewController.swift */; };
+		142FE3882A7C0DB900421732 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FE3872A7C0DB900421732 /* OnboardingCell.swift */; };
 		143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00932A602E8F000FBD3F /* RecommendViewController.swift */; };
 		143C00962A603273000FBD3F /* RecommendHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00952A603273000FBD3F /* RecommendHeaderView.swift */; };
 		143C00982A603911000FBD3F /* RecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00972A603911000FBD3F /* RecommendCell.swift */; };
@@ -112,6 +114,8 @@
 		0DC31E032A68571F003BB220 /* NotificationName+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+.swift"; sourceTree = "<group>"; };
 		0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLoadingViewController.swift; sourceTree = "<group>"; };
 		0DFF7D3B2A69C2DB0073ADAD /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		142FE3842A7C011E00421732 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		142FE3872A7C0DB900421732 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
 		143C00932A602E8F000FBD3F /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		143C00952A603273000FBD3F /* RecommendHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHeaderView.swift; sourceTree = "<group>"; };
 		143C00972A603911000FBD3F /* RecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCell.swift; sourceTree = "<group>"; };
@@ -246,6 +250,15 @@
 				0DFF7D3B2A69C2DB0073ADAD /* SplashViewController.swift */,
 			);
 			path = Splash;
+			sourceTree = "<group>";
+		};
+		142FE3862A7C012400421732 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				142FE3842A7C011E00421732 /* OnboardingViewController.swift */,
+				142FE3872A7C0DB900421732 /* OnboardingCell.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		143C00902A602E51000FBD3F /* View */ = {
@@ -609,6 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				1D65BD492A7E6B7000F77202 /* Alert */,
+				142FE3862A7C012400421732 /* Onboarding */,
 				0DFF7D3A2A69C2C20073ADAD /* Splash */,
 				1D69E0162A61A55500D4E3B5 /* Guide */,
 				0D4DFA092A5F2E3C008F6D63 /* Test */,
@@ -866,9 +880,11 @@
 				F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
+				142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */,
 				14E9B1142A68526000B85616 /* SaveGoalTextBoxView.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
 				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
+				142FE3882A7C0DB900421732 /* OnboardingCell.swift in Sources */,
 				1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */,
 				143C009A2A604810000FBD3F /* RecommendModel.swift in Sources */,
 				0D09FB022A696D1300893A6D /* UserManager.swift in Sources */,
