@@ -18,7 +18,7 @@ final class MenuCell: UICollectionViewCell {
 
     // MARK: - UIComponents
 
-    var buttonImageView: UIImageView = {
+    private var nextImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Icon.next
         return image
@@ -55,14 +55,14 @@ final class MenuCell: UICollectionViewCell {
     // MARK: - Layout
 
     private func setLayout() {
-        contentView.addSubviews(titleLabel, buttonImageView)
+        contentView.addSubviews(titleLabel, nextImageView)
 
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
         }
-        buttonImageView.snp.makeConstraints { make in
+        nextImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
         }
