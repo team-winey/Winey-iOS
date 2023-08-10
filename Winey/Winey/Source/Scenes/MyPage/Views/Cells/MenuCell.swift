@@ -1,73 +1,63 @@
 //
-//  SetupCollectionViewCell.swift
+//  MenuCell.swift
 //  Winey
 //
-//  Created by 고영민 on 2023/07/12.
+//  Created by 고영민 on 2023/08/09.
 //
 
-import Combine
 import UIKit
 
 import SnapKit
 import DesignSystem
 
-final class MyfeedCollectionViewCell: UICollectionViewCell {
-    
+final class MenuCell: UICollectionViewCell {
+
     // MARK: - Properties
-    
-    static let identifier = MyfeedCollectionViewCell.className
-    
+
+    static let identifier = MenuCell.className
+
     // MARK: - UIComponents
-    
+
     var buttonImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Icon.next
         return image
     }()
-    
-    let myfeedLabel: UILabel = {
+
+    let titleLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
-        label.setText(
-            "마이피드",
-            attributes: .init(
-                style: .body,
-                weight: .medium,
-                textColor: .winey_gray700
-            )
+        label.setText("",
+            attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700),
+            customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]
         )
+        label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         return label
     }()
-    
+
     private func setUI() {
         contentView.backgroundColor = .white
     }
-    
-//    @objc
-//    private func myfeedButtonTapped() {
-//        self.myfeedButtonTappedClosure?()
-//    }
-    
+
     // MARK: - View Life Cycle
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
         setUI()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("SecondView Error!")
     }
-    
+
     // MARK: - Layout
-    
+
     private func setLayout() {
-        contentView.addSubviews(myfeedLabel, buttonImageView)
-        
-        myfeedLabel.snp.makeConstraints { make in
+        contentView.addSubviews(titleLabel, buttonImageView)
+
+        titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
@@ -77,4 +67,8 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
             make.verticalEdges.equalToSuperview()
         }
     }
+    // MARK: - Config
+    func configureCell(_ menu: Menu) {
+            titleLabel.text = menu.title
+        }
 }
