@@ -52,7 +52,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getTotalUser()
-        setupWebView()
     }
     
     // MARK: - UIComponents
@@ -114,7 +113,7 @@ extension MypageViewController: UICollectionViewDelegate {
         if indexPath.section == 2 { // 마이피드
             let myFeedViewController = MyFeedViewController()
             self.navigationController?.pushViewController(myFeedViewController, animated: true)
-        } else if indexPath.section == 3 {
+        } else if indexPath.section == 3 { //1:1문의
             let url = URL(string: "https://open.kakao.com/o/s751Susf")!
             let safariViewController = SFSafariViewController(url: url)
             self.present(safariViewController, animated: true)
@@ -189,12 +188,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? MyfeedCollectionViewCell
             else { return UICollectionViewCell()}
-            myfeedCollectionViewCell.myfeedButtonTappedClosure = {
-                let myfeedViewController = MyFeedViewController()
-                myfeedViewController.viewDidLoad()
-                self.navigationController?
-                    .pushViewController(myfeedViewController, animated: true)
-            }
+            
             return myfeedCollectionViewCell
             
         case 3 :
@@ -203,7 +197,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? InquiryCollectionViewCell
             else { return UICollectionViewCell()}
-            inquiryCollectionViewCell.delegate = self
+            
             return inquiryCollectionViewCell
             
         default :
@@ -262,33 +256,6 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
-
-extension MypageViewController: WKNavigationDelegate, InquiryCollectionViewCellDelegate {
-    private func setupWebView() {
-        let webView = WKWebView(frame: self.view.bounds)
-        webView.navigationDelegate = self // 웹뷰의 네비게이션 이벤트를 처리할 delegate 설정
-        webView.isHidden = true // 일단 숨겨둡니다.
-        self.view.addSubview(webView)
-    }
-    
-    func buttonDidTapped() {
-        setupWebView()
-    }
-
-    @objc private func myfeedButtonTapped() {
-        // 버튼을 클릭했을 때 호출될 메소드
-        // 웹뷰를 보여주고 웹페이지를 로드합니다.
-        if let url = URL(string: "https://www.naver.com") {
-            if let webView = view.subviews.first(where: { $0 is WKWebView }) as? WKWebView {
-                webView.isHidden = false
-                let request = URLRequest(url: url)
-                webView.load(request)
-            }
-        }
-    }
-}
-
 // MARK: - Server
 
 extension MypageViewController {
@@ -300,7 +267,7 @@ extension MypageViewController {
             self.userLevel = self.judgeUserLevel(userData.userLevel)
             self.nickname = userData.nickname
             
-            let goal = data.userResponseGoalDto 
+            let goal = data.userResponseGoalDto
             self.duringGoalCount = goal?.duringGoalCount
             self.duringGoalAmount = goal?.duringGoalAmount
             self.dday = goal?.dday
