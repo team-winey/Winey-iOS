@@ -15,18 +15,9 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var myfeedButtonTappedClosure: (() -> Void)?
     static let identifier = MyfeedCollectionViewCell.className
     
     // MARK: - UIComponents
-    
-    lazy var moreButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(myfeedButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
     
     var buttonImageView: UIImageView = {
         let image = UIImageView()
@@ -53,10 +44,10 @@ final class MyfeedCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
-    @objc
-    private func myfeedButtonTapped() {
-        self.myfeedButtonTappedClosure?()
-    }
+//    @objc
+//    private func myfeedButtonTapped() {
+//        self.myfeedButtonTappedClosure?()
+//    }
     
     // MARK: - View Life Cycle
     

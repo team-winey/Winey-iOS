@@ -81,6 +81,8 @@
 		1D7640AA2A67C27A00922332 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640A92A67C27A00922332 /* UserAPI.swift */; };
 		1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640AB2A67C28700922332 /* TotalUserResponse.swift */; };
 		1D7640B32A682E7100922332 /* UserLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7640B22A682E7100922332 /* UserLevel.swift */; };
+		1D8F027C2A83B60900658B41 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8F027B2A83B60900658B41 /* Menu.swift */; };
+		1D8F027E2A83B79700658B41 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8F027D2A83B79700658B41 /* MenuCell.swift */; };
 		1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */; };
 		F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D8F2D2A6708E90041FB94 /* UploadModel.swift */; };
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
@@ -167,6 +169,8 @@
 		1D7640A92A67C27A00922332 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		1D7640AB2A67C28700922332 /* TotalUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalUserResponse.swift; sourceTree = "<group>"; };
 		1D7640B22A682E7100922332 /* UserLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLevel.swift; sourceTree = "<group>"; };
+		1D8F027B2A83B60900658B41 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		1D8F027D2A83B79700658B41 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F40D8F2D2A6708E90041FB94 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
 		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
@@ -322,6 +326,7 @@
 		148C7B8B2A56B1AD007DFE55 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				1D8F027A2A83B5FA00658B41 /* Model */,
 				1D3CBAFB2A5E7C5300AE8138 /* Views */,
 				1D3CBAE82A5C060C00AE8138 /* ViewControllers */,
 			);
@@ -630,6 +635,7 @@
 				1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */,
 				1D3CBB062A5EC94800AE8138 /* MyfeedCollectionViewCell.swift */,
 				1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */,
+				1D8F027D2A83B79700658B41 /* MenuCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -692,6 +698,14 @@
 				1D7640B22A682E7100922332 /* UserLevel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		1D8F027A2A83B5FA00658B41 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1D8F027B2A83B60900658B41 /* Menu.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		F40D8F2C2A67087A0041FB94 /* Model */ = {
@@ -829,6 +843,7 @@
 				143C009A2A604810000FBD3F /* RecommendModel.swift in Sources */,
 				0D09FB022A696D1300893A6D /* UserManager.swift in Sources */,
 				14DB265C2A5C840100F42499 /* FeedHeaderView.swift in Sources */,
+				1D8F027C2A83B60900658B41 /* Menu.swift in Sources */,
 				14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
@@ -836,6 +851,7 @@
 				14E9B1172A6854E800B85616 /* SaveGoalViewController.swift in Sources */,
 				F4867A672A608B860016389C /* Int+.swift in Sources */,
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
+				1D8F027E2A83B79700658B41 /* MenuCell.swift in Sources */,
 				0DC31E042A68571F003BB220 /* NotificationName+.swift in Sources */,
 				143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,

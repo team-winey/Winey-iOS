@@ -19,7 +19,6 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = InquiryCollectionViewCell.className
-    weak var delegate: InquiryCollectionViewCellDelegate?
     
     // MARK: - UIComponents
 
@@ -45,9 +44,6 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
 
-    @objc private func myfeedButtonTapped() {
-        delegate?.buttonDidTapped()
-    }
     
     // MARK: - View Life Cycle
     
