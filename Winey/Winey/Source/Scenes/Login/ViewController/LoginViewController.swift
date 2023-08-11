@@ -127,31 +127,31 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 // 로그인 상태 -> accessToken이 키체인에 있음
                 // 재로그인을 한다면, identityToken을 사용하여 accessToken/refreshToken을 재발급 받아야함
                 
-                // 1. 이 VC로 왔다는 것은 로그인이 필요한 상황 -> identityToken을 통한 Token들 재발급이 필요함
-                DispatchQueue.global(qos: .background).async {
-                    
-                    // 2. 화면 상에서는 activityIndicator만 보이도록 뷰를 설정
-                    DispatchQueue.main.async {
-                        self.activityIndicator.startAnimating()
-                        self.kakaoButton.isHidden = true
-                        self.appleButton.isHidden = true
-                        self.loginView.isHidden = true
+                // 1. 화면 상에서는 activityIndicator만 보이도록 뷰를 설정
+                DispatchQueue.main.async {
+                    self.activityIndicator.startAnimating()
+                    self.kakaoButton.isHidden = true
+                    self.appleButton.isHidden = true
+                    self.loginView.isHidden = true
+                    // 2. 이 VC로 왔다는 것은 로그인이 필요한 상황 -> identityToken을 통한 Token들 재발급이 필요함
+                    DispatchQueue.global(qos: .background).async {
+                        
+                        // 3. 다른 쓰레드에서는 로그인 실행
+                        print("identityToken으로 로그인 실행")
+                        let req = LoginRequest(socialType: "APPLE")
+                        self.loginWithApple(request: req,
+                                            token: identifyTokenString)
                     }
-                    
-                    // 3. 다른 쓰레드에서는 로그인 실행
-                    print("identityToken으로 로그인 실행")
-                    let req = LoginRequest(socialType: "APPLE")
-                    self.loginWithApple(request: req,
-                                        token: identifyTokenString)
                 }
                 
                 // 4. 로그인 함수가 성공적으로 동작했다면 RootVC를 교체해준다 (1.5초의 시간 텀 후에)
                 // flag값 -> UserDefaults에 저장된 signed 키의 Value 값
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     if UserDefaults.standard.bool(forKey: "Signed") {
                         print("login Succeed")
-                        let vc = LoginTestViewController()
+                        // let vc = LoginTestViewController()
+                        let vc = TabBarController()
                         self.switchRootViewController(rootViewController: vc, animated: true)
                     }
                 }
@@ -173,45 +173,6 @@ func authorizationController(controller: ASAuthorizationController, didCompleteW
     print("Authorization Failed")
 }
 
-// MARK: - Keychain
-
-func saveToken(_ token: String, _ id: String) {
-    do {
-        try KeychainManager(id: id).saveToken(token)
-        print("save token")
-    } catch {
-        print("token saving error")
-    }
-}
-
-func getToken(_ id: String) -> String? {
-    do {
-        let token = try KeychainManager(id: id).getToken()
-        print("get token")
-        return token
-    } catch {
-        print("get token failed")
-        return nil
-    }
-}
-
-func updateToken(_ token: String, _ id: String) {
-    do {
-        try KeychainManager(id: id).updateToken(token)
-        print("update token")
-    } catch {
-        print("token updating error")
-    }
-}
-
-private func deleteToken(_ id: String) {
-    do {
-        try KeychainManager(id: id).deleteToken()
-    } catch {
-        print("token delete failed")
-    }
-}
-
 // MARK: - Network
 
 extension LoginViewController {
@@ -223,13 +184,17 @@ extension LoginViewController {
                 UserDefaults.standard.set(true, forKey: "Signed")
                 print(UserDefaults.standard.bool(forKey: "Signed"))
                 print("로그인 성공 -> accessToken/refreshToken을 키체인에 저장")
-                deleteToken("refreshToken")
-                deleteToken("accessToken")
+                
+                KeychainManager.shared.delete("refreshToken")
+                KeychainManager.shared.delete("accessToken")
+
                 print(response.message)
                 print("access \(response.data.refreshToken)")
                 print("refresh \(response.data.accessToken)")
-                saveToken(response.data.refreshToken, "accessToken")
-                saveToken(response.data.accessToken, "refreshToken")
+                
+                KeychainManager.shared.create(response.data.refreshToken, "accessToken")
+                KeychainManager.shared.create(response.data.accessToken, "refreshToken")
+                
             default:
                 print(500)
             }
