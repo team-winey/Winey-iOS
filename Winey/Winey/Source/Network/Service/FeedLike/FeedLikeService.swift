@@ -11,7 +11,7 @@ import Moya
 
 final class FeedLikeService {
     
-    let feedLikeProvider = CustomMoyaProvider<FeedLikeAPI>()
+    let feedLikeProvider = CustomMoyaProvider<FeedLikeAPI>(session: Session(interceptor: SessionInterceptor.shared))
     
     init() { }
     
