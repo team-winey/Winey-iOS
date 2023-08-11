@@ -11,7 +11,7 @@ import Moya
 
 final class UserService {
     
-    let userProvider = CustomMoyaProvider<UserAPI>()
+    let userProvider = CustomMoyaProvider<UserAPI>(session: Session(interceptor: SessionInterceptor.shared))
     
     init() { }
     
