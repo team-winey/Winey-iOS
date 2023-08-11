@@ -11,12 +11,36 @@ import Moya
 
 final class LoginService {
     
-    let authProvider = CustomMoyaProvider<LoginAPI>()
+    let authProvider = CustomMoyaProvider<LoginAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    
+    static let shared = LoginService()
     
     init() {}
     
     private(set) var loginResponse: LoginResponse?
     private(set) var logoutResponse: LogoutResponse?
+    private(set) var reissueResponse: ReissueResponse?
+    
+    func updateToken(_ token: String, _ id: String) {
+        do {
+            try KeychainManager(id: id).updateToken(token)
+            print("update token")
+        } catch {
+            print("token updating error")
+        }
+    }
+    
+    // 토큰 가져오기
+    func getToken(_ id: String) -> String? {
+        do {
+            let token = try KeychainManager(id: id).getToken()
+            print("get token")
+            return token
+        } catch {
+            print("get token failed")
+            return nil
+        }
+    }
     
     // 1. 애플 로그인
     
@@ -30,7 +54,7 @@ final class LoginService {
                     do {
                         self.loginResponse = try response.map(LoginResponse.self)
                         completion(loginResponse)
-                    } catch let error {
+                    } catch {
                         print("response mapping error")
                     }
                 default:
@@ -85,4 +109,45 @@ final class LoginService {
         }
     }
     
+    // 4. 애플 토큰 재발급
+    
+    func reissueApple(token: String, _ completion: @escaping ((Bool) -> (Void))) {
+        authProvider.request(.reissueToken(token: token)) { [self] result in
+            print(result)
+            switch result {
+            case .success(let response):
+                switch response.statusCode {
+                case 200..<300:
+                    do {
+                        self.reissueResponse = try response.map(ReissueResponse.self)
+                        guard let data = self.reissueResponse?.data else { return }
+                        self.updateToken(data.refreshToken, "refreshToken")
+                        self.updateToken(data.accessToken, "accessToken")
+                        print(data.refreshToken)
+                        print(data.accessToken)
+                        print(reissueResponse?.message)
+                        completion(true)
+                    } catch {
+                        print("Decoding Error")
+                    }
+                default:
+                    // 토큰 재발급의 실패 -> 유효기간이 만료되서 -> 저장되있던 토큰들 삭제
+                    self.deleteToken("accessToken")
+                    self.deleteToken("refreshToken")
+                    print(500)
+                    completion(false)
+                }
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
+    
+    private func deleteToken(_ id: String) {
+        do {
+            try KeychainManager(id: id).deleteToken()
+        } catch {
+            print("token delete failed")
+        }
+    }
 }
