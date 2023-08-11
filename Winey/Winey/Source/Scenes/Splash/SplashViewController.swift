@@ -47,14 +47,15 @@ final class SplashViewController: UIViewController {
         var rootViewController = UIViewController()
         let signed = UserDefaults.standard.bool(forKey: "Signed")
         
-        // 로그인 여부에 따라 다른 VC로 이동
-        if signed {
-            print("로그인 되어 있음")
-            // 로그인이 되어 있다면 로그인 후의 화면으로 진입
-            // 이와 동시에 refreshToken을 활용한 accessToken/refreshToken 업데이트!
-            let refreshToken = KeychainManager.shared.read("refreshToken")
-            
-            if refreshToken != nil {
+        let refreshToken = KeychainManager.shared.read("refreshToken")
+        let notFirstLaunch = UserDefaults.standard.bool(forKey: "notFirstLaunch")
+        
+        if notFirstLaunch {
+            // 로그인 여부에 따라 다른 VC로 이동
+            if signed {
+                print("로그인 되어 있음")
+                // 로그인이 되어 있다면 로그인 후의 화면으로 진입
+                // 이와 동시에 refreshToken을 활용한 accessToken/refreshToken 업데이트!
                 print("리프레쉬(나한텐 액세스) 토큰 유효")
                 print(refreshToken! as String)
                 DispatchQueue.main.async {
@@ -74,12 +75,12 @@ final class SplashViewController: UIViewController {
                     }
                 }
             } else {
-                print("dfdfdf")
+                print("로그인이 되어 있지 않음")
                 rootViewController = LoginViewController()
             }
         } else {
-            print("로그인이 되어 있지 않음")
-            rootViewController = LoginViewController()
+            print("OnBoarding 뷰로 이동")
+            rootViewController = OnboardingViewController()
         }
             
         
