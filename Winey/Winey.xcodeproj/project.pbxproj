@@ -616,6 +616,7 @@
 		14F66FEE2A548497009703AD /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				F4908E342A8696E900F38DB5 /* Utils */,
 				0D09FAFE2A696CE100893A6D /* Manager */,
 				1D7640B12A682E6600922332 /* Models */,
 				14F66FEF2A5484A2009703AD /* Extension */,
@@ -638,7 +639,6 @@
 			children = (
 				14C1F61A2A50501C0079FA20 /* SceneDelegate.swift */,
 				14C1F6182A50501C0079FA20 /* AppDelegate.swift */,
-				F4A6D5422A7C4568006905AE /* KeychainManager.swift */,
 			);
 			path = Supports;
 			sourceTree = "<group>";
@@ -785,6 +785,14 @@
 				0DC31E012A685467003BB220 /* ProductPolicyModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		F4908E342A8696E900F38DB5 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F4A6D5422A7C4568006905AE /* KeychainManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		F4A4E0452A7AD78B00673741 /* View */ = {
