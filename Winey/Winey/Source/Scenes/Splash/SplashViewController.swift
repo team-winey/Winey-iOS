@@ -52,7 +52,8 @@ final class SplashViewController: UIViewController {
             print("로그인 되어 있음")
             // 로그인이 되어 있다면 로그인 후의 화면으로 진입
             // 이와 동시에 refreshToken을 활용한 accessToken/refreshToken 업데이트!
-            let refreshToken = getToken("refreshToken")
+            let refreshToken = KeychainManager.shared.read("refreshToken")
+            
             if refreshToken != nil {
                 print("리프레쉬(나한텐 액세스) 토큰 유효")
                 print(refreshToken! as String)
@@ -62,7 +63,8 @@ final class SplashViewController: UIViewController {
                             // 토큰 재발급 성공 -> 로그인 후의 화면으로
                         case true:
                             print("토큰 재발급 성공, 로그인이 되어 있으므로 메인 뷰로 이동")
-                            rootViewController = LoginTestViewController()
+                            // rootViewController = LoginTestViewController()
+                            rootViewController = TabBarController()
                             self.window?.rootViewController = rootViewController
                             // 토큰 재발급 실패 -> 로그인 화면으로 이동
                         case false:
@@ -90,16 +92,5 @@ final class SplashViewController: UIViewController {
             },
             completion: nil
         )
-    }
-    
-    func getToken(_ id: String) -> String? {
-        do {
-            let token = try KeychainManager(id: id).getToken()
-            print("get token")
-            return token
-        } catch {
-            print("get token failed")
-            return nil
-        }
     }
 }
