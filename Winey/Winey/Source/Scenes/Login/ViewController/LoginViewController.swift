@@ -192,8 +192,8 @@ extension LoginViewController {
                 print("access \(response.data.refreshToken)")
                 print("refresh \(response.data.accessToken)")
                 
-                KeychainManager.shared.create(response.data.refreshToken, "accessToken")
-                KeychainManager.shared.create(response.data.accessToken, "refreshToken")
+                KeychainManager.shared.create(response.data.refreshToken, "refreshToken")
+                KeychainManager.shared.create(response.data.accessToken, "accessToken")
                 
             default:
                 print(500)
