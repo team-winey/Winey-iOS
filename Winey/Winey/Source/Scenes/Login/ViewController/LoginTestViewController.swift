@@ -100,6 +100,8 @@ extension LoginTestViewController {
     private func logoutWithApple(token: String) {
         loginService.logoutWithApple(token: token) { result in
             if result {
+                self.deleteToken("accessToken")
+                self.deleteToken("refreshToken")
                 UserDefaults.standard.set(false, forKey: "Signed")
                 
                 DispatchQueue.main.async {
@@ -117,7 +119,7 @@ extension LoginTestViewController {
             if result {
                 self.deleteToken("accessToken")
                 self.deleteToken("refreshToken")
-                self.deleteToken("identityToken")
+                // self.deleteToken("identityToken")
                 UserDefaults.standard.set(false, forKey: "Signed")
                 
                 DispatchQueue.main.async {

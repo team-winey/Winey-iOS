@@ -92,6 +92,8 @@
 		F40E8FC32A7CE59E0092D280 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FC22A7CE59E0092D280 /* LoginService.swift */; };
 		F40E8FC52A7E4DDD0092D280 /* LoginTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FC42A7E4DDD0092D280 /* LoginTestViewController.swift */; };
 		F40E8FCC2A7FC7C30092D280 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FCB2A7FC7C30092D280 /* LoginRequest.swift */; };
+		F40E8FD02A8360D00092D280 /* ReissueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FCF2A8360D00092D280 /* ReissueResponse.swift */; };
+		F40E8FD22A8367A50092D280 /* SessionInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FD12A8367A50092D280 /* SessionInterceptor.swift */; };
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
@@ -192,6 +194,8 @@
 		F40E8FC22A7CE59E0092D280 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F40E8FC42A7E4DDD0092D280 /* LoginTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTestViewController.swift; sourceTree = "<group>"; };
 		F40E8FCB2A7FC7C30092D280 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		F40E8FCF2A8360D00092D280 /* ReissueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissueResponse.swift; sourceTree = "<group>"; };
+		F40E8FD12A8367A50092D280 /* SessionInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInterceptor.swift; sourceTree = "<group>"; };
 		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
@@ -796,6 +800,7 @@
 			children = (
 				F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */,
 				F40E8FCB2A7FC7C30092D280 /* LoginRequest.swift */,
+				F40E8FCF2A8360D00092D280 /* ReissueResponse.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -805,6 +810,7 @@
 			children = (
 				F4A6D5402A7C3D30006905AE /* LoginAPI.swift */,
 				F40E8FC22A7CE59E0092D280 /* LoginService.swift */,
+				F40E8FD12A8367A50092D280 /* SessionInterceptor.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -940,6 +946,7 @@
 				1D69E0202A62B45000D4E3B5 /* BubbleView.swift in Sources */,
 				1D3CBB082A5ECA8E00AE8138 /* MyfeedCollectionViewCell.swift in Sources */,
 				14F66FFD2A550928009703AD /* UIView+.swift in Sources */,
+				F40E8FD02A8360D00092D280 /* ReissueResponse.swift in Sources */,
 				14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */,
 				14E28F8F2A6559CF00E5E5C2 /* GetFeedResponse.swift in Sources */,
 				14576DBB2A68932C00C79C9C /* GoalAPI.swift in Sources */,
@@ -966,6 +973,7 @@
 				14F670092A550C83009703AD /* UILabel+.swift in Sources */,
 				0DC31E042A68571F003BB220 /* NotificationName+.swift in Sources */,
 				143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */,
+				F40E8FD22A8367A50092D280 /* SessionInterceptor.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,
 				F4A6D5412A7C3D30006905AE /* LoginAPI.swift in Sources */,
 				F40E8FC32A7CE59E0092D280 /* LoginService.swift in Sources */,
