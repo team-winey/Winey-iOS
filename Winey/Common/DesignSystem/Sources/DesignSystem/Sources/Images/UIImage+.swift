@@ -20,16 +20,14 @@ public extension UIImage {
         public static let danger            = UIImage(name: "ic_danger")
         public static let floating          = UIImage(name: "btn_floating")
         public static let link              = UIImage(name: "ic_link")
-    }
-
-    enum Mypage {
-        public static let info = UIImage(name: "ic_info")
-        public static let progressbar = UIImage(name: "level_progressbar")
-        public static let pen = UIImage(name: "ic_pen")
-        public static let next = UIImage(name: "ic_next")
-        public static let bubble = UIImage(name: "img_bubble")
-        public static let guide1 = UIImage(name: "img_guide1")
-        public static let guide2 = UIImage(name: "img_guide2")
+        public static let apple             = UIImage(name: "ic_apple")
+        public static let kakao             = UIImage(name: "ic_kakao")
+        public static let info              = UIImage(name: "ic_info")
+        public static let progressbar       = UIImage(name: "level_progressbar")
+        public static let pen               = UIImage(name: "ic_pen")
+        public static let like              = UIImage(name: "ic_like")
+        public static let comment           = UIImage(name: "ic_comment")
+        public static let winey             = UIImage(name: "ic_winey")
     }
     
     enum Sample {
@@ -56,6 +54,16 @@ public extension UIImage {
         public static let feed_character = UIImage(name: "img_feed_character")
         public static let recommend_character = UIImage(name: "img_recommend_character")
         public static let img_empty = UIImage(name: "img_empty")
+        public static let bubble = UIImage(name: "img_bubble")
+        public static let guide1 = UIImage(name: "img_guide1")
+        public static let guide2 = UIImage(name: "img_guide2")
+        public static let commoner = UIImage(name: "img_commoner")
+        public static let knight = UIImage(name: "img_knight")
+        public static let noble = UIImage(name: "img_noble")
+        public static let emperor = UIImage(name: "img_emperor")
+        public static let img_onboarding1 = UIImage(name: "img_onboarding1")
+        public static let img_onboarding2 = UIImage(name: "img_onboarding2")
+        public static let img_onboarding3 = UIImage(name: "img_onboarding3")
     }
     
     enum Btn {
@@ -63,6 +71,11 @@ public extension UIImage {
         public static let back      = UIImage(name: "btn_back")
         public static let floating  = UIImage(name: "btn_floating")
         public static let btn_plus  = UIImage(name: "btn_plus")
+    }
+    
+    enum Login {
+        public static let character = UIImage(name: "img_loginCharacter")
+        public static let logo = UIImage(name: "img_loginLogo")
     }
 }
 
