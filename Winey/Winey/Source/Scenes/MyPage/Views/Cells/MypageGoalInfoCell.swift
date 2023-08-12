@@ -122,7 +122,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         let button = UIButton()
         button.backgroundColor = UIColor.clear
         button.clipsToBounds = true
-        button.setImage(.Mypage.pen, for: .normal)
+        button.setImage(.Icon.pen, for: .normal)
         button.addTarget(self, action: #selector(modifyButtonTapped), for: .touchUpInside)
         return button
     }()
