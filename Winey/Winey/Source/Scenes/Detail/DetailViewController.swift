@@ -23,7 +23,20 @@ final class DetailViewController: UIViewController {
     private var commentViewBottomConstraint: Constraint?
     private lazy var dataSource = dataSource(of: tableView)
     
+    private let feedService = FeedService()
+    
+    private var feedId: Int
+    
     private var bag = Set<AnyCancellable>()
+    
+    init(feedId: Int) {
+        self.feedId = feedId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +48,7 @@ final class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        testApplySection()
+        fetchFeedDetail()
     }
     
     override func viewDidLayoutSubviews() {
@@ -53,16 +66,27 @@ final class DetailViewController: UIViewController {
         tableView.contentInset.bottom = bottom
     }
     
-    private func testApplySection() {
+    private func apply(sections: [Section]) {
         var snapshot = Snapshot()
-        let commentItems: [Section.Item] = Self.dummyCommentsViewModel.map { .comment($0) }
-        snapshot.appendSections([.info])
-        snapshot.appendItems([Section.Item.info(Self.dummyInfoViewModel)], toSection: Section.info)
+        snapshot.appendSections(sections)
+        sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
         dataSource.apply(snapshot)
-        
-        snapshot.appendSections([.comments])
-        snapshot.appendItems(commentItems, toSection: .comments)
-        dataSource.apply(snapshot)
+    }
+    
+    private func testApplySection() {
+//        var snapshot = Snapshot()
+//        let commentItems: [Section.Item] = Self.dummyCommentsViewModel.map { .comment($0) }
+//        snapshot.appendSections([.info])
+//        snapshot.appendItems([Section.Item.info(Self.dummyInfoViewModel)], toSection: Section.info)
+//        dataSource.apply(snapshot)
+//
+//        snapshot.appendSections([.comments])
+//        snapshot.appendItems(commentItems, toSection: .comments)
+//        dataSource.apply(snapshot)
+    }
+    
+    @objc private func didTapNaviBarLeftButton() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -77,6 +101,7 @@ extension DetailViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         // TODO: 키보드 내리는 동작 UX 개선
         tableView.keyboardDismissMode = .onDrag
+        naviBar.leftButton.addTarget(self, action: #selector(didTapNaviBarLeftButton), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -182,8 +207,8 @@ extension DetailViewController {
     
     private func updateSnapshot(imageInfo: DetailInfoCell.ViewModel.ImageInfo) {
         var snapshot = dataSource.snapshot()
-        guard snapshot.numberOfItems > 1,
-              snapshot.numberOfSections > 1,
+        guard snapshot.numberOfItems > 0,
+              snapshot.numberOfSections > 0,
               case let .info(viewModel) = snapshot.itemIdentifiers[0]
         else { return }
         let beforeItem = snapshot.itemIdentifiers[0]
@@ -198,31 +223,91 @@ extension DetailViewController {
     }
 }
 
-private extension DetailViewController {
-    static var dummyInfoViewModel: DetailInfoCell.ViewModel {
-        .init(
-            userLevel: .one,
-            nickname: "카페인 중독자",
-            isLike: false,
-            title: "어디까지길어질까?어디까지길어질까?어디 ㅁㄴㅇㄹㅁㄴ?ghjkQP 🙏🏻 🤔",
-            likeCount: 4,
-            commentCount: 1,
-            timeAgo: "몇 분전",
-            imageInfo: .init(
-                imageUrl: URL(string: "https://github.com/team-winey/Winey-iOS/assets/56102421/b31edbc5-4c42-4c83-9a2d-936ec1c4fc0a")!,
-                height: 100
-            ),
-            money: 4500
+extension DetailViewController {
+    private func fetchFeedDetail() {
+        Task {
+            let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
+            let commentItems: [Section.Item] = response.getCommentResponseList
+                .compactMap { try? convertToCommentViewModel($0) }
+                .map { .comment($0) }
+            let commentSection: Section = .init(type: .comments, items: commentItems)
+            
+            let detailInfoViewModel = try convertToDetailInfoViewModel(response)
+            let detailInfoItem: Section.Item = .info(detailInfoViewModel)
+            let detailSection: Section = .init(type: .info, items: [detailInfoItem])
+            
+            apply(sections: [detailSection, commentSection])
+        }
+    }
+    
+    private func convertToCommentViewModel(_ dto: CommentResponse) throws -> CommentCell.ViewModel {
+        guard let level = UserLevel(value: dto.authorLevel)?.rawValue
+        else { throw ConversionError.invalidUserLevel }
+        
+        let isMine = UserSingleton.getNickname() == dto.author
+        
+        return .init(
+            level: level,
+            nickname: dto.author,
+            comment: dto.content,
+            isMine: isMine
         )
     }
-
-    static var dummyCommentsViewModel: [CommentCell.ViewModel] {
-        [
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "굿... 기왕, 캐시워크까지 해서 꽁돈 버시는 건 어떨는지?.\n휘바고 ~ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false)
-        ]
+    
+    private func convertToDetailInfoViewModel(_ dto: FeedDetailResponse) throws -> DetailInfoCell.ViewModel {
+        let feedDto = dto.getFeedResponseDto
+        
+        guard let level = UserLevel(value: feedDto.writerLevel)
+        else { throw ConversionError.invalidUserLevel }
+        
+        let commentCount = dto.getCommentResponseList.count
+        
+        guard let createdDate = dateFormatter.date(from: feedDto.createdAt)
+        else { throw ConversionError.invalidFeedCreatedAt }
+        
+        let duration = Int(Date().timeIntervalSince(createdDate))
+        let timeAgo = getTimeAgo(by: duration)
+        
+        guard let imageUrl = URL(string: feedDto.image)
+        else { throw ConversionError.invalidImageUrl(feedDto.image) }
+        
+        return .init(
+            userLevel: level,
+            nickname: feedDto.nickname,
+            isLike: feedDto.isLiked,
+            title: feedDto.title,
+            likeCount: feedDto.likes,
+            commentCount: commentCount,
+            timeAgo: timeAgo,
+            imageInfo: .init(imageUrl: imageUrl),
+            money: feedDto.money
+        )
+    }
+    
+    private func getTimeAgo(by target: Int) -> String {
+        let day = target / 86400 // 60 * 60 * 24
+        let hour = target / 3600 // 60 * 60
+        let minute = (target % 3600) / 60
+        let second = target % 60
+        
+        if day > 0 { return "\(day)일 전" }
+        else if hour > 0 { return "\(hour)시간 전"}
+        else if minute > 0 { return "\(minute)분 전"}
+        else { return "\(second)초 전" }
+    }
+    
+    enum ConversionError: Error {
+        case invalidUserLevel
+        case invalidFeedCreatedAt
+        case invalidImageUrl(String?)
+    }
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        formatter.timeZone = .current
+        formatter.locale = .current
+        return formatter
     }
 }
 
