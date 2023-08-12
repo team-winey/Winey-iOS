@@ -33,7 +33,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     // MARK: - UIComponents
     
-    var goalInfoStackView: UIStackView = {
+    private var goalInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 0
         stackView.axis = .horizontal
@@ -42,25 +42,25 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return stackView
     }()
     
-    var leftView: UIView = {
+    private var leftView: UIView = {
         let view = UIView()
         view.backgroundColor = .winey_gray0
         return view
     }()
     
-    var centerView: UIView = {
+    private var centerView: UIView = {
         let view = UIView()
         view.backgroundColor = .winey_gray0
         return view
     }()
     
-    var rightView: UIView = {
+    private var rightView: UIView = {
         let view = UIView()
         view.backgroundColor = .winey_gray0
         return view
     }()
     
-    let firstDevideLabel: UILabel = {
+    private let firstDevideLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.winey_gray200
         label.text = "|"
@@ -68,22 +68,20 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    let firstDevideView: UIView = {
+    private let firstDevideView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.winey_gray200
-        view.frame = CGRect(x: 0, y: 0, width: 2, height: 10)
         return view
     }()
     
-    let secondDevideView: UIView = {
+    private let secondDevideView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.winey_gray200
-        view.frame = CGRect(x: 0, y: 0, width: 2, height: 10)
         return view
     }()
 
     
-    var goalContainerView: UIView = {
+    private var goalContainerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_gray50
         containerView.layer.cornerRadius = 10
@@ -92,7 +90,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return containerView
     }()
     
-    var goalTitleLabel: UILabel = {
+    private var goalTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "절약 목표",
@@ -106,7 +104,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    var goalLabel: UILabel = {
+    private var goalLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "아직 없어요",
@@ -129,7 +127,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return button
     }()
     
-    var savingPeriodTitleLabel: UILabel = {
+    private var savingPeriodTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "절약기간",
@@ -143,7 +141,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    var savingPeriodLabel: UILabel = {
+    private var savingPeriodLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "아직 없어요",
@@ -157,7 +155,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    var accumulatedWineyTitleLabel: UILabel = {
+    private var accumulatedWineyTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "누적위니",
@@ -171,7 +169,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    var accumulatedWineyLabel: UILabel = {
+    private var accumulatedWineyLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "0원",
@@ -185,7 +183,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    var wineyCountTitleLabel: UILabel = {
+    private var wineyCountTitleLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "위니횟수",
@@ -199,7 +197,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
-    var wineyCountLabel: UILabel = {
+    private var wineyCountLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "0번",
@@ -212,10 +210,6 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
-    
-    func setUI() {
-        contentView.backgroundColor = .white
-    }
     
     @objc
     private func modifyButtonTapped() {
@@ -291,7 +285,11 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     // MARK: - Layout
     
-    func setLayout() {
+    private func setUI() {
+        contentView.backgroundColor = .white
+    }
+    
+    private func setLayout() {
         contentView.addSubviews(goalContainerView, goalInfoStackView)
         contentView.addSubviews(firstDevideView, secondDevideView)
         
