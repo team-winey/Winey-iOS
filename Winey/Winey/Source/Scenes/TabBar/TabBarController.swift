@@ -90,6 +90,7 @@ extension TabBarController {
             // TODO: 레벨정보가 필요하다면 이곳에서 저장하고 사용합니다. 이것도 임시 구현 (시간 이슈)
             let hasGoal = data.userResponseGoalDto != nil
             UserSingleton.saveGoal(hasGoal)
+            UserSingleton.saveNickname(data.userResponseUserDto.nickname)
         }
     }
 }
