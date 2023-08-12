@@ -97,10 +97,7 @@
 		1D8F02832A8527D500658B41 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8F02812A8527D500658B41 /* AlertService.swift */; };
 		1D8F02842A8527D500658B41 /* AlertAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8F02822A8527D500658B41 /* AlertAPI.swift */; };
 		1D8F02872A85283D00658B41 /* TotalAlertResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8F02862A85283D00658B41 /* TotalAlertResponse.swift */; };
-<<<<<<< Updated upstream
-=======
-		1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */; };
->>>>>>> Stashed changes
+
 		F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D8F2D2A6708E90041FB94 /* UploadModel.swift */; };
 		F40E8FC32A7CE59E0092D280 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FC22A7CE59E0092D280 /* LoginService.swift */; };
 		F40E8FC52A7E4DDD0092D280 /* LoginTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FC42A7E4DDD0092D280 /* LoginTestViewController.swift */; };
@@ -201,20 +198,10 @@
 		1D7640A92A67C27A00922332 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		1D7640AB2A67C28700922332 /* TotalUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalUserResponse.swift; sourceTree = "<group>"; };
 		1D7640B22A682E7100922332 /* UserLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLevel.swift; sourceTree = "<group>"; };
-<<<<<<< Updated upstream
 
 		1D8F027B2A83B60900658B41 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		1D8F027D2A83B79700658B41 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 
-		1D8F02812A8527D500658B41 /* AlertService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
-		1D8F02822A8527D500658B41 /* AlertAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertAPI.swift; sourceTree = "<group>"; };
-		1D8F02862A85283D00658B41 /* TotalAlertResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalAlertResponse.swift; sourceTree = "<group>"; };
-=======
-		1D8F02812A8527D500658B41 /* AlertService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
-		1D8F02822A8527D500658B41 /* AlertAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertAPI.swift; sourceTree = "<group>"; };
-		1D8F02862A85283D00658B41 /* TotalAlertResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalAlertResponse.swift; sourceTree = "<group>"; };
-		1DEA6D882A6001BA003193E9 /* InquiryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryCollectionViewCell.swift; sourceTree = "<group>"; };
->>>>>>> Stashed changes
 		F40D8F2D2A6708E90041FB94 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
 		F40E8FC22A7CE59E0092D280 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F40E8FC42A7E4DDD0092D280 /* LoginTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTestViewController.swift; sourceTree = "<group>"; };
@@ -535,10 +522,7 @@
 		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< Updated upstream
 				F4A6D53C2A7C3BD4006905AE /* Login */,
-=======
->>>>>>> Stashed changes
 				1D8F02852A85282500658B41 /* Alert */,
 				145B44B82A68AC2C0043D10C /* Recommend */,
 				14576DBC2A6893A300C79C9C /* Goal */,
@@ -588,10 +572,7 @@
 		14E28F8C2A6550CE00E5E5C2 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< Updated upstream
 				F4A6D53F2A7C3D1B006905AE /* Login */,
-=======
->>>>>>> Stashed changes
 				1D8F02802A8527D500658B41 /* Alert */,
 				145B44B32A68ABF20043D10C /* Recommend */,
 				14E28F892A654F3E00E5E5C2 /* User */,
@@ -680,13 +661,10 @@
 		14F66FFA2A550864009703AD /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< Updated upstream
 				F4A80EBA2A7968CF006EA2F8 /* Login */,
 				1D65BD492A7E6B7000F77202 /* Alert */,
 				142FE3862A7C012400421732 /* Onboarding */,
-=======
 				1D65BD492A7E6B7000F77202 /* Alert */,
->>>>>>> Stashed changes
 				0DFF7D3A2A69C2C20073ADAD /* Splash */,
 				1D69E0162A61A55500D4E3B5 /* Guide */,
 				0D4DFA092A5F2E3C008F6D63 /* Test */,
@@ -765,12 +743,9 @@
 		1D65BD532A7E70A500F77202 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< Updated upstream
 				1D65BD542A7E70B000F77202 /* Content.swift */,
 				1D8F02782A827A5300658B41 /* AlertModel.swift */,
-=======
 				1D65BD542A7E70B000F77202 /* AlertModel.swift */,
->>>>>>> Stashed changes
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -819,7 +794,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-<<<<<<< Updated upstream
 		1D8F027A2A83B5FA00658B41 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -828,8 +802,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-=======
->>>>>>> Stashed changes
 		1D8F02802A8527D500658B41 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,10 +1040,6 @@
 				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
 				14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */,
 				14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */,
-<<<<<<< Updated upstream
-=======
-				1DEA6D892A6001BA003193E9 /* InquiryCollectionViewCell.swift in Sources */,
->>>>>>> Stashed changes
 				1D8F02842A8527D500658B41 /* AlertAPI.swift in Sources */,
 				14576DC22A6898D800C79C9C /* PostGoalRequest.swift in Sources */,
 				1D65BD502A7E6BB800F77202 /* AlertCell.swift in Sources */,
