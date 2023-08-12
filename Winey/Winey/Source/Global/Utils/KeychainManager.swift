@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KeychainManager {
+class KeychainManager {
     
     enum KeychainError: Error {
         case noToken
@@ -15,14 +15,12 @@ struct KeychainManager {
         case tokenParsingError
     }
     
-    var id: String
+    // Singleton
+    static let shared = KeychainManager()
+    
     let service = Bundle.main.bundleIdentifier ?? ""
-    
-    init(id: String) {
-        self.id = id
-    }
-    
-    func saveToken(_ token: String) throws {
+
+    func saveToken(_ token: String, _ id: String) throws {
         let encodedToken = token.data(using: String.Encoding.utf8)!
         
         let query: NSDictionary = [kSecClass: kSecClassGenericPassword,
@@ -35,7 +33,7 @@ struct KeychainManager {
         guard status == errSecSuccess else { throw KeychainError.unhandledError }
     }
     
-    func updateToken(_ token: String) throws {
+    func updateToken(_ token: String, _ id: String) throws {
         let encodedToken = token.data(using: String.Encoding.utf8)!
 
         let query: NSDictionary = [kSecClass: kSecClassGenericPassword,
@@ -49,7 +47,7 @@ struct KeychainManager {
         guard status == errSecSuccess else { throw KeychainError.unhandledError }
     }
     
-    func getToken() throws -> String? {
+    func getToken(_ id: String) throws -> String? {
         let query: NSDictionary = [kSecClass: kSecClassGenericPassword,
                                  kSecAttrAccount: id,
                             kSecReturnAttributes: true,
@@ -70,7 +68,7 @@ struct KeychainManager {
         }
     }
     
-    func deleteToken() throws {
+    func deleteToken(_ id: String) throws {
         let query: NSDictionary = [kSecClass: kSecClassGenericPassword,
                                  kSecAttrAccount: id,
                              kSecAttrService: service]
@@ -79,5 +77,42 @@ struct KeychainManager {
         
         guard status != errSecItemNotFound else { throw KeychainError.noToken }
         guard status == errSecSuccess else { throw KeychainError.unhandledError }
+    }
+    
+    func read(_ id: String) -> String? {
+        var token: String?
+        
+        do {
+            token = try getToken(id)
+        } catch {
+            print("err")
+        }
+        return token
+    }
+    
+    func create(_ token: String, _ id: String) {
+        do {
+            try saveToken(token, id)
+            print("save token")
+        } catch {
+            print("token saving error")
+        }
+    }
+    
+    func update(_ token: String, _ id: String) {
+        do {
+            try updateToken(token, id)
+            print("update token")
+        } catch {
+            print("token updating error")
+        }
+    }
+    
+    func delete(_ id: String) {
+        do {
+            try deleteToken(id)
+        } catch {
+            print("token delete error")
+        }
     }
 }

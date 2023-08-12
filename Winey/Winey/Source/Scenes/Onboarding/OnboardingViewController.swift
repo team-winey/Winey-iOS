@@ -95,7 +95,9 @@ class OnboardingViewController: UIViewController {
     @objc
     private func nextButtonTapped() {
         if currentPage == onboardingData.count - 1 {
-            // 시작하기 버튼 클릭 시
+            UserDefaults.standard.set(true, forKey: "notFirstLaunch")
+            let vc = LoginViewController()
+            self.switchRootViewController(rootViewController: vc, animated: true)
         } else {
             currentPage += 1
             let indexPath = IndexPath(item: currentPage, section: 0)

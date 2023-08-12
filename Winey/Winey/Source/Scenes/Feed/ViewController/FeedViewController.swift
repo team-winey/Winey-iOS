@@ -245,34 +245,41 @@ extension FeedViewController {
         feedService.getTotalFeed(page: page) { [weak self] response in
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
-            let pageData = data.pageResponse
-            self.isEnd = pageData.isEnd
             
-            for feedData in data.getFeedResponseList {
-                let userLevel = UserLevel(value: feedData.writerLevel) ?? .none
-                let feed = FeedModel(
-                    feedId: feedData.feedID,
-                    userId: feedData.userID,
-                    nickname: feedData.nickname,
-                    title: feedData.title,
-                    image: feedData.image,
-                    money: feedData.money,
-                    like: feedData.likes,
-                    isLiked: feedData.isLiked,
-                    writerLevel: feedData.writerLevel,
-                    profileImage: userLevel.profileImage
-                )
+            switch response.code {
+            case 200..<300:
+                let pageData = data.pageResponse
+                self.isEnd = pageData.isEnd
                 
-                self.feedList.append(feed)
-                self.feedList = self.feedList.removeDuplicates()
-            }
-            
-            var newSnapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
-            newSnapshot.appendSections([0])
-            newSnapshot.appendItems(self.feedList)
-            
-            self.dataSource.apply(newSnapshot, animatingDifferences: true) {
-                self.stopRefreshControl()
+                for feedData in data.getFeedResponseList {
+                    let userLevel = UserLevel(value: feedData.writerLevel) ?? .none
+                    let feed = FeedModel(
+                        feedId: feedData.feedID,
+                        userId: feedData.userID,
+                        nickname: feedData.nickname,
+                        title: feedData.title,
+                        image: feedData.image,
+                        money: feedData.money,
+                        like: feedData.likes,
+                        isLiked: feedData.isLiked,
+                        writerLevel: feedData.writerLevel,
+                        profileImage: userLevel.profileImage
+                    )
+                    
+                    self.feedList.append(feed)
+                    self.feedList = self.feedList.removeDuplicates()
+                }
+                
+                var newSnapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
+                newSnapshot.appendSections([0])
+                newSnapshot.appendItems(self.feedList)
+                
+                self.dataSource.apply(newSnapshot, animatingDifferences: true) {
+                    self.stopRefreshControl()
+                }
+            default:
+                let vc = LoginViewController()
+                self.switchRootViewController(rootViewController: vc, animated: true)
             }
         }
     }
