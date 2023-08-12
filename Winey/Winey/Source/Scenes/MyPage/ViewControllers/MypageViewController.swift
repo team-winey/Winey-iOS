@@ -27,7 +27,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var dday: Int?
     private var isOver: Bool = false
     private let userService = UserService()
-    let inquiryCollectionViewCell = InquiryCollectionViewCell()
     var oauthToken: OAuthToken?
     
     // MARK: - UIComponents
@@ -321,26 +320,26 @@ extension MypageViewController {
     }
 // MARK: - Send To Server
     //사용자 정보 불러옴
-    func loadUserInfo(ouathToken: Int?) {
-        UserApi.shared.me { [self] user, error in
-            if let error = error {
-                print(error)
-            } else {
-                
-                guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
-                      let name = user?.kakaoAccount?.profile?.nickname else{
-                    print("token/email/name is nil")
-                    return
-                }
-                
-                self.email = email
-                self.accessToken = token
-                self.name = name
-                
-                //서버에 이메일/토큰/이름 보내주기
-            }
-        }
-    }
+//    func loadUserInfo(ouathToken: Int?) {
+//        UserApi.shared.me { [self] user, error in
+//            if let error = error {
+//                print(error)
+//            } else {
+//
+//                guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
+//                      let name = user?.kakaoAccount?.profile?.nickname else{
+//                    print("token/email/name is nil")
+//                    return
+//                }
+//
+//                self.email = email
+//                self.accessToken = token
+//                self.name = name
+//
+//                //서버에 이메일/토큰/이름 보내주기
+//            }
+//        }
+//    }
     // MARK: - Logout
     func logout() {
         UserApi.shared.logout {(error) in
