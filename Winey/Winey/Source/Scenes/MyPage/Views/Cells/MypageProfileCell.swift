@@ -53,7 +53,7 @@ final class MypageProfileCell: UICollectionViewCell {
     
     lazy var infoButton: UIButton = {
         let button = UIButton()
-        button.setImage(.Mypage.info, for: .normal)
+        button.setImage(.Icon.info, for: .normal)
         button.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -71,7 +71,7 @@ final class MypageProfileCell: UICollectionViewCell {
     
     private var progressbarImageView: UIImageView = {
         let image = UIImageView()
-        image.image = .Mypage.progressbar
+        image.image = .Icon.progressbar
         image.sizeToFit()
         return image
     }()
