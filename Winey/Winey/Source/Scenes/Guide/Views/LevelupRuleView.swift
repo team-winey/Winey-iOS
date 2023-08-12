@@ -127,7 +127,7 @@ final class LevelupRuleView: UIView {
 
     private let levelupRuleGuideImageView: UIImageView = {
         let image = UIImageView()
-        image.image = .Mypage.guide2
+        image.image = .Img.guide2
         image.sizeToFit()
         return image
     }()
