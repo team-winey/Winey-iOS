@@ -72,6 +72,7 @@ extension CommentCell {
         }
         userInfoView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview()
+            make.trailing.equalTo(moreButton.snp.leading)
             make.height.equalTo(36)
         }
         moreButton.snp.makeConstraints { make in
@@ -97,6 +98,9 @@ extension CommentCell {
         
         stackView.addArrangedSubviews(levelLabel, dotView, nicknameLabel)
         
+        levelLabel.snp.makeConstraints { make in
+            make.width.equalTo(40)
+        }
         dotView.snp.makeConstraints { make in
             make.width.height.equalTo(2)
         }

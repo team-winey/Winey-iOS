@@ -13,6 +13,9 @@ protocol DetailMappingLogic {
     func convertToDetailInfoViewModel(
         _ dto: FeedDetailResponse
     ) async throws -> DetailInfoCell.ViewModel
+    func convertToCommentViewModel(
+        _ dto: CreateCommentResponse
+    ) throws -> CommentCell.ViewModel
 }
 
 final class DetailMapper: DetailMappingLogic {
@@ -65,6 +68,21 @@ final class DetailMapper: DetailMappingLogic {
         )
     }
     
+    // TODO: DTO를 사용하지 않지만 DTO 형태가 바뀐다면 사용하도록 변경
+    func convertToCommentViewModel(_ dto: CreateCommentResponse) throws -> CommentCell.ViewModel {
+        let nickname = UserSingleton.getNickname()
+        
+        guard let comment = dto.content
+        else { throw ConversionError.invalidCommentContent }
+        
+        return .init(
+            level: UserSingleton.getLevel().rawValue,
+            nickname: nickname,
+            comment: comment,
+            isMine: true
+        )
+    }
+    
     private func getDetailImageInfo(by imageUrl: URL) async -> DetailInfoCell.ViewModel.ImageInfo {
         return await withCheckedContinuation { contiunation in
             KingfisherManager.shared.retrieveImage(with: imageUrl) { result in
@@ -113,6 +131,7 @@ final class DetailMapper: DetailMappingLogic {
         case invalidFeedCreatedAt
         case invalidImageUrl(String?)
         case invalidImage(URL)
+        case invalidCommentContent
     }
 }
 
