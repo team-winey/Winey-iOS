@@ -44,11 +44,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     private var bag = Set<AnyCancellable>()
     
-    private lazy var alertView: MIPopupViewController = {
-        let alert = MIPopupViewController()
-        return alert
-    }()
-    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -316,7 +311,7 @@ extension MypageViewController {
         }
         
         vc.addButton(title: MypageAlert.withDraw.rightBtnText, type: .yellow) {
-            self?.dismiss(animated: true)
+            self.dismiss(animated: true)
         }
         return vc
     }
@@ -328,7 +323,7 @@ extension MypageViewController {
         )
         
         vc.addButton(title: MypageAlert.logOut.leftBtnText, type: .gray) {
-            self?.dismiss(animated: true)
+            self.dismiss(animated: true)
         }
         
         vc.addButton(title: MypageAlert.logOut.rightBtnText, type: .yellow) {
