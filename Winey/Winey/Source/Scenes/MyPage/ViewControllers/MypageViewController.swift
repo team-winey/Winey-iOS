@@ -27,6 +27,8 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var dday: Int?
     private var isOver: Bool = false
     private let userService = UserService()
+    private let loginService = LoginService()
+    
     var oauthToken: OAuthToken?
     
     // MARK: - UIComponents
@@ -41,6 +43,11 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     )
     
     private var bag = Set<AnyCancellable>()
+    
+    private lazy var alertView: MIPopupViewController = {
+        let alert = MIPopupViewController()
+        return alert
+    }()
     
     // MARK: - View Life Cycle
     
@@ -115,6 +122,12 @@ extension MypageViewController: UICollectionViewDelegate {
             let url = URL(string: "https://open.kakao.com/o/s751Susf")!
             let safariViewController = SFSafariViewController(url: url)
             self.present(safariViewController, animated: true)
+        } else if indexPath.section == 2 && indexPath.item == 2 {
+            let alert = makeWithdrawAlert()
+            self.present(alert, animated: true)
+        } else if indexPath.section == 2 && indexPath.item == 3 {
+            let alert = makeLogoutAlert()
+            self.present(alert, animated: true)
         }
     }
 }
@@ -287,7 +300,79 @@ extension MypageViewController {
 }
 
 // MARK: - Login
-// 카카오톡 실행 가능 여부 확인
 extension MypageViewController {
     
+    private func makeWithdrawAlert() -> MIPopupViewController {
+        let vc = MIPopupViewController(
+            content: .init(title: MypageAlert.withDraw.title,
+                           subtitle: MypageAlert.withDraw.subTitle)
+        )
+        
+        vc.addButton(title: MypageAlert.withDraw.leftBtnText, type: .gray) {
+            let token = KeychainManager.shared.read("accessToken")!
+            DispatchQueue.global(qos: .utility).async {
+                self.withdrawApple(token: token)
+            }
+        }
+        
+        vc.addButton(title: MypageAlert.withDraw.rightBtnText, type: .yellow) {
+            self?.dismiss(animated: true)
+        }
+        return vc
+    }
+    
+    private func makeLogoutAlert() -> MIPopupViewController {
+        let vc = MIPopupViewController(
+            content: .init(title: MypageAlert.logOut.title,
+                           subtitle: MypageAlert.logOut.subTitle)
+        )
+        
+        vc.addButton(title: MypageAlert.logOut.leftBtnText, type: .gray) {
+            self?.dismiss(animated: true)
+        }
+        
+        vc.addButton(title: MypageAlert.logOut.rightBtnText, type: .yellow) {
+            let token = KeychainManager.shared.read("accessToken")!
+            DispatchQueue.global(qos: .utility).async {
+                self.logoutWithApple(token: token)
+            }
+        }
+        return vc
+    }
+    
+    private func withdrawApple(token: String) {
+        loginService.withdrawApple(token: token) { result in
+            if result {
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+                
+                UserDefaults.standard.set(false, forKey: "Signed")
+                
+                DispatchQueue.main.async {
+                    let vc = LoginViewController()
+                    self.switchRootViewController(rootViewController: vc, animated: true)
+                }
+            } else {
+                print("회원탈퇴 실패")
+            }
+        }
+    }
+    
+    private func logoutWithApple(token: String) {
+        loginService.logoutWithApple(token: token) { result in
+            if result {
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+                
+                UserDefaults.standard.set(false, forKey: "Signed")
+                
+                DispatchQueue.main.async {
+                    let vc = LoginViewController()
+                    self.switchRootViewController(rootViewController: vc, animated: true)
+                }
+            } else {
+                print("로그아웃 실패")
+            }
+        }
+    }
 }
