@@ -36,8 +36,7 @@ class UploadViewController: UIViewController {
     }
     
     private lazy var safeArea = self.view.safeAreaLayoutGuide
-    private let spacing: CGFloat = 17
-    private let titles: [String] = ["다음", "저장하기", "업로드"]
+    private let spacing: CGFloat = 24
     
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
@@ -133,7 +132,7 @@ class UploadViewController: UIViewController {
         
         imagePicker.delegate = self
         
-        nextButton.setTitle(titles[stageIdx], for: .normal)
+        nextButton.setTitle("확인", for: .normal)
         
         /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
         switch stageIdx {
@@ -175,17 +174,17 @@ class UploadViewController: UIViewController {
         }
         
         grayDot.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(14)
-            $0.leading.equalToSuperview().inset(17)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(15)
+            $0.leading.equalToSuperview().inset(24)
         }
         
         pageGuide.snp.makeConstraints {
-            $0.top.equalTo(grayDot.snp.bottom).offset(17)
-            $0.leading.equalToSuperview().inset(17)
+            $0.top.equalTo(grayDot.snp.bottom).offset(27)
+            $0.leading.equalToSuperview().inset(24)
         }
         
         scrollView.snp.makeConstraints {
-            $0.top.equalTo(pageGuide.snp.bottom).offset(20)
+            $0.top.equalTo(pageGuide.snp.bottom).offset(42)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(182)
         }
@@ -193,7 +192,7 @@ class UploadViewController: UIViewController {
         nextButton.snp.makeConstraints {
             $0.bottom.equalTo(safeArea).inset(4)
             $0.height.equalTo(52)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview().inset(10)
         }
     }
     
