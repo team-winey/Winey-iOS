@@ -28,6 +28,7 @@
 		0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519682A6191F700643F46 /* TestPopupViewController.swift */; };
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
 		0D6F16432A8407E400D36F60 /* WineyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F16422A8407E400D36F60 /* WineyAPI.swift */; };
+		0D8F5AC82A88808100D4B214 /* DetailMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8F5AC72A88808100D4B214 /* DetailMapper.swift */; };
 		0DB4A2C42A8280D200C40CCC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB4A2C32A8280D200C40CCC /* DetailViewController.swift */; };
 		0DB4A2C62A8282F600C40CCC /* DetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB4A2C52A8282F600C40CCC /* DetailSection.swift */; };
 		0DB4A2CA2A82896900C40CCC /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB4A2C92A82896900C40CCC /* CommentCell.swift */; };
@@ -145,6 +146,7 @@
 		0D6519682A6191F700643F46 /* TestPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPopupViewController.swift; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		0D6F16422A8407E400D36F60 /* WineyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WineyAPI.swift; sourceTree = "<group>"; };
+		0D8F5AC72A88808100D4B214 /* DetailMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMapper.swift; sourceTree = "<group>"; };
 		0DB4A2C32A8280D200C40CCC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0DB4A2C52A8282F600C40CCC /* DetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSection.swift; sourceTree = "<group>"; };
 		0DB4A2C92A82896900C40CCC /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 			children = (
 				0DB4A2CB2A828BBD00C40CCC /* Views */,
 				0DB4A2C32A8280D200C40CCC /* DetailViewController.swift */,
+				0D8F5AC72A88808100D4B214 /* DetailMapper.swift */,
 				0DB4A2C52A8282F600C40CCC /* DetailSection.swift */,
 			);
 			path = Detail;
@@ -1038,6 +1041,7 @@
 				F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
+				0D8F5AC82A88808100D4B214 /* DetailMapper.swift in Sources */,
 				F40E8FCC2A7FC7C30092D280 /* LoginRequest.swift in Sources */,
 				142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */,
 				14E9B1142A68526000B85616 /* SaveGoalTextBoxView.swift in Sources */,
