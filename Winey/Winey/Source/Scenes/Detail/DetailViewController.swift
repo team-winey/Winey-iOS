@@ -191,6 +191,13 @@ extension DetailViewController {
         sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
         dataSource.apply(snapshot, animatingDifferences: false)
     }
+    
+    private func apply(sections: [Section]) {
+        var snapshot = Snapshot()
+        snapshot.appendSections(sections)
+        sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
 }
 
 extension DetailViewController {
