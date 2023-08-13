@@ -9,6 +9,7 @@ import Combine
 import UIKit
 
 import DesignSystem
+import Kingfisher
 import SnapKit
 
 final class DetailViewController: UIViewController {
@@ -23,7 +24,8 @@ final class DetailViewController: UIViewController {
     private var commentViewBottomConstraint: Constraint?
     private lazy var dataSource = dataSource(of: tableView)
     
-    private let feedService = FeedService()
+    private let feedService: FeedService = FeedService()
+    private let mapper: DetailMapper = DetailMapper()
     
     private var feedId: Int
     
@@ -64,25 +66,6 @@ final class DetailViewController: UIViewController {
             - DeviceInfo.safeAreaBottomHeight
         }
         tableView.contentInset.bottom = bottom
-    }
-    
-    private func apply(sections: [Section]) {
-        var snapshot = Snapshot()
-        snapshot.appendSections(sections)
-        sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
-        dataSource.apply(snapshot)
-    }
-    
-    private func testApplySection() {
-//        var snapshot = Snapshot()
-//        let commentItems: [Section.Item] = Self.dummyCommentsViewModel.map { .comment($0) }
-//        snapshot.appendSections([.info])
-//        snapshot.appendItems([Section.Item.info(Self.dummyInfoViewModel)], toSection: Section.info)
-//        dataSource.apply(snapshot)
-//
-//        snapshot.appendSections([.comments])
-//        snapshot.appendItems(commentItems, toSection: .comments)
-//        dataSource.apply(snapshot)
     }
     
     @objc private func didTapNaviBarLeftButton() {
@@ -193,9 +176,6 @@ extension DetailViewController {
                 guard let cell = tableView.dequeue(DetailInfoCell.self, for: indexPath)
                 else { return nil }
                 cell.configure(viewModel: viewModel)
-                cell.subscribeReceiveImageSubject { imageInfo in
-                    self.updateSnapshot(imageInfo: imageInfo)
-                }
                 cell.selectionStyle = .none
                 return cell
 
@@ -205,109 +185,28 @@ extension DetailViewController {
         }
     }
     
-    private func updateSnapshot(imageInfo: DetailInfoCell.ViewModel.ImageInfo) {
-        var snapshot = dataSource.snapshot()
-        guard snapshot.numberOfItems > 0,
-              snapshot.numberOfSections > 0,
-              case let .info(viewModel) = snapshot.itemIdentifiers[0]
-        else { return }
-        let beforeItem = snapshot.itemIdentifiers[0]
-        let infoSection = snapshot.sectionIdentifiers[0]
-        var newViewModel = viewModel
-        newViewModel.imageInfo = imageInfo
-        
-        let newItem = Section.Item.info(newViewModel)
-        snapshot.appendItems([newItem], toSection: infoSection)
-        snapshot.deleteItems([beforeItem])
+    private func apply(sections: [Section]) {
+        var snapshot = Snapshot()
+        snapshot.appendSections(sections)
+        sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
 extension DetailViewController {
     private func fetchFeedDetail() {
-        Task {
+        Task(priority: .background) {
             let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
             let commentItems: [Section.Item] = response.getCommentResponseList
-                .compactMap { try? convertToCommentViewModel($0) }
+                .compactMap { try? mapper.convertToCommentViewModel($0) }
                 .map { .comment($0) }
             let commentSection: Section = .init(type: .comments, items: commentItems)
-            
-            let detailInfoViewModel = try convertToDetailInfoViewModel(response)
+            let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
             let detailInfoItem: Section.Item = .info(detailInfoViewModel)
             let detailSection: Section = .init(type: .info, items: [detailInfoItem])
             
-            apply(sections: [detailSection, commentSection])
+            self.apply(sections: [detailSection, commentSection])
         }
-    }
-    
-    private func convertToCommentViewModel(_ dto: CommentResponse) throws -> CommentCell.ViewModel {
-        guard let level = UserLevel(value: dto.authorLevel)?.rawValue
-        else { throw ConversionError.invalidUserLevel }
-        
-        let isMine = UserSingleton.getNickname() == dto.author
-        
-        return .init(
-            level: level,
-            nickname: dto.author,
-            comment: dto.content,
-            isMine: isMine
-        )
-    }
-    
-    private func convertToDetailInfoViewModel(_ dto: FeedDetailResponse) throws -> DetailInfoCell.ViewModel {
-        let feedDto = dto.getFeedResponseDto
-        
-        guard let level = UserLevel(value: feedDto.writerLevel)
-        else { throw ConversionError.invalidUserLevel }
-        
-        let commentCount = dto.getCommentResponseList.count
-        
-        guard let createdDate = dateFormatter.date(from: feedDto.createdAt)
-        else { throw ConversionError.invalidFeedCreatedAt }
-        
-        let duration = Int(Date().timeIntervalSince(createdDate))
-        let timeAgo = getTimeAgo(by: duration)
-        
-        guard let imageUrl = URL(string: feedDto.image)
-        else { throw ConversionError.invalidImageUrl(feedDto.image) }
-        
-        return .init(
-            userLevel: level,
-            nickname: feedDto.nickname,
-            isLike: feedDto.isLiked,
-            title: feedDto.title,
-            likeCount: feedDto.likes,
-            commentCount: commentCount,
-            timeAgo: timeAgo,
-            imageInfo: .init(imageUrl: imageUrl),
-            money: feedDto.money
-        )
-    }
-    
-    private func getTimeAgo(by target: Int) -> String {
-        let day = target / 86400 // 60 * 60 * 24
-        let hour = target / 3600 // 60 * 60
-        let minute = (target % 3600) / 60
-        let second = target % 60
-        
-        if day > 0 { return "\(day)일 전" }
-        else if hour > 0 { return "\(hour)시간 전"}
-        else if minute > 0 { return "\(minute)분 전"}
-        else { return "\(second)초 전" }
-    }
-    
-    enum ConversionError: Error {
-        case invalidUserLevel
-        case invalidFeedCreatedAt
-        case invalidImageUrl(String?)
-    }
-    
-    var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-        formatter.timeZone = .current
-        formatter.locale = .current
-        return formatter
     }
 }
 
@@ -315,5 +214,8 @@ enum DeviceInfo {
     static var safeAreaBottomHeight: CGFloat {
         guard let window = UIWindow.current else { return .zero }
         return window.safeAreaInsets.bottom
+    }
+    static var width: CGFloat {
+        UIScreen.main.bounds.width
     }
 }
