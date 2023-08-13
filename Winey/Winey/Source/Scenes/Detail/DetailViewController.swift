@@ -64,7 +64,6 @@ final class DetailViewController: UIViewController {
         var bottom = floatingCommentView.frame.height
         if keyboardFrameView.frame.height > 0 {
             bottom += keyboardFrameView.frame.height
-            - DeviceInfo.safeAreaBottomHeight
         }
         tableView.contentInset.bottom = bottom
     }
