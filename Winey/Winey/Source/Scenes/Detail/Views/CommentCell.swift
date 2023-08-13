@@ -5,6 +5,7 @@
 //  Created by Woody Lee on 2023/08/08.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -17,8 +18,15 @@ final class CommentCell: UITableViewCell {
     private let commentLabel = UILabel()
     private let dividerView = UIView()
     
+    private var didTapMoreButtonSubject = PassthroughSubject<Void, Never>()
+    var didTapMoreButtonPublisher: AnyPublisher<Void, Never> {
+        didTapMoreButtonSubject.eraseToAnyPublisher()
+    }
+    
+    private var bag = Set<AnyCancellable>()
+    
     struct ViewModel: Hashable {
-        let id = UUID()
+        let id: Int
         let level: String
         let nickname: String
         let comment: String
@@ -35,10 +43,26 @@ final class CommentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        bag.removeAll()
+    }
+    
     func configure(viewModel: ViewModel) {
         levelLabel.setText("LV. " + viewModel.level, attributes: Const.userInfoAttributes)
         nicknameLabel.setText(viewModel.nickname, attributes: Const.userInfoAttributes)
         commentLabel.setText(viewModel.comment, attributes: Const.commentAttributes)
+    }
+    
+    @objc private func didTapMoreButton() {
+        didTapMoreButtonSubject.send(())
+    }
+    
+    func subscribeTapMoreButton(_ handler: @escaping () -> Void) {
+        didTapMoreButtonPublisher
+            .sink(receiveValue: handler)
+            .store(in: &bag)
     }
 }
 
@@ -47,6 +71,7 @@ extension CommentCell {
         commentLabel.numberOfLines = 0
         moreButton.setImage(.Btn.more, for: .normal)
         moreButton.tintColor = .winey_gray600
+        moreButton.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
         dividerView.backgroundColor = .winey_gray100
     }
     

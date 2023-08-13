@@ -26,6 +26,7 @@ final class DetailMapper: DetailMappingLogic {
         let isMine = UserSingleton.getNickname() == dto.author
         
         return .init(
+            id: dto.commentId,
             level: level,
             nickname: dto.author,
             comment: dto.content,
@@ -72,10 +73,14 @@ final class DetailMapper: DetailMappingLogic {
     func convertToCommentViewModel(_ dto: CreateCommentResponse) throws -> CommentCell.ViewModel {
         let nickname = UserSingleton.getNickname()
         
+        guard let commentId = dto.commentId
+        else { throw ConversionError.invalidCommentId }
+        
         guard let comment = dto.content
         else { throw ConversionError.invalidCommentContent }
         
         return .init(
+            id: commentId,
             level: UserSingleton.getLevel().rawValue,
             nickname: nickname,
             comment: comment,
@@ -131,6 +136,7 @@ final class DetailMapper: DetailMappingLogic {
         case invalidFeedCreatedAt
         case invalidImageUrl(String?)
         case invalidImage(URL)
+        case invalidCommentId
         case invalidCommentContent
     }
 }
