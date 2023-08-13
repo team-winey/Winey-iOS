@@ -10,9 +10,9 @@ import UIKit
 import Moya
 
 final class CommentService {
-    let provider = MoyaProvider<CommentAPI>()
+    let provider = CustomMoyaProvider<CommentAPI>()
 
-    typealias CreateCommentRes = BaseResponse<CreateCommentResponse>
+    private typealias CreateCommentRes = BaseResponse<CreateCommentResponse>
     
     func createComment(feedId: Int, comment: String) async throws -> CreateCommentResponse {
         return try await withCheckedThrowingContinuation { continuation in
@@ -33,7 +33,7 @@ final class CommentService {
         return try await withCheckedThrowingContinuation { continuation in
             provider.request(.delete(commentId: commentId)) { result in
                 do {
-                    let response = try result.get().map(BaseResponse<EmptyResponseData>.self)
+                    _ = try result.get().map(BaseResponse<EmptyResponseData>.self)
                     continuation.resume(returning: Void())
                 } catch {
                     continuation.resume(throwing: CommentNetworkError.undefined)

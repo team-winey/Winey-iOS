@@ -24,6 +24,7 @@ final class DetailViewController: UIViewController {
     private var commentViewBottomConstraint: Constraint?
     private lazy var dataSource = dataSource(of: tableView)
     
+    private let commentService: CommentService = CommentService()
     private let feedService: FeedService = FeedService()
     private let mapper: DetailMapper = DetailMapper()
     
@@ -135,9 +136,9 @@ extension DetailViewController {
     }
     
     private func bindCommentView() {
-        floatingCommentView.commentPublisher
+        floatingCommentView.didTapSendButtonPublisher
             .sink { [weak self] comment in
-                
+                self?.sendComment(comment)
             }
             .store(in: &bag)
     }
@@ -162,8 +163,6 @@ extension DetailViewController {
 extension DetailViewController {
     private func dataSource(of tableView: UITableView) -> DataSource {
         return DataSource(tableView: tableView) { [weak self] tableView, indexPath, itemIdentifier in
-            guard let self else { return nil }
-            
             switch itemIdentifier {
             case let .comment(viewModel):
                 guard let cell = tableView.dequeue(CommentCell.self, for: indexPath)
@@ -192,11 +191,18 @@ extension DetailViewController {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    private func apply(sections: [Section]) {
-        var snapshot = Snapshot()
-        snapshot.appendSections(sections)
-        sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
-        dataSource.apply(snapshot, animatingDifferences: false)
+    private func applyNewComment(item: Section.Item) {
+        var snapshot = dataSource.snapshot()
+        let section = dataSource.sectionIdentifier(for: 1)
+        snapshot.appendItems([item], toSection: section)
+        
+        dataSource.apply(snapshot) { [weak self] in
+            guard let self,
+                  let indexPath = self.dataSource.indexPath(for: item)
+            else { return }
+            
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
 }
 
@@ -213,6 +219,15 @@ extension DetailViewController {
             let detailSection: Section = .init(type: .info, items: [detailInfoItem])
             
             self.apply(sections: [detailSection, commentSection])
+        }
+    }
+    
+    private func sendComment(_ comment: String) {
+        Task(priority: .background) {
+            let response = try await commentService.createComment(feedId: feedId, comment: comment)
+            let commentViewModel = try mapper.convertToCommentViewModel(response)
+            let newCommentItem: Section.Item = .comment(commentViewModel)
+            self.applyNewComment(item: newCommentItem)
         }
     }
 }
