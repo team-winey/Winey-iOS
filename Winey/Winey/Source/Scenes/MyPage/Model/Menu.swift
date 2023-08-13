@@ -27,3 +27,44 @@ enum Menu {
         }
     }
 }
+
+enum MypageAlert {
+    case logOut
+    case withDraw
+    
+    var title: String {
+        switch self {
+        case .logOut:
+            return "정말 로그아웃하시겠어요?"
+        case .withDraw:
+            return "정말로 떠나시겠어요?"
+        }
+    }
+    
+    var subTitle: String {
+        switch self {
+        case .logOut:
+            return "로그아웃 후 장기간 미접속 시\n레벨이 내려갈 수 있습니다."
+        case .withDraw:
+            return "세이버와 함께한 절약을 잊지 말아주세요.\n탈퇴 시, 계정은 삭제되며 복구되지 않습니다."
+        }
+    }
+    
+    var leftBtnText: String {
+        switch self {
+        case .logOut:
+            return "취소"
+        case .withDraw:
+            return "탈퇴하기"
+        }
+    }
+    
+    var rightBtnText: String {
+        switch self {
+        case .logOut:
+            return "로그아웃하기"
+        case .withDraw:
+            return "머무르기"
+        }
+    }
+}
