@@ -67,7 +67,6 @@ public final class MIPopupViewController: UIViewController {
         buttonContainerStackView.spacing = 4
         buttonContainerStackView.alignment = .fill
         buttonContainerStackView.distribution = .fillEqually
-        // iconImageView.image = .Icon.danger?.resizing(width: 40, height: 40)
         titleLabel.setText(content.title, attributes: Const.titleAttributes)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0

@@ -12,9 +12,6 @@ import SnapKit
 import Moya
 import DesignSystem
 import WebKit
-import KakaoSDKAuth
-import KakaoSDKUser
-import RxKakaoSDKCommon
 
 final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
@@ -28,8 +25,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var isOver: Bool = false
     private let userService = UserService()
     private let loginService = LoginService()
-    
-    var oauthToken: OAuthToken?
     
     // MARK: - UIComponents
     
