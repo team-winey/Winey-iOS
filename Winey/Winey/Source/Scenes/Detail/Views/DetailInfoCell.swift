@@ -33,7 +33,7 @@ final class DetailInfoCell: UITableViewCell {
         var isLike: Bool
         let title: String
         let likeCount: Int
-        let commentCount: Int
+        var commentCount: Int
         let timeAgo: String
         var imageInfo: ImageInfo
         let money: Int
