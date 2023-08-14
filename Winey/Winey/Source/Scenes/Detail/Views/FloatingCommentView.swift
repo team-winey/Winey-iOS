@@ -63,6 +63,7 @@ final class FloatingCommentView: UIView {
         guard let comment else { return }
         didTapSendButtonSubject.send(comment)
         textView.handleAfterSendComment()
+        textView.resignFirstResponder()
     }
 }
 
