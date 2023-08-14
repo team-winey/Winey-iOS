@@ -112,6 +112,7 @@ extension DetailInfoCell {
         detailMetaInfoView.snp.makeConstraints { make in
             make.top.equalTo(detailImageView.snp.bottom).offset(16)
             make.directionalHorizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(76)
         }
         dividerView.snp.makeConstraints { make in
             make.top.equalTo(detailMetaInfoView.snp.bottom).offset(18)
@@ -183,10 +184,8 @@ extension DetailInfoCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().inset(10)
-            make.height.equalTo(46)
         }
         metaContainerView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.directionalHorizontalEdges.equalToSuperview().inset(10)
             make.bottom.equalToSuperview()
         }
