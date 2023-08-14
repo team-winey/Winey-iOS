@@ -118,6 +118,10 @@ extension ContentsWriteView: UITextViewDelegate {
         textSendClousre?(textView.text ?? "")
     }
     
+    func resetContents() {
+        textView.text = ""
+    }
+    
     /// textView: 텍스트뷰에 새로운 글자가 입력되었을때 문자열을 변경해주는 함수
     /// 개행문자 입력시 문자열 업데이트 안되도록 처리해주는 코드 추가
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -151,7 +155,7 @@ extension ContentsWriteView: UITextViewDelegate {
                 textView.makeBorder(width: 1, color: .winey_purple400)
                 warningText.isHidden = true
             }
-        } 
+        }
     }
 }
 
