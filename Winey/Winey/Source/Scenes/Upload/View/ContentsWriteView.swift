@@ -28,7 +28,6 @@ class ContentsWriteView: UIView {
         textView.tintColor = .winey_purple400
         textView.textContainerInset = UIEdgeInsets(top: 14, left: 17, bottom: 54, right: 17)
         textView.makeCornerRound(radius: 5)
-        textView.makeBorder(width: 1, color: .winey_gray200)
         textView.backgroundColor = .winey_gray0
         return textView
     }()
@@ -94,7 +93,7 @@ extension ContentsWriteView: UITextViewDelegate {
     
     /// textViewDidBeginEditing: 텍스트 뷰의 편집이 시작되었을때의 동작을 정의한 함수
     func textViewDidBeginEditing(_ textView: UITextView) {
-        
+
         textView.makeBorder(width: 1, color: .winey_purple400)
         
         if textView.text == placeholder {
@@ -133,9 +132,26 @@ extension ContentsWriteView: UITextViewDelegate {
             return false
         } else {
             let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+    
+            setBorderColor(changedText.count)
+            
             textNum.text = "(\(changedText.count)/36)"
             return changedText.count <= 35
         }
+    }
+    
+    func setBorderColor(_ count: Int) {
+        
+        if textView.isFirstResponder {
+            switch count {
+            case 1..<5:
+                textView.makeBorder(width: 1, color: .winey_red500)
+                warningText.isHidden = false
+            default:
+                textView.makeBorder(width: 1, color: .winey_purple400)
+                warningText.isHidden = true
+            }
+        } 
     }
 }
 
