@@ -87,13 +87,16 @@ final class DetailInfoCell: UITableViewCell {
         titleLabel.setText(viewModel.title, attributes: Const.titleAttributes)
         profileImageView.image = viewModel.userLevel.profileImage
         nicknameLabel.setText(viewModel.nickname, attributes: Const.nicknameAttributes)
-        moneyLabel.setText(viewModel.money.addCommaToString(), attributes: Const.moneyAttributes)
         likeButton.isSelected = viewModel.isLiked
         likeCountLabel.setText("\(viewModel.likeCount)", attributes: Const.likeCountAttributes)
         commentCountLabel.setText("\(viewModel.commentCount)", attributes: Const.metaInfoAttributes)
         timeAgoLabel.setText(viewModel.timeAgo, attributes: Const.metaInfoAttributes)
         detailImageView.image = viewModel.imageInfo.image
         imageHeightConstraint?.update(offset: viewModel.imageInfo.height)
+        let money = viewModel.money.addCommaToString() ?? ""
+        moneyLabel.attributedText = NSMutableAttributedString()
+            .appending(string: money, attributes: Const.moneyAttributes)
+            .appending(string: "  절약", attributes: Const.trashAttributes)
     }
     
     func subscribeTapLikeButton(_ handler: @escaping (Bool) -> Void) {
@@ -182,27 +185,21 @@ extension DetailInfoCell {
     
     private func setupDetailImageView() -> UIView {
         let containerView = UIView()
-        let trashLabel = UILabel()
-        let stackView = UIStackView()
         containerView.backgroundColor = .winey_yellow
-        trashLabel.setText("절약", attributes: Const.trashAttributes)
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .firstBaseline
-        stackView.distribution = .fill
         
-        containerView.addSubviews(stackView)
-        stackView.addArrangedSubviews(moneyLabel, trashLabel)
         detailImageView.addSubview(containerView)
-       
-        stackView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().inset(1)
-            make.directionalHorizontalEdges.equalToSuperview().inset(14)
-        }
+        containerView.addSubviews(moneyLabel)
+        
         containerView.snp.makeConstraints { make in
             make.leading.bottom.equalToSuperview().inset(12)
+            make.width.equalTo(moneyLabel).offset(28)
             make.height.equalTo(36)
         }
+        moneyLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-2)
+        }
+
         containerView.makeCornerRound(radius: 18)
         return detailImageView
     }
