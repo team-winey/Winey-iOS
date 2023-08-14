@@ -42,7 +42,7 @@ class ContentsWriteView: UIView {
     private let warningText: UILabel = {
         let label = UILabel()
         label.setText("5자 이상 작성해 주세요",
-                      attributes: .init(style: .body3, weight: .medium, textColor: .red)
+                      attributes: .init(style: .body3, weight: .medium, textColor: .winey_red500)
         )
         return label
     }()
