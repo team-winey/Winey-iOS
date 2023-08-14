@@ -11,7 +11,7 @@ import Moya
 
 final class GoalService {
     
-    let goalProvider = CustomMoyaProvider<GoalAPI>()
+    let goalProvider = CustomMoyaProvider<GoalAPI>(session: Session(interceptor: SessionInterceptor.shared))
     
     init() { }
     

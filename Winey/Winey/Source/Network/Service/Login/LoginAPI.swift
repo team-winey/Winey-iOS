@@ -13,6 +13,7 @@ enum LoginAPI {
     case appleLogin(request: LoginRequest, token: String)
     case appleLogout(token: String)
     case appleWithdraw(token: String)
+    case reissueToken(token: String)
 }
 
 
@@ -36,12 +37,14 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
             return URLConstant.signOut
         case .appleWithdraw:
             return URLConstant.withdraw
+        case .reissueToken:
+            return URLConstant.token
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .appleLogin, .appleLogout:
+        case .appleLogin, .appleLogout, .reissueToken:
             return .post
         case .appleWithdraw:
             return .delete
@@ -52,7 +55,7 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
         switch self {
         case .appleLogin(let request, _):
             return .requestJSONEncodable(request)
-        case .appleLogout, .appleWithdraw:
+        case .appleLogout, .appleWithdraw, .reissueToken:
             return .requestPlain
         }
     }
@@ -65,6 +68,13 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
         case .appleLogout(let token), .appleWithdraw(let token):
             return ["Content-Type": "application/json",
                                               "accessToken": token]
+        case .reissueToken(let token):
+            return ["Content-Type": "application/json",
+                                              "refreshToken": token]
         }
+    }
+    
+    var validationType: ValidationType {
+        return .successCodes
     }
 }

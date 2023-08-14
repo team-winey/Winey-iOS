@@ -19,4 +19,8 @@ extension WineyAPI {
     var headers: [String : String]? {
         return NetworkConstant.defaultHeader
     }
+    
+    var authorizationType: Moya.AuthorizationType? {
+        .basic
+    }
 }

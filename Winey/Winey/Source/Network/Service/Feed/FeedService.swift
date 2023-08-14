@@ -13,7 +13,7 @@ import Moya
 
 final class FeedService {
     
-    let feedProvider = CustomMoyaProvider<FeedAPI>()
+    let feedProvider = CustomMoyaProvider<FeedAPI>(session: Session(interceptor: SessionInterceptor.shared))
     
     init() { }
     
