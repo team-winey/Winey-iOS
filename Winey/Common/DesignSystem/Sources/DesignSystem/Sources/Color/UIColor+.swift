@@ -32,6 +32,7 @@ public extension UIColor {
     @nonobjc static var winey_gray500    = UIColor(pallete: .gray500)
     @nonobjc static var winey_gray600    = UIColor(pallete: .gray600)
     @nonobjc static var winey_gray700    = UIColor(pallete: .gray700)
+    @nonobjc static var winey_gray750    = UIColor(pallete: .gray750)
     @nonobjc static var winey_gray800    = UIColor(pallete: .gray800)
     @nonobjc static var winey_gray900    = UIColor(pallete: .gray900)
 }
