@@ -8,10 +8,10 @@
 import UIKit
 
 public struct WIToastType {
-    public let text: UILabel
+    public let text: String
     public let icon: UIImage
     
-    public init(text: UILabel, icon: UIImage) {
+    public init(text: String, icon: UIImage) {
         self.text = text
         self.icon = icon
     }
@@ -19,13 +19,13 @@ public struct WIToastType {
 
 public extension WIToastType {
     static let uploadSuccess: WIToastType = WIToastType(
-        text: Toast.uploadSuccess.text,
-        icon: Toast.uploadSuccess.icon
+        text: Toast.uploadSuccess.toastText,
+        icon: Toast.uploadSuccess.toastIcon
     )
     
     static let uploadFail: WIToastType = WIToastType(
-        text: Toast.uploadFail.text,
-        icon: Toast.uploadFail.icon
+        text: Toast.uploadFail.toastText,
+        icon: Toast.uploadFail.toastIcon
     )
 }
 
@@ -33,23 +33,23 @@ public extension WIToastType {
     enum Toast {
         case uploadSuccess
         case uploadFail
-    }
-    
-    var text: String {
-        switch self {
-        case .uploadSuccess:
-            return "업로드가 완료되었습니다 :)"
-        case .uploadFail:
-            return "죄송합니다. 업로드에 실패했습니다 :("
+        
+        var toastText: String {
+            switch self {
+            case .uploadSuccess:
+                return "업로드가 완료되었습니다 :)"
+            case .uploadFail:
+                return "죄송합니다. 업로드에 실패했습니다 :("
+            }
         }
-    }
-    
-    var icon: UIImage {
-        switch self {
-        case .uploadSuccess:
-            return .success
-        case .uploadFail:
-            return .fail
+        
+        var toastIcon: UIImage {
+            switch self {
+            case .uploadSuccess:
+                return UIImage.Icon.success!
+            case .uploadFail:
+                return UIImage.Icon.fail!
+            }
         }
     }
 }
