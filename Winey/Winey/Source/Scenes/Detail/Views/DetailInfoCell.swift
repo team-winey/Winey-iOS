@@ -5,6 +5,7 @@
 //  Created by Woody Lee on 2023/08/08.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -27,12 +28,24 @@ final class DetailInfoCell: UITableViewCell {
     
     private var imageHeightConstraint: Constraint?
     
+    private let didTapLikeButtonSubject = PassthroughSubject<Bool, Never>()
+    var didTapLikeButtonPublisher: AnyPublisher<Bool, Never> {
+        didTapLikeButtonSubject.eraseToAnyPublisher()
+    }
+    
+    private let didTapMoreButtonSubject = PassthroughSubject<Void, Never>()
+    var didTapMoreButtonPublisher: AnyPublisher<Void, Never> {
+        didTapMoreButtonSubject.eraseToAnyPublisher()
+    }
+    
+    private var bag = Set<AnyCancellable>()
+    
     struct ViewModel: Hashable {
         let userLevel: UserLevel
         let nickname: String
-        var isLike: Bool
+        var isLiked: Bool
         let title: String
-        let likeCount: Int
+        var likeCount: Int
         var commentCount: Int
         let timeAgo: String
         var imageInfo: ImageInfo
@@ -55,17 +68,43 @@ final class DetailInfoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        bag.removeAll()
+    }
+    
+    @objc private func didTapLikeButton() {
+        let newDirection = likeButton.isSelected == false
+        didTapLikeButtonSubject.send(newDirection)
+    }
+    
+    @objc private func didTapMoreButton() {
+        didTapMoreButtonSubject.send(())
+    }
+    
     func configure(viewModel: ViewModel) {
         titleLabel.setText(viewModel.title, attributes: Const.titleAttributes)
         profileImageView.image = viewModel.userLevel.profileImage
         nicknameLabel.setText(viewModel.nickname, attributes: Const.nicknameAttributes)
         moneyLabel.setText(viewModel.money.addCommaToString(), attributes: Const.moneyAttributes)
-        likeButton.isSelected = viewModel.isLike
+        likeButton.isSelected = viewModel.isLiked
         likeCountLabel.setText("\(viewModel.likeCount)", attributes: Const.likeCountAttributes)
         commentCountLabel.setText("\(viewModel.commentCount)", attributes: Const.metaInfoAttributes)
         timeAgoLabel.setText(viewModel.timeAgo, attributes: Const.metaInfoAttributes)
         detailImageView.image = viewModel.imageInfo.image
         imageHeightConstraint?.update(offset: viewModel.imageInfo.height)
+    }
+    
+    func subscribeTapLikeButton(_ handler: @escaping (Bool) -> Void) {
+        didTapLikeButtonPublisher
+            .sink(receiveValue: handler)
+            .store(in: &bag)
+    }
+    
+    func subscribeTapMoreButton(_ handler: @escaping () -> Void) {
+        didTapMoreButtonPublisher
+            .sink(receiveValue: handler)
+            .store(in: &bag)
     }
 }
 
@@ -79,6 +118,7 @@ extension DetailInfoCell {
         likeButton.setBackgroundColor(.winey_purple400, for: .highlighted)
         likeButton.setBackgroundColor(.winey_purple400, for: .selected)
         likeButton.makeCornerRound(radius: Const.buttonCornerRadius)
+        likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         profileImageView.makeBorder(width: 1, color: .winey_gray100)
         profileImageView.makeCornerRound(radius: Const.profileImageCornerRadius)
         detailImageView.makeBorder(width: 1, color: .winey_gray100)
@@ -86,6 +126,7 @@ extension DetailInfoCell {
         detailImageView.contentMode = .scaleAspectFit
         moreButton.setImage(.Btn.more, for: .normal)
         moreButton.tintColor = .winey_gray300
+        moreButton.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
         commentImageView.image = .Icon.comment
         dividerView.backgroundColor = .winey_gray100
     }
