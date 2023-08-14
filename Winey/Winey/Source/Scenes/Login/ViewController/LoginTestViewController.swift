@@ -61,8 +61,7 @@ class LoginTestViewController: UIViewController {
     
     @objc
     private func appleLogout() {
-        let token = getToken("accessToken")!
-
+        let token = KeychainManager.shared.read("accessToken")!
         DispatchQueue.global(qos: .utility).async {
             self.logoutWithApple(token: token)
         }
@@ -70,27 +69,9 @@ class LoginTestViewController: UIViewController {
     
     @objc
     private func appleWithdraw() {
-        let token = getToken("accessToken")!
-        
+        let token = KeychainManager.shared.read("accessToken")!
         DispatchQueue.global(qos: .utility).async {
             self.withdrawApple(token: token)
-        }
-    }
-    
-    private func getToken(_ id: String) -> String? {
-        do {
-            let token = try KeychainManager(id: id).getToken()
-            return token
-        } catch {
-            return nil
-        }
-    }
-    
-    private func deleteToken(_ id: String) {
-        do {
-            try KeychainManager(id: id).deleteToken()
-        } catch {
-            print("token delete failed")
         }
     }
 }
@@ -100,6 +81,9 @@ extension LoginTestViewController {
     private func logoutWithApple(token: String) {
         loginService.logoutWithApple(token: token) { result in
             if result {
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+                
                 UserDefaults.standard.set(false, forKey: "Signed")
                 
                 DispatchQueue.main.async {
@@ -115,9 +99,10 @@ extension LoginTestViewController {
     private func withdrawApple(token: String) {
         loginService.withdrawApple(token: token) { result in
             if result {
-                self.deleteToken("accessToken")
-                self.deleteToken("refreshToken")
-                self.deleteToken("identityToken")
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+                
+                // self.deleteToken("identityToken")
                 UserDefaults.standard.set(false, forKey: "Signed")
                 
                 DispatchQueue.main.async {
