@@ -11,7 +11,7 @@ import Moya
 
 final class RecommendService {
     
-    let recommendProvider = CustomMoyaProvider<RecommendAPI>()
+    let recommendProvider = CustomMoyaProvider<RecommendAPI>(session: Session(interceptor: SessionInterceptor.shared))
     
     init() {}
     

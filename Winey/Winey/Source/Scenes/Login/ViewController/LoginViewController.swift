@@ -113,54 +113,47 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             
-            let userIdentifier = appleIDCredential.user
-            
-            // accessToken이 있는지 확인
-            let accessToken = getToken("accessToken")
-            let refreshToken = getToken("refreshToken")
-            let identityToken = getToken("identityToken")
-            let req = LoginRequest(socialType: "APPLE")
-                        
-            // 기기 최초로 로그인 시
-            if identityToken == nil {
-                if let authorizationCode = appleIDCredential.authorizationCode,
-                   let identityToken = appleIDCredential.identityToken,
-                   let authCodeString = String(data: authorizationCode, encoding: .utf8),
-                   let identifyTokenString = String(data: identityToken, encoding: .utf8) {
-                    
-                    print("authCodeString: \(authCodeString)")
-                    print("identifyTokenString: \(identifyTokenString)")
-                    
+            if let authorizationCode = appleIDCredential.authorizationCode,
+               let identityToken = appleIDCredential.identityToken,
+               let authCodeString = String(data: authorizationCode, encoding: .utf8),
+               let identifyTokenString = String(data: identityToken, encoding: .utf8) {
+                
+                print("authCodeString: \(authCodeString)")
+                print("identifyTokenString: \(identifyTokenString)")
+                
+                // identityToken은 10분 후에 만료
+                
+                // 로그아웃 상태 -> accessToken이 키체인에 없음
+                // 로그인 상태 -> accessToken이 키체인에 있음
+                // 재로그인을 한다면, identityToken을 사용하여 accessToken/refreshToken을 재발급 받아야함
+                
+                // 1. 화면 상에서는 activityIndicator만 보이도록 뷰를 설정
+                DispatchQueue.main.async {
+                    self.activityIndicator.startAnimating()
+                    self.kakaoButton.isHidden = true
+                    self.appleButton.isHidden = true
+                    self.loginView.isHidden = true
+                    // 2. 이 VC로 왔다는 것은 로그인이 필요한 상황 -> identityToken을 통한 Token들 재발급이 필요함
                     DispatchQueue.global(qos: .background).async {
+                        
+                        // 3. 다른 쓰레드에서는 로그인 실행
+                        print("identityToken으로 로그인 실행")
+                        let req = LoginRequest(socialType: "APPLE")
                         self.loginWithApple(request: req,
-                                            token: identifyTokenString,
-                                            id: String(describing:userIdentifier),
-                                            newbie: true)
+                                            token: identifyTokenString)
                     }
                 }
-            } else {
-                DispatchQueue.global(qos: .background).async {
-                    self.loginWithApple(request: req,
-                                        token: identityToken!,
-                                        id: String(describing:userIdentifier),
-                                        newbie: false)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                self.activityIndicator.startAnimating()
-                self.kakaoButton.isHidden = true
-                self.appleButton.isHidden = true
-                self.loginView.isHidden = true
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                if UserDefaults.standard.bool(forKey: "Signed") {
-                    print("login Succeed")
-                    print(identityToken ?? "")
-                    // let vc = LoginTestViewController()
-                    let vc = TabBarController()
-                    self.switchRootViewController(rootViewController: vc, animated: true)
+                
+                // 4. 로그인 함수가 성공적으로 동작했다면 RootVC를 교체해준다 (1.5초의 시간 텀 후에)
+                // flag값 -> UserDefaults에 저장된 signed 키의 Value 값
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    if UserDefaults.standard.bool(forKey: "Signed") {
+                        print("login Succeed")
+                        // let vc = LoginTestViewController()
+                        let vc = TabBarController()
+                        self.switchRootViewController(rootViewController: vc, animated: true)
+                    }
                 }
             }
             
@@ -169,9 +162,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             // Sign in using an existing iCloud Keychain credential.
             _ = passwordCredential.user
             _ = passwordCredential.password
-            
-            UserDefaults.standard.set(true, forKey: "Signed")
-            print(UserDefaults.standard.bool(forKey: "Signed"))
             
         default:
             break
@@ -183,61 +173,31 @@ func authorizationController(controller: ASAuthorizationController, didCompleteW
     print("Authorization Failed")
 }
 
-// MARK: - Keychain
-
-func saveToken(_ token: String, _ id: String) {
-    do {
-        try KeychainManager(id: id).saveToken(token)
-        print("save token")
-    } catch {
-        print("token saving error")
-    }
-}
-
-func getToken(_ id: String) -> String? {
-    do {
-        let token = try KeychainManager(id: id).getToken()
-        print("get token")
-        return token
-    } catch {
-        print("get token failed")
-        return nil
-    }
-}
-
-func updateToken(_ token: String, _ id: String) {
-    do {
-        try KeychainManager(id: id).updateToken(token)
-        print("update token")
-    } catch {
-        print("token updating error")
-    }
-}
-
 // MARK: - Network
 
 extension LoginViewController {
-    private func loginWithApple(request: LoginRequest, token: String, id: String, newbie: Bool) {
+    private func loginWithApple(request: LoginRequest, token: String) {
         loginService.loginWithApple(request: request, token: token) { response in
             guard let response = response else { return }
-            
             switch response.code {
             case 200..<300:
                 UserDefaults.standard.set(true, forKey: "Signed")
                 print(UserDefaults.standard.bool(forKey: "Signed"))
-                if newbie {
-                    saveToken(response.data.refreshToken, "refreshToken")
-                    saveToken(response.data.accessToken, "accessToken")
-                    saveToken(token, "identityToken")
-                } else {
-                    updateToken(response.data.refreshToken, "refreshToken")
-                    updateToken(response.data.accessToken, "accessToken")
-                    updateToken(token, "identityToken")
-                }
+                print("로그인 성공 -> accessToken/refreshToken을 키체인에 저장")
+                
+                KeychainManager.shared.delete("refreshToken")
+                KeychainManager.shared.delete("accessToken")
+
+                print(response.message)
+                print("access \(response.data.refreshToken)")
+                print("refresh \(response.data.accessToken)")
+                
+                KeychainManager.shared.create(response.data.refreshToken, "refreshToken")
+                KeychainManager.shared.create(response.data.accessToken, "accessToken")
+                
             default:
                 print(500)
             }
-            print(response.data.userID)
         }
     }
 }
