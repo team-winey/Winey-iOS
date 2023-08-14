@@ -9,6 +9,6 @@ import Foundation
 
 struct NetworkConstant {
     // userId는 5까지 아무거나 사용 가능
-    static let defaultHeader = ["Content-Type": "application/json", "userId": "\(UserSingleton.getId())"]
+    static let defaultHeader = ["Content-Type": "application/json", "accessToken": "\(getToken("accessToken")!)"]
     static let postfeedHeader = ["Content-Type": "multipart/form-data", "userId": "\(UserSingleton.getId())"]
 }
