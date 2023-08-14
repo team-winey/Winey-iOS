@@ -100,7 +100,7 @@ final class DetailMapper: DetailMappingLogic {
                     let imageInfo = DetailInfoCell.ViewModel.ImageInfo(
                         image: image,
                         imageUrl: imageUrl,
-                        height: height
+                        height: CGFloat(Int(height))
                     )
                     contiunation.resume(returning: imageInfo)
                 case .failure:
