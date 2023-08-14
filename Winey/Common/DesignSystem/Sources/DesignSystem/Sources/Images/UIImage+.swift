@@ -28,6 +28,8 @@ public extension UIImage {
         public static let like              = UIImage(name: "ic_like")
         public static let comment           = UIImage(name: "ic_comment")
         public static let winey             = UIImage(name: "ic_winey")
+        public static let success           = UIImage(name: "ic_success")
+        public static let fail              = UIImage(name: "ic_fail")
     }
 
     enum Mypage {
