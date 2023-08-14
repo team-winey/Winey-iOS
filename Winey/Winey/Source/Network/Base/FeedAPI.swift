@@ -16,7 +16,7 @@ enum FeedAPI {
     case detail(id: Int)
 }
 
-extension FeedAPI: WineyAPI {
+extension FeedAPI: WineyAPI, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case .getTotalFeed:
@@ -46,5 +46,16 @@ extension FeedAPI: WineyAPI {
         case .deleteMyFeed, .detail:
             return .requestPlain
         }
+    }
+    
+    var headers: [String : String]? {
+        switch self {
+        case .getMyFeed, .getTotalFeed, .deleteMyFeed, .detail:
+            return NetworkConstant.defaultHeader
+        }
+    }
+    
+    var validationType: ValidationType {
+        return .successCodes
     }
 }

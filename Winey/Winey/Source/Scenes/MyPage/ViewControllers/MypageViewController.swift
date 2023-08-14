@@ -8,11 +8,13 @@
 import SafariServices
 import Combine
 import UIKit
-
 import SnapKit
 import Moya
 import DesignSystem
 import WebKit
+import KakaoSDKAuth
+import KakaoSDKUser
+import RxKakaoSDKCommon
 
 final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
@@ -25,7 +27,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var dday: Int?
     private var isOver: Bool = false
     private let userService = UserService()
-    let inquiryCollectionViewCell = InquiryCollectionViewCell()
+    var oauthToken: OAuthToken?
     
     // MARK: - UIComponents
     
@@ -52,7 +54,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getTotalUser()
-        setupWebView()
     }
     
     // MARK: - UIComponents
@@ -69,12 +70,8 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
             forCellWithReuseIdentifier: MypageGoalInfoCell.identifier
         )
         collectionView.register(
-            MyfeedCollectionViewCell.self,
-            forCellWithReuseIdentifier: MyfeedCollectionViewCell.identifier
-        )
-        collectionView.register(
-            InquiryCollectionViewCell.self,
-            forCellWithReuseIdentifier: InquiryCollectionViewCell.identifier
+            MenuCell.self,
+            forCellWithReuseIdentifier: MenuCell.identifier
         )
         collectionView.showsVerticalScrollIndicator = false
         collectionView.dataSource = self
@@ -111,10 +108,10 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
 
 extension MypageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 2 { // 마이피드
+        if indexPath.section == 2 && indexPath.item == 0 { // 마이피드
             let myFeedViewController = MyFeedViewController()
             self.navigationController?.pushViewController(myFeedViewController, animated: true)
-        } else if indexPath.section == 3 {
+        } else if indexPath.section == 2 && indexPath.item == 1 { //1:1문의
             let url = URL(string: "https://open.kakao.com/o/s751Susf")!
             let safariViewController = SFSafariViewController(url: url)
             self.present(safariViewController, animated: true)
@@ -127,15 +124,17 @@ extension MypageViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int)
     -> Int {
         switch section {
-        case 0, 1, 2, 3:
+        case 0, 1:
             return 1
+        case 2:
+            return 4
         default:
             return 0
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
@@ -184,28 +183,25 @@ extension MypageViewController: UICollectionViewDataSource {
             return mypageGoalInfoCell
             
         case 2 :
-            guard let myfeedCollectionViewCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: MyfeedCollectionViewCell.identifier,
+            guard let menuCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MenuCell.identifier,
                 for: indexPath
-            ) as? MyfeedCollectionViewCell
+            ) as? MenuCell
             else { return UICollectionViewCell()}
-            myfeedCollectionViewCell.myfeedButtonTappedClosure = {
-                let myfeedViewController = MyFeedViewController()
-                myfeedViewController.viewDidLoad()
-                self.navigationController?
-                    .pushViewController(myfeedViewController, animated: true)
+            switch indexPath.item {
+            case 0:
+                menuCell.configureCell(.myfeed)
+            case 1:
+                menuCell.configureCell(.inquiry)
+            case 2:
+                menuCell.configureCell(.delectingAccount)
+            case 3:
+                menuCell.configureCell(.logout)
+            default:
+                return UICollectionViewCell()
             }
-            return myfeedCollectionViewCell
-            
-        case 3 :
-            guard let inquiryCollectionViewCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: InquiryCollectionViewCell.identifier,
-                for: indexPath
-            ) as? InquiryCollectionViewCell
-            else { return UICollectionViewCell()}
-            inquiryCollectionViewCell.delegate = self
-            return inquiryCollectionViewCell
-            
+            return menuCell
+
         default :
             return UICollectionViewCell()
         }
@@ -223,7 +219,6 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         case 0: return CGSize(width: (UIScreen.main.bounds.width), height: 339)
         case 1: return CGSize(width: (UIScreen.main.bounds.width), height: 174)
         case 2: return CGSize(width: (UIScreen.main.bounds.width), height: 55)
-        case 3: return CGSize(width: (UIScreen.main.bounds.width), height: 55)
         default : return .zero
         }
     }
@@ -233,7 +228,7 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return 0
+        return 2
     }
     
     func collectionView(
@@ -245,7 +240,6 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         case 0: return .init(top: 0, left: 0, bottom: 5, right: 0)
         case 1: return .init(top: 0, left: 0, bottom: 5, right: 0)
         case 2: return .init(top: 0, left: 0, bottom: 3, right: 0)
-        case 3: return .init(top: 0, left: 0, bottom: 3, right: 0)
         default: return .zero
         }
     }
@@ -262,33 +256,6 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
-
-extension MypageViewController: WKNavigationDelegate, InquiryCollectionViewCellDelegate {
-    private func setupWebView() {
-        let webView = WKWebView(frame: self.view.bounds)
-        webView.navigationDelegate = self // 웹뷰의 네비게이션 이벤트를 처리할 delegate 설정
-        webView.isHidden = true // 일단 숨겨둡니다.
-        self.view.addSubview(webView)
-    }
-    
-    func buttonDidTapped() {
-        setupWebView()
-    }
-
-    @objc private func myfeedButtonTapped() {
-        // 버튼을 클릭했을 때 호출될 메소드
-        // 웹뷰를 보여주고 웹페이지를 로드합니다.
-        if let url = URL(string: "https://www.naver.com") {
-            if let webView = view.subviews.first(where: { $0 is WKWebView }) as? WKWebView {
-                webView.isHidden = false
-                let request = URLRequest(url: url)
-                webView.load(request)
-            }
-        }
-    }
-}
-
 // MARK: - Server
 
 extension MypageViewController {
@@ -300,7 +267,7 @@ extension MypageViewController {
             self.userLevel = self.judgeUserLevel(userData.userLevel)
             self.nickname = userData.nickname
             
-            let goal = data.userResponseGoalDto 
+            let goal = data.userResponseGoalDto
             self.duringGoalCount = goal?.duringGoalCount
             self.duringGoalAmount = goal?.duringGoalAmount
             self.dday = goal?.dday
@@ -316,5 +283,72 @@ extension MypageViewController {
     
     private func judgeUserLevel(_ userLevel: String) -> UserLevel? {
         return UserLevel(rawValue: userLevel)
+    }
+}
+
+// MARK: - Login
+// 카카오톡 실행 가능 여부 확인
+extension MypageViewController {
+    func loginWithKakao() {
+        if (KakaoSDKUser.UserApi.isKakaoTalkLoginAvailable()) {
+            
+            //카톡 설치되어있으면 -> 카톡으로 로그인
+            KakaoSDKUser.UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("카카오 톡으로 로그인 성공")
+                    
+                    _ = oauthToken
+                    /// 로그인 관련 메소드 추가
+                }
+            }
+        } else {
+            
+            // 카톡 없으면 -> 계정으로 로그인
+            KakaoSDKUser.UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("카카오 계정으로 로그인 성공")
+                    
+                    _ = oauthToken
+                    // 관련 메소드 추가
+                }
+            }
+        }
+    }
+// MARK: - Send To Server
+    //사용자 정보 불러옴
+//    func loadUserInfo(ouathToken: Int?) {
+//        UserApi.shared.me { [self] user, error in
+//            if let error = error {
+//                print(error)
+//            } else {
+//
+//                guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
+//                      let name = user?.kakaoAccount?.profile?.nickname else{
+//                    print("token/email/name is nil")
+//                    return
+//                }
+//
+//                self.email = email
+//                self.accessToken = token
+//                self.name = name
+//
+//                //서버에 이메일/토큰/이름 보내주기
+//            }
+//        }
+//    }
+    // MARK: - Logout
+    func logout() {
+        UserApi.shared.logout {(error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("logout() success.")
+            }
+        }
     }
 }

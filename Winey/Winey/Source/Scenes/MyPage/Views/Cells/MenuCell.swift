@@ -1,8 +1,8 @@
 //
-//  InquiryCollectionViewCell.swift
+//  MenuCell.swift
 //  Winey
 //
-//  Created by 고영민 on 2023/07/13.
+//  Created by 고영민 on 2023/08/09.
 //
 
 import UIKit
@@ -10,29 +10,23 @@ import UIKit
 import SnapKit
 import DesignSystem
 
-protocol InquiryCollectionViewCellDelegate: AnyObject{
-    func buttonDidTapped()
-}
+final class MenuCell: UICollectionViewCell {
 
-final class InquiryCollectionViewCell: UICollectionViewCell {
-    
     // MARK: - Properties
-    
-    static let identifier = InquiryCollectionViewCell.className
-    weak var delegate: InquiryCollectionViewCellDelegate?
-    
+
+    static let identifier = MenuCell.className
+
     // MARK: - UIComponents
 
-    var buttonImageView: UIImageView = {
+    private var nextImageView: UIImageView = {
         let image = UIImageView()
         image.image = .Icon.next
         return image
     }()
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.setText(
-            "1:1 문의",
+        label.setText("",
             attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700),
             customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]
         )
@@ -40,41 +34,41 @@ final class InquiryCollectionViewCell: UICollectionViewCell {
         label.lineBreakMode = .byWordWrapping
         return label
     }()
-    
+
     private func setUI() {
         contentView.backgroundColor = .white
     }
 
-    @objc private func myfeedButtonTapped() {
-        delegate?.buttonDidTapped()
-    }
-    
     // MARK: - View Life Cycle
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
         setUI()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("SecondView Error!")
     }
-    
+
     // MARK: - Layout
-    
+
     private func setLayout() {
-        contentView.addSubviews(titleLabel, buttonImageView)
-        
+        contentView.addSubviews(titleLabel, nextImageView)
+
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
         }
-        buttonImageView.snp.makeConstraints { make in
+        nextImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
         }
     }
+    // MARK: - Config
+    func configureCell(_ menu: Menu) {
+            titleLabel.text = menu.title
+        }
 }
