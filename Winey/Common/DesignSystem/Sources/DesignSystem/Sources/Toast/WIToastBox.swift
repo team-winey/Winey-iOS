@@ -37,9 +37,9 @@ public final class WIToastBox: UIView {
     // MARK: - Methods
     
     private func setUI() {
-        backgroundColor = .winey_gray750
+        backgroundColor = .winey_gray750.withAlphaComponent(0.9)
         layer.cornerRadius = 4
-        makeShadow(radius: 4, offset: CGSize(width: 0, height: 4), opacity: 0.25)
+        makeShadow(radius: 4, offset: CGSize(width: self.bounds.width, height: self.bounds.height+4), opacity: 0.25)
         iconView.image = toastType.icon
         text.setText(toastType.text, attributes: self.fontStyle)
         text.textAlignment = .left
@@ -64,7 +64,7 @@ public final class WIToastBox: UIView {
 
 extension UIView {
     func makeShadow(radius: CGFloat, offset: CGSize, opacity: Float) {
-        layer.shadowColor = UIColor.darkGray.cgColor
+        layer.shadowColor = UIColor.winey_gray900.cgColor
         layer.shadowOffset = offset
         layer.shadowRadius = radius
         layer.shadowOpacity = opacity
