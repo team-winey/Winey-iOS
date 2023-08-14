@@ -176,7 +176,7 @@ extension DetailViewController {
                     let commentId = viewModel.id
                     let action = viewModel.isMine
                     ? ActionHandler(title: "삭제하기", handler: { self.deleteComment(commentId: commentId) })
-                    : ActionHandler(title: "신고하기", handler: { self.reportComment(commentId: commentId) })
+                    : ActionHandler(title: "신고하기", handler: { self.report() })
                     self.presentActionSheet(actions: [action])
                 }
                 cell.selectionStyle = .none
@@ -187,15 +187,13 @@ extension DetailViewController {
                 else { return nil }
                 cell.configure(viewModel: viewModel)
                 cell.subscribeTapLikeButton {
-                    print("###", $0)
-                    self.likeFeed(feedId: self.feedId, direction: $0)
+                    self.likeFeed(direction: $0)
                 }
                 cell.subscribeTapMoreButton {
-//                    let commentId = viewModel.id
-//                    let action = viewModel.isMine
-//                    ? ActionHandler(title: "삭제하기", handler: { self.deleteComment(commentId: commentId) })
-//                    : ActionHandler(title: "신고하기", handler: { self.reportComment(commentId: commentId) })
-                    self.presentActionSheet(actions: [])
+                    let action = viewModel.isMine
+                    ? ActionHandler(title: "삭제하기", handler: { self.deleteFeed() })
+                    : ActionHandler(title: "신고하기", handler: { self.report() })
+                    self.presentActionSheet(actions: [action])
                 }
                 cell.selectionStyle = .none
                 return cell
@@ -331,13 +329,21 @@ extension DetailViewController {
         }
     }
     
-    private func likeFeed(feedId: Int, direction: Bool) {
+    private func likeFeed(direction: Bool) {
         feedLikeServie.postFeedLike(feedId: feedId, feedLike: direction) { [weak self] response in
             guard let self,
                   let detailInfoItem = detailInfoItemUpdatedIfNeeded(isLiked: direction)
             else { return }
             
             self.applyDetailInfoItem(item: detailInfoItem)
+        }
+    }
+    
+    private func deleteFeed() {
+        feedService.deleteMyFeed(feedId) { [weak self] _ in
+            guard let self else { return }
+            NotificationCenter.default.post(name: .whenDeleteFeedCompleted, object: nil)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -363,7 +369,7 @@ extension DetailViewController {
         return .info(newViewModel)
     }
     
-    private func reportComment(commentId: Int) {
+    private func report() {
         let popupController = MIPopupViewController(content: .init(title: "신고가 접수되었습니다."))
         popupController.addButton(title: "확인", type: .gray, tapButtonHandler: nil)
         self.present(popupController, animated: true)

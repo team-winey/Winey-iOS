@@ -50,6 +50,7 @@ final class DetailInfoCell: UITableViewCell {
         let timeAgo: String
         var imageInfo: ImageInfo
         let money: Int
+        let isMine: Bool
         
         struct ImageInfo: Hashable {
             var image: UIImage?
