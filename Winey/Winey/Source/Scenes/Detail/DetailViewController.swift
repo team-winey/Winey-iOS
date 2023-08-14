@@ -225,26 +225,33 @@ extension DetailViewController {
         snapshot.appendItems([item], toSection: section)
         snapshot = removeEmptyCommentIfNeeded(snapshot: snapshot)
         
-        dataSource.apply(snapshot) { [weak self] in
+        dataSource.apply(snapshot, animatingDifferences: false) { [weak self] in
             guard let self, let indexPath = self.dataSource.indexPath(for: item) else { return }
-            
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     
     private func applyDeleteComment(item: Section.Item) {
-        if let firstIndex = sections[commentIndex].items.firstIndex(of: item) {
-            sections[commentIndex].items.remove(at: firstIndex)
-        }
+        guard let firstIndex = sections[commentIndex].items.firstIndex(of: item) else { return }
+        sections[commentIndex].items.remove(at: firstIndex)
         
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
         let (isAdded, newSnapshot) = addEmptyCommentIfNeeded(snapshot: snapshot)
         
         if isAdded {
-            dataSource.apply(newSnapshot, animatingDifferences: false)
+            dataSource.apply(newSnapshot, animatingDifferences: false) { [weak self] in
+                guard let self else { return }
+                let indexPath = IndexPath(row: 0, section: commentIndex)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         } else {
-            dataSource.apply(newSnapshot)
+            dataSource.apply(newSnapshot) { [weak self] in
+                guard let self else { return }
+                let beforeIndex = firstIndex - 1 >= 0 ? firstIndex - 1 : 0
+                let indexPath = IndexPath(row: beforeIndex, section: commentIndex)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         }
     }
     
