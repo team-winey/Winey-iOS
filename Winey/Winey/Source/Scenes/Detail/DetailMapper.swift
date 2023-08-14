@@ -59,7 +59,7 @@ final class DetailMapper: DetailMappingLogic {
         return .init(
             userLevel: level,
             nickname: feedDto.nickname,
-            isLike: feedDto.isLiked,
+            isLiked: feedDto.isLiked,
             title: feedDto.title,
             likeCount: feedDto.likes,
             commentCount: commentCount,

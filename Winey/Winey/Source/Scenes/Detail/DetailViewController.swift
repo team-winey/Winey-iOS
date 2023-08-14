@@ -72,6 +72,7 @@ final class DetailViewController: UIViewController {
     private let commentService: CommentService = CommentService()
     private let feedService: FeedService = FeedService()
     private let mapper: DetailMapper = DetailMapper()
+    private let feedLikeServie = FeedLikeService()
 }
 
 extension DetailViewController {
@@ -172,9 +173,6 @@ extension DetailViewController {
                 else { return nil }
                 cell.configure(viewModel: viewModel)
                 cell.subscribeTapMoreButton {
-                    
-                    self.resignFirstResponder()
-                    
                     let commentId = viewModel.id
                     let action = viewModel.isMine
                     ? ActionHandler(title: "삭제하기", handler: { self.deleteComment(commentId: commentId) })
@@ -188,6 +186,17 @@ extension DetailViewController {
                 guard let cell = tableView.dequeue(DetailInfoCell.self, for: indexPath)
                 else { return nil }
                 cell.configure(viewModel: viewModel)
+                cell.subscribeTapLikeButton {
+                    print("###", $0)
+                    self.likeFeed(feedId: self.feedId, direction: $0)
+                }
+                cell.subscribeTapMoreButton {
+//                    let commentId = viewModel.id
+//                    let action = viewModel.isMine
+//                    ? ActionHandler(title: "삭제하기", handler: { self.deleteComment(commentId: commentId) })
+//                    : ActionHandler(title: "신고하기", handler: { self.reportComment(commentId: commentId) })
+                    self.presentActionSheet(actions: [])
+                }
                 cell.selectionStyle = .none
                 return cell
                 
@@ -231,7 +240,8 @@ extension DetailViewController {
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
         snapshot = addEmptyCommentIfNeeded(snapshot: snapshot)
-        dataSource.apply(snapshot)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func applyDetailInfoItem(item: Section.Item) {
@@ -294,7 +304,7 @@ extension DetailViewController {
             let commentViewModel = try mapper.convertToCommentViewModel(response)
             let newCommentItem: Section.Item = .comment(commentViewModel)
                 
-            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(count: 1) else { return }
+            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(addCommentCount: 1) else { return }
             
             self.applyDetailInfoItem(item: detailInfoItem)
             self.applyNewComment(item: newCommentItem)
@@ -314,20 +324,42 @@ extension DetailViewController {
             }).first
             else { return }
             
-            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(count: -1) else { return }
+            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(addCommentCount: -1) else { return }
             
             self.applyDetailInfoItem(item: detailInfoItem)
             self.applyDeleteComment(item: itemDeleted)
         }
     }
     
-    private func detailInfoItemUpdatedIfNeeded(count: Int) -> Section.Item? {
+    private func likeFeed(feedId: Int, direction: Bool) {
+        feedLikeServie.postFeedLike(feedId: feedId, feedLike: direction) { [weak self] response in
+            guard let self,
+                  let detailInfoItem = detailInfoItemUpdatedIfNeeded(isLiked: direction)
+            else { return }
+            
+            self.applyDetailInfoItem(item: detailInfoItem)
+        }
+    }
+    
+    private func detailInfoItemUpdatedIfNeeded(
+        isLiked: Bool? = nil,
+        addCommentCount: Int? = nil
+    ) -> Section.Item? {
         guard let item = dataSource.itemIdentifier(for: .init(item: 0, section: 0)),
               case let .info(viewModel) = item
         else { return nil }
         
         var newViewModel = viewModel
-        newViewModel.commentCount += count
+        if let isLiked {
+            let addCount = isLiked ? 1 : -1
+            newViewModel.likeCount += addCount
+            newViewModel.isLiked = isLiked
+        }
+        
+        if let addCommentCount {
+            newViewModel.commentCount += addCommentCount
+        }
+        
         return .info(newViewModel)
     }
     
