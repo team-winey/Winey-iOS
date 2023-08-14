@@ -145,7 +145,7 @@ extension DetailInfoCell {
             make.height.equalTo(0)
         }
         detailMetaInfoView.snp.makeConstraints { make in
-            make.top.equalTo(detailImageView.snp.bottom).offset(11)
+            make.top.equalTo(detailImageView.snp.bottom).offset(16)
             make.directionalHorizontalEdges.equalToSuperview().inset(16)
         }
         dividerView.snp.makeConstraints { make in
@@ -227,7 +227,6 @@ extension DetailInfoCell {
         }
         commentImageView.snp.makeConstraints { make in
             make.top.leading.bottom.equalToSuperview()
-            make.width.height.equalTo(18)
         }
         commentCountLabel.snp.makeConstraints { make in
             make.leading.equalTo(commentImageView.snp.trailing).offset(4)
