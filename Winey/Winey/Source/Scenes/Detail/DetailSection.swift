@@ -15,8 +15,8 @@ enum DetailType: Hashable {
 struct DetailSection: Hashable {
     typealias Item = DetailSectionItem
     
-    let type: DetailType
-    let items: [Item]
+    var type: DetailType
+    var items: [Item]
 }
 
 enum DetailSectionItem: Hashable {
