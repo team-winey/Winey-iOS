@@ -39,6 +39,8 @@ class UploadViewController: UIViewController {
     private let spacing: CGFloat = 24
     
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
+    private var secondPageSubjcet = PassthroughSubject<Void, Never>()
+    private var thirdPageSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
     /// 업로드 단계별로 나타나는 뷰와 커스텀 네비게이션 바 객체 생성
@@ -136,6 +138,19 @@ class UploadViewController: UIViewController {
         pageGuideSubject
             .sink { [weak self] _ in
                 self?.pageGuide.setUI()
+                self?.thirdPage.textContentView.resetPrice()
+            }
+            .store(in: &bag)
+        
+        secondPageSubjcet
+            .sink { [weak self] _ in
+                self?.secondPage.resetContents()
+            }
+            .store(in: &bag)
+        
+        thirdPageSubject
+            .sink { [weak self] _ in
+                self?.thirdPage.textContentView.resetPrice()
             }
             .store(in: &bag)
     }
@@ -297,6 +312,17 @@ class UploadViewController: UIViewController {
         }
     }
     
+    private func deleteContents() {
+        switch stageIdx {
+        case 1:
+            secondPage.resetContents()
+            secondPageSubjcet.send(Void())
+        default:
+            thirdPage.textContentView.resetPrice()
+            thirdPageSubject.send(Void())
+        }
+    }
+    
     // NavigationBar
     /// NavigationBar 상의 버튼을 클릭했을때의 동작을 정의하는 함수
     
@@ -320,7 +346,7 @@ class UploadViewController: UIViewController {
         
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
                                             - UIScreen.main.bounds.width, y: 0), animated: true)
-        
+        deleteContents()
         stageIdx -= 1
         grayDot.progress -= 1
         grayDot.progress = Double(stageIdx)
