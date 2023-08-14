@@ -29,6 +29,16 @@ public extension UIImage {
         public static let comment           = UIImage(name: "ic_comment")
         public static let winey             = UIImage(name: "ic_winey")
     }
+
+    enum Mypage {
+        public static let info = UIImage(name: "ic_info")
+        public static let progressbar = UIImage(name: "level_progressbar")
+        public static let pen = UIImage(name: "ic_pen")
+        public static let next = UIImage(name: "ic_next")
+        public static let bubble = UIImage(name: "img_bubble")
+        public static let guide1 = UIImage(name: "img_guide1")
+        public static let guide2 = UIImage(name: "img_guide2")
+    }
     
     enum Sample {
         public static let sample1 = UIImage(name: "sample1")
@@ -71,6 +81,7 @@ public extension UIImage {
         public static let back      = UIImage(name: "btn_back")
         public static let floating  = UIImage(name: "btn_floating")
         public static let btn_plus  = UIImage(name: "btn_plus")
+        public static let more  = UIImage(name: "btn_more")
     }
     
     enum Login {
