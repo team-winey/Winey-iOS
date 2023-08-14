@@ -23,7 +23,7 @@ final class DetailViewController: UIViewController {
     private let keyboardFrameView = KeyboardFrameView()
     private var commentViewBottomConstraint: Constraint?
     private lazy var dataSource = dataSource(of: tableView)
-    
+    private var snapshot: Snapshot = Snapshot()
     private let commentService: CommentService = CommentService()
     private let feedService: FeedService = FeedService()
     private let mapper: DetailMapper = DetailMapper()
@@ -81,6 +81,7 @@ extension DetailViewController {
         tableView.dataSource = dataSource
         tableView.registerCell(CommentCell.self)
         tableView.registerCell(DetailInfoCell.self)
+        tableView.registerCell(EmptyCommentCell.self)
         tableView.contentInsetAdjustmentBehavior = .never
         // TODO: 키보드 내리는 동작 UX 개선
         tableView.keyboardDismissMode = .interactive
@@ -170,6 +171,9 @@ extension DetailViewController {
                 else { return nil }
                 cell.configure(viewModel: viewModel)
                 cell.subscribeTapMoreButton {
+                    
+                    self.resignFirstResponder()
+                    
                     let commentId = viewModel.id
                     let action = viewModel.isMine
                     ? ActionHandler(title: "삭제하기", handler: { self.deleteComment(commentId: commentId) })
@@ -187,23 +191,28 @@ extension DetailViewController {
                 return cell
                 
             case .emptyComment:
-                return nil
+                guard let cell = tableView.dequeue(EmptyCommentCell.self, for: indexPath)
+                else { return nil }
+                cell.selectionStyle = .none
+                return cell
             }
         }
     }
     
     private func apply(sections: [Section]) {
-        var snapshot = Snapshot()
+        self.snapshot = Snapshot()
         snapshot.appendSections(sections)
         sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func applyNewComment(item: Section.Item) {
-        var snapshot = dataSource.snapshot()
         let section = dataSource.sectionIdentifier(for: 1)
         snapshot.appendItems([item], toSection: section)
         
+        if snapshot.itemIdentifiers.contains(where: { $0 == .emptyComment }) {
+            snapshot.deleteItems([.emptyComment])
+        }
         dataSource.apply(snapshot) { [weak self] in
             guard let self,
                   let indexPath = self.dataSource.indexPath(for: item)
@@ -214,13 +223,11 @@ extension DetailViewController {
     }
     
     private func applyDeleteComment(item: Section.Item) {
-        var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
         dataSource.apply(snapshot)
     }
     
     private func applyDetailInfoItem(item: Section.Item) {
-        var snapshot = dataSource.snapshot()
         let section = dataSource.sectionIdentifier(for: 0)
         guard let beforeItem = dataSource.itemIdentifier(for: .init(item: 0, section: 0))
         else { return }
@@ -228,15 +235,24 @@ extension DetailViewController {
         snapshot.deleteItems([beforeItem])
         dataSource.apply(snapshot, animatingDifferences: false)
     }
+    
+    private func applyEmptyCommentIfNeeded() {
+        snapshot.sectionIdentifiers.forEach {
+            print("###", $0.type, $0.items.count)
+        }
+    }
 }
 
 extension DetailViewController {
     private func fetchFeedDetail() {
         Task(priority: .background) {
             let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
-            let commentItems: [Section.Item] = response.getCommentResponseList
+            var commentItems: [Section.Item] = response.getCommentResponseList
                 .compactMap { try? mapper.convertToCommentViewModel($0) }
                 .map { .comment($0) }
+            if commentItems.isEmpty {
+                commentItems.append(.emptyComment)
+            }
             let commentSection: Section = .init(type: .comments, items: commentItems)
             let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
             let detailInfoItem: Section.Item = .info(detailInfoViewModel)
@@ -257,9 +273,9 @@ extension DetailViewController {
             else { return }
             var newViewModel = viewModel
             newViewModel.commentCount += 1
-        
-            self.applyNewComment(item: newCommentItem)
+            
             self.applyDetailInfoItem(item: .info(newViewModel))
+            self.applyNewComment(item: newCommentItem)
         }
     }
     
@@ -269,7 +285,7 @@ extension DetailViewController {
             
             try await commentService.deleteComment(commentId: commentId)
             
-            guard let itemDeleted = self.dataSource.snapshot().itemIdentifiers.filter({
+            guard let itemDeleted = snapshot.itemIdentifiers.filter({
                 guard case let .comment(viewModel) = $0 else { return false }
                 return viewModel.id == commentId
             }).first
@@ -282,8 +298,9 @@ extension DetailViewController {
             var newViewModel = viewModel
             newViewModel.commentCount -= 1
             
-            self.applyDeleteComment(item: itemDeleted)
             self.applyDetailInfoItem(item: .info(newViewModel))
+            self.applyDeleteComment(item: itemDeleted)
+            self.applyEmptyCommentIfNeeded()
         }
     }
     

@@ -43,7 +43,6 @@ final class CommentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         bag.removeAll()
