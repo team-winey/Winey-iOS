@@ -156,6 +156,10 @@ final class FeedViewController: UIViewController {
                 self?.refresh()
             }
             .store(in: &bag)
+        
+        NotificationCenter.default.publisher(for: .whenDeleteFeedCompleted)
+            .sink { [weak self] _ in self?.refresh() }
+            .store(in: &bag)
     }
     
     private func refresh() {

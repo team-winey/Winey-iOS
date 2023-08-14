@@ -65,7 +65,8 @@ final class DetailMapper: DetailMappingLogic {
             commentCount: commentCount,
             timeAgo: timeAgo,
             imageInfo: imageInfo,
-            money: feedDto.money
+            money: feedDto.money,
+            isMine: feedDto.userID == UserSingleton.getId()
         )
     }
     
