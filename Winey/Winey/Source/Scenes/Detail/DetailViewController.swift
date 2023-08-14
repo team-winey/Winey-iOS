@@ -225,7 +225,7 @@ extension DetailViewController {
         snapshot.appendItems([item], toSection: section)
         snapshot = removeEmptyCommentIfNeeded(snapshot: snapshot)
         
-        dataSource.apply(snapshot, animatingDifferences: false) { [weak self] in
+        dataSource.apply(snapshot) { [weak self] in
             guard let self, let indexPath = self.dataSource.indexPath(for: item) else { return }
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
@@ -246,12 +246,7 @@ extension DetailViewController {
                 self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
         } else {
-            dataSource.apply(newSnapshot) { [weak self] in
-                guard let self else { return }
-                let beforeIndex = firstIndex - 1 >= 0 ? firstIndex - 1 : 0
-                let indexPath = IndexPath(row: beforeIndex, section: commentIndex)
-                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            }
+            dataSource.apply(newSnapshot)
         }
     }
     

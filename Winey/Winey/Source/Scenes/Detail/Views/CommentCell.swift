@@ -85,10 +85,10 @@ extension CommentCell {
         containerView.addSubview(moreButton)
         
         containerView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(8)
-            make.leading.equalToSuperview().offset(26)
-            make.trailing.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview().inset(18)
+            make.top.equalToSuperview().offset(Const.containerViewTopSpacing)
+            make.leading.equalToSuperview().offset(Const.containerViewLeading)
+            make.trailing.equalToSuperview().inset(Const.containerViewTrailing)
+            make.bottom.equalToSuperview().inset(Const.containerViewBottomSpacing)
         }
         dividerView.snp.makeConstraints { make in
             make.bottom.directionalHorizontalEdges.equalToSuperview()
@@ -97,7 +97,7 @@ extension CommentCell {
         userInfoView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview()
             make.trailing.equalTo(moreButton.snp.leading)
-            make.height.equalTo(36)
+            make.height.equalTo(Const.userInfoViewHeight)
         }
         moreButton.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview()
@@ -134,6 +134,11 @@ extension CommentCell {
 
 private extension CommentCell {
     enum Const {
+        static let containerViewTopSpacing: CGFloat = 8
+        static let containerViewLeading: CGFloat = 26
+        static let containerViewTrailing: CGFloat = 10
+        static let containerViewBottomSpacing: CGFloat = 18
+        static let userInfoViewHeight: CGFloat = 36
         static let userInfoAttributes = Typography.Attributes(
             style: .detail2,
             weight: .medium,
