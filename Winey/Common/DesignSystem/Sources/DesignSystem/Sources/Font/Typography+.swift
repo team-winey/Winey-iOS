@@ -26,7 +26,7 @@ extension Typography {
         let style = NSMutableParagraphStyle()
         style.maximumLineHeight = attributes.style.lineHeight
         style.minimumLineHeight = attributes.style.lineHeight
-                    
+        
         stringAttributes[.paragraphStyle] = style
         stringAttributes[.font] = font
         stringAttributes[.baselineOffset] = (attributes.style.lineHeight - font.lineHeight) / 4
@@ -34,7 +34,7 @@ extension Typography {
         if let customAttributes {
             for customAttribute in customAttributes {
                 stringAttributes[customAttribute.key] = customAttribute.value
-            }   
+            }
         }
         if let textColor = attributes.textColor {
             stringAttributes[.foregroundColor] = textColor
@@ -43,5 +43,38 @@ extension Typography {
         stringAttributes[.kern] = attributes.style.kern
         
         return NSMutableAttributedString(string: string ?? "", attributes: stringAttributes)
+    }
+    
+    public static func height(
+        string: String?,
+        attributes: Attributes,
+        availableWidth: CGFloat = .greatestFiniteMagnitude,
+        maxLines: Int? = nil
+    ) -> CGFloat {
+        guard let string,
+              !string.isEmpty
+        else { return 0.0 }
+        
+        guard let maxLines,
+              maxLines > 0
+        else { return .zero }
+        
+        let boundingHeight = build(
+            string: string,
+            attributes: attributes
+        ).boundingRect(
+            with: CGSize(
+                width: availableWidth,
+                height: .greatestFiniteMagnitude
+            ),
+            options: [.usesFontLeading, .usesLineFragmentOrigin],
+            context: nil
+        )
+            .height
+        
+        let lineHeight = attributes.style.lineHeight
+        let lines = min(Int(ceil(boundingHeight / lineHeight)), maxLines)
+        
+        return lineHeight * CGFloat(lines)
     }
 }
