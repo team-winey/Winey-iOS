@@ -5,6 +5,7 @@
 //  Created by Woody Lee on 2023/08/08.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -17,19 +18,39 @@ final class DetailViewController: UIViewController {
     
     private let naviBar = WINavigationBar(leftBarItem: .back)
     private let tableView = UITableView()
+    private let floatingCommentView = FloatingCommentView()
+    private let keyboardFrameView = KeyboardFrameView()
+    private var commentViewBottomConstraint: Constraint?
     private lazy var dataSource = dataSource(of: tableView)
+    
+    private var bag = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupAttribute()
         setupLayout()
+        setupAttribute()
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         testApplySection()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        updateTableViewContentInset()
+    }
+    
+    private func updateTableViewContentInset() {
+        var bottom = floatingCommentView.frame.height
+        if keyboardFrameView.frame.height > 0 {
+            bottom += keyboardFrameView.frame.height
+            - DeviceInfo.safeAreaBottomHeight
+        }
+        tableView.contentInset.bottom = bottom
     }
     
     private func testApplySection() {
@@ -53,11 +74,17 @@ extension DetailViewController {
         tableView.dataSource = dataSource
         tableView.registerCell(CommentCell.self)
         tableView.registerCell(DetailInfoCell.self)
+        tableView.contentInsetAdjustmentBehavior = .never
+        // TODO: 키보드 내리는 동작 UX 개선
+        tableView.keyboardDismissMode = .onDrag
     }
     
     private func setupLayout() {
+        setupKeyboardFrameView()
+            
         view.addSubview(naviBar)
         view.addSubview(tableView)
+        view.addSubview(floatingCommentView)
         
         naviBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -68,6 +95,59 @@ extension DetailViewController {
             make.directionalHorizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        floatingCommentView.snp.makeConstraints { make in
+            make.directionalHorizontalEdges.equalToSuperview()
+            commentViewBottomConstraint = make.bottom.equalTo(keyboardFrameView.snp.top).constraint
+        }
+        
+        setupSafeAreaBottomView()
+    }
+    
+    private func setupSafeAreaBottomView() {
+        let safeAreaBottomView = UIView()
+        safeAreaBottomView.backgroundColor = .winey_gray100
+        view.addSubview(safeAreaBottomView)
+        safeAreaBottomView.snp.makeConstraints { make in
+            make.height.equalTo(DeviceInfo.safeAreaBottomHeight)
+            make.directionalHorizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+    }
+    
+    private func setupKeyboardFrameView() {
+        view.addSubview(keyboardFrameView)
+        keyboardFrameView.snp.makeConstraints { make in
+            make.directionalHorizontalEdges.bottom.equalToSuperview()
+        }
+    }
+    
+    private func bind() {
+        bindCommentView()
+        bindKeyboardFrameView()
+    }
+    
+    private func bindCommentView() {
+        floatingCommentView.commentPublisher
+            .sink { [weak self] comment in
+                
+            }
+            .store(in: &bag)
+    }
+    
+    private func bindKeyboardFrameView() {
+        keyboardFrameView.keyboardWillHideNotification
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.floatingCommentView.updateBottomInset(isKeyboardShown: false)
+            }
+            .store(in: &bag)
+        
+        keyboardFrameView.keyboardWillShowNotification
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.floatingCommentView.updateBottomInset(isKeyboardShown: true)
+            }
+            .store(in: &bag)
     }
 }
 
@@ -129,7 +209,7 @@ private extension DetailViewController {
             commentCount: 1,
             timeAgo: "몇 분전",
             imageInfo: .init(
-                imageUrl: URL(string: "https://i.namu.wiki/i/0dzqJuL0LTSp5yj0k0W5YMoBophY0WDVKRqU33VjbSH1GaCFCJHp0etEe0FPCVnPdPe0ykg4cpcPM117ECDt7w.webp")!,
+                imageUrl: URL(string: "https://github.com/team-winey/Winey-iOS/assets/56102421/b31edbc5-4c42-4c83-9a2d-936ec1c4fc0a")!,
                 height: 100
             ),
             money: 4500
@@ -143,5 +223,12 @@ private extension DetailViewController {
             .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
             .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false)
         ]
+    }
+}
+
+enum DeviceInfo {
+    static var safeAreaBottomHeight: CGFloat {
+        guard let window = UIWindow.current else { return .zero }
+        return window.safeAreaInsets.bottom
     }
 }
