@@ -4,8 +4,6 @@
 //
 //  Created by 김응관 on 2023/08/15.
 //
-
-import Combine
 import UIKit
 
 import SnapKit
@@ -17,8 +15,6 @@ public final class WIToastBox: UIView {
     // 폰트 스타일과 toastType
     private let fontStyle: Typography.Attributes = .init(style: .body3, weight: .medium, textColor: .winey_gray0)
     private let toastType: WIToastType
-    
-    private var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
     
