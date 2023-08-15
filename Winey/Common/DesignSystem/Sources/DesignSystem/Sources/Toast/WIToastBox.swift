@@ -84,8 +84,3 @@ extension UIView {
         layer.masksToBounds = false
     }
 }
-
-extension Notification.Name {
-    /// 피드 업로드후 노티
-    static let feedUploadResult = Notification.Name(rawValue: "feedUploadResult")
-}
