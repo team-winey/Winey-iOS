@@ -35,6 +35,8 @@ class UploadViewController: UIViewController {
         didSet { nextButton.isEnabled = isOk }
     }
     
+    var postResultClousure: ((_ data: Bool) -> Void)?
+    
     private lazy var safeArea = self.view.safeAreaLayoutGuide
     private let spacing: CGFloat = 24
     
