@@ -565,14 +565,14 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
 }
 
 extension UploadViewController {
-    
     private func postFeed(feed: UploadModel) {
         let productPolicy = ProductPolicy.productBy(feed.feedMoney)
         let loadingViewController = UploadLoadingViewController(keyword: productPolicy.rawValue)
-        self.navigationController?.pushViewController(loadingViewController, animated: true)
                 
-        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in
+        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { result in
             NotificationCenter.default.post(name: .whenFeedUploaded, object: nil)
+            loadingViewController.feedUploadResult = result
         }
+        self.navigationController?.pushViewController(loadingViewController, animated: true)
     }
 }
