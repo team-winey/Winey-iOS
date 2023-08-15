@@ -45,7 +45,6 @@ final class SessionInterceptor: RequestInterceptor {
         }
         print(request.task?.currentRequest?.headers)
         print(response.statusCode)
-        print(response.headers)
 
         // 엑세스 만료 -> 400오류가 돌아오니까 -> 토큰 업데이트 후 -> retry
         // 앱 사용하던 중 accessToken이 만료되었다면? -> 통신오류 -> 토큰 재발급을 통해 accessToken 갱신해줘야함

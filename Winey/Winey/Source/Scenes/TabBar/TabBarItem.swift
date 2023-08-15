@@ -33,7 +33,7 @@ enum TabBarItem: CaseIterable {
         switch self {
         case .feed:         return FeedViewController()
         case .recommend:    return RecommendViewController()
-        case .mypage:       return LoginTestViewController()
+        case .mypage:       return MypageViewController()
         }
     }
 }
