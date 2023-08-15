@@ -12,9 +12,6 @@ import SnapKit
 import Moya
 import DesignSystem
 import WebKit
-import KakaoSDKAuth
-import KakaoSDKUser
-import RxKakaoSDKCommon
 
 final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
@@ -27,7 +24,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     private var dday: Int?
     private var isOver: Bool = false
     private let userService = UserService()
-    var oauthToken: OAuthToken?
+    private let loginService = LoginService()
     
     // MARK: - UIComponents
     
@@ -115,6 +112,12 @@ extension MypageViewController: UICollectionViewDelegate {
             let url = URL(string: "https://open.kakao.com/o/s751Susf")!
             let safariViewController = SFSafariViewController(url: url)
             self.present(safariViewController, animated: true)
+        } else if indexPath.section == 2 && indexPath.item == 2 {
+            let alert = makeWithdrawAlert()
+            self.present(alert, animated: true)
+        } else if indexPath.section == 2 && indexPath.item == 3 {
+            let alert = makeLogoutAlert()
+            self.present(alert, animated: true)
         }
     }
 }
@@ -287,67 +290,78 @@ extension MypageViewController {
 }
 
 // MARK: - Login
-// 카카오톡 실행 가능 여부 확인
 extension MypageViewController {
-    func loginWithKakao() {
-        if (KakaoSDKUser.UserApi.isKakaoTalkLoginAvailable()) {
-            
-            //카톡 설치되어있으면 -> 카톡으로 로그인
-            KakaoSDKUser.UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                if let error = error {
-                    print(error)
-                } else {
-                    print("카카오 톡으로 로그인 성공")
-                    
-                    _ = oauthToken
-                    /// 로그인 관련 메소드 추가
-                }
+    
+    private func makeWithdrawAlert() -> MIPopupViewController {
+        let vc = MIPopupViewController(
+            content: .init(title: MypageAlert.withDraw.title,
+                           subtitle: MypageAlert.withDraw.subTitle)
+        )
+        
+        vc.addButton(title: MypageAlert.withDraw.leftBtnText, type: .gray) {
+            let token = KeychainManager.shared.read("accessToken")!
+            DispatchQueue.global(qos: .utility).async {
+                self.withdrawApple(token: token)
             }
-        } else {
-            
-            // 카톡 없으면 -> 계정으로 로그인
-            KakaoSDKUser.UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
-                if let error = error {
-                    print(error)
-                } else {
-                    print("카카오 계정으로 로그인 성공")
-                    
-                    _ = oauthToken
-                    // 관련 메소드 추가
+        }
+        
+        vc.addButton(title: MypageAlert.withDraw.rightBtnText, type: .yellow) {
+            self.dismiss(animated: true)
+        }
+        return vc
+    }
+    
+    private func makeLogoutAlert() -> MIPopupViewController {
+        let vc = MIPopupViewController(
+            content: .init(title: MypageAlert.logOut.title,
+                           subtitle: MypageAlert.logOut.subTitle)
+        )
+        
+        vc.addButton(title: MypageAlert.logOut.leftBtnText, type: .gray) {
+            self.dismiss(animated: true)
+        }
+        
+        vc.addButton(title: MypageAlert.logOut.rightBtnText, type: .yellow) {
+            let token = KeychainManager.shared.read("accessToken")!
+            DispatchQueue.global(qos: .utility).async {
+                self.logoutWithApple(token: token)
+            }
+        }
+        return vc
+    }
+    
+    private func withdrawApple(token: String) {
+        loginService.withdrawApple(token: token) { result in
+            if result {
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+                
+                UserDefaults.standard.set(false, forKey: "Signed")
+                
+                DispatchQueue.main.async {
+                    let vc = LoginViewController()
+                    self.switchRootViewController(rootViewController: vc, animated: true)
                 }
+            } else {
+                print("회원탈퇴 실패")
             }
         }
     }
-// MARK: - Send To Server
-    //사용자 정보 불러옴
-//    func loadUserInfo(ouathToken: Int?) {
-//        UserApi.shared.me { [self] user, error in
-//            if let error = error {
-//                print(error)
-//            } else {
-//
-//                guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
-//                      let name = user?.kakaoAccount?.profile?.nickname else{
-//                    print("token/email/name is nil")
-//                    return
-//                }
-//
-//                self.email = email
-//                self.accessToken = token
-//                self.name = name
-//
-//                //서버에 이메일/토큰/이름 보내주기
-//            }
-//        }
-//    }
-    // MARK: - Logout
-    func logout() {
-        UserApi.shared.logout {(error) in
-            if let error = error {
-                print(error)
-            }
-            else {
-                print("logout() success.")
+    
+    private func logoutWithApple(token: String) {
+        loginService.logoutWithApple(token: token) { result in
+            if result {
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+                
+                UserDefaults.standard.set(false, forKey: "Signed")
+                
+                DispatchQueue.main.async {
+                    let vc = LoginViewController()
+                    self.switchRootViewController(rootViewController: vc, animated: true)
+                }
+            } else {
+                print("로그아웃 실패")
             }
         }
     }

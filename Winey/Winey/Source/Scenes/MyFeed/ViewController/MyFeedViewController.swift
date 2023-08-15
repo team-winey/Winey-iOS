@@ -109,8 +109,8 @@ final class MyFeedViewController: UIViewController {
     private func showAlert(_ idx: Int, _ path: Int) {
         
         let alertContent = MIPopupContent(
-            title: "진짜 게시물을 삭제하시겠어요?",
-            subtitle: "지금 게시물을 삭제하면 누적 금액이 \n 삭감되어 레벨이 내려갈 수 있으니 주의하세요!"
+            title: "정말 게시물을 삭제하시겠어요?",
+            subtitle: "지금 게시물을 삭제하면 누적 금액이 \n 삭감되니 주의하세요!"
         )
         
         let alertController = MIPopupViewController(content: alertContent)
