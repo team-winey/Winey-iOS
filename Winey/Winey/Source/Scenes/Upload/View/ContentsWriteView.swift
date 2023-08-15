@@ -43,6 +43,7 @@ class ContentsWriteView: UIView {
         label.setText("5자 이상 작성해 주세요",
                       attributes: .init(style: .body3, weight: .medium, textColor: .winey_red500)
         )
+        label.isHidden = true
         return label
     }()
     
@@ -100,6 +101,7 @@ extension ContentsWriteView: UITextViewDelegate {
             textView.textColor = .winey_gray900
             textView.text = nil
         }
+        setColor(textView.text.count)
     }
     
     /// textViewDidEndEditing: 텍스트 뷰의 편집이 종료되었을때의 동작을 정의한 함수
@@ -109,6 +111,7 @@ extension ContentsWriteView: UITextViewDelegate {
             textView.textColor = .winey_gray400
         } else {
             textView.textColor = .winey_gray900
+            setColor(textView.text.count)
         }
         textView.makeBorder(width: 1, color: .winey_gray200)
     }
@@ -119,7 +122,7 @@ extension ContentsWriteView: UITextViewDelegate {
     }
     
     func resetContents() {
-        textView.text = ""
+        textView.text = nil
     }
     
     /// textView: 텍스트뷰에 새로운 글자가 입력되었을때 문자열을 변경해주는 함수
@@ -136,16 +139,13 @@ extension ContentsWriteView: UITextViewDelegate {
             return false
         } else {
             let changedText = currentText.replacingCharacters(in: stringRange, with: text)
-    
-            setBorderColor(changedText.count)
-            
+            setColor(changedText.count)
             textNum.text = "(\(changedText.count)/36)"
             return changedText.count <= 35
         }
     }
     
-    func setBorderColor(_ count: Int) {
-        
+    func setColor(_ count: Int) {
         if textView.isFirstResponder {
             switch count {
             case 1..<5:
@@ -155,6 +155,9 @@ extension ContentsWriteView: UITextViewDelegate {
                 textView.makeBorder(width: 1, color: .winey_purple400)
                 warningText.isHidden = true
             }
+        } else {
+            textView.makeBorder(width: 1, color: .winey_gray200)
+            warningText.isHidden = true
         }
     }
 }
