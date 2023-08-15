@@ -62,7 +62,7 @@ final class FeedService {
         
         let url = "\(URLConstant.baseURL)/feed"
         let token = KeychainManager.shared.read("accessToken")!
-        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "userId": token]
+        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "accessToken": token]
         
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
