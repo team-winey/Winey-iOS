@@ -28,6 +28,8 @@ public extension UIImage {
         public static let like              = UIImage(name: "ic_like")
         public static let comment           = UIImage(name: "ic_comment")
         public static let winey             = UIImage(name: "ic_winey")
+        public static let alarm_default     = UIImage(name: "ic_alarm_default")
+        public static let alarm_variant     = UIImage(name: "ic_alarm_variant")
     }
 
     enum Mypage {
