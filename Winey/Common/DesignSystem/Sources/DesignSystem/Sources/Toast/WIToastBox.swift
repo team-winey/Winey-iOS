@@ -44,7 +44,7 @@ public final class WIToastBox: UIView {
     private func setUI() {
         backgroundColor = .winey_gray750.withAlphaComponent(0.9)
         layer.cornerRadius = 4
-        makeShadow(radius: 4, offset: CGSize(width: toastContainer.bounds.width, height: toastContainer.bounds.height+4), opacity: 0.25)
+        makeShadow(radius: 4, offset: CGSize(width: self.bounds.width, height: self.bounds.height+4), opacity: 0.25)
         iconView.image = toastType.icon
         text.setText(toastType.text, attributes: self.fontStyle)
         text.textAlignment = .left
