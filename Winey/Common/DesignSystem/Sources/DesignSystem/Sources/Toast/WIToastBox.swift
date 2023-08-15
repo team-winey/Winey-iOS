@@ -14,7 +14,7 @@ public final class WIToastBox: UIView {
     // MARK: - Properties
     
     private let fontStyle: Typography.Attributes = .init(style: .body3, weight: .medium, textColor: .winey_gray0)
-    private var toastType: WIToastType
+    private let toastType: WIToastType
     
     // MARK: - UI Components
     
@@ -28,6 +28,7 @@ public final class WIToastBox: UIView {
         super.init(frame: .zero)
         setUI()
         setLayout()
+        toastAction()
     }
     
     required init?(coder: NSCoder) {
@@ -39,7 +40,7 @@ public final class WIToastBox: UIView {
     private func setUI() {
         backgroundColor = .winey_gray750.withAlphaComponent(0.9)
         layer.cornerRadius = 4
-        makeShadow(radius: 4, offset: CGSize(width: self.bounds.width, height: self.bounds.height+4), opacity: 0.25)
+        makeShadow(radius: 4, offset: CGSize(width: toastContainer.bounds.width, height: toastContainer.bounds.height+4), opacity: 0.25)
         iconView.image = toastType.icon
         text.setText(toastType.text, attributes: self.fontStyle)
         text.textAlignment = .left
@@ -59,6 +60,18 @@ public final class WIToastBox: UIView {
             $0.verticalEdges.equalToSuperview().inset(14)
             $0.trailing.equalToSuperview()
         }
+    }
+    
+    func toastAction() {
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseIn, animations: {
+            self.alpha = 1.0
+        }, completion: { _ in
+            UIView.animate(withDuration: 1.0, delay: 2.0, options: .curveEaseOut, animations: {
+                self.alpha = 0.0
+            }, completion: {_ in
+                self.removeFromSuperview()
+            })
+        })
     }
 }
 
