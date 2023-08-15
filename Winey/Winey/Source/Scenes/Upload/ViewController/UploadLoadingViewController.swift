@@ -21,6 +21,7 @@ final class UploadLoadingViewController: UIViewController {
     private let animationView = AnimationView.loadingView
     
     var keyword: String?
+    var feedUploadResult: Bool = false
     
     private var didCompleteUpload: Bool = false
     private var animationStartedTime: Date?
@@ -100,7 +101,8 @@ final class UploadLoadingViewController: UIViewController {
     
     private func dismiss() {
         navigationController?.dismiss(animated: true) {
-            NotificationCenter.default.post(name: .whenUploadFeedCompleted, object: nil)
+            let type = self.feedUploadResult ? WIToastType.uploadSuccess : WIToastType.uploadFail
+            NotificationCenter.default.post(name: .whenUploadFeedCompleted, object: nil, userInfo: ["type":type])
         }
     }
 }
