@@ -27,7 +27,6 @@ final class UploadLoadingViewController: UIViewController {
     private var animationStartedTime: Date?
     private var animationTimer: Timer?
     
-    private var toastSubject = PassthroughSubject<WIToastType, Never>() 
     private var bag = Set<AnyCancellable>()
     
     init(keyword: String? = nil) {
@@ -49,19 +48,8 @@ final class UploadLoadingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         startAnimation()
     }
-    
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        
-//        let type: WIToastType = self.feedUploadResult ? WIToastType.uploadSuccess : WIToastType.uploadFail
-//        let vc = WIToastBox(toastType: type)
-//        self.navigationController?.pushViewController(vc, animated: false)
-//        
-//        NotificationCenter.default.post(name: .feedUploadResult, object: type)
-//    }
     
     private func bind() {
         NotificationCenter.default.publisher(for: .whenFeedUploaded)
