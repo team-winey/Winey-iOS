@@ -76,6 +76,10 @@ public extension UIImage {
         public static let img_onboarding1 = UIImage(name: "img_onboarding1")
         public static let img_onboarding2 = UIImage(name: "img_onboarding2")
         public static let img_onboarding3 = UIImage(name: "img_onboarding3")
+        public static let banner2 = UIImage(name: "img_banner2")
+        public static let banner3 = UIImage(name: "img_banner3")
+        public static let banner4 = UIImage(name: "img_banner4")
+
     }
     
     enum Btn {

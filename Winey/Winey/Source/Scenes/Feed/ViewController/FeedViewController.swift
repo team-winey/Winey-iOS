@@ -37,10 +37,15 @@ final class FeedViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: view.frame.width, height: 367)
         layout.minimumLineSpacing = 1
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
+        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 134)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray0
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.register(
+            FeedHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: FeedHeaderView.className
+        )
         collectionView.delegate = self
         return collectionView
     }()
@@ -51,6 +56,12 @@ final class FeedViewController: UIViewController {
         button.makeCornerRound(radius: 28)
         button.makeShadow(radius: 10, offset: .init(width: 4, height: 4), opacity: 0.4)
         return button
+    }()
+    
+    private let headerView: FeedHeaderView = {
+        let headerView = FeedHeaderView(frame: .zero)
+        headerView.setState(.banner1) // Configure with initial state
+        return headerView
     }()
     
     // MARK: - View Life Cycles
@@ -93,9 +104,18 @@ final class FeedViewController: UIViewController {
         }
         
         let headerRegistration = SupplementaryRegistration<FeedHeaderView>(
-            elementKind: UICollectionView.elementKindSectionHeader
-        ) { _, _, _ in }
-        
+                elementKind: UICollectionView.elementKindSectionHeader
+        ) { [weak self] _, kind, indexPath in
+            guard let self = self else { return }
+            let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: FeedHeaderView.className,
+                for: indexPath
+            ) as? FeedHeaderView
+            
+            headerView?.setState(self.getRandomBannerState())
+        }
+            
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
             return collectionView.dequeueConfiguredReusableSupplementary(
                 using: headerRegistration,
@@ -125,6 +145,13 @@ final class FeedViewController: UIViewController {
     
     @objc private func didBeginRefresh() {
         refresh()
+        refreshHeaderView()
+    }
+    
+    private func refreshHeaderView() {
+        let randomHeaderState = self.headerView.setRandomBanner()
+        self.headerView.setState(randomHeaderState)
+        print(randomHeaderState)
     }
     
     private func showAlert(feedId: Int, userId: Int) {
@@ -305,6 +332,7 @@ extension FeedViewController {
             guard let self else { return }
             guard collectionView.refreshControl?.isRefreshing == true else { return }
             collectionView.refreshControl?.endRefreshing()
+            self.refreshHeaderView()
         }
     }
 }
