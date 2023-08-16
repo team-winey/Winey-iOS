@@ -237,7 +237,7 @@ private extension FeedCell {
         static let nicknameAttributes = Typography.Attributes(
             style: .body3,
             weight: .medium,
-            textColor: .winey_gray900
+            textColor: .winey_gray700
         )
         static let feedMoneyAttributes = Typography.Attributes(
             style: .detail,
