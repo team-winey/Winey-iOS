@@ -35,7 +35,7 @@ final class FeedViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width, height: 367)
+        layout.itemSize = CGSize(width: view.frame.width, height: 438)
         layout.minimumLineSpacing = 1
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 134)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)

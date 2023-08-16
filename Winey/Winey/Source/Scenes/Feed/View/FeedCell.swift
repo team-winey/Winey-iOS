@@ -155,6 +155,8 @@ extension FeedCell {
         backgroundColor = .winey_gray0
         underLineView.backgroundColor = .winey_gray100
         
+        likeCountLabel.textAlignment = .center
+        
         addSubviews(profileImageView, nicknameLabel, moreButton, feedImageView, feedTitleLabel)
         addSubviews(feedMoneyContainerView, likeCountLabel, likeButton, underLineView)
         feedMoneyContainerView.addSubview(feedMoneyLabel)
@@ -168,6 +170,7 @@ extension FeedCell {
         nicknameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.leading.equalTo(profileImageView.snp.trailing).offset(6)
+            $0.trailing.equalTo(moreButton.snp.leading).offset(-10)
         }
         
         moreButton.snp.makeConstraints {
@@ -179,20 +182,20 @@ extension FeedCell {
         feedImageView.snp.makeConstraints {
             $0.top.equalTo(moreButton.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(182)
+            $0.height.equalTo(268)
         }
         
         feedMoneyContainerView.snp.updateConstraints {
-            $0.top.equalTo(feedImageView.snp.bottom).offset(12)
-            $0.leading.equalTo(feedImageView)
+            $0.leading.equalTo(feedImageView).offset(12)
+            $0.bottom.equalTo(feedImageView.snp.bottom).inset(12)
             $0.height.equalTo(34)
             $0.width.equalTo(feedMoneyLabel.snp.width).offset(28)
         }
         
         feedTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(feedMoneyContainerView.snp.bottom).offset(9)
+            $0.top.equalTo(feedImageView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().inset(26)
-            $0.trailing.equalTo(likeButton.snp.leading).offset(-13)
+            $0.trailing.equalTo(likeButton.snp.leading).offset(-4)
         }
         
         feedMoneyLabel.snp.makeConstraints {
@@ -200,13 +203,13 @@ extension FeedCell {
         }
         
         likeButton.snp.makeConstraints {
-            $0.top.equalTo(feedImageView.snp.bottom).offset(11)
-            $0.trailing.equalTo(feedImageView)
+            $0.top.equalTo(feedTitleLabel)
+            $0.trailing.equalToSuperview().inset(26)
             $0.size.equalTo(36)
         }
         
         likeCountLabel.snp.makeConstraints {
-            $0.top.equalTo(likeButton.snp.bottom).offset(2)
+            $0.top.equalTo(likeButton.snp.bottom).offset(4)
             $0.centerX.equalTo(likeButton)
         }
         
