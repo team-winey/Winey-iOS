@@ -20,17 +20,14 @@ final class FeedHeaderView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        
-        let firstBanner = HeaderState.banner1
-        setBannerUI(firstBanner)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setState(_ state: HeaderState) {
-        setBannerUI(state)
+    func setState(_ state: HeaderState? = nil) {
+        setBannerUI(state ?? getRandomBanner())
     }
     
     private func setLayout(){
@@ -103,6 +100,10 @@ final class FeedHeaderView: UICollectionReusableView {
                 make.width.equalTo(111)
             }
         }
+    }
+    
+    private func getRandomBanner() -> HeaderState {
+        return HeaderState.allCases.randomElement() ?? .banner1
     }
 }
 

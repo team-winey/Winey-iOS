@@ -29,8 +29,6 @@ final class FeedViewController: UIViewController {
     
     private var bag = Set<AnyCancellable>()
     
-    private var currentHeaderState = FeedHeaderView.HeaderState.banner1
-    
     // MARK: - UI Components
     
     private let naviBar = WIMainNavigationBar()
@@ -96,8 +94,8 @@ final class FeedViewController: UIViewController {
             
         let headerRegistration = SupplementaryRegistration<FeedHeaderView>(
                 elementKind: UICollectionView.elementKindSectionHeader
-        ) { view, kind, indexPath in
-            view.setState(self.currentHeaderState)
+        ) { view, _, _ in
+            view.setState()
         }
         
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
@@ -132,10 +130,6 @@ final class FeedViewController: UIViewController {
     }
     
     private func refreshHeaderView() {
-        self.currentHeaderState = FeedHeaderView.HeaderState.allCases.randomElement() ?? .banner1
-        print("~~~~~~~>", currentHeaderState)
-    
-        dataSource.apply(snapshot(), animatingDifferences: true)
         collectionView.reloadData()
     }
     
