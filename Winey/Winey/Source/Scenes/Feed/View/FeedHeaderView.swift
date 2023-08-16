@@ -21,8 +21,8 @@ final class FeedHeaderView: UICollectionReusableView {
         super.init(frame: frame)
         setLayout()
         
-        let randomBannerState = setRandomBanner()
-        setBannerUI(randomBannerState)
+        let firstBanner = HeaderState.banner1
+        setBannerUI(firstBanner)
     }
     
     required init?(coder: NSCoder) {
@@ -103,13 +103,6 @@ final class FeedHeaderView: UICollectionReusableView {
                 make.width.equalTo(111)
             }
         }
-    }
-    
-    func setRandomBanner() -> HeaderState {
-        if let randomHeaderState = HeaderState.allCases.randomElement() {
-            return randomHeaderState
-        }
-        return .banner1
     }
 }
 
