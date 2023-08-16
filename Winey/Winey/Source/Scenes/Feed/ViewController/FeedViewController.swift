@@ -269,7 +269,9 @@ extension FeedViewController {
                         like: feedData.likes,
                         isLiked: feedData.isLiked,
                         writerLevel: feedData.writerLevel,
-                        profileImage: userLevel.profileImage
+                        profileImage: userLevel.profileImage,
+                        comments: feedData.comments,
+                        timeAgo: feedData.timeAgo
                     )
                     
                     self.feedList.append(feed)
