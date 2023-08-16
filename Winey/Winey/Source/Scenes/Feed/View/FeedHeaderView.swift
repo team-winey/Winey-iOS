@@ -38,20 +38,30 @@ final class FeedHeaderView: UICollectionReusableView {
         
         addSubview(containerView)
         containerView.addSubview(imageView)
-        containerView.addSubview(introLabel)
-        containerView.addSubview(subtitleLabel)
+        
+        let labelContainerView = UIView()
+        containerView.addSubview(labelContainerView)
+        labelContainerView.addSubview(introLabel)
+        labelContainerView.addSubview(subtitleLabel)
         
         containerView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(12)
             make.leading.trailing.equalToSuperview().inset(10)
         }
+        
         introLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(24)
-            make.leading.equalToSuperview().inset(16)
+            make.top.leading.equalToSuperview()
         }
+        
         subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(introLabel.snp.bottom).offset(2)
-            make.leading.equalTo(introLabel)
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        
+        labelContainerView.snp.updateConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().inset(16)
         }
     }
     
