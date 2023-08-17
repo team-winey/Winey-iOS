@@ -61,7 +61,8 @@ final class FeedService {
                   _ completionHandler: @escaping ((Bool) -> Void)) {
         
         let url = "\(URLConstant.baseURL)/feed"
-        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "userId": "\(UserSingleton.getId())"]
+        let token = KeychainManager.shared.read("accessToken")!
+        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "accessToken": token]
         
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
@@ -75,26 +76,51 @@ final class FeedService {
         }, to: url, method: .post, headers: header)
         .responseData { response in
             guard let statusCode = response.response?.statusCode else { return }
+            let result = response.result
             
-            switch statusCode {
-            case 200..<300:
-                completionHandler(true)
-            default:
+            switch result {
+            case .success:
+                switch statusCode {
+                case 200..<300:
+                    completionHandler(true)
+                default:
+                    completionHandler(false)
+                }
+            case .failure(let err):
+                print(err)
                 completionHandler(false)
             }
         }
     }
     
     // 4. 마이 피드 삭제하기
-        func deleteMyFeed(_ idx: Int, _ completion: @escaping ((Bool) -> Void)) {
-            feedProvider.request(.deleteMyFeed(idx: idx)) { result in
-                switch result {
-                case .success:
-                    completion(true)
-                case .failure(let err):
-                    print(err.localizedDescription)
-                    completion(false)
+    func deleteMyFeed(_ idx: Int, _ completion: @escaping ((Bool) -> Void)) {
+        feedProvider.request(.deleteMyFeed(idx: idx)) { result in
+            switch result {
+            case .success:
+                completion(true)
+            case .failure(let err):
+                completion(false)
+            }
+        }
+    }
+    
+    typealias FeedDetailRes = BaseResponse<FeedDetailResponse>
+    func fetchDetailFeed(feedId: Int) async throws -> FeedDetailResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            feedProvider.request(.detail(id: feedId)) { result in
+                do {
+                    guard let response = try result.get().map(FeedDetailRes.self).data
+                    else { throw FeedNetworkError.undefined }
+                    continuation.resume(returning: response)
+                } catch {
+                    continuation.resume(throwing: FeedNetworkError.undefined)
                 }
             }
         }
+    }
+    
+    private enum FeedNetworkError: Error {
+        case undefined
+    }
 }

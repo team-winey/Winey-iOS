@@ -26,16 +26,31 @@ final class DetailInfoCell: UITableViewCell {
     private let likeCountLabel = UILabel()
     private let dividerView = UIView()
     
+    private var imageHeightConstraint: Constraint?
+    
+    private let didTapLikeButtonSubject = PassthroughSubject<Bool, Never>()
+    var didTapLikeButtonPublisher: AnyPublisher<Bool, Never> {
+        didTapLikeButtonSubject.eraseToAnyPublisher()
+    }
+    
+    private let didTapMoreButtonSubject = PassthroughSubject<Void, Never>()
+    var didTapMoreButtonPublisher: AnyPublisher<Void, Never> {
+        didTapMoreButtonSubject.eraseToAnyPublisher()
+    }
+    
+    private var bag = Set<AnyCancellable>()
+    
     struct ViewModel: Hashable {
         let userLevel: UserLevel
         let nickname: String
-        var isLike: Bool
+        var isLiked: Bool
         let title: String
-        let likeCount: Int
-        let commentCount: Int
+        var likeCount: Int
+        var commentCount: Int
         let timeAgo: String
         var imageInfo: ImageInfo
         let money: Int
+        let isMine: Bool
         
         struct ImageInfo: Hashable {
             var image: UIImage?
@@ -43,9 +58,6 @@ final class DetailInfoCell: UITableViewCell {
             var height: CGFloat = 300
         }
     }
-    
-    private let didReceiveImageSubject = PassthroughSubject<ViewModel.ImageInfo, Never>()
-    private var bag = Set<AnyCancellable>()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -62,44 +74,40 @@ final class DetailInfoCell: UITableViewCell {
         bag.removeAll()
     }
     
+    @objc private func didTapLikeButton() {
+        let newDirection = likeButton.isSelected == false
+        didTapLikeButtonSubject.send(newDirection)
+    }
+    
+    @objc private func didTapMoreButton() {
+        didTapMoreButtonSubject.send(())
+    }
+    
     func configure(viewModel: ViewModel) {
         titleLabel.setText(viewModel.title, attributes: Const.titleAttributes)
         profileImageView.image = viewModel.userLevel.profileImage
         nicknameLabel.setText(viewModel.nickname, attributes: Const.nicknameAttributes)
-        configureDetailImageView(imageInfo: viewModel.imageInfo)
-        moneyLabel.setText(viewModel.money.addCommaToString(), attributes: Const.moneyAttributes)
-        likeButton.isSelected = viewModel.isLike
+        likeButton.isSelected = viewModel.isLiked
         likeCountLabel.setText("\(viewModel.likeCount)", attributes: Const.likeCountAttributes)
         commentCountLabel.setText("\(viewModel.commentCount)", attributes: Const.metaInfoAttributes)
         timeAgoLabel.setText(viewModel.timeAgo, attributes: Const.metaInfoAttributes)
+        detailImageView.image = viewModel.imageInfo.image
+        imageHeightConstraint?.update(offset: viewModel.imageInfo.height)
+        let money = viewModel.money.addCommaToString() ?? ""
+        moneyLabel.attributedText = NSMutableAttributedString()
+            .appending(string: money, attributes: Const.moneyAttributes)
+            .appending(string: "  절약", attributes: Const.trashAttributes)
     }
     
-    private func configureDetailImageView(imageInfo: ViewModel.ImageInfo) {
-        detailImageView.image = imageInfo.image
-        detailImageView.snp.updateConstraints { make in
-            make.height.equalTo(imageInfo.height)
-        }
-        
-        guard imageInfo.image == nil else { return }
-        
-        let imageUrl = imageInfo.imageUrl
-        KingfisherManager.shared.retrieveImage(with: imageUrl) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(let result):
-                let width = self.frame.width - Const.inset * 2
-                let height = result.image.getHeightOfResizedImageView(avaliableWidth: width)
-                let image = result.image
-                let imageInfo = ViewModel.ImageInfo(image: image, imageUrl: imageUrl, height: height)
-                self.didReceiveImageSubject.send(imageInfo)
-            case .failure: break
-            }
-        }
+    func subscribeTapLikeButton(_ handler: @escaping (Bool) -> Void) {
+        didTapLikeButtonPublisher
+            .sink(receiveValue: handler)
+            .store(in: &bag)
     }
     
-    func subscribeReceiveImageSubject(_ receiveValue: @escaping (ViewModel.ImageInfo) -> Void) {
-        didReceiveImageSubject
-            .sink(receiveValue: receiveValue)
+    func subscribeTapMoreButton(_ handler: @escaping () -> Void) {
+        didTapMoreButtonPublisher
+            .sink(receiveValue: handler)
             .store(in: &bag)
     }
 }
@@ -114,6 +122,7 @@ extension DetailInfoCell {
         likeButton.setBackgroundColor(.winey_purple400, for: .highlighted)
         likeButton.setBackgroundColor(.winey_purple400, for: .selected)
         likeButton.makeCornerRound(radius: Const.buttonCornerRadius)
+        likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         profileImageView.makeBorder(width: 1, color: .winey_gray100)
         profileImageView.makeCornerRound(radius: Const.profileImageCornerRadius)
         detailImageView.makeBorder(width: 1, color: .winey_gray100)
@@ -121,6 +130,7 @@ extension DetailInfoCell {
         detailImageView.contentMode = .scaleAspectFit
         moreButton.setImage(.Btn.more, for: .normal)
         moreButton.tintColor = .winey_gray300
+        moreButton.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
         commentImageView.image = .Icon.comment
         dividerView.backgroundColor = .winey_gray100
     }
@@ -142,11 +152,12 @@ extension DetailInfoCell {
         detailImageView.snp.makeConstraints { make in
             make.top.equalTo(userInfoView.snp.bottom).offset(Const.detailImageViewTopSpacing)
             make.directionalHorizontalEdges.equalToSuperview().inset(16)
-            make.height.equalTo(0)
+            self.imageHeightConstraint = make.height.equalTo(0).constraint
         }
         detailMetaInfoView.snp.makeConstraints { make in
             make.top.equalTo(detailImageView.snp.bottom).offset(16)
             make.directionalHorizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(76)
         }
         dividerView.snp.makeConstraints { make in
             make.top.equalTo(detailMetaInfoView.snp.bottom).offset(18)
@@ -174,27 +185,21 @@ extension DetailInfoCell {
     
     private func setupDetailImageView() -> UIView {
         let containerView = UIView()
-        let trashLabel = UILabel()
-        let stackView = UIStackView()
         containerView.backgroundColor = .winey_yellow
-        trashLabel.setText("절약", attributes: Const.trashAttributes)
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        stackView.alignment = .firstBaseline
-        stackView.distribution = .fill
         
-        containerView.addSubviews(stackView)
-        stackView.addArrangedSubviews(moneyLabel, trashLabel)
         detailImageView.addSubview(containerView)
-       
-        stackView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().inset(1)
-            make.directionalHorizontalEdges.equalToSuperview().inset(14)
-        }
+        containerView.addSubviews(moneyLabel)
+        
         containerView.snp.makeConstraints { make in
             make.leading.bottom.equalToSuperview().inset(12)
+            make.width.equalTo(moneyLabel).offset(28)
             make.height.equalTo(36)
         }
+        moneyLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-2)
+        }
+
         containerView.makeCornerRound(radius: 18)
         return detailImageView
     }
@@ -218,10 +223,8 @@ extension DetailInfoCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().inset(10)
-            make.height.equalTo(46)
         }
         metaContainerView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.directionalHorizontalEdges.equalToSuperview().inset(10)
             make.bottom.equalToSuperview()
         }
@@ -257,14 +260,16 @@ extension DetailInfoCell {
     }
 }
 
-private extension DetailInfoCell {
-    enum Const {
+extension DetailInfoCell {
+    enum PublicConst {
+        static let inset: CGFloat = 16
+    }
+    private enum Const {
         static let profileImageSize: CGSize = .init(width: 36, height: 36)
         static let buttonSize: CGSize = .init(width: 36, height: 36)
         static let detailImageViewTopSpacing: CGFloat = 12
         static let userInfoViewTopSpacing: CGFloat = 12
         static let profileImageCornerRadius: CGFloat = 18
-        static let inset: CGFloat = 16
         static let detailImageViewCornerRadius: CGFloat = 5
         static let buttonCornerRadius: CGFloat = 18
         static let trashAttributes = Typography.Attributes(
@@ -297,15 +302,6 @@ private extension DetailInfoCell {
             weight: .medium,
             textColor: .winey_gray700
         )
-    }
-}
-
-private extension KFCrossPlatformImage {
-    func getHeightOfResizedImageView(avaliableWidth: CGFloat) -> CGFloat {
-        let ratio = avaliableWidth / self.size.width
-        let scaledHeight = self.size.height * ratio
-        
-        return scaledHeight
     }
 }
 

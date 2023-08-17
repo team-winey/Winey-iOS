@@ -150,11 +150,31 @@ final class FeedViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    private func showToast(_ type: WIToastType) {
+        let toast = WIToastBox(toastType: type)
+        
+        view.addSubview(toast)
+        
+        toast.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(23)
+            $0.height.equalTo(48)
+        }
+    }
+    
     private func bind() {
         NotificationCenter.default.publisher(for: .whenUploadFeedCompleted)
-            .sink { [weak self] _ in
+            .map({
+                $0.userInfo?["type"] as! WIToastType
+            })
+            .sink(receiveValue: { [weak self] type in
                 self?.refresh()
-            }
+                self?.showToast(type)
+            })
+            .store(in: &bag)
+        
+        NotificationCenter.default.publisher(for: .whenDeleteFeedCompleted)
+            .sink { [weak self] _ in self?.refresh() }
             .store(in: &bag)
     }
     
@@ -226,7 +246,14 @@ extension FeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension FeedViewController: UICollectionViewDelegate {}
+extension FeedViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let itemModel = dataSource.itemIdentifier(for: indexPath) else { return }
+        let detailViewController = DetailViewController(feedId: itemModel.feedId)
+        detailViewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
 
 // MARK: - ScrollDelegate
 
