@@ -37,7 +37,9 @@ struct UserSingleton {
     private static let userManager = UserManager(key: .user)
     private init() {}
     
+    private static var nickname: String = ""
     private static var hasGoal: Bool = true
+    private static var level: UserLevel = .none
     
     static func getId() -> Int {
         userManager.value ?? -1
@@ -47,7 +49,15 @@ struct UserSingleton {
         userManager.save(id)
     }
     
+    static func getNickname() -> String { return nickname }
+    
+    static func saveNickname(_ nickname: String) { self.nickname = nickname }
+    
     static func getGaol() -> Bool { return hasGoal }
     
     static func saveGoal(_ direction: Bool) { self.hasGoal = direction}
+    
+    static func getLevel() -> UserLevel { return level }
+    
+    static func saveLevel(_ level: UserLevel) { self.level = level }
 }
