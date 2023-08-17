@@ -59,13 +59,14 @@ final class DetailMapper: DetailMappingLogic {
         return .init(
             userLevel: level,
             nickname: feedDto.nickname,
-            isLike: feedDto.isLiked,
+            isLiked: feedDto.isLiked,
             title: feedDto.title,
             likeCount: feedDto.likes,
             commentCount: commentCount,
             timeAgo: timeAgo,
             imageInfo: imageInfo,
-            money: feedDto.money
+            money: feedDto.money,
+            isMine: feedDto.userID == UserSingleton.getId()
         )
     }
     
@@ -99,7 +100,7 @@ final class DetailMapper: DetailMappingLogic {
                     let imageInfo = DetailInfoCell.ViewModel.ImageInfo(
                         image: image,
                         imageUrl: imageUrl,
-                        height: height
+                        height: CGFloat(Int(height))
                     )
                     contiunation.resume(returning: imageInfo)
                 case .failure:

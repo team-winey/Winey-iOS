@@ -72,6 +72,7 @@ final class DetailViewController: UIViewController {
     private let commentService: CommentService = CommentService()
     private let feedService: FeedService = FeedService()
     private let mapper: DetailMapper = DetailMapper()
+    private let feedLikeServie = FeedLikeService()
 }
 
 extension DetailViewController {
@@ -161,6 +162,8 @@ extension DetailViewController {
     }
 }
 
+// MARK: - DataSource
+
 extension DetailViewController {
     private func dataSource(of tableView: UITableView) -> DataSource {
         return DataSource(tableView: tableView) { [weak self] tableView, indexPath, itemIdentifier in
@@ -172,13 +175,10 @@ extension DetailViewController {
                 else { return nil }
                 cell.configure(viewModel: viewModel)
                 cell.subscribeTapMoreButton {
-                    
-                    self.resignFirstResponder()
-                    
                     let commentId = viewModel.id
                     let action = viewModel.isMine
                     ? ActionHandler(title: "삭제하기", handler: { self.deleteComment(commentId: commentId) })
-                    : ActionHandler(title: "신고하기", handler: { self.reportComment(commentId: commentId) })
+                    : ActionHandler(title: "신고하기", handler: { self.report() })
                     self.presentActionSheet(actions: [action])
                 }
                 cell.selectionStyle = .none
@@ -188,6 +188,15 @@ extension DetailViewController {
                 guard let cell = tableView.dequeue(DetailInfoCell.self, for: indexPath)
                 else { return nil }
                 cell.configure(viewModel: viewModel)
+                cell.subscribeTapLikeButton {
+                    self.likeFeed(direction: $0)
+                }
+                cell.subscribeTapMoreButton {
+                    let action = viewModel.isMine
+                    ? ActionHandler(title: "삭제하기", handler: { self.deleteFeed() })
+                    : ActionHandler(title: "신고하기", handler: { self.report() })
+                    self.presentActionSheet(actions: [action])
+                }
                 cell.selectionStyle = .none
                 return cell
                 
@@ -218,20 +227,27 @@ extension DetailViewController {
         
         dataSource.apply(snapshot) { [weak self] in
             guard let self, let indexPath = self.dataSource.indexPath(for: item) else { return }
-            
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     
     private func applyDeleteComment(item: Section.Item) {
-        if let firstIndex = sections[commentIndex].items.firstIndex(of: item) {
-            sections[commentIndex].items.remove(at: firstIndex)
-        }
+        guard let firstIndex = sections[commentIndex].items.firstIndex(of: item) else { return }
+        sections[commentIndex].items.remove(at: firstIndex)
         
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
-        snapshot = addEmptyCommentIfNeeded(snapshot: snapshot)
-        dataSource.apply(snapshot)
+        let (isAdded, newSnapshot) = addEmptyCommentIfNeeded(snapshot: snapshot)
+        
+        if isAdded {
+            dataSource.apply(newSnapshot, animatingDifferences: false) { [weak self] in
+                guard let self else { return }
+                let indexPath = IndexPath(row: 0, section: commentIndex)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        } else {
+            dataSource.apply(newSnapshot)
+        }
     }
     
     private func applyDetailInfoItem(item: Section.Item) {
@@ -245,14 +261,14 @@ extension DetailViewController {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    private func addEmptyCommentIfNeeded(snapshot: Snapshot) -> Snapshot {
+    private func addEmptyCommentIfNeeded(snapshot: Snapshot) -> (Bool, Snapshot) {
         if sections[1].items.isEmpty {
             var snapshot = snapshot
             let section = dataSource.sectionIdentifier(for: commentIndex)
             snapshot.appendItems([.emptyComment], toSection: section)
-            return snapshot
+            return (true, snapshot)
         }
-        return snapshot
+        return (false, snapshot)
     }
     
     private func removeEmptyCommentIfNeeded(snapshot: Snapshot) -> Snapshot {
@@ -265,9 +281,33 @@ extension DetailViewController {
         return snapshot
     }
     
+    private func detailInfoItemUpdatedIfNeeded(
+        isLiked: Bool? = nil,
+        addCommentCount: Int? = nil
+    ) -> Section.Item? {
+        guard let item = dataSource.itemIdentifier(for: .init(item: 0, section: 0)),
+              case let .info(viewModel) = item
+        else { return nil }
+        
+        var newViewModel = viewModel
+        if let isLiked {
+            let addCount = isLiked ? 1 : -1
+            newViewModel.likeCount += addCount
+            newViewModel.isLiked = isLiked
+        }
+        
+        if let addCommentCount {
+            newViewModel.commentCount += addCommentCount
+        }
+        
+        return .info(newViewModel)
+    }
+    
     var detailIndex: Int { 0 }
     var commentIndex: Int { 1 }
 }
+
+// MARK: - Networking
 
 extension DetailViewController {
     private func fetchFeedDetail() {
@@ -294,7 +334,7 @@ extension DetailViewController {
             let commentViewModel = try mapper.convertToCommentViewModel(response)
             let newCommentItem: Section.Item = .comment(commentViewModel)
                 
-            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(count: 1) else { return }
+            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(addCommentCount: 1) else { return }
             
             self.applyDetailInfoItem(item: detailInfoItem)
             self.applyNewComment(item: newCommentItem)
@@ -314,29 +354,39 @@ extension DetailViewController {
             }).first
             else { return }
             
-            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(count: -1) else { return }
+            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(addCommentCount: -1) else { return }
             
             self.applyDetailInfoItem(item: detailInfoItem)
             self.applyDeleteComment(item: itemDeleted)
         }
     }
     
-    private func detailInfoItemUpdatedIfNeeded(count: Int) -> Section.Item? {
-        guard let item = dataSource.itemIdentifier(for: .init(item: 0, section: 0)),
-              case let .info(viewModel) = item
-        else { return nil }
-        
-        var newViewModel = viewModel
-        newViewModel.commentCount += count
-        return .info(newViewModel)
+    private func likeFeed(direction: Bool) {
+        feedLikeServie.postFeedLike(feedId: feedId, feedLike: direction) { [weak self] response in
+            guard let self,
+                  let detailInfoItem = detailInfoItemUpdatedIfNeeded(isLiked: direction)
+            else { return }
+            
+            self.applyDetailInfoItem(item: detailInfoItem)
+        }
     }
     
-    private func reportComment(commentId: Int) {
+    private func deleteFeed() {
+        feedService.deleteMyFeed(feedId) { [weak self] _ in
+            guard let self else { return }
+            NotificationCenter.default.post(name: .whenDeleteFeedCompleted, object: nil)
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    private func report() {
         let popupController = MIPopupViewController(content: .init(title: "신고가 접수되었습니다."))
         popupController.addButton(title: "확인", type: .gray, tapButtonHandler: nil)
         self.present(popupController, animated: true)
     }
 }
+
+// MARK: - Routing
 
 extension DetailViewController {
     struct ActionHandler {
