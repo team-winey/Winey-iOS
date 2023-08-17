@@ -14,6 +14,8 @@ extension Notification.Name {
     static let whenSetGoalCompleted = Notification.Name(rawValue: "whenSetGoalCompleted")
     /// 피드 업로드후 노티
     static let whenUploadFeedCompleted = Notification.Name(rawValue: "whenUploadFeedCompleted")
+    /// 피드 업로드 성공여부 노티
+    static let feedUploadResult = Notification.Name(rawValue: "feedUploadResult")
     /// 피드 삭제후 노티
     static let whenDeleteFeedCompleted = Notification.Name(rawValue: "whenDeleteFeedCompleted")
 }

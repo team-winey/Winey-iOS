@@ -32,6 +32,7 @@ enum Pallete: String {
     case gray500
     case gray600
     case gray700
+    case gray750
     case gray800
     case gray900
 }
