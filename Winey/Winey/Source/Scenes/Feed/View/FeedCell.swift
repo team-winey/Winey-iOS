@@ -76,6 +76,10 @@ final class FeedCell: UICollectionViewCell {
         return button
     }()
     
+    private let commentImageView = UIImageView(image: .Icon.comment)
+    private let commentCountLabel = UILabel()
+    private let timeAgoLabel = UILabel()
+    
     private let underLineView = UIView()
     
     override init(frame: CGRect) {
@@ -94,6 +98,8 @@ final class FeedCell: UICollectionViewCell {
         likeCountLabel.text = "0"
         self.isLiked = false
         self.feedId = 0
+        self.commentCountLabel.text = "0"
+        self.timeAgoLabel.text = "지금 이 순대"
     }
     
     override func layoutSubviews() {
@@ -118,6 +124,8 @@ final class FeedCell: UICollectionViewCell {
         likeCountLabel.setText("\(model.like)", attributes: Const.likeCountAttributes)
         self.isLiked = model.isLiked
         profileImageView.image = model.profileImage
+        commentCountLabel.setText("\(model.comments)", attributes: Const.metaInfoAttributes)
+        timeAgoLabel.setText("\(model.timeAgo)", attributes: Const.metaInfoAttributes)
     }
     
     private func configureFeedMoneyLabel(_ money: Int) {
@@ -152,9 +160,15 @@ extension FeedCell {
         
         backgroundColor = .winey_gray0
         underLineView.backgroundColor = .winey_gray100
+        likeCountLabel.textAlignment = .center
+        
+        let containerView = UIView()
+        let dividerView = UIView()
+        dividerView.backgroundColor = .winey_gray300
         
         addSubviews(profileImageView, nicknameLabel, moreButton, feedImageView, feedTitleLabel)
-        addSubviews(feedMoneyContainerView, likeCountLabel, likeButton, underLineView)
+        addSubviews(feedMoneyContainerView, likeCountLabel, likeButton, underLineView, containerView)
+        containerView.addSubviews(commentImageView, commentCountLabel, dividerView, timeAgoLabel)
         feedMoneyContainerView.addSubview(feedMoneyLabel)
         
         profileImageView.snp.makeConstraints {
@@ -166,6 +180,7 @@ extension FeedCell {
         nicknameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.leading.equalTo(profileImageView.snp.trailing).offset(6)
+            $0.trailing.equalTo(moreButton.snp.leading).offset(-10)
         }
         
         moreButton.snp.makeConstraints {
@@ -177,34 +192,57 @@ extension FeedCell {
         feedImageView.snp.makeConstraints {
             $0.top.equalTo(moreButton.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(182)
+            $0.height.equalTo(268)
         }
         
         feedMoneyContainerView.snp.updateConstraints {
-            $0.top.equalTo(feedImageView.snp.bottom).offset(12)
-            $0.leading.equalTo(feedImageView)
+            $0.leading.equalTo(feedImageView).offset(12)
+            $0.bottom.equalTo(feedImageView.snp.bottom).inset(12)
             $0.height.equalTo(34)
             $0.width.equalTo(feedMoneyLabel.snp.width).offset(28)
         }
         
         feedTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(feedMoneyContainerView.snp.bottom).offset(9)
+            $0.top.equalTo(feedImageView.snp.bottom).offset(16)
             $0.leading.equalToSuperview().inset(26)
-            $0.trailing.equalTo(likeButton.snp.leading).offset(-13)
+            $0.trailing.equalTo(likeButton.snp.leading).offset(-4)
         }
         
         feedMoneyLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
         
+        containerView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(feedTitleLabel)
+            $0.bottom.equalToSuperview().inset(18)
+        }
+        
+        commentImageView.snp.makeConstraints { make in
+            make.top.leading.bottom.equalToSuperview()
+        }
+        commentCountLabel.snp.makeConstraints { make in
+            make.leading.equalTo(commentImageView.snp.trailing).offset(4)
+            make.centerY.equalTo(commentImageView).offset(-2)
+        }
+        dividerView.snp.makeConstraints { make in
+            make.leading.equalTo(commentCountLabel.snp.trailing).offset(8)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(1)
+            make.height.equalTo(13)
+        }
+        timeAgoLabel.snp.makeConstraints { make in
+            make.leading.equalTo(dividerView.snp.trailing).offset(8)
+            make.centerY.equalTo(commentImageView).offset(-2)
+        }
+        
         likeButton.snp.makeConstraints {
-            $0.top.equalTo(feedImageView.snp.bottom).offset(11)
-            $0.trailing.equalTo(feedImageView)
+            $0.top.equalTo(feedTitleLabel)
+            $0.trailing.equalToSuperview().inset(26)
             $0.size.equalTo(36)
         }
         
         likeCountLabel.snp.makeConstraints {
-            $0.top.equalTo(likeButton.snp.bottom).offset(2)
+            $0.top.equalTo(likeButton.snp.bottom).offset(4)
             $0.centerX.equalTo(likeButton)
         }
         
@@ -232,7 +270,7 @@ private extension FeedCell {
         static let nicknameAttributes = Typography.Attributes(
             style: .body3,
             weight: .medium,
-            textColor: .winey_gray900
+            textColor: .winey_gray700
         )
         static let feedMoneyAttributes = Typography.Attributes(
             style: .detail,
@@ -253,6 +291,11 @@ private extension FeedCell {
             style: .detail,
             weight: .medium,
             textColor: .winey_gray700
+        )
+        static let metaInfoAttributes = Typography.Attributes(
+            style: .body3,
+            weight: .medium,
+            textColor: .winey_gray500
         )
     }
 }

@@ -27,6 +27,8 @@ struct FeedResponse: Codable {
     let isLiked: Bool
     let likes: Int
     let createdAt: String
+    let comments: Int
+    let timeAgo: String
 
     enum CodingKeys: String, CodingKey {
         case feedID = "feedId"
@@ -35,7 +37,7 @@ struct FeedResponse: Codable {
         case title = "feedTitle"
         case image = "feedImage"
         case money = "feedMoney"
-        case writerLevel, isLiked, likes, createdAt
+        case writerLevel, isLiked, likes, createdAt, comments, timeAgo
     }
 }
 
