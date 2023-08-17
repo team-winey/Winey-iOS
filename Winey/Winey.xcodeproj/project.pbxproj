@@ -24,6 +24,7 @@
 		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
 		0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */; };
 		0D5FE5EB2A829BCC00434E1C /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5FE5EA2A829BCC00434E1C /* UITableView+.swift */; };
+		0D6037472A89443600AC2FB4 /* EmptyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6037462A89443600AC2FB4 /* EmptyCommentCell.swift */; };
 		0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519662A61905300643F46 /* TestTypoViewController.swift */; };
 		0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519682A6191F700643F46 /* TestPopupViewController.swift */; };
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
@@ -144,6 +145,7 @@
 		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		0D5FE5EA2A829BCC00434E1C /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
+		0D6037462A89443600AC2FB4 /* EmptyCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCommentCell.swift; sourceTree = "<group>"; };
 		0D6519662A61905300643F46 /* TestTypoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypoViewController.swift; sourceTree = "<group>"; };
 		0D6519682A6191F700643F46 /* TestPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPopupViewController.swift; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				0DB4A2C92A82896900C40CCC /* CommentCell.swift */,
 				0D13578E2A838108009ADFF8 /* KeyboardFrameView.swift */,
 				0DB4A2CC2A828BD500C40CCC /* DetailInfoCell.swift */,
+				0D6037462A89443600AC2FB4 /* EmptyCommentCell.swift */,
 				0D13578A2A835AC4009ADFF8 /* FloatingCommentView.swift */,
 				0D13578C2A837406009ADFF8 /* FloatingCommentTextView.swift */,
 			);
@@ -1080,6 +1083,7 @@
 				0DB4A2CD2A828BD500C40CCC /* DetailInfoCell.swift in Sources */,
 				1D8F027C2A83B60900658B41 /* Menu.swift in Sources */,
 				14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */,
+				0D6037472A89443600AC2FB4 /* EmptyCommentCell.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				0D444E752A861722007DB2F6 /* CreateCommentRequest.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
@@ -1146,7 +1150,6 @@
 				F4867A652A6061940016389C /* PriceUploadView.swift in Sources */,
 				F4A6D5432A7C4568006905AE /* KeychainManager.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
-				1D8F02792A827A5300658B41 /* AlertModel.swift in Sources */,
 				F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */,
 				147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */,
 				14F670072A550C45009703AD /* UIStackView+.swift in Sources */,
