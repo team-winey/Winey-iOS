@@ -32,6 +32,8 @@ public extension UIImage {
         public static let success           = UIImage(name: "ic_success")
         public static let fail              = UIImage(name: "ic_fail")
         public static let empty_comment     = UIImage(name: "ic_empty_comment")
+        public static let alarm_default     = UIImage(name: "ic_alarm_default")
+        public static let alarm_variant     = UIImage(name: "ic_alarm_variant")
     }
 
     enum Mypage {
@@ -78,6 +80,9 @@ public extension UIImage {
         public static let img_onboarding1 = UIImage(name: "img_onboarding1")
         public static let img_onboarding2 = UIImage(name: "img_onboarding2")
         public static let img_onboarding3 = UIImage(name: "img_onboarding3")
+        public static let banner2 = UIImage(name: "img_banner2")
+        public static let banner3 = UIImage(name: "img_banner3")
+        public static let banner4 = UIImage(name: "img_banner4")
         public static let img_background = UIImage(name: "img_background")
     }
     
