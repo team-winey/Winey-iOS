@@ -10,6 +10,20 @@ import UIKit
 import DesignSystem
 import SnapKit
 
+enum BannerState: CaseIterable {
+    case initial
+    case refreshed
+    
+    public var banner: FeedHeaderView.HeaderState {
+        switch self {
+        case .initial:
+            return .banner1
+        case .refreshed:
+            return .allCases.randomElement() ?? .banner1
+        }
+    }
+}
+
 final class FeedHeaderView: UICollectionReusableView {
     
     private let containerView = UIView()
@@ -26,8 +40,8 @@ final class FeedHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setState(_ state: HeaderState? = nil) {
-        setBannerUI(state ?? getRandomBanner())
+    func setState(_ state: BannerState) {
+        setBannerUI(state.banner)
     }
     
     private func setLayout(){
@@ -65,7 +79,7 @@ final class FeedHeaderView: UICollectionReusableView {
         }
     }
     
-    private func setBannerUI(_ state: HeaderState) {
+    func setBannerUI(_ state: HeaderState) {
         switch state {
         case .banner1:
             imageView.image = state.image
@@ -162,6 +176,10 @@ extension FeedHeaderView {
             case .banner4:
                 return .Img.banner4
             }
+        }
+        
+        public func getRandom() -> HeaderState {
+            return HeaderState.allCases.randomElement() ?? .banner1
         }
     }
 }
