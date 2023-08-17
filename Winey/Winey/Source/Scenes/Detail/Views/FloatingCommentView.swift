@@ -27,6 +27,13 @@ final class FloatingCommentView: UIView {
         commentSubject.eraseToAnyPublisher()
     }
     
+    private let didTapSendButtonSubject = PassthroughSubject<String, Never>()
+    var didTapSendButtonPublisher: AnyPublisher<String, Never> {
+        didTapSendButtonSubject.eraseToAnyPublisher()
+    }
+    
+    private var comment: String?
+    
     private var bag = Set<AnyCancellable>()
     
     override init(frame: CGRect) {
@@ -51,6 +58,12 @@ final class FloatingCommentView: UIView {
             self.superview?.layoutIfNeeded()
         }
     }
+    
+    @objc private func didTapSendButton() {
+        guard let comment else { return }
+        didTapSendButtonSubject.send(comment)
+        textView.handleAfterSendComment()
+    }
 }
 
 extension FloatingCommentView {
@@ -60,6 +73,7 @@ extension FloatingCommentView {
         textViewContainerView.makeCornerRound(radius: 10)
         sendButton.setTitle("등록", for: .normal)
         sendButton.setTitleColor(.winey_purple400, for: .normal)
+        sendButton.addTarget(self, action: #selector(didTapSendButton), for: .touchUpInside)
         limitLabel.textColor = .red
         textView.placeholderText = "댓글을 입력하세요"
     }
@@ -96,6 +110,7 @@ extension FloatingCommentView {
         textView.commentPublisher
             .sink { [weak self] comment in
                 guard let self else { return }
+                self.comment = comment
                 self.commentSubject.send(comment)
                 let maximumLimitCount = FloatingCommentTextView.Const.maximumLimitCount
                 let limit = "\(comment.count)/\(maximumLimitCount)"

@@ -91,6 +91,8 @@ extension TabBarController {
             let hasGoal = data.userResponseGoalDto != nil
             UserSingleton.saveGoal(hasGoal)
             UserSingleton.saveNickname(data.userResponseUserDto.nickname)
+            guard let level = UserLevel(rawValue: data.userResponseUserDto.userLevel) else { return }
+            UserSingleton.saveLevel(level)
         }
     }
 }

@@ -8,11 +8,8 @@
 import Foundation
 
 struct CreateCommentResponse: Decodable {
-    let commentId: Int
-    let commentCounter: Int
-    let author: User?
-    
-    struct User: Decodable {
-        let userId: Int
-    }
+    let commentId: Int?
+    let commentCounter: Int?
+    let author: String?
+    let content: String?
 }
