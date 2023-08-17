@@ -14,7 +14,7 @@ enum BannerState: CaseIterable {
     case initial
     case refreshed
     
-    public var banner: FeedHeaderView.HeaderState {
+    public var banner: FeedHeaderView.BannerType {
         switch self {
         case .initial:
             return .banner1
@@ -79,7 +79,7 @@ final class FeedHeaderView: UICollectionReusableView {
         }
     }
     
-    func setBannerUI(_ state: HeaderState) {
+    func setBannerUI(_ state: BannerType) {
         switch state {
         case .banner1:
             imageView.image = state.image
@@ -94,7 +94,7 @@ final class FeedHeaderView: UICollectionReusableView {
         }
     }
     
-    private func setBannerLayout(_ state: HeaderState) {
+    private func setBannerLayout(_ state: BannerType) {
         switch state {
         case .banner1:
             imageView.snp.updateConstraints { make in
@@ -125,15 +125,11 @@ final class FeedHeaderView: UICollectionReusableView {
             }
         }
     }
-    
-    private func getRandomBanner() -> HeaderState {
-        return HeaderState.allCases.randomElement() ?? .banner1
-    }
 }
 
 extension FeedHeaderView {
     
-    public enum HeaderState: CaseIterable {
+    public enum BannerType: CaseIterable {
         case banner1
         case banner2
         case banner3
@@ -176,10 +172,6 @@ extension FeedHeaderView {
             case .banner4:
                 return .Img.banner4
             }
-        }
-        
-        public func getRandom() -> HeaderState {
-            return HeaderState.allCases.randomElement() ?? .banner1
         }
     }
 }
