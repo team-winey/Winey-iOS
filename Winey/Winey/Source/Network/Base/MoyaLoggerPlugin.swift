@@ -41,7 +41,7 @@ final class MoyaLoggerPlugin: PluginType {
         case let .failure(error):
             onFail(error)
         }
-    }
+    }    // MARK: - Function
 
     func onSucceed(_ response: Response) {
         let request = response.request
