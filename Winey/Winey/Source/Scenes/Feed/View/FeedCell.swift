@@ -89,8 +89,6 @@ final class FeedCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        profileImageView.image = nil
-        feedImageView.image = nil
         nicknameLabel.text = "초기 닉네임"
         feedTitleLabel.text = "초기 titleLabel"
         likeCountLabel.text = "0"
@@ -115,7 +113,7 @@ final class FeedCell: UICollectionViewCell {
         let url = URL(string: model.image)
         feedImageView.kf.setImage(
             with: url,
-            options: [.transition(.fade(0.8)), .fromMemoryCacheOrRefresh]
+            options: [.transition(.fade(0.1)), .fromMemoryCacheOrRefresh]
         )
         likeCountLabel.setText("\(model.like)", attributes: Const.likeCountAttributes)
         self.isLiked = model.isLiked

@@ -7,11 +7,16 @@
 
 import Foundation
 
-enum DetailSection: Hashable {
-    typealias Item = DetailSectionItem
-    
+enum DetailType: Hashable {
     case info
     case comments
+}
+
+struct DetailSection: Hashable {
+    typealias Item = DetailSectionItem
+    
+    var type: DetailType
+    var items: [Item]
 }
 
 enum DetailSectionItem: Hashable {
