@@ -94,15 +94,33 @@ final class FeedService {
     }
     
     // 4. 마이 피드 삭제하기
-        func deleteMyFeed(_ idx: Int, _ completion: @escaping ((Bool) -> Void)) {
-            feedProvider.request(.deleteMyFeed(idx: idx)) { result in
-                switch result {
-                case .success:
-                    completion(true)
-                case .failure(let err):
-                    print(err.localizedDescription)
-                    completion(false)
+    func deleteMyFeed(_ idx: Int, _ completion: @escaping ((Bool) -> Void)) {
+        feedProvider.request(.deleteMyFeed(idx: idx)) { result in
+            switch result {
+            case .success:
+                completion(true)
+            case .failure(let err):
+                completion(false)
+            }
+        }
+    }
+    
+    typealias FeedDetailRes = BaseResponse<FeedDetailResponse>
+    func fetchDetailFeed(feedId: Int) async throws -> FeedDetailResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            feedProvider.request(.detail(id: feedId)) { result in
+                do {
+                    guard let response = try result.get().map(FeedDetailRes.self).data
+                    else { throw FeedNetworkError.undefined }
+                    continuation.resume(returning: response)
+                } catch {
+                    continuation.resume(throwing: FeedNetworkError.undefined)
                 }
             }
         }
+    }
+    
+    private enum FeedNetworkError: Error {
+        case undefined
+    }
 }

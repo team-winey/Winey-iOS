@@ -29,4 +29,6 @@ struct BaseResponse<T: Decodable>: Decodable {
     }
 }
 
-struct EmptyResponse: Decodable {}
+struct EmptyResponseData: Decodable {}
+
+typealias EmptyResponse = BaseResponse<EmptyResponseData>

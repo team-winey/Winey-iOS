@@ -9,6 +9,7 @@ import Combine
 import UIKit
 
 import DesignSystem
+import Kingfisher
 import SnapKit
 
 final class DetailViewController: UIViewController {
@@ -21,9 +22,19 @@ final class DetailViewController: UIViewController {
     private let floatingCommentView = FloatingCommentView()
     private let keyboardFrameView = KeyboardFrameView()
     private var commentViewBottomConstraint: Constraint?
-    private lazy var dataSource = dataSource(of: tableView)
+    
+    private var feedId: Int
     
     private var bag = Set<AnyCancellable>()
+    
+    init(feedId: Int) {
+        self.feedId = feedId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +46,7 @@ final class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        testApplySection()
+        fetchFeedDetail()
     }
     
     override func viewDidLayoutSubviews() {
@@ -48,22 +59,20 @@ final class DetailViewController: UIViewController {
         var bottom = floatingCommentView.frame.height
         if keyboardFrameView.frame.height > 0 {
             bottom += keyboardFrameView.frame.height
-            - DeviceInfo.safeAreaBottomHeight
         }
         tableView.contentInset.bottom = bottom
     }
     
-    private func testApplySection() {
-        var snapshot = Snapshot()
-        let commentItems: [Section.Item] = Self.dummyCommentsViewModel.map { .comment($0) }
-        snapshot.appendSections([.info])
-        snapshot.appendItems([Section.Item.info(Self.dummyInfoViewModel)], toSection: Section.info)
-        dataSource.apply(snapshot)
-        
-        snapshot.appendSections([.comments])
-        snapshot.appendItems(commentItems, toSection: .comments)
-        dataSource.apply(snapshot)
+    @objc private func didTapNaviBarLeftButton() {
+        self.navigationController?.popViewController(animated: true)
     }
+    
+    private var sections: [Section] = []
+    private lazy var dataSource = dataSource(of: tableView)
+    private let commentService: CommentService = CommentService()
+    private let feedService: FeedService = FeedService()
+    private let mapper: DetailMapper = DetailMapper()
+    private let feedLikeServie = FeedLikeService()
 }
 
 extension DetailViewController {
@@ -74,14 +83,16 @@ extension DetailViewController {
         tableView.dataSource = dataSource
         tableView.registerCell(CommentCell.self)
         tableView.registerCell(DetailInfoCell.self)
+        tableView.registerCell(EmptyCommentCell.self)
         tableView.contentInsetAdjustmentBehavior = .never
         // TODO: 키보드 내리는 동작 UX 개선
-        tableView.keyboardDismissMode = .onDrag
+        tableView.keyboardDismissMode = .interactive
+        naviBar.leftButton.addTarget(self, action: #selector(didTapNaviBarLeftButton), for: .touchUpInside)
     }
     
     private func setupLayout() {
         setupKeyboardFrameView()
-            
+        
         view.addSubview(naviBar)
         view.addSubview(tableView)
         view.addSubview(floatingCommentView)
@@ -127,9 +138,9 @@ extension DetailViewController {
     }
     
     private func bindCommentView() {
-        floatingCommentView.commentPublisher
+        floatingCommentView.didTapSendButtonPublisher
             .sink { [weak self] comment in
-                
+                self?.sendComment(comment)
             }
             .store(in: &bag)
     }
@@ -151,6 +162,8 @@ extension DetailViewController {
     }
 }
 
+// MARK: - DataSource
+
 extension DetailViewController {
     private func dataSource(of tableView: UITableView) -> DataSource {
         return DataSource(tableView: tableView) { [weak self] tableView, indexPath, itemIdentifier in
@@ -161,6 +174,13 @@ extension DetailViewController {
                 guard let cell = tableView.dequeue(CommentCell.self, for: indexPath)
                 else { return nil }
                 cell.configure(viewModel: viewModel)
+                cell.subscribeTapMoreButton {
+                    let commentId = viewModel.id
+                    let action = viewModel.isMine
+                    ? ActionHandler(title: "삭제하기", handler: { self.deleteComment(commentId: commentId) })
+                    : ActionHandler(title: "신고하기", handler: { self.report() })
+                    self.presentActionSheet(actions: [action])
+                }
                 cell.selectionStyle = .none
                 return cell
                 
@@ -168,61 +188,223 @@ extension DetailViewController {
                 guard let cell = tableView.dequeue(DetailInfoCell.self, for: indexPath)
                 else { return nil }
                 cell.configure(viewModel: viewModel)
-                cell.subscribeReceiveImageSubject { imageInfo in
-                    self.updateSnapshot(imageInfo: imageInfo)
+                cell.subscribeTapLikeButton {
+                    self.likeFeed(direction: $0)
+                }
+                cell.subscribeTapMoreButton {
+                    let action = viewModel.isMine
+                    ? ActionHandler(title: "삭제하기", handler: { self.deleteFeed() })
+                    : ActionHandler(title: "신고하기", handler: { self.report() })
+                    self.presentActionSheet(actions: [action])
                 }
                 cell.selectionStyle = .none
                 return cell
-
+                
             case .emptyComment:
-                return nil
+                guard let cell = tableView.dequeue(EmptyCommentCell.self, for: indexPath)
+                else { return nil }
+                cell.selectionStyle = .none
+                return cell
             }
         }
     }
     
-    private func updateSnapshot(imageInfo: DetailInfoCell.ViewModel.ImageInfo) {
-        var snapshot = dataSource.snapshot()
-        guard snapshot.numberOfItems > 1,
-              snapshot.numberOfSections > 1,
-              case let .info(viewModel) = snapshot.itemIdentifiers[0]
-        else { return }
-        let beforeItem = snapshot.itemIdentifiers[0]
-        let infoSection = snapshot.sectionIdentifiers[0]
-        var newViewModel = viewModel
-        newViewModel.imageInfo = imageInfo
+    private func apply(sections: [Section]) {
+        self.sections = sections
+        var snapshot = Snapshot()
+        snapshot.appendSections(sections)
+        sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    private func applyNewComment(item: Section.Item) {
+        sections[commentIndex].items.append(item)
         
-        let newItem = Section.Item.info(newViewModel)
-        snapshot.appendItems([newItem], toSection: infoSection)
+        var snapshot = dataSource.snapshot()
+        let section = dataSource.sectionIdentifier(for: commentIndex)
+        snapshot.appendItems([item], toSection: section)
+        snapshot = removeEmptyCommentIfNeeded(snapshot: snapshot)
+        
+        dataSource.apply(snapshot) { [weak self] in
+            guard let self, let indexPath = self.dataSource.indexPath(for: item) else { return }
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    private func applyDeleteComment(item: Section.Item) {
+        guard let firstIndex = sections[commentIndex].items.firstIndex(of: item) else { return }
+        sections[commentIndex].items.remove(at: firstIndex)
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems([item])
+        let (isAdded, newSnapshot) = addEmptyCommentIfNeeded(snapshot: snapshot)
+        
+        if isAdded {
+            dataSource.apply(newSnapshot, animatingDifferences: false) { [weak self] in
+                guard let self else { return }
+                let indexPath = IndexPath(row: 0, section: commentIndex)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        } else {
+            dataSource.apply(newSnapshot)
+        }
+    }
+    
+    private func applyDetailInfoItem(item: Section.Item) {
+        let indexPath = IndexPath(row: 0, section: detailIndex)
+        guard let beforeItem = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        var snapshot = dataSource.snapshot()
+        let section = dataSource.sectionIdentifier(for: detailIndex)
+        snapshot.appendItems([item], toSection: section)
         snapshot.deleteItems([beforeItem])
         dataSource.apply(snapshot, animatingDifferences: false)
     }
+    
+    private func addEmptyCommentIfNeeded(snapshot: Snapshot) -> (Bool, Snapshot) {
+        if sections[1].items.isEmpty {
+            var snapshot = snapshot
+            let section = dataSource.sectionIdentifier(for: commentIndex)
+            snapshot.appendItems([.emptyComment], toSection: section)
+            return (true, snapshot)
+        }
+        return (false, snapshot)
+    }
+    
+    private func removeEmptyCommentIfNeeded(snapshot: Snapshot) -> Snapshot {
+        if snapshot.itemIdentifiers.contains(where: { $0 == .emptyComment }) {
+            var snapshot = snapshot
+            sections[commentIndex].items.remove(at: 0)
+            snapshot.deleteItems([.emptyComment])
+            return snapshot
+        }
+        return snapshot
+    }
+    
+    private func detailInfoItemUpdatedIfNeeded(
+        isLiked: Bool? = nil,
+        addCommentCount: Int? = nil
+    ) -> Section.Item? {
+        guard let item = dataSource.itemIdentifier(for: .init(item: 0, section: 0)),
+              case let .info(viewModel) = item
+        else { return nil }
+        
+        var newViewModel = viewModel
+        if let isLiked {
+            let addCount = isLiked ? 1 : -1
+            newViewModel.likeCount += addCount
+            newViewModel.isLiked = isLiked
+        }
+        
+        if let addCommentCount {
+            newViewModel.commentCount += addCommentCount
+        }
+        
+        return .info(newViewModel)
+    }
+    
+    var detailIndex: Int { 0 }
+    var commentIndex: Int { 1 }
 }
 
-private extension DetailViewController {
-    static var dummyInfoViewModel: DetailInfoCell.ViewModel {
-        .init(
-            userLevel: .one,
-            nickname: "카페인 중독자",
-            isLike: false,
-            title: "어디까지길어질까?어디까지길어질까?어디 ㅁㄴㅇㄹㅁㄴ?ghjkQP 🙏🏻 🤔",
-            likeCount: 4,
-            commentCount: 1,
-            timeAgo: "몇 분전",
-            imageInfo: .init(
-                imageUrl: URL(string: "https://github.com/team-winey/Winey-iOS/assets/56102421/b31edbc5-4c42-4c83-9a2d-936ec1c4fc0a")!,
-                height: 100
-            ),
-            money: 4500
-        )
-    }
+// MARK: - Networking
 
-    static var dummyCommentsViewModel: [CommentCell.ViewModel] {
-        [
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "굿... 기왕, 캐시워크까지 해서 꽁돈 버시는 건 어떨는지?.\n휘바고 ~ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false)
-        ]
+extension DetailViewController {
+    private func fetchFeedDetail() {
+        Task(priority: .background) {
+            let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
+            var commentItems: [Section.Item] = response.getCommentResponseList
+                .compactMap { try? mapper.convertToCommentViewModel($0) }
+                .map { .comment($0) }
+            if commentItems.isEmpty {
+                commentItems.append(.emptyComment)
+            }
+            let commentSection: Section = .init(type: .comments, items: commentItems)
+            let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
+            let detailInfoItem: Section.Item = .info(detailInfoViewModel)
+            let detailSection: Section = .init(type: .info, items: [detailInfoItem])
+            
+            self.apply(sections: [detailSection, commentSection])
+        }
+    }
+    
+    private func sendComment(_ comment: String) {
+        Task(priority: .background) {
+            let response = try await commentService.createComment(feedId: feedId, comment: comment)
+            let commentViewModel = try mapper.convertToCommentViewModel(response)
+            let newCommentItem: Section.Item = .comment(commentViewModel)
+                
+            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(addCommentCount: 1) else { return }
+            
+            self.applyDetailInfoItem(item: detailInfoItem)
+            self.applyNewComment(item: newCommentItem)
+        }
+    }
+    
+    private func deleteComment(commentId: Int) {
+        Task(priority: .background) { [weak self] in
+            guard let self else { return }
+            
+            try await commentService.deleteComment(commentId: commentId)
+            
+            // TODO: 서버 response로 변경 필요
+            guard let itemDeleted = dataSource.snapshot().itemIdentifiers.filter({
+                guard case let .comment(viewModel) = $0 else { return false }
+                return viewModel.id == commentId
+            }).first
+            else { return }
+            
+            guard let detailInfoItem = detailInfoItemUpdatedIfNeeded(addCommentCount: -1) else { return }
+            
+            self.applyDetailInfoItem(item: detailInfoItem)
+            self.applyDeleteComment(item: itemDeleted)
+        }
+    }
+    
+    private func likeFeed(direction: Bool) {
+        feedLikeServie.postFeedLike(feedId: feedId, feedLike: direction) { [weak self] response in
+            guard let self,
+                  let detailInfoItem = detailInfoItemUpdatedIfNeeded(isLiked: direction)
+            else { return }
+            
+            self.applyDetailInfoItem(item: detailInfoItem)
+        }
+    }
+    
+    private func deleteFeed() {
+        feedService.deleteMyFeed(feedId) { [weak self] _ in
+            guard let self else { return }
+            NotificationCenter.default.post(name: .whenDeleteFeedCompleted, object: nil)
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    private func report() {
+        let popupController = MIPopupViewController(content: .init(title: "신고가 접수되었습니다."))
+        popupController.addButton(title: "확인", type: .gray, tapButtonHandler: nil)
+        self.present(popupController, animated: true)
+    }
+}
+
+// MARK: - Routing
+
+extension DetailViewController {
+    struct ActionHandler {
+        let title: String
+        let handler: () -> Void
+    }
+    
+    func presentActionSheet(actions: [ActionHandler]) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        actions.forEach { action in
+            let action = UIAlertAction(title: action.title, style: .destructive) { _ in
+                action.handler()
+            }
+            alertController.addAction(action)
+        }
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true)
     }
 }
 
@@ -230,5 +412,8 @@ enum DeviceInfo {
     static var safeAreaBottomHeight: CGFloat {
         guard let window = UIWindow.current else { return .zero }
         return window.safeAreaInsets.bottom
+    }
+    static var width: CGFloat {
+        UIScreen.main.bounds.width
     }
 }
