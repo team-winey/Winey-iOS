@@ -27,6 +27,7 @@ public extension UIImage {
         public static let pen               = UIImage(name: "ic_pen")
         public static let like              = UIImage(name: "ic_like")
         public static let comment           = UIImage(name: "ic_comment")
+        public static let commentAlram      = UIImage(name: "ic_commentAlram")
         public static let winey             = UIImage(name: "ic_winey")
         public static let success           = UIImage(name: "ic_success")
         public static let fail              = UIImage(name: "ic_fail")
@@ -77,6 +78,7 @@ public extension UIImage {
         public static let img_onboarding1 = UIImage(name: "img_onboarding1")
         public static let img_onboarding2 = UIImage(name: "img_onboarding2")
         public static let img_onboarding3 = UIImage(name: "img_onboarding3")
+        public static let img_background = UIImage(name: "img_background")
     }
     
     enum Btn {
