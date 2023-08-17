@@ -17,7 +17,7 @@ final class SessionInterceptor: RequestInterceptor {
     static let shared = SessionInterceptor()
     
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        guard urlRequest.url?.absoluteString.hasPrefix(URLConstant.baseURL) == true,
+        guard urlRequest.url?.absoluteString.hasPrefix(URLConstant.baseURL) == true, 
               let accessToken = KeychainManager.shared.read("accessToken"),
               let refreshToken = KeychainManager.shared.read("refreshToken")
         else {
