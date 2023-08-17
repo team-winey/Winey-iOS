@@ -226,7 +226,14 @@ extension FeedViewController {
 
 // MARK: - CollectionViewDelegate
 
-extension FeedViewController: UICollectionViewDelegate {}
+extension FeedViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let itemModel = dataSource.itemIdentifier(for: indexPath) else { return }
+        let detailViewController = DetailViewController(feedId: itemModel.feedId)
+        detailViewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
 
 // MARK: - ScrollDelegate
 

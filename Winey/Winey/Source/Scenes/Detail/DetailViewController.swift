@@ -9,6 +9,7 @@ import Combine
 import UIKit
 
 import DesignSystem
+import Kingfisher
 import SnapKit
 
 final class DetailViewController: UIViewController {
@@ -23,7 +24,21 @@ final class DetailViewController: UIViewController {
     private var commentViewBottomConstraint: Constraint?
     private lazy var dataSource = dataSource(of: tableView)
     
+    private let feedService: FeedService = FeedService()
+    private let mapper: DetailMapper = DetailMapper()
+    
+    private var feedId: Int
+    
     private var bag = Set<AnyCancellable>()
+    
+    init(feedId: Int) {
+        self.feedId = feedId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +50,7 @@ final class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        testApplySection()
+        fetchFeedDetail()
     }
     
     override func viewDidLayoutSubviews() {
@@ -53,16 +68,8 @@ final class DetailViewController: UIViewController {
         tableView.contentInset.bottom = bottom
     }
     
-    private func testApplySection() {
-        var snapshot = Snapshot()
-        let commentItems: [Section.Item] = Self.dummyCommentsViewModel.map { .comment($0) }
-        snapshot.appendSections([.info])
-        snapshot.appendItems([Section.Item.info(Self.dummyInfoViewModel)], toSection: Section.info)
-        dataSource.apply(snapshot)
-        
-        snapshot.appendSections([.comments])
-        snapshot.appendItems(commentItems, toSection: .comments)
-        dataSource.apply(snapshot)
+    @objc private func didTapNaviBarLeftButton() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -77,6 +84,7 @@ extension DetailViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         // TODO: 키보드 내리는 동작 UX 개선
         tableView.keyboardDismissMode = .onDrag
+        naviBar.leftButton.addTarget(self, action: #selector(didTapNaviBarLeftButton), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -168,9 +176,6 @@ extension DetailViewController {
                 guard let cell = tableView.dequeue(DetailInfoCell.self, for: indexPath)
                 else { return nil }
                 cell.configure(viewModel: viewModel)
-                cell.subscribeReceiveImageSubject { imageInfo in
-                    self.updateSnapshot(imageInfo: imageInfo)
-                }
                 cell.selectionStyle = .none
                 return cell
 
@@ -180,49 +185,28 @@ extension DetailViewController {
         }
     }
     
-    private func updateSnapshot(imageInfo: DetailInfoCell.ViewModel.ImageInfo) {
-        var snapshot = dataSource.snapshot()
-        guard snapshot.numberOfItems > 1,
-              snapshot.numberOfSections > 1,
-              case let .info(viewModel) = snapshot.itemIdentifiers[0]
-        else { return }
-        let beforeItem = snapshot.itemIdentifiers[0]
-        let infoSection = snapshot.sectionIdentifiers[0]
-        var newViewModel = viewModel
-        newViewModel.imageInfo = imageInfo
-        
-        let newItem = Section.Item.info(newViewModel)
-        snapshot.appendItems([newItem], toSection: infoSection)
-        snapshot.deleteItems([beforeItem])
+    private func apply(sections: [Section]) {
+        var snapshot = Snapshot()
+        snapshot.appendSections(sections)
+        sections.forEach { snapshot.appendItems($0.items, toSection: $0) }
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
-private extension DetailViewController {
-    static var dummyInfoViewModel: DetailInfoCell.ViewModel {
-        .init(
-            userLevel: .one,
-            nickname: "카페인 중독자",
-            isLike: false,
-            title: "어디까지길어질까?어디까지길어질까?어디 ㅁㄴㅇㄹㅁㄴ?ghjkQP 🙏🏻 🤔",
-            likeCount: 4,
-            commentCount: 1,
-            timeAgo: "몇 분전",
-            imageInfo: .init(
-                imageUrl: URL(string: "https://github.com/team-winey/Winey-iOS/assets/56102421/b31edbc5-4c42-4c83-9a2d-936ec1c4fc0a")!,
-                height: 100
-            ),
-            money: 4500
-        )
-    }
-
-    static var dummyCommentsViewModel: [CommentCell.ViewModel] {
-        [
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "굿... 기왕, 캐시워크까지 해서 꽁돈 버시는 건 어떨는지?.\n휘바고 ~ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false),
-            .init(level: "황제", nickname: "김응관", comment: "잘하셧 어요... 훌 ~ 륭합니다 . ^^ ", isMine: false)
-        ]
+extension DetailViewController {
+    private func fetchFeedDetail() {
+        Task(priority: .background) {
+            let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
+            let commentItems: [Section.Item] = response.getCommentResponseList
+                .compactMap { try? mapper.convertToCommentViewModel($0) }
+                .map { .comment($0) }
+            let commentSection: Section = .init(type: .comments, items: commentItems)
+            let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
+            let detailInfoItem: Section.Item = .info(detailInfoViewModel)
+            let detailSection: Section = .init(type: .info, items: [detailInfoItem])
+            
+            self.apply(sections: [detailSection, commentSection])
+        }
     }
 }
 
@@ -230,5 +214,8 @@ enum DeviceInfo {
     static var safeAreaBottomHeight: CGFloat {
         guard let window = UIWindow.current else { return .zero }
         return window.safeAreaInsets.bottom
+    }
+    static var width: CGFloat {
+        UIScreen.main.bounds.width
     }
 }

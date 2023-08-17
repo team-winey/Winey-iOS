@@ -5,7 +5,6 @@
 //  Created by Woody Lee on 2023/08/08.
 //
 
-import Combine
 import UIKit
 
 import DesignSystem
@@ -26,6 +25,8 @@ final class DetailInfoCell: UITableViewCell {
     private let likeCountLabel = UILabel()
     private let dividerView = UIView()
     
+    private var imageHeightConstraint: Constraint?
+    
     struct ViewModel: Hashable {
         let userLevel: UserLevel
         let nickname: String
@@ -44,9 +45,6 @@ final class DetailInfoCell: UITableViewCell {
         }
     }
     
-    private let didReceiveImageSubject = PassthroughSubject<ViewModel.ImageInfo, Never>()
-    private var bag = Set<AnyCancellable>()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupAttribute()
@@ -57,50 +55,17 @@ final class DetailInfoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        bag.removeAll()
-    }
-    
     func configure(viewModel: ViewModel) {
         titleLabel.setText(viewModel.title, attributes: Const.titleAttributes)
         profileImageView.image = viewModel.userLevel.profileImage
         nicknameLabel.setText(viewModel.nickname, attributes: Const.nicknameAttributes)
-        configureDetailImageView(imageInfo: viewModel.imageInfo)
         moneyLabel.setText(viewModel.money.addCommaToString(), attributes: Const.moneyAttributes)
         likeButton.isSelected = viewModel.isLike
         likeCountLabel.setText("\(viewModel.likeCount)", attributes: Const.likeCountAttributes)
         commentCountLabel.setText("\(viewModel.commentCount)", attributes: Const.metaInfoAttributes)
         timeAgoLabel.setText(viewModel.timeAgo, attributes: Const.metaInfoAttributes)
-    }
-    
-    private func configureDetailImageView(imageInfo: ViewModel.ImageInfo) {
-        detailImageView.image = imageInfo.image
-        detailImageView.snp.updateConstraints { make in
-            make.height.equalTo(imageInfo.height)
-        }
-        
-        guard imageInfo.image == nil else { return }
-        
-        let imageUrl = imageInfo.imageUrl
-        KingfisherManager.shared.retrieveImage(with: imageUrl) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(let result):
-                let width = self.frame.width - Const.inset * 2
-                let height = result.image.getHeightOfResizedImageView(avaliableWidth: width)
-                let image = result.image
-                let imageInfo = ViewModel.ImageInfo(image: image, imageUrl: imageUrl, height: height)
-                self.didReceiveImageSubject.send(imageInfo)
-            case .failure: break
-            }
-        }
-    }
-    
-    func subscribeReceiveImageSubject(_ receiveValue: @escaping (ViewModel.ImageInfo) -> Void) {
-        didReceiveImageSubject
-            .sink(receiveValue: receiveValue)
-            .store(in: &bag)
+        detailImageView.image = viewModel.imageInfo.image
+        imageHeightConstraint?.update(offset: viewModel.imageInfo.height)
     }
 }
 
@@ -142,7 +107,7 @@ extension DetailInfoCell {
         detailImageView.snp.makeConstraints { make in
             make.top.equalTo(userInfoView.snp.bottom).offset(Const.detailImageViewTopSpacing)
             make.directionalHorizontalEdges.equalToSuperview().inset(16)
-            make.height.equalTo(0)
+            self.imageHeightConstraint = make.height.equalTo(0).constraint
         }
         detailMetaInfoView.snp.makeConstraints { make in
             make.top.equalTo(detailImageView.snp.bottom).offset(16)
@@ -257,14 +222,16 @@ extension DetailInfoCell {
     }
 }
 
-private extension DetailInfoCell {
-    enum Const {
+extension DetailInfoCell {
+    enum PublicConst {
+        static let inset: CGFloat = 16
+    }
+    private enum Const {
         static let profileImageSize: CGSize = .init(width: 36, height: 36)
         static let buttonSize: CGSize = .init(width: 36, height: 36)
         static let detailImageViewTopSpacing: CGFloat = 12
         static let userInfoViewTopSpacing: CGFloat = 12
         static let profileImageCornerRadius: CGFloat = 18
-        static let inset: CGFloat = 16
         static let detailImageViewCornerRadius: CGFloat = 5
         static let buttonCornerRadius: CGFloat = 18
         static let trashAttributes = Typography.Attributes(
@@ -297,15 +264,6 @@ private extension DetailInfoCell {
             weight: .medium,
             textColor: .winey_gray700
         )
-    }
-}
-
-private extension KFCrossPlatformImage {
-    func getHeightOfResizedImageView(avaliableWidth: CGFloat) -> CGFloat {
-        let ratio = avaliableWidth / self.size.width
-        let scaledHeight = self.size.height * ratio
-        
-        return scaledHeight
     }
 }
 
