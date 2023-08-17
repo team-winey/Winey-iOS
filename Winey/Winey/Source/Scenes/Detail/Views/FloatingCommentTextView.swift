@@ -39,6 +39,11 @@ final class FloatingCommentTextView: UITextView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func handleAfterSendComment() {
+        self.text.removeAll()
+        textViewDidChange(self)
+    }
+    
     private func updateText(_ text: String?) {
         defer { updatePlaceholder() }
         
