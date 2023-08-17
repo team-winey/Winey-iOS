@@ -9,7 +9,7 @@ import Foundation
 
 struct GetFeedResponse: Codable {
     let pageResponse: PageResponse
-    let getFeedResponseList: [GetFeedResponseList]
+    let getFeedResponseList: [FeedResponse]
     
     enum CodingKeys: String, CodingKey {
         case pageResponse = "pageResponseDto"
@@ -17,7 +17,7 @@ struct GetFeedResponse: Codable {
     }
 }
 
-struct GetFeedResponseList: Codable {
+struct FeedResponse: Codable {
     let feedID, userID: Int
     let nickname: String
     let writerLevel: Int
