@@ -99,17 +99,14 @@ public final class MIPopupViewController: UIViewController {
             make.center.equalToSuperview()
             make.width.equalTo(280)
         }
-        iconImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(24)
-            make.centerX.equalToSuperview()
-        }
+
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(iconImageView.snp.bottom).offset(17)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalToSuperview().offset(24)
+            make.horizontalEdges.equalToSuperview().inset(14)
         }
         buttonContainerStackView.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).offset(21)
-            make.horizontalEdges.equalToSuperview().inset(13)
+            make.top.equalTo(stackView.snp.bottom).offset(18)
+            make.horizontalEdges.equalToSuperview().inset(14)
             make.bottom.equalToSuperview().inset(16)
             make.height.equalTo(52)
         }

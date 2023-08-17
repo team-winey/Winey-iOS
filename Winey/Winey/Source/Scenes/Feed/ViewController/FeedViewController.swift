@@ -150,11 +150,27 @@ final class FeedViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    private func showToast(_ type: WIToastType) {
+        let toast = WIToastBox(toastType: type)
+        
+        view.addSubview(toast)
+        
+        toast.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(23)
+            $0.height.equalTo(48)
+        }
+    }
+    
     private func bind() {
         NotificationCenter.default.publisher(for: .whenUploadFeedCompleted)
-            .sink { [weak self] _ in
+            .map({
+                $0.userInfo?["type"] as! WIToastType
+            })
+            .sink(receiveValue: { [weak self] type in
                 self?.refresh()
-            }
+                self?.showToast(type)
+            })
             .store(in: &bag)
         
         NotificationCenter.default.publisher(for: .whenDeleteFeedCompleted)
