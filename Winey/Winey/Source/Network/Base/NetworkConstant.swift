@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkConstant {
     static let defaultHeader = ["Content-Type": "application/json",
-                                "accessToken": KeychainManager.shared.read("accessToken")!]
-    static let postfeedHeader = ["Content-Type": "multipart/form-data",
-                                 "accessToken": KeychainManager.shared.read("accessToken")!]
+                                    "accessToken": KeychainManager.shared.read("accessToken")!]
+        static let postfeedHeader = ["Content-Type": "multipart/form-data",
+                                     "accessToken": KeychainManager.shared.read("accessToken")!]
 }
