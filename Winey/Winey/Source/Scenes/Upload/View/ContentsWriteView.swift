@@ -28,7 +28,6 @@ class ContentsWriteView: UIView {
         textView.tintColor = .winey_purple400
         textView.textContainerInset = UIEdgeInsets(top: 14, left: 17, bottom: 54, right: 17)
         textView.makeCornerRound(radius: 5)
-        textView.makeBorder(width: 1, color: .winey_gray200)
         textView.backgroundColor = .winey_gray0
         return textView
     }()
@@ -36,6 +35,15 @@ class ContentsWriteView: UIView {
     private let textNum: UILabel = {
         let label = UILabel()
         label.setText("(0/36)", attributes: Const.textViewPlaceholderAttributes)
+        return label
+    }()
+    
+    private let warningText: UILabel = {
+        let label = UILabel()
+        label.setText("5자 이상 작성해 주세요",
+                      attributes: .init(style: .body3, weight: .medium, textColor: .winey_red500)
+        )
+        label.isHidden = true
         return label
     }()
     
@@ -63,7 +71,7 @@ class ContentsWriteView: UIView {
     }
     
     private func setLayout() {
-        addSubviews(textView, textNum)
+        addSubviews(textView, textNum, warningText)
         
         textView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
@@ -75,6 +83,10 @@ class ContentsWriteView: UIView {
             $0.trailing.equalTo(textView.snp.trailing).inset(14)
             $0.bottom.equalTo(textView.snp.bottom).offset(-14)
         }
+        
+        warningText.snp.makeConstraints {
+            $0.top.equalTo(textView.snp.bottom).offset(4)
+        }
     }
 }
 
@@ -82,13 +94,14 @@ extension ContentsWriteView: UITextViewDelegate {
     
     /// textViewDidBeginEditing: 텍스트 뷰의 편집이 시작되었을때의 동작을 정의한 함수
     func textViewDidBeginEditing(_ textView: UITextView) {
-        
+
         textView.makeBorder(width: 1, color: .winey_purple400)
         
         if textView.text == placeholder {
             textView.textColor = .winey_gray900
             textView.text = nil
         }
+        setColor(textView.text.count)
     }
     
     /// textViewDidEndEditing: 텍스트 뷰의 편집이 종료되었을때의 동작을 정의한 함수
@@ -98,6 +111,7 @@ extension ContentsWriteView: UITextViewDelegate {
             textView.textColor = .winey_gray400
         } else {
             textView.textColor = .winey_gray900
+            setColor(textView.text.count)
         }
         textView.makeBorder(width: 1, color: .winey_gray200)
     }
@@ -105,6 +119,10 @@ extension ContentsWriteView: UITextViewDelegate {
     /// textViewDidChange: 텍스트 뷰가 편집되었을때의 동작을 정의한 함수
     func textViewDidChange(_ textView: UITextView) {
         textSendClousre?(textView.text ?? "")
+    }
+    
+    func resetContents() {
+        textView.text = nil
     }
     
     /// textView: 텍스트뷰에 새로운 글자가 입력되었을때 문자열을 변경해주는 함수
@@ -121,8 +139,25 @@ extension ContentsWriteView: UITextViewDelegate {
             return false
         } else {
             let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+            setColor(changedText.count)
             textNum.text = "(\(changedText.count)/36)"
             return changedText.count <= 35
+        }
+    }
+    
+    func setColor(_ count: Int) {
+        if textView.isFirstResponder {
+            switch count {
+            case 1..<5:
+                textView.makeBorder(width: 1, color: .winey_red500)
+                warningText.isHidden = false
+            default:
+                textView.makeBorder(width: 1, color: .winey_purple400)
+                warningText.isHidden = true
+            }
+        } else {
+            textView.makeBorder(width: 1, color: .winey_gray200)
+            warningText.isHidden = true
         }
     }
 }
