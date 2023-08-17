@@ -30,6 +30,7 @@ public extension UIImage {
         public static let winey             = UIImage(name: "ic_winey")
         public static let success           = UIImage(name: "ic_success")
         public static let fail              = UIImage(name: "ic_fail")
+        public static let empty_comment     = UIImage(name: "ic_empty_comment")
     }
 
     enum Mypage {
