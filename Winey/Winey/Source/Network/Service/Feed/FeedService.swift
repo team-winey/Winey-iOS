@@ -61,8 +61,7 @@ final class FeedService {
                   _ completionHandler: @escaping ((Bool) -> Void)) {
         
         let url = "\(URLConstant.baseURL)/feed"
-        let token = KeychainManager.shared.read("accessToken")!
-        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "accessToken": token]
+        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "userId": "\(UserSingleton.getId())"]
         
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
@@ -76,18 +75,11 @@ final class FeedService {
         }, to: url, method: .post, headers: header)
         .responseData { response in
             guard let statusCode = response.response?.statusCode else { return }
-            let result = response.result
             
-            switch result {
-            case .success:
-                switch statusCode {
-                case 200..<300:
-                    completionHandler(true)
-                default:
-                    completionHandler(false)
-                }
-            case .failure(let err):
-                print(err)
+            switch statusCode {
+            case 200..<300:
+                completionHandler(true)
+            default:
                 completionHandler(false)
             }
         }

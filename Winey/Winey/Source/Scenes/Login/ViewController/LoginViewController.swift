@@ -195,8 +195,8 @@ extension LoginViewController {
                 KeychainManager.shared.delete("accessToken")
 
                 print(response.message)
-                print("access \(response.data.accessToken)")
-                print("refresh \(response.data.refreshToken)")
+                print("access \(response.data.refreshToken)")
+                print("refresh \(response.data.accessToken)")
                 
                 KeychainManager.shared.create(response.data.refreshToken, "refreshToken")
                 KeychainManager.shared.create(response.data.accessToken, "accessToken")
