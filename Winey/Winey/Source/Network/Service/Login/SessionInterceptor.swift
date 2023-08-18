@@ -49,7 +49,7 @@ final class SessionInterceptor: RequestInterceptor {
         // 엑세스 만료 -> 400오류가 돌아오니까 -> 토큰 업데이트 후 -> retry
         // 앱 사용하던 중 accessToken이 만료되었다면? -> 통신오류 -> 토큰 재발급을 통해 accessToken 갱신해줘야함
         // 해당 retry 메서드의 사용빈도 최소화를 위해 splashView가 끝난 시점에서 항상 토큰 갱신을 진행한다!
-         let refreshToken = KeychainManager.shared.read("refreshToken")!
+         guard let refreshToken = KeychainManager.shared.read("refreshToken") else { return }
          print(refreshToken)
 
              print("리프레쉬 토큰을 통한 액세스 토큰 재발급")
