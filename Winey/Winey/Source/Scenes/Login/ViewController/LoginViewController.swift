@@ -6,6 +6,7 @@
 //
 
 import AuthenticationServices
+import Combine
 import UIKit
 
 import DesignSystem
@@ -22,6 +23,9 @@ class LoginViewController: UIViewController {
     private var isRegistered: Bool = false
     
     private lazy var safeArea = self.view.safeAreaLayoutGuide
+    
+    private lazy var registerPublisher = PassthroughSubject<Bool, Never>()
+    private lazy var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
     
@@ -53,6 +57,7 @@ class LoginViewController: UIViewController {
         setUI()
         setLayout()
         setAddTarget()
+        bind()
     }
     
     private func setUI() {
@@ -83,6 +88,20 @@ class LoginViewController: UIViewController {
     
     private func setAddTarget() {
         appleButton.addTarget(self, action: #selector(appleLogin), for: .touchUpInside)
+    }
+    
+    private func bind() {
+        registerPublisher
+            .sink { [weak self] flag in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    if UserDefaults.standard.bool(forKey: "Signed") {
+                        var vc = flag == true ? TabBarController() : NicknameViewController()
+                        
+                        self?.switchRootViewController(rootViewController: vc, animated: true)
+                    }
+                }
+            }
+            .store(in: &bag)
     }
 }
 
@@ -143,18 +162,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                                             token: identifyTokenString)
                     }
                 }
-                
-                // 4. 로그인 함수가 성공적으로 동작했다면 RootVC를 교체해준다 (1.5초의 시간 텀 후에)
-                // flag값 -> UserDefaults에 저장된 signed 키의 Value 값
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    if UserDefaults.standard.bool(forKey: "Signed") {
-                        print("login Succeed")
-                        // let vc = LoginTestViewController()
-                        let vc = TabBarController()
-                        self.switchRootViewController(rootViewController: vc, animated: true)
-                    }
-                }
             }
             
         case let passwordCredential as ASPasswordCredential:
@@ -191,10 +198,12 @@ extension LoginViewController {
                 print(response.message)
                 print("access \(response.data.accessToken)")
                 print("refresh \(response.data.refreshToken)")
+                print("isRegistered \(response.data.isRegistered)")
                 
                 KeychainManager.shared.create(response.data.refreshToken, "refreshToken")
                 KeychainManager.shared.create(response.data.accessToken, "accessToken")
                 
+                self.registerPublisher.send(response.data.isRegistered)
             default:
                 print(500)
             }
