@@ -73,7 +73,7 @@ public final class WITextFieldView: UIView {
     }
     
     private func setLabel(_ count: Int) {
-        if type.type == "String" {
+        if type.keyboardType == .default {
             label.setText("(\(count)/\(type.textLength))", attributes: type.labelStyle)
         } else {
             label.setText(type.label, attributes: type.labelStyle)
@@ -108,6 +108,23 @@ public final class WITextFieldView: UIView {
             $0.trailing.equalToSuperview().inset(type.labelRightPadding)
             $0.width.equalTo(type.labelWidth)
         }
+    }
+    
+    private func nameValidation(text: String) -> Bool {
+        let arr = Array(text)
+        let pattern = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]$"
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+            var index = 0
+            while index < arr.count { // string 내 각 문자 하나하나 마다 정규식 체크 후 충족하지 못한것은 제거.
+                let results = regex.matches(in: String(arr[index]), options: [], range: NSRange(location: 0, length: 1))
+                if results.count == 0 {
+                    return false
+                } else {
+                    index += 1
+                }
+            }
+        }
+        return true
     }
     
     private func makeComma() {
@@ -165,7 +182,7 @@ extension WITextFieldView: UITextFieldDelegate {
         textField.textColor = type.activeTextColor
         textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.activeColor.color)
         
-        if type.type == "Int" {
+        if type.keyboardType == .numberPad {
             pricePublisher.send(price)
             
             if let pure = textField.text {
@@ -174,12 +191,7 @@ extension WITextFieldView: UITextFieldDelegate {
             }
         } else {
             stringPublisher.send(name)
-            
-            if let pure = textField.text {
-                textField.text = pure
-            } else {
-                textField.text = ""
-            }
+            if textField.text == nil || textField.text == "" { textField.placeholder = "" }
         }
     }
     
@@ -187,19 +199,18 @@ extension WITextFieldView: UITextFieldDelegate {
     @objc
     private func textfieldDidChange(_ sender: UITextField) {
         
-        if type.type == "Int" {
+        if type.keyboardType == .numberPad {
             makeComma()
-        }
-        
-        guard let text = textField.text else { return }
-        if text == type.placeholder {
-            textField.text = ""
-        } else {
-            textField.text = text
-        }
-        
-        if type.type == "String" {
-            countPublisher.send(text.count)
+            
+            guard let text = textField.text else { return }
+            if text == type.placeholder {
+                textField.text = ""
+            } else {
+                textField.text = text
+            }
+        } else if type.keyboardType == .default {
+            countPublisher.send(textField.text?.count ?? 0)
+            if textField.text == "" { textField.placeholder = "" }
         }
     }
     
@@ -215,13 +226,19 @@ extension WITextFieldView: UITextFieldDelegate {
     /// textField: 텍스트필드에 새로운 문자가 추가되었을때 text를 바꿔주는 함수
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                           replacementString string: String) -> Bool {
+        
         var price: Int = 0
+        var isCorrect: Bool = true
         
         if let pureText = textField.text {
             price = pureText.count + string.count - range.length
+            
+            if type.keyboardType == .default {
+                isCorrect = nameValidation(text: pureText+string)
+            }
         }
         
-        return !(price > type.textLength)
+        return !(price > type.textLength) && isCorrect
     }
 }
 
