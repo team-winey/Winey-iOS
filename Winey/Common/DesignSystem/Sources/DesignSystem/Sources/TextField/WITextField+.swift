@@ -314,7 +314,7 @@ extension WITextFieldView {
             case .errorBorderColor:
                 return .winey_red500
             case .inactiveText:
-                return .winey_gray400
+                return .winey_gray500
             }
         }
     }
