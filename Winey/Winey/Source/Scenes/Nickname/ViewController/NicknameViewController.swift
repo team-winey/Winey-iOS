@@ -16,6 +16,8 @@ class NicknameViewController: UIViewController {
     private let nickNameTextField = WITextFieldView(type: .nickName)
     private let navigationBar = WINavigationBar(leftBarItem: .close)
     
+    private let viewType: NicknameType
+    
     // MARK: - UI Components
     
     private let titleLabel: UILabel = {
@@ -38,6 +40,19 @@ class NicknameViewController: UIViewController {
         btn.setTitle("확인", for: .normal)
         return btn
     }()
+    
+    // MARK: - Init func
+    
+    public init(viewType: NicknameType) {
+        self.viewType = viewType
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,17 +63,24 @@ class NicknameViewController: UIViewController {
         setAddTarget()
     }
     
+    // MARK: - methods
+    
     private func setUI() {
         view.backgroundColor = .winey_gray0
     }
     
     private func setLayout() {
-        view.addSubviews(navigationBar, titleLabel, subTitle, duplicateCheckBtn, nickNameTextField, nextButton)
         
-        navigationBar.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.horizontalEdges.equalToSuperview()
+        if viewType.naviExist {
+            view.addSubview(navigationBar)
+            
+            navigationBar.snp.makeConstraints {
+                $0.top.equalTo(view.safeAreaLayoutGuide)
+                $0.horizontalEdges.equalToSuperview()
+            }
         }
+        
+        view.addSubviews(titleLabel, subTitle, duplicateCheckBtn, nickNameTextField, nextButton)
         
         titleLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(24)
@@ -92,7 +114,7 @@ class NicknameViewController: UIViewController {
     }
     
     private func setGuideText() {
-        titleLabel.setText("위니제국에 들어온 당신,\n어떤 닉네임으로 불리고 싶나요?", attributes: Const.titleAttributes)
+        titleLabel.setText(viewType.titleLabel, attributes: Const.titleAttributes)
         subTitle.setText("공백 또는 특수문자는 사용할 수 없습니다",
                          attributes: Const.subTitleAttributes)
     }
@@ -116,7 +138,9 @@ class NicknameViewController: UIViewController {
     }
     
     private func setAddTarget() {
-        navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        if viewType.naviExist {
+            navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
+        }
     }
     
     @objc
@@ -165,9 +189,5 @@ private extension NicknameViewController {
             weight: .medium,
             textColor: .winey_gray400
         )
-    }
-    
-    enum NicknameType {
-        
     }
 }
