@@ -8,7 +8,6 @@
 import UIKit
 
 public struct WITextFieldType {
-    public let type: String
     public let textLeftPadding: CGFloat
     public let textRightPadding: CGFloat
     public let labelLeftPadding: CGFloat
@@ -25,7 +24,6 @@ public struct WITextFieldType {
     public let activeTextColor: UIColor
     
     public init(
-        type: String,
         textLeftPadding: CGFloat,
         textRightPadding: CGFloat,
         labelLeftPadding: CGFloat,
@@ -41,7 +39,6 @@ public struct WITextFieldType {
         labelColor: UIColor,
         activeTextColor: UIColor
     ) {
-        self.type = type
         self.textLeftPadding = textLeftPadding
         self.textRightPadding = textRightPadding
         self.labelLeftPadding = labelLeftPadding
@@ -61,7 +58,6 @@ public struct WITextFieldType {
 
 public extension WITextFieldType {
     static let upload_price: WITextFieldType = WITextFieldType(
-        type: TextField.price.rawValue,
         textLeftPadding: TextField.price.textLeftPadding,
         textRightPadding: TextField.price.textRightPadding,
         labelLeftPadding: TextField.price.labelLeftPadding,
@@ -80,7 +76,6 @@ public extension WITextFieldType {
     )
     
     static let day: WITextFieldType = WITextFieldType(
-        type: TextField.day.rawValue,
         textLeftPadding: TextField.day.textLeftPadding,
         textRightPadding: TextField.day.textRightPadding,
         labelLeftPadding: TextField.day.labelLeftPadding,
@@ -99,7 +94,6 @@ public extension WITextFieldType {
     )
     
     static let nickName: WITextFieldType = WITextFieldType(
-        type: TextField.nickName.rawValue,
         textLeftPadding: TextField.nickName.textLeftPadding,
         textRightPadding: TextField.nickName.textRightPadding,
         labelLeftPadding: TextField.nickName.labelLeftPadding,
@@ -119,9 +113,10 @@ public extension WITextFieldType {
 }
 
 extension WITextFieldType {
-    enum TextField: String {
-        case price, day = "Int"
-        case nickName = "String"
+    enum TextField {
+        case price
+        case day
+        case nickName
         
         var keyboardType: UIKeyboardType {
             switch self {
