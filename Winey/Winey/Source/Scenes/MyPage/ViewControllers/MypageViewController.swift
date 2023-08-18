@@ -198,8 +198,10 @@ extension MypageViewController: UICollectionViewDataSource {
                 menuCell.configureCell(.myfeed)
             case 1:
                 menuCell.configureCell(.inquiry)
+                menuCell.titleLabel.setText("1:1문의", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
             case 2:
                 menuCell.configureCell(.serviceRule)
+                menuCell.titleLabel.setText("이용약관", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
             case 3:
                 menuCell.configureCell(.logout)
             default:
