@@ -96,13 +96,11 @@ class NicknameViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(24)
             $0.leading.equalTo(nickNameTextField.snp.trailing).offset(8)
             $0.top.equalTo(subTitle.snp.bottom).offset(42)
-            $0.height.equalTo(56)
         }
         
         nickNameTextField.snp.makeConstraints {
             $0.top.equalTo(subTitle.snp.bottom).offset(42)
             $0.leading.equalToSuperview().inset(24)
-            $0.height.equalTo(56)
             $0.trailing.equalToSuperview().inset(112)
         }
         
