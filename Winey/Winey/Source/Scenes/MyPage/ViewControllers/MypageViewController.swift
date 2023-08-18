@@ -114,7 +114,9 @@ extension MypageViewController: UICollectionViewDelegate {
             let safariViewController = SFSafariViewController(url: url)
             self.present(safariViewController, animated: true)
         } else if indexPath.section == 2 && indexPath.item == 2 {
-            
+            let url = URL(string: "https://empty-weaver-a9f.notion.site/62b37962c661488ba5f60958c24753e1?pvs=4")!
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true)
         } else if indexPath.section == 2 && indexPath.item == 3 {
             let alert = makeLogoutAlert()
             self.present(alert, animated: true)
