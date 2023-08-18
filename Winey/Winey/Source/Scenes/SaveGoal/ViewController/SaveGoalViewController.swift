@@ -272,12 +272,14 @@ extension SaveGoalViewController {
         moneyTextField.textFieldDidEndEditingPublisher
             .sink { [weak self] in
                 self?.moneyTextField.makeInactiveView()
+                self?.moneyDetailLabel.textColor = .winey_gray400
             }
             .store(in: &bag)
         
         periodTextField.textFieldDidEndEditingPublisher
             .sink { [weak self] in
                 self?.periodTextField.makeInactiveView()
+                self?.periodDetailLabel.textColor = .winey_gray400
             }
             .store(in: &bag)
     }
