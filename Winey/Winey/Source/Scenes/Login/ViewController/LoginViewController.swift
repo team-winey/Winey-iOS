@@ -95,8 +95,7 @@ class LoginViewController: UIViewController {
             .sink { [weak self] flag in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     if UserDefaults.standard.bool(forKey: "Signed") {
-                        var vc = flag == true ? TabBarController() : NicknameViewController()
-                        
+                        var vc = flag == true ? TabBarController() : NicknameViewController(viewType: .onboarding)
                         self?.switchRootViewController(rootViewController: vc, animated: true)
                     }
                 }
@@ -198,7 +197,6 @@ extension LoginViewController {
                 print(response.message)
                 print("access \(response.data.accessToken)")
                 print("refresh \(response.data.refreshToken)")
-                print("isRegistered \(response.data.isRegistered)")
                 
                 KeychainManager.shared.create(response.data.refreshToken, "refreshToken")
                 KeychainManager.shared.create(response.data.accessToken, "accessToken")
