@@ -27,9 +27,7 @@ public final class WITextFieldView: UIView {
     
     public lazy var bag = Set<AnyCancellable>()
     
-    private lazy var name: String = "" {
-        didSet { stringPublisher.send(name) }
-    }
+    private lazy var name: String = ""
     
     private lazy var price: Int = 0 {
         didSet { pricePublisher.send(price) }
@@ -194,7 +192,6 @@ extension WITextFieldView: UITextFieldDelegate {
                 else { textField.text = pure }
             }
         } else {
-            stringPublisher.send(name)
             if textField.text == nil || textField.text == "" { textField.placeholder = "" }
         }
     }

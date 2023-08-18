@@ -95,7 +95,7 @@ class LoginViewController: UIViewController {
             .sink { [weak self] flag in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     if UserDefaults.standard.bool(forKey: "Signed") {
-                        var vc = flag == true ? TabBarController() : NicknameViewController(viewType: .onboarding)
+                        let vc = flag == true ? TabBarController() : NicknameViewController(viewType: .onboarding)
                         self?.switchRootViewController(rootViewController: vc, animated: true)
                     }
                 }
