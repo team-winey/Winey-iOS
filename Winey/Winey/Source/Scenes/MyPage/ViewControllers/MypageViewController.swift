@@ -60,16 +60,17 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         collectionView.backgroundColor = bottomBackgroundColor
         collectionView.register(
             MypageProfileCell.self,
-            forCellWithReuseIdentifier: MypageProfileCell.identifier
+            forCellWithReuseIdentifier: MypageProfileCell.className
         )
         collectionView.register(
             MypageGoalInfoCell.self,
-            forCellWithReuseIdentifier: MypageGoalInfoCell.identifier
+            forCellWithReuseIdentifier: MypageGoalInfoCell.className
         )
         collectionView.register(
             MenuCell.self,
-            forCellWithReuseIdentifier: MenuCell.identifier
+            forCellWithReuseIdentifier: MenuCell.className
         )
+        collectionView.register(MypageCollectionViewFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: MypageCollectionViewFooter.className)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -113,8 +114,7 @@ extension MypageViewController: UICollectionViewDelegate {
             let safariViewController = SFSafariViewController(url: url)
             self.present(safariViewController, animated: true)
         } else if indexPath.section == 2 && indexPath.item == 2 {
-            let alert = makeWithdrawAlert()
-            self.present(alert, animated: true)
+            
         } else if indexPath.section == 2 && indexPath.item == 3 {
             let alert = makeLogoutAlert()
             self.present(alert, animated: true)
@@ -145,7 +145,7 @@ extension MypageViewController: UICollectionViewDataSource {
         switch indexPath.section {
         case 0 :
             guard let mypageProfileCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: MypageProfileCell.identifier,
+                withReuseIdentifier: MypageProfileCell.className,
                 for: indexPath
             )  as? MypageProfileCell
             else { return UICollectionViewCell()}
@@ -161,7 +161,7 @@ extension MypageViewController: UICollectionViewDataSource {
             
         case 1 :
             guard let mypageGoalInfoCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: MypageGoalInfoCell.identifier,
+                withReuseIdentifier: MypageGoalInfoCell.className,
                 for: indexPath
             ) as? MypageGoalInfoCell
             else { return UICollectionViewCell()}
@@ -187,7 +187,7 @@ extension MypageViewController: UICollectionViewDataSource {
             
         case 2 :
             guard let menuCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: MenuCell.identifier,
+                withReuseIdentifier: MenuCell.className,
                 for: indexPath
             ) as? MenuCell
             else { return UICollectionViewCell()}
@@ -197,7 +197,7 @@ extension MypageViewController: UICollectionViewDataSource {
             case 1:
                 menuCell.configureCell(.inquiry)
             case 2:
-                menuCell.configureCell(.delectingAccount)
+                menuCell.configureCell(.serviceRule)
             case 3:
                 menuCell.configureCell(.logout)
             default:
@@ -209,6 +209,17 @@ extension MypageViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                            viewForSupplementaryElementOfKind kind: String,
+                            at indexPath: IndexPath) -> UICollectionReusableView {
+            guard let mypageCollectionViewFooter = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionFooter,
+                withReuseIdentifier: MypageCollectionViewFooter.className,
+                for: indexPath) as? MypageCollectionViewFooter else {return UICollectionReusableView()}
+            mypageCollectionViewFooter.delegate = self
+            return mypageCollectionViewFooter
+        }
 }
 
 extension MypageViewController: UICollectionViewDelegateFlowLayout {
@@ -226,12 +237,22 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int)
+        -> CGSize {
+            switch section {
+            case 0: return .zero
+            case 1: return .zero
+            case 2: return CGSize(width: (UIScreen.main.bounds.width), height: 113)
+            default : return .zero
+            }
+        }
+    
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return 2
+        return 4
     }
     
     func collectionView(
@@ -364,5 +385,12 @@ extension MypageViewController {
                 print("로그아웃 실패")
             }
         }
+    }
+}
+
+extension MypageViewController: withDrawAccountDelegate {
+    func withDrawButtonTapped() {
+        let alert = makeWithdrawAlert()
+        self.present(alert, animated: true)
     }
 }
