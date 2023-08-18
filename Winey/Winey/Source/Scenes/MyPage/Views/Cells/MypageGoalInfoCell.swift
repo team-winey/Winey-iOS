@@ -29,7 +29,6 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     // MARK: - Properties
 
     var saveGoalButtonTappedClosure : (() -> Void)?
-    static let identifier = MypageGoalInfoCell.className
     
     // MARK: - UIComponents
     
