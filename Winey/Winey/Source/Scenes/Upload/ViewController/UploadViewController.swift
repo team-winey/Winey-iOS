@@ -35,11 +35,14 @@ class UploadViewController: UIViewController {
         didSet { nextButton.isEnabled = isOk }
     }
     
+    var postResultClousure: ((_ data: Bool) -> Void)?
+    
     private lazy var safeArea = self.view.safeAreaLayoutGuide
-    private let spacing: CGFloat = 17
-    private let titles: [String] = ["다음", "저장하기", "업로드"]
+    private let spacing: CGFloat = 24
     
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
+    private var secondPageSubjcet = PassthroughSubject<Void, Never>()
+    private var thirdPageSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
     /// 업로드 단계별로 나타나는 뷰와 커스텀 네비게이션 바 객체 생성
@@ -98,6 +101,22 @@ class UploadViewController: UIViewController {
         return btn
     }()
     
+    private lazy var alert: MIPopupViewController = {
+        let vc = MIPopupViewController(content: .init(
+            title: "지금 나가시면 작성하신 게 지워져요",
+            subtitle: "절약 실천 게시물을 올리시면 레벨업에 가까워져요\n그래도 나가시겠습니까?")
+        )
+        
+        vc.addButton(title: "취소", type: .gray) {
+            vc.dismiss(animated: true)
+        }
+        
+        vc.addButton(title: "나가기", type: .yellow) {
+            self.gotoFront()
+        }
+        return vc
+    }()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -121,6 +140,19 @@ class UploadViewController: UIViewController {
         pageGuideSubject
             .sink { [weak self] _ in
                 self?.pageGuide.setUI()
+                self?.thirdPage.textContentView.resetPrice()
+            }
+            .store(in: &bag)
+        
+        secondPageSubjcet
+            .sink { [weak self] _ in
+                self?.secondPage.resetContents()
+            }
+            .store(in: &bag)
+        
+        thirdPageSubject
+            .sink { [weak self] _ in
+                self?.thirdPage.textContentView.resetPrice()
             }
             .store(in: &bag)
     }
@@ -133,7 +165,7 @@ class UploadViewController: UIViewController {
         
         imagePicker.delegate = self
         
-        nextButton.setTitle(titles[stageIdx], for: .normal)
+        nextButton.setTitle("확인", for: .normal)
         
         /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
         switch stageIdx {
@@ -175,17 +207,17 @@ class UploadViewController: UIViewController {
         }
         
         grayDot.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(14)
-            $0.leading.equalToSuperview().inset(17)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(15)
+            $0.leading.equalToSuperview().inset(24)
         }
         
         pageGuide.snp.makeConstraints {
-            $0.top.equalTo(grayDot.snp.bottom).offset(17)
-            $0.leading.equalToSuperview().inset(17)
+            $0.top.equalTo(grayDot.snp.bottom).offset(27)
+            $0.leading.equalToSuperview().inset(24)
         }
         
         scrollView.snp.makeConstraints {
-            $0.top.equalTo(pageGuide.snp.bottom).offset(20)
+            $0.top.equalTo(pageGuide.snp.bottom).offset(42)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(182)
         }
@@ -193,7 +225,7 @@ class UploadViewController: UIViewController {
         nextButton.snp.makeConstraints {
             $0.bottom.equalTo(safeArea).inset(4)
             $0.height.equalTo(52)
-            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.horizontalEdges.equalToSuperview().inset(10)
         }
     }
     
@@ -282,13 +314,24 @@ class UploadViewController: UIViewController {
         }
     }
     
+    private func deleteContents() {
+        switch stageIdx {
+        case 1:
+            secondPage.resetContents()
+            secondPageSubjcet.send(Void())
+        default:
+            thirdPage.textContentView.resetPrice()
+            thirdPageSubject.send(Void())
+        }
+    }
+    
     // NavigationBar
     /// NavigationBar 상의 버튼을 클릭했을때의 동작을 정의하는 함수
     
     @objc
     private func tapLeftButton() {
         if navigationBar.leftBarItem == .back {
-            self.gotoFront()
+            self.present(alert, animated: true)
         } else {
             self.dismissUploadViewController()
         }
@@ -305,7 +348,7 @@ class UploadViewController: UIViewController {
         
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
                                             - UIScreen.main.bounds.width, y: 0), animated: true)
-        
+        deleteContents()
         stageIdx -= 1
         grayDot.progress -= 1
         grayDot.progress = Double(stageIdx)
@@ -524,14 +567,14 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
 }
 
 extension UploadViewController {
-    
     private func postFeed(feed: UploadModel) {
         let productPolicy = ProductPolicy.productBy(feed.feedMoney)
         let loadingViewController = UploadLoadingViewController(keyword: productPolicy.rawValue)
-        self.navigationController?.pushViewController(loadingViewController, animated: true)
                 
-        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { _ in
+        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { result in
             NotificationCenter.default.post(name: .whenFeedUploaded, object: nil)
+            loadingViewController.feedUploadResult = result
         }
+        self.navigationController?.pushViewController(loadingViewController, animated: true)
     }
 }

@@ -29,15 +29,17 @@ final class FeedViewController: UIViewController {
     
     private var bag = Set<AnyCancellable>()
     
+    private var currentBannerType: BannerState = .initial
+    
     // MARK: - UI Components
     
     private let naviBar = WIMainNavigationBar()
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width, height: 367)
+        layout.itemSize = CGSize(width: view.frame.width, height: 438)
         layout.minimumLineSpacing = 1
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 188)
+        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 134)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray0
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -91,10 +93,12 @@ final class FeedViewController: UIViewController {
                 item: item
             )
         }
-        
+            
         let headerRegistration = SupplementaryRegistration<FeedHeaderView>(
-            elementKind: UICollectionView.elementKindSectionHeader
-        ) { _, _, _ in }
+                elementKind: UICollectionView.elementKindSectionHeader
+        ) { view, _, _ in
+            view.setState(self.currentBannerType)
+        }
         
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
             return collectionView.dequeueConfiguredReusableSupplementary(
@@ -127,6 +131,11 @@ final class FeedViewController: UIViewController {
         refresh()
     }
     
+    private func refreshHeaderView() {
+        self.currentBannerType = .refreshed
+        collectionView.reloadData()
+    }
+    
     private func showAlert(feedId: Int, userId: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
@@ -150,11 +159,27 @@ final class FeedViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    private func showToast(_ type: WIToastType) {
+        let toast = WIToastBox(toastType: type)
+        
+        view.addSubview(toast)
+        
+        toast.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(23)
+            $0.height.equalTo(48)
+        }
+    }
+    
     private func bind() {
         NotificationCenter.default.publisher(for: .whenUploadFeedCompleted)
-            .sink { [weak self] _ in
+            .map({
+                $0.userInfo?["type"] as! WIToastType
+            })
+            .sink(receiveValue: { [weak self] type in
                 self?.refresh()
-            }
+                self?.showToast(type)
+            })
             .store(in: &bag)
         
         NotificationCenter.default.publisher(for: .whenDeleteFeedCompleted)
@@ -274,7 +299,9 @@ extension FeedViewController {
                         like: feedData.likes,
                         isLiked: feedData.isLiked,
                         writerLevel: feedData.writerLevel,
-                        profileImage: userLevel.profileImage
+                        profileImage: userLevel.profileImage,
+                        comments: feedData.comments,
+                        timeAgo: feedData.timeAgo
                     )
                     
                     self.feedList.append(feed)
@@ -316,6 +343,7 @@ extension FeedViewController {
             guard let self else { return }
             guard collectionView.refreshControl?.isRefreshing == true else { return }
             collectionView.refreshControl?.endRefreshing()
+            self.refreshHeaderView()
         }
     }
 }
