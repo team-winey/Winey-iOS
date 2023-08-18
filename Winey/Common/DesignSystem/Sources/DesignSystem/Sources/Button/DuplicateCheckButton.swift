@@ -21,6 +21,10 @@ public final class DuplicateCheckButton: UIButton {
     
     // MARK: - Methods
     
+    public override var intrinsicContentSize: CGSize {
+        CGSize(width: UIScreen.main.bounds.width, height: 56)
+    }
+    
     private func setUI() {
         let btnText = Typography.build(string: "중복확인", attributes: Typography.Attributes(style: .body3,
                                                                            weight: .medium,
