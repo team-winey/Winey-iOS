@@ -109,7 +109,8 @@ extension MypageViewController: UICollectionViewDelegate {
         if indexPath.section == 2 && indexPath.item == 0 { // 마이피드
             let myFeedViewController = MyFeedViewController()
             self.navigationController?.pushViewController(myFeedViewController, animated: true)
-        } else if indexPath.section == 2 && indexPath.item == 1 { //1:1문의
+        }
+        else if indexPath.section == 2 && indexPath.item == 1 { //1:1문의
             let url = URL(string: "https://open.kakao.com/o/s751Susf")!
             let safariViewController = SFSafariViewController(url: url)
             self.present(safariViewController, animated: true)
@@ -150,7 +151,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 withReuseIdentifier: MypageProfileCell.className,
                 for: indexPath
             )  as? MypageProfileCell
-            else { return UICollectionViewCell()}
+            else { return UICollectionViewCell() }
             let nickname = nickname ?? ""
             let userLevel = userLevel ?? .none
             mypageProfileCell.configure(model: .init(nickname: nickname, level: userLevel))
@@ -207,8 +208,9 @@ extension MypageViewController: UICollectionViewDataSource {
             default:
                 return UICollectionViewCell()
             }
+            
             return menuCell
-
+        
         default :
             return UICollectionViewCell()
         }
@@ -250,7 +252,7 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
             default : return .zero
             }
         }
-    
+  
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,

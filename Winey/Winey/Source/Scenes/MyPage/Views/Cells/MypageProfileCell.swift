@@ -20,7 +20,6 @@ final class MypageProfileCell: UICollectionViewCell {
     // MARK: - Properties
     
     var infoButtonTappedClosure: (() -> Void)?
-    static let identifier = MypageProfileCell.className
     
     // MARK: - UIComponents
     

@@ -18,7 +18,6 @@ final class MypageCollectionViewFooter: UICollectionReusableView {
 
     weak var delegate: withDrawAccountDelegate?
 
-    // MARK: - UIComponents
     private lazy var deletingAccountButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
@@ -32,6 +31,7 @@ final class MypageCollectionViewFooter: UICollectionReusableView {
     }()
 
     // MARK: - View Life Cycle
+  
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
@@ -47,8 +47,6 @@ final class MypageCollectionViewFooter: UICollectionReusableView {
     private func deletingButtonTapped() {
         delegate?.withDrawButtonTapped()
     }
-
-
 
     // MARK: - Layout
     private func setUI() {
