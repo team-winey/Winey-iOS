@@ -8,79 +8,149 @@
 import UIKit
 
 public struct WITextFieldType {
+    public let type: String
     public let textLeftPadding: CGFloat
     public let textRightPadding: CGFloat
     public let labelLeftPadding: CGFloat
     public let labelRightPadding: CGFloat
-    public let textStyle: Typography.Attributes
+    public let textStyle: UIFont
+    public let textLength: Int
     public let label: String
     public let labelStyle: Typography.Attributes
+    public let keyboardType: UIKeyboardType
+    public let textAlignment: NSTextAlignment
+    public let placeholder: String
+    public let labelWidth: CGFloat
+    public let labelColor: UIColor
+    public let activeTextColor: UIColor
     
     public init(
+        type: String,
         textLeftPadding: CGFloat,
         textRightPadding: CGFloat,
         labelLeftPadding: CGFloat,
         labelRightPadding: CGFloat,
-        textStyle: Typography.Attributes,
+        textStyle: UIFont,
+        textLength: Int,
         label: String,
-        labelStyle: Typography.Attributes
+        labelStyle: Typography.Attributes,
+        keyboardType: UIKeyboardType,
+        textAlignment: NSTextAlignment,
+        placeholder: String,
+        labelWidth: CGFloat,
+        labelColor: UIColor,
+        activeTextColor: UIColor
     ) {
+        self.type = type
         self.textLeftPadding = textLeftPadding
         self.textRightPadding = textRightPadding
         self.labelLeftPadding = labelLeftPadding
         self.labelRightPadding = labelRightPadding
         self.textStyle = textStyle
+        self.textLength = textLength
         self.label = label
         self.labelStyle = labelStyle
+        self.keyboardType = keyboardType
+        self.textAlignment = textAlignment
+        self.placeholder = placeholder
+        self.labelWidth = labelWidth
+        self.labelColor = labelColor
+        self.activeTextColor = activeTextColor
     }
 }
 
 public extension WITextFieldType {
     static let upload_price: WITextFieldType = WITextFieldType(
+        type: TextField.price.rawValue,
         textLeftPadding: TextField.price.textLeftPadding,
         textRightPadding: TextField.price.textRightPadding,
         labelLeftPadding: TextField.price.labelLeftPadding,
         labelRightPadding: TextField.price.labelRightPadding,
-        textStyle: Typography.Attributes(style: .headLine2,
-                                         weight: .bold),
+        textStyle: Typography.font(style: .headLine2,
+                                         weight: .Bold),
+        textLength: TextField.price.textLength,
         label: TextField.price.label,
-        labelStyle: Typography.Attributes(style: .headLine4,
-                                          weight: .bold,
-                                          textColor: UIColor.winey_gray900)
+        labelStyle: Typography.Attributes(style: .headLine4, weight: .bold),
+        keyboardType: TextField.price.keyboardType,
+        textAlignment: TextField.price.textAlignment,
+        placeholder: TextField.price.placeholder,
+        labelWidth: TextField.price.labelWidth,
+        labelColor: TextField.price.labelColor,
+        activeTextColor: TextField.price.activeTextColor
     )
     
     static let day: WITextFieldType = WITextFieldType(
+        type: TextField.day.rawValue,
         textLeftPadding: TextField.day.textLeftPadding,
         textRightPadding: TextField.day.textRightPadding,
         labelLeftPadding: TextField.day.labelLeftPadding,
         labelRightPadding: TextField.day.labelRightPadding,
-        textStyle: Typography.Attributes(style: .headLine2,
-                                         weight: .bold),
+        textStyle: Typography.font(style: .headLine2, weight: .Bold),
+        textLength: TextField.day.textLength,
         label: TextField.day.label,
-        labelStyle: Typography.Attributes(style: .headLine4,
-                                          weight: .bold,
-                                          textColor: UIColor.winey_gray900)
+        labelStyle: Typography.Attributes(style: .headLine4, weight: .bold),
+        keyboardType: TextField.day.keyboardType,
+        textAlignment: TextField.day.textAlignment,
+        placeholder: TextField.day.placeholder,
+        labelWidth: TextField.day.labelWidth,
+        labelColor: TextField.day.labelColor,
+        activeTextColor: TextField.day.activeTextColor
+
     )
     
     static let nickName: WITextFieldType = WITextFieldType(
+        type: TextField.nickName.rawValue,
         textLeftPadding: TextField.nickName.textLeftPadding,
         textRightPadding: TextField.nickName.textRightPadding,
         labelLeftPadding: TextField.nickName.labelLeftPadding,
         labelRightPadding: TextField.nickName.labelRightPadding,
-        textStyle: Typography.Attributes(style: .headLine4,
-                                         weight: .medium),
+        textStyle: Typography.font(style: .headLine4,
+                                         weight: .Medium),
+        textLength: TextField.nickName.textLength,
         label: TextField.nickName.label,
-        labelStyle: Typography.Attributes(style: .body3,
-                                          weight: .medium,
-                                          textColor: UIColor.winey_gray300)
+        labelStyle: Typography.Attributes(style: .body3, weight: .medium),
+        keyboardType: TextField.nickName.keyboardType,
+        textAlignment: TextField.nickName.textAlignment,
+        placeholder: TextField.nickName.placeholder,
+        labelWidth: TextField.nickName.labelWidth,
+        labelColor: TextField.nickName.labelColor,
+        activeTextColor: TextField.nickName.activeTextColor
     )
 }
 
 extension WITextFieldType {
-    enum TextField {
-        case price
-        case day
-        case nickName
+    enum TextField: String {
+        case price, day = "Int"
+        case nickName = "String"
+        
+        var keyboardType: UIKeyboardType {
+            switch self {
+            case .price, .day:
+                return .numberPad
+            case .nickName:
+                return .default
+            }
+        }
+        
+        var textAlignment: NSTextAlignment {
+            switch self {
+            case .price, .day:
+                return .right
+            case .nickName:
+                return .left
+            }
+        }
+        
+        var placeholder: String {
+            switch self {
+            case .price:
+                return "0"
+            case .day:
+                return "0"
+            case .nickName:
+                return "닉네임 입력"
+            }
+        }
         
         var label: String {
             switch self {
@@ -90,6 +160,15 @@ extension WITextFieldType {
                 return "일"
             case .nickName:
                 return "(0/8)"
+            }
+        }
+        
+        var labelColor: UIColor {
+            switch self {
+            case .price, .day:
+                return .winey_gray900
+            case .nickName:
+                return .winey_gray300
             }
         }
         
@@ -107,7 +186,7 @@ extension WITextFieldType {
         var textLeftPadding: CGFloat {
             switch self {
             case .price, .day:
-                return 40
+                return 39
             case .nickName:
                 return 18
             }
@@ -116,7 +195,7 @@ extension WITextFieldType {
         var textRightPadding: CGFloat {
             switch self {
             case .price, .day:
-                return 38
+                return 39
             case .nickName:
                 return 57
             }
@@ -125,16 +204,34 @@ extension WITextFieldType {
         var labelLeftPadding: CGFloat {
             switch self {
             case .price, .day:
-                return 4
+                return 316
             case .nickName:
-                return 8
+                return 209
             }
         }
         
         var labelRightPadding: CGFloat {
             switch self {
             default:
-                return 18
+                return 16
+            }
+        }
+        
+        var labelWidth: CGFloat {
+            switch self {
+            case .price, .day:
+                return 16
+            case .nickName:
+                return 30
+            }
+        }
+        
+        var activeTextColor: UIColor {
+            switch self {
+            case .price, .day:
+                return .winey_purple400
+            case .nickName:
+                return .winey_gray900
             }
         }
     }
