@@ -24,21 +24,21 @@ final class MypageProfileCell: UICollectionViewCell {
     
     // MARK: - UIComponents
     
-    var levelContainerView: UIView = {
+    private var levelContainerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_yellow
         containerView.layer.cornerRadius = 12
         return containerView
     }()
     
-    var characterImageView: UIImageView = {
+    private var characterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
-    let levelLabel: UILabel = {
+    private let levelLabel: UILabel = {
         let label = UILabel()
         label.setText(
             "LV. 기사",
@@ -51,14 +51,22 @@ final class MypageProfileCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var infoButton: UIButton = {
+    private lazy var infoButton: UIButton = {
         let button = UIButton()
         button.setImage(.Icon.info, for: .normal)
         button.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    let nicknameLabel: UILabel = {
+    private lazy var nextButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.clear
+        button.clipsToBounds = true
+        button.setImage(.Icon.next, for: .normal)
+        return button
+    }()
+    
+    private let nicknameLabel: UILabel = {
         let label = UILabel()
         label.setText("부자될꺼임", attributes: .init(
             style: .headLine,
@@ -76,7 +84,7 @@ final class MypageProfileCell: UICollectionViewCell {
         return image
     }()
     
-    func setUI() {
+    private func setUI() {
         contentView.backgroundColor = .white
     }
     
@@ -125,6 +133,7 @@ final class MypageProfileCell: UICollectionViewCell {
         contentView.backgroundColor = .white
         contentView.addSubviews(levelContainerView, nicknameLabel)
         contentView.addSubviews(progressbarImageView, infoButton, characterImageView)
+        contentView.addSubviews(progressbarImageView, infoButton, characterImageView, nextButton)
         
         levelContainerView.addSubview(levelLabel)
         
@@ -141,6 +150,11 @@ final class MypageProfileCell: UICollectionViewCell {
         infoButton.snp.makeConstraints { make in
             make.leading.equalTo(levelContainerView.snp.trailing)
             make.top.bottom.equalTo(levelContainerView)
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(characterImageView.snp.top)
         }
         
         nicknameLabel.snp.makeConstraints { make in
