@@ -8,12 +8,11 @@
 import UIKit
 
 public struct WITextFieldType {
+    public var textLength: Int
     public let textLeftPadding: CGFloat
     public let textRightPadding: CGFloat
-    public let labelLeftPadding: CGFloat
     public let labelRightPadding: CGFloat
     public let textStyle: UIFont
-    public let textLength: Int
     public let label: String
     public let labelStyle: Typography.Attributes
     public let keyboardType: UIKeyboardType
@@ -26,7 +25,6 @@ public struct WITextFieldType {
     public init(
         textLeftPadding: CGFloat,
         textRightPadding: CGFloat,
-        labelLeftPadding: CGFloat,
         labelRightPadding: CGFloat,
         textStyle: UIFont,
         textLength: Int,
@@ -41,7 +39,6 @@ public struct WITextFieldType {
     ) {
         self.textLeftPadding = textLeftPadding
         self.textRightPadding = textRightPadding
-        self.labelLeftPadding = labelLeftPadding
         self.labelRightPadding = labelRightPadding
         self.textStyle = textStyle
         self.textLength = textLength
@@ -60,7 +57,6 @@ public extension WITextFieldType {
     static let upload_price: WITextFieldType = WITextFieldType(
         textLeftPadding: TextField.price.textLeftPadding,
         textRightPadding: TextField.price.textRightPadding,
-        labelLeftPadding: TextField.price.labelLeftPadding,
         labelRightPadding: TextField.price.labelRightPadding,
         textStyle: Typography.font(style: .headLine2,
                                          weight: .Bold),
@@ -78,7 +74,6 @@ public extension WITextFieldType {
     static let day: WITextFieldType = WITextFieldType(
         textLeftPadding: TextField.day.textLeftPadding,
         textRightPadding: TextField.day.textRightPadding,
-        labelLeftPadding: TextField.day.labelLeftPadding,
         labelRightPadding: TextField.day.labelRightPadding,
         textStyle: Typography.font(style: .headLine2, weight: .Bold),
         textLength: TextField.day.textLength,
@@ -96,7 +91,6 @@ public extension WITextFieldType {
     static let nickName: WITextFieldType = WITextFieldType(
         textLeftPadding: TextField.nickName.textLeftPadding,
         textRightPadding: TextField.nickName.textRightPadding,
-        labelLeftPadding: TextField.nickName.labelLeftPadding,
         labelRightPadding: TextField.nickName.labelRightPadding,
         textStyle: Typography.font(style: .headLine4,
                                          weight: .Medium),
@@ -138,9 +132,7 @@ extension WITextFieldType {
         
         var placeholder: String {
             switch self {
-            case .price:
-                return "0"
-            case .day:
+            case .price, .day:
                 return "0"
             case .nickName:
                 return "닉네임 입력"
@@ -193,15 +185,6 @@ extension WITextFieldType {
                 return 39
             case .nickName:
                 return 57
-            }
-        }
-        
-        var labelLeftPadding: CGFloat {
-            switch self {
-            case .price, .day:
-                return 316
-            case .nickName:
-                return 209
             }
         }
         
