@@ -18,6 +18,4 @@ struct FeedModel: Hashable {
     var isLiked: Bool
     let writerLevel: Int
     let profileImage: UIImage?
-    let comments: Int
-    let timeAgo: String
 }

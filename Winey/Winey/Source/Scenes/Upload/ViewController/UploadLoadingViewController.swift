@@ -21,7 +21,6 @@ final class UploadLoadingViewController: UIViewController {
     private let animationView = AnimationView.loadingView
     
     var keyword: String?
-    var feedUploadResult: Bool = false
     
     private var didCompleteUpload: Bool = false
     private var animationStartedTime: Date?
@@ -48,6 +47,7 @@ final class UploadLoadingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         startAnimation()
     }
     
@@ -100,8 +100,7 @@ final class UploadLoadingViewController: UIViewController {
     
     private func dismiss() {
         navigationController?.dismiss(animated: true) {
-            let type = self.feedUploadResult ? WIToastType.uploadSuccess : WIToastType.uploadFail
-            NotificationCenter.default.post(name: .whenUploadFeedCompleted, object: nil, userInfo: ["type":type])
+            NotificationCenter.default.post(name: .whenUploadFeedCompleted, object: nil)
         }
     }
 }
@@ -154,9 +153,6 @@ extension UploadLoadingViewController {
             make.leading.equalToSuperview().offset(67)
             make.trailing.equalToSuperview().inset(39)
         }
-        
-        
-        
         keywordLabel.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(1)
             make.horizontalEdges.equalToSuperview().inset(10)

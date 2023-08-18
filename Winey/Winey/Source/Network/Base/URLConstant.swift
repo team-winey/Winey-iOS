@@ -23,5 +23,4 @@ struct URLConstant {
     static let signOut = "/auth/sign-out"
     static let withdraw = "/auth/withdraw"
     static let token = "/auth/token"
-    static let notification = "/noti"
 }

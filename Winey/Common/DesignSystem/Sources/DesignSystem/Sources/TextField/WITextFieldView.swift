@@ -50,10 +50,6 @@ public final class WITextFieldView: UIView {
         textField.textColor = Const.inactivateTextColor
     }
     
-    public func resetPrice() {
-        textField.text = "0"
-    }
-    
     public override var intrinsicContentSize: CGSize {
         CGSize(width: UIScreen.main.bounds.width, height: Const.textFieldHeight)
     }
