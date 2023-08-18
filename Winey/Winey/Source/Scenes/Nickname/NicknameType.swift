@@ -17,6 +17,13 @@ struct NicknameType {
     }
 }
 
+extension NicknameType {
+    public static let onboarding = NicknameType(naviExist: NicknamePage.onboarding.navigationExist,
+                                                titleLabel: NicknamePage.onboarding.label)
+    public static let myPage = NicknameType(naviExist: NicknamePage.myPage.navigationExist,
+                                                titleLabel: NicknamePage.myPage.label)
+}
+
 enum NicknamePage {
     case onboarding
     case myPage
