@@ -21,6 +21,7 @@ class PriceUploadView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
+        textContentView.changeTextLength(9)
     }
     
     required init?(coder: NSCoder) {

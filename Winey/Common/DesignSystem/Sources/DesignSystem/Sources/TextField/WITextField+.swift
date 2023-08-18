@@ -160,8 +160,8 @@ public final class WITextFieldView: UIView {
     }
     
     public func makeErrorView() {
-        textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.errorColor.color)
-        textField.textColor = Color.errorColor.color
+        textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.errorBorderColor.color)
+        textField.textColor = Color.errorTextColor.color
     }
     
     public func makeActiveView() {
@@ -172,6 +172,10 @@ public final class WITextFieldView: UIView {
     public func makeInactiveView() {
         textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.inactiveBorder.color)
         textField.textColor = Color.inactiveText.color
+    }
+    
+    public func changeTextLength(_ length: Int) {
+        type.textLength = length
     }
 }
 
@@ -237,7 +241,6 @@ extension WITextFieldView: UITextFieldDelegate {
                 isCorrect = nameValidation(text: pureText+string)
             }
         }
-        
         return !(price > type.textLength) && isCorrect
     }
 }
@@ -293,7 +296,8 @@ extension WITextFieldView {
         case inactiveBorder
         case inactiveText
         case activeColor
-        case errorColor
+        case errorTextColor
+        case errorBorderColor
         case cursorColor
         case backgroundColor
         
@@ -305,7 +309,9 @@ extension WITextFieldView {
                 return .winey_gray200
             case .activeColor, .cursorColor:
                 return .winey_purple400
-            case .errorColor:
+            case .errorTextColor:
+                return .winey_gray900
+            case .errorBorderColor:
                 return .winey_red500
             case .inactiveText:
                 return .winey_gray400
