@@ -116,6 +116,7 @@
 		F40E8FD22A8367A50092D280 /* SessionInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40E8FD12A8367A50092D280 /* SessionInterceptor.swift */; };
 		F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */; };
 		F45B4B872A8F4E4600562D60 /* NicknameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45B4B862A8F4E4600562D60 /* NicknameType.swift */; };
+		F47688642A90099100D57BA8 /* MypageCollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47688632A90099100D57BA8 /* MypageCollectionViewFooter.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
 		F4A4E0472A7AD79B00673741 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4E0462A7AD79B00673741 /* LoginView.swift */; };
@@ -238,6 +239,7 @@
 		F40E8FD12A8367A50092D280 /* SessionInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInterceptor.swift; sourceTree = "<group>"; };
 		F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsWriteView.swift; sourceTree = "<group>"; };
 		F45B4B862A8F4E4600562D60 /* NicknameType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameType.swift; sourceTree = "<group>"; };
+		F47688632A90099100D57BA8 /* MypageCollectionViewFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCollectionViewFooter.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		F4A4E0462A7AD79B00673741 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -799,6 +801,7 @@
 		1D3CBAFB2A5E7C5300AE8138 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F47688622A90091C00D57BA8 /* Footer */,
 				1D3CBAE62A5C05FD00AE8138 /* Cells */,
 			);
 			path = Views;
@@ -913,6 +916,14 @@
 				F4FAA3B32A8C147600B980CB /* NicknameViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		F47688622A90091C00D57BA8 /* Footer */ = {
+			isa = PBXGroup;
+			children = (
+				F47688632A90099100D57BA8 /* MypageCollectionViewFooter.swift */,
+			);
+			path = Footer;
 			sourceTree = "<group>";
 		};
 		F4908E342A8696E900F38DB5 /* Utils */ = {
@@ -1160,6 +1171,7 @@
 				14E28F832A654E4B00E5E5C2 /* UserService.swift in Sources */,
 				0DB4A2C62A8282F600C40CCC /* DetailSection.swift in Sources */,
 				145B44B52A68AC050043D10C /* RecommendAPI.swift in Sources */,
+				F47688642A90099100D57BA8 /* MypageCollectionViewFooter.swift in Sources */,
 				14E28F812A654DFD00E5E5C2 /* FeedLikeService.swift in Sources */,
 				14E28F742A65355500E5E5C2 /* BaseResponse.swift in Sources */,
 				14E28F762A65357800E5E5C2 /* MoyaLoggerPlugin.swift in Sources */,
