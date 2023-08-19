@@ -67,6 +67,7 @@ final class FeedViewController: UIViewController {
         setAddTarget()
         bind()
         checkNewNotification()
+        alertButtonTapped()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -209,6 +210,14 @@ final class FeedViewController: UIViewController {
     private func getMoreFeed() {
         self.currentPage += 1
         self.getTotalFeed(page: self.currentPage)
+    }
+    
+    private func alertButtonTapped() {
+        self.naviBar.alarmButtonClosure = { [weak self] in
+            let alertVC = AlertViewController()
+            self?.navigationController?.pushViewController(alertVC, animated: true)
+            print("tapped")
+        }
     }
     
     private func setAddTarget() {
