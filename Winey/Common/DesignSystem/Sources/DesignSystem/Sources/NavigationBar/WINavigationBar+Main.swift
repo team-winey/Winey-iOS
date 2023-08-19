@@ -12,6 +12,11 @@ import SnapKit
 public final class WIMainNavigationBar: UIView {
     
     var alarmButtonClosure: (() -> Void)?
+    public var alarmStatus: AlarmStatus = .defaultAlarm {
+        didSet {
+            alarmButton.setImage(alarmStatus.icon, for: .normal)
+        }
+    }
     
     private let imageView = UIImageView()
     private let alarmButton = UIButton()
@@ -30,7 +35,7 @@ public final class WIMainNavigationBar: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setUI() {
         self.backgroundColor = .winey_gray0
         bottomSeparatorView.backgroundColor = .winey_gray200
@@ -54,7 +59,7 @@ public final class WIMainNavigationBar: UIView {
         alarmButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(12)
-            make.size.equalTo(24)
+            make.size.equalTo(48)
         }
         
         bottomSeparatorView.snp.makeConstraints { make in
@@ -66,5 +71,21 @@ public final class WIMainNavigationBar: UIView {
     @objc
     private func alarmButtonTapped() {
         self.alarmButtonClosure?()
+    }
+}
+
+extension WIMainNavigationBar {
+    public enum AlarmStatus: CaseIterable {
+        case defaultAlarm
+        case newAlarm
+        
+        var icon: UIImage? {
+            switch self {
+            case .defaultAlarm:
+                return .Icon.alarm_default
+            case .newAlarm:
+                return .Icon.alarm_variant
+            }
+        }
     }
 }
