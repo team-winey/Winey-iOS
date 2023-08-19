@@ -32,7 +32,7 @@ enum GoalType {
 final class SaveGoalTextBoxView: UIView {
     
     private let titleLabel = UILabel()
-    let textField = WITextFieldView(label: .won)
+    let textField = WITextFieldView(type: .upload_price)
     private let detailLabel = UILabel()
     
     init(frame: CGRect, type: GoalType) {

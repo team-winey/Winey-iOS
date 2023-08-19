@@ -22,11 +22,12 @@ final class SaveGoalViewController: UIViewController {
     private let scrollView = UIScrollView()
     private lazy var cancelButton = UIButton()
     private let moneyTitleLabel = UILabel()
-    private let moneyTextField = WITextFieldView(price: "0", label: .won, textLength: .price)
+
+    private let moneyTextField = WITextFieldView(type: .upload_price)
     private let moneyDetailLabel = UILabel()
     
     private let periodTitleLabel = UILabel()
-    private let periodTextField = WITextFieldView(price: "0", label: .day, textLength: .day)
+    private let periodTextField = WITextFieldView(type: .day)
     private let periodDetailLabel = UILabel()
 
     private let saveContainerView = UIView()
@@ -270,20 +271,14 @@ extension SaveGoalViewController {
         
         moneyTextField.textFieldDidEndEditingPublisher
             .sink { [weak self] in
-                if let money = self?.money {
-                    if money < 30000 {
-                        self?.moneyTextField.makeErrorView()
-                        self?.moneyDetailLabel.textColor = .winey_red500
-                    } else {
-                        self?.moneyTextField.makeActiveView()
-                        self?.moneyDetailLabel.textColor = .winey_gray400
-                    }
-                }
+                self?.moneyTextField.makeInactiveView()
+                self?.moneyDetailLabel.textColor = .winey_gray400
             }
             .store(in: &bag)
         
         periodTextField.textFieldDidEndEditingPublisher
             .sink { [weak self] in
+                self?.periodTextField.makeInactiveView()
                 self?.periodDetailLabel.textColor = .winey_gray400
             }
             .store(in: &bag)
