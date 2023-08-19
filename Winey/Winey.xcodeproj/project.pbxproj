@@ -41,6 +41,7 @@
 		0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFF7D3B2A69C2DB0073ADAD /* SplashViewController.swift */; };
 		142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FE3842A7C011E00421732 /* OnboardingViewController.swift */; };
 		142FE3882A7C0DB900421732 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FE3872A7C0DB900421732 /* OnboardingCell.swift */; };
+		1432391E2A8E575100128A02 /* AnimationOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432391D2A8E575100128A02 /* AnimationOnboardingViewController.swift */; };
 		143C00942A602E8F000FBD3F /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00932A602E8F000FBD3F /* RecommendViewController.swift */; };
 		143C00962A603273000FBD3F /* RecommendHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00952A603273000FBD3F /* RecommendHeaderView.swift */; };
 		143C00982A603911000FBD3F /* RecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143C00972A603911000FBD3F /* RecommendCell.swift */; };
@@ -167,6 +168,7 @@
 		0DFF7D3B2A69C2DB0073ADAD /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		142FE3842A7C011E00421732 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		142FE3872A7C0DB900421732 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
+		1432391D2A8E575100128A02 /* AnimationOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationOnboardingViewController.swift; sourceTree = "<group>"; };
 		143C00932A602E8F000FBD3F /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		143C00952A603273000FBD3F /* RecommendHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHeaderView.swift; sourceTree = "<group>"; };
 		143C00972A603911000FBD3F /* RecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCell.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			children = (
 				142FE3842A7C011E00421732 /* OnboardingViewController.swift */,
 				142FE3872A7C0DB900421732 /* OnboardingCell.swift */,
+				1432391D2A8E575100128A02 /* AnimationOnboardingViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1200,6 +1203,7 @@
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
 				F4867A652A6061940016389C /* PriceUploadView.swift in Sources */,
 				F4A6D5432A7C4568006905AE /* KeychainManager.swift in Sources */,
+				1432391E2A8E575100128A02 /* AnimationOnboardingViewController.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */,
 				147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */,
