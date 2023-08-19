@@ -23,6 +23,7 @@ final class FeedViewController: UIViewController {
     var dataSource : UICollectionViewDiffableDataSource<Int, FeedModel>!
     private let feedService = FeedService()
     private let feedLikeServie = FeedLikeService()
+    private let notiService = NotificationService()
     private var feedList: [FeedModel] = []
     private var currentPage: Int = 1
     private var isEnd: Bool = false
@@ -65,11 +66,12 @@ final class FeedViewController: UIViewController {
         getTotalFeed(page: currentPage)
         setAddTarget()
         bind()
+        checkNewNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // refresh()
+        checkNewNotification()
     }
     
     private func setupDataSource() {
@@ -134,6 +136,16 @@ final class FeedViewController: UIViewController {
     private func refreshHeaderView() {
         self.currentBannerType = .refreshed
         collectionView.reloadData()
+    }
+    
+    private func stopRefreshControl() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) { [weak self] in
+            guard let self else { return }
+            guard collectionView.refreshControl?.isRefreshing == true else { return }
+            collectionView.refreshControl?.endRefreshing()
+            self.refreshHeaderView()
+            self.checkNewNotification()
+        }
     }
     
     private func showAlert(feedId: Int, userId: Int) {
@@ -338,12 +350,13 @@ extension FeedViewController {
         feedService.deleteMyFeed(feedId) { [weak self] response in }
     }
     
-    private func stopRefreshControl() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) { [weak self] in
-            guard let self else { return }
-            guard collectionView.refreshControl?.isRefreshing == true else { return }
-            collectionView.refreshControl?.endRefreshing()
-            self.refreshHeaderView()
+    private func checkNewNotification() {
+        notiService.getNewNotificationStatus { [weak self] hasNewNotification in
+            if hasNewNotification {
+                self?.naviBar.alarmStatus = .newAlarm
+            } else {
+                self?.naviBar.alarmStatus = .defaultAlarm
+            }
         }
     }
 }
