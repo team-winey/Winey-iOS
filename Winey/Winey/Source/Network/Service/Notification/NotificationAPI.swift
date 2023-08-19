@@ -11,6 +11,7 @@ import Moya
 
 enum NotificationAPI {
     case getTotalNotification
+    case getNewNotificationStatus
 }
 
 extension NotificationAPI: TargetType {
@@ -30,26 +31,28 @@ extension NotificationAPI: TargetType {
            switch self {
            case .getTotalNotification:
                return URLConstant.notification
+           case .getNewNotificationStatus:
+               return URLConstant.notification + "/check"
            }
        }
 
        var method: Moya.Method {
            switch self {
-           case .getTotalNotification:
+           case .getTotalNotification, .getNewNotificationStatus:
                return .get
            }
        }
 
        var task: Moya.Task {
            switch self {
-           case .getTotalNotification:
+           case .getTotalNotification, .getNewNotificationStatus:
                return .requestPlain
            }
        }
 
        var headers: [String : String]? {
            switch self {
-           case .getTotalNotification:
+           case .getTotalNotification, .getNewNotificationStatus:
                return NetworkConstant.defaultHeader
            }
        }
