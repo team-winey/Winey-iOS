@@ -53,6 +53,7 @@ final class RecommendViewController: UIViewController {
         setupDataSource()
         getTotalRecommend(page: currentPage)
         checkNewNotification()
+        alertButtonTapped()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,6 +112,13 @@ final class RecommendViewController: UIViewController {
     private func getMorePage() {
         self.currentPage += 1
         self.getTotalRecommend(page: self.currentPage)
+    }
+    
+    private func alertButtonTapped() {
+        naviBar.alarmButtonClosure = {[weak self] in
+            let alertVC = AlertViewController()
+            self?.navigationController?.pushViewController(alertVC, animated: true)
+        }
     }
 }
 
