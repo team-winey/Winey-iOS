@@ -39,7 +39,7 @@ final class MyFeedViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.bounds.width, height: 367)
+        layout.itemSize = CGSize(width: view.bounds.width, height: 438)
         layout.minimumLineSpacing = 1
 
         let collectionView = UICollectionView(
