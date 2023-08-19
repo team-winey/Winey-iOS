@@ -119,6 +119,7 @@
 		F45B4B872A8F4E4600562D60 /* NicknameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45B4B862A8F4E4600562D60 /* NicknameType.swift */; };
 		F47688642A90099100D57BA8 /* MypageCollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47688632A90099100D57BA8 /* MypageCollectionViewFooter.swift */; };
 		F47688672A9107AC00D57BA8 /* NicknameAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47688662A9107AC00D57BA8 /* NicknameAPI.swift */; };
+		F476886A2A91098600D57BA8 /* NicknameResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47688692A91098600D57BA8 /* NicknameResponse.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
 		F4A4E0472A7AD79B00673741 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4E0462A7AD79B00673741 /* LoginView.swift */; };
@@ -244,6 +245,7 @@
 		F45B4B862A8F4E4600562D60 /* NicknameType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameType.swift; sourceTree = "<group>"; };
 		F47688632A90099100D57BA8 /* MypageCollectionViewFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCollectionViewFooter.swift; sourceTree = "<group>"; };
 		F47688662A9107AC00D57BA8 /* NicknameAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameAPI.swift; sourceTree = "<group>"; };
+		F47688692A91098600D57BA8 /* NicknameResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameResponse.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		F4A4E0462A7AD79B00673741 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 		14E28F7A2A654C5D00E5E5C2 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				F47688682A91097700D57BA8 /* Nickname */,
 				1DBF95C52A8CA02500AF39B9 /* Notification */,
 				0D444E7F2A861A2B007DB2F6 /* FeedDetail */,
 				0D444E722A861722007DB2F6 /* Comment */,
@@ -940,6 +943,14 @@
 			path = Nickname;
 			sourceTree = "<group>";
 		};
+		F47688682A91097700D57BA8 /* Nickname */ = {
+			isa = PBXGroup;
+			children = (
+				F47688692A91098600D57BA8 /* NicknameResponse.swift */,
+			);
+			path = Nickname;
+			sourceTree = "<group>";
+		};
 		F4908E342A8696E900F38DB5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -1216,6 +1227,7 @@
 				F4867A652A6061940016389C /* PriceUploadView.swift in Sources */,
 				F4A6D5432A7C4568006905AE /* KeychainManager.swift in Sources */,
 				1432391E2A8E575100128A02 /* AnimationOnboardingViewController.swift in Sources */,
+				F476886A2A91098600D57BA8 /* NicknameResponse.swift in Sources */,
 				14F670112A550F1A009703AD /* NSObject+.swift in Sources */,
 				F417C6BC2A5F27CE00A03EBB /* ContentsWriteView.swift in Sources */,
 				147CF6D82A6715D200008569 /* CustomMoyaProvider.swift in Sources */,
