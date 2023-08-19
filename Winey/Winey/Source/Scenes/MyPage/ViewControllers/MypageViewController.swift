@@ -159,6 +159,12 @@ extension MypageViewController: UICollectionViewDataSource {
                 guideViewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(guideViewController, animated: true)
             }
+            mypageProfileCell.nextButtonTappedClosure = {
+                let nicknameViewController = UINavigationController(rootViewController: NicknameViewController(viewType: .myPage))
+                nicknameViewController.setNavigationBarHidden(true, animated: false)
+                nicknameViewController.modalPresentationStyle = .fullScreen
+                self.present(nicknameViewController, animated: true, completion: nil)
+            }
             return mypageProfileCell
             
         case 1 :
