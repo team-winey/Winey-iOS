@@ -11,7 +11,7 @@ import SnapKit
 
 public final class WIMainNavigationBar: UIView {
     
-    var alarmButtonClosure: (() -> Void)?
+    public var alarmButtonClosure: (() -> Void)?
     public var alarmStatus: AlarmStatus = .defaultAlarm {
         didSet {
             alarmButton.setImage(alarmStatus.icon, for: .normal)
