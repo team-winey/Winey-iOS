@@ -120,6 +120,7 @@
 		F47688642A90099100D57BA8 /* MypageCollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47688632A90099100D57BA8 /* MypageCollectionViewFooter.swift */; };
 		F47688672A9107AC00D57BA8 /* NicknameAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47688662A9107AC00D57BA8 /* NicknameAPI.swift */; };
 		F476886A2A91098600D57BA8 /* NicknameResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47688692A91098600D57BA8 /* NicknameResponse.swift */; };
+		F476886C2A910A4D00D57BA8 /* NicknameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476886B2A910A4D00D57BA8 /* NicknameService.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
 		F4A4E0472A7AD79B00673741 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4E0462A7AD79B00673741 /* LoginView.swift */; };
@@ -246,6 +247,7 @@
 		F47688632A90099100D57BA8 /* MypageCollectionViewFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCollectionViewFooter.swift; sourceTree = "<group>"; };
 		F47688662A9107AC00D57BA8 /* NicknameAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameAPI.swift; sourceTree = "<group>"; };
 		F47688692A91098600D57BA8 /* NicknameResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameResponse.swift; sourceTree = "<group>"; };
+		F476886B2A910A4D00D57BA8 /* NicknameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameService.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		F4A4E0462A7AD79B00673741 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -939,6 +941,7 @@
 			isa = PBXGroup;
 			children = (
 				F47688662A9107AC00D57BA8 /* NicknameAPI.swift */,
+				F476886B2A910A4D00D57BA8 /* NicknameService.swift */,
 			);
 			path = Nickname;
 			sourceTree = "<group>";
@@ -1206,6 +1209,7 @@
 				1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */,
 				F4A6D53E2A7C3C48006905AE /* LoginResponse.swift in Sources */,
 				0D444E7E2A8619E1007DB2F6 /* CommentResponse.swift in Sources */,
+				F476886C2A910A4D00D57BA8 /* NicknameService.swift in Sources */,
 				0D444E812A861A33007DB2F6 /* FeedDetailResponse.swift in Sources */,
 				F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */,
 				0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */,
