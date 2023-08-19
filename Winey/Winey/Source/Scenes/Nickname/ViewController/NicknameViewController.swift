@@ -193,4 +193,27 @@ private extension NicknameViewController {
             textColor: .winey_gray400
         )
     }
+    
+    enum DuplicateCheckResult {
+        case success
+        case fail
+        
+        var text: String {
+            switch self {
+            case .success:
+                return "사용 가능한 닉네임입니다 :)"
+            case .fail:
+                return "중복된 닉네임입니다 :("
+            }
+        }
+        
+        var color: UIColor {
+            switch self {
+            case .success:
+                return .winey_blue500
+            case .fail:
+                return .winey_red500
+            }
+        }
+    }
 }
