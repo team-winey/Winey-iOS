@@ -163,6 +163,7 @@ class NicknameViewController: UIViewController {
             navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
         }
         duplicateCheckBtn.addTarget(self, action: #selector(tapDuplicateButton), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(tapCheckButton), for: .touchUpInside)
     }
     
     private func makeSuccessView() {
@@ -174,12 +175,14 @@ class NicknameViewController: UIViewController {
             .sink { [weak self] name in
                 self?.hideDetailLabel(name)
                 self?.checkNickname(name, self?.duplicateResult ?? false)
+                self?.setButtonActivate(name, self?.duplicateResult ?? false)
             }
             .store(in: &bag)
         
         nickNameTextField.textFieldDidEndEditingPublisher
             .sink { [weak self] _ in
                 self?.checkInactive(self?.nickNameTextField.getName() ?? "")
+                self?.setButtonActivate(self?.nickNameTextField.getName() ?? "", self?.duplicateResult ?? false)
             }.store(in: &bag)
     }
     
@@ -212,6 +215,14 @@ class NicknameViewController: UIViewController {
         detailLabel.text = result.text
     }
     
+    private func setButtonActivate(_ text: String, _ result: Bool) {
+        if !result && text == recentNickname && text != "" {
+            nextButton.isEnabled = true
+        } else {
+            nextButton.isEnabled = false
+        }
+    }
+    
     @objc
     private func tapLeftButton() {
         self.dismiss(animated: true)
@@ -223,10 +234,17 @@ class NicknameViewController: UIViewController {
         
         nicknameService.duplicateCheck(nickname: recentNickname) { response in
             guard let response = response else { return }
-            let checkResult = response.data.isDuplicated ? DuplicateCheckResult.fail : DuplicateCheckResult.success
+ 
             self.duplicateResult = response.data.isDuplicated
             self.checkNickname(self.recentNickname, response.data.isDuplicated)
+            self.setButtonActivate(self.recentNickname, response.data.isDuplicated)
         }
+    }
+    
+    @objc
+    private func tapCheckButton() {
+        recentNickname = nickNameTextField.getName()
+        print(recentNickname)
     }
     
     @objc
