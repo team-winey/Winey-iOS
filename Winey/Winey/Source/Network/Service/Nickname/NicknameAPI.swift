@@ -11,6 +11,7 @@ import Moya
 
 enum NicknameAPI {
     case changeNickname(nickname: String)
+    case checkNicknameDuplicate(nickname: String)
 }
 
 extension NicknameAPI: TargetType {
@@ -30,6 +31,8 @@ extension NicknameAPI: TargetType {
            switch self {
            case .changeNickname:
                return URLConstant.changeNickname
+           case .checkNicknameDuplicate:
+               return URLConstant.checkNicknameDuplicate
            }
        }
 
@@ -37,6 +40,8 @@ extension NicknameAPI: TargetType {
            switch self {
            case .changeNickname:
                return .patch
+           case .checkNicknameDuplicate:
+               return .get
            }
        }
 
@@ -44,6 +49,8 @@ extension NicknameAPI: TargetType {
            switch self {
            case .changeNickname(let nickname):
                return .requestJSONEncodable(nickname)
+           case .checkNicknameDuplicate(let nickname):
+               return .requestParameters(parameters: ["nickname": nickname], encoding: URLEncoding.queryString)
            }
        }
 
@@ -51,6 +58,8 @@ extension NicknameAPI: TargetType {
            switch self {
            case .changeNickname:
                return NetworkConstant.defaultHeader
+           case .checkNicknameDuplicate:
+               return NetworkConstant.nicknameDuplicateCheckHeader
            }
        }
     
