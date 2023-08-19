@@ -13,12 +13,12 @@ struct NicknameResponse {
     let data: NSNull
 }
 
-struct DuplicateCheckResponse {
+struct DuplicateCheckResponse: Codable {
     let code: Int
     let message: String
     let data: CheckResult
 }
 
-struct CheckResult {
+struct CheckResult: Codable {
     let isDuplicated: Bool
 }
