@@ -4,7 +4,7 @@
 //
 //  Created by 김응관 on 2023/08/16.
 //
-
+import Combine
 import UIKit
 
 import DesignSystem
@@ -17,6 +17,15 @@ class NicknameViewController: UIViewController {
     private let navigationBar = WINavigationBar(leftBarItem: .close)
     
     private let viewType: NicknameType
+    
+    private lazy var namePublisher = PassthroughSubject<(Bool, String), Never>()
+    private lazy var bag = Set<AnyCancellable>()
+    
+    private let nicknameService = NicknameService()
+    
+    private var recentNickname: String = ""
+    
+    private var duplicateResult: Bool = false
     
     // MARK: - UI Components
     
@@ -31,6 +40,13 @@ class NicknameViewController: UIViewController {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
+        return label
+    }()
+    
+    private let detailLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.isHidden = true
         return label
     }()
     
@@ -61,6 +77,7 @@ class NicknameViewController: UIViewController {
         setGuideText()
         setNotification()
         setAddTarget()
+        bind()
     }
     
     // MARK: - methods
@@ -80,7 +97,7 @@ class NicknameViewController: UIViewController {
             }
         }
         
-        view.addSubviews(titleLabel, subTitle, duplicateCheckBtn, nickNameTextField, nextButton)
+        view.addSubviews(titleLabel, subTitle, duplicateCheckBtn, nickNameTextField, detailLabel, nextButton)
         
         titleLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(24)
@@ -104,6 +121,11 @@ class NicknameViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(112)
         }
         
+        detailLabel.snp.makeConstraints {
+            $0.top.equalTo(nickNameTextField.snp.bottom).offset(4)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+        }
+        
         nextButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
             $0.height.equalTo(52)
@@ -115,6 +137,7 @@ class NicknameViewController: UIViewController {
         titleLabel.setText(viewType.titleLabel, attributes: Const.titleAttributes)
         subTitle.setText("공백 또는 특수문자는 사용할 수 없습니다",
                          attributes: Const.subTitleAttributes)
+        detailLabel.setText("", attributes: Const.detailLabelAttributes)
     }
     
     private func setNotification() {
@@ -139,6 +162,54 @@ class NicknameViewController: UIViewController {
         if viewType.naviExist {
             navigationBar.leftButton.addTarget(self, action: #selector(tapLeftButton), for: .touchUpInside)
         }
+        duplicateCheckBtn.addTarget(self, action: #selector(tapDuplicateButton), for: .touchUpInside)
+    }
+    
+    private func makeSuccessView() {
+        nickNameTextField.makeBorder(width: 1, color: DuplicateCheckResult.success.color)
+    }
+    
+    private func bind() {
+        nickNameTextField.stringPublisher
+            .sink { [weak self] name in
+                self?.hideDetailLabel(name)
+                self?.checkNickname(name, self?.duplicateResult ?? false)
+            }
+            .store(in: &bag)
+        
+        nickNameTextField.textFieldDidEndEditingPublisher
+            .sink { [weak self] _ in
+                self?.checkInactive(self?.nickNameTextField.getName() ?? "")
+            }.store(in: &bag)
+    }
+    
+    private func checkNickname(_ text: String, _ result: Bool) {
+        if text == recentNickname && text.count > 0 {
+            if result {
+                nickNameTextField.makeErrorView()
+                setDuplicateResultText(.fail)
+            } else {
+                nickNameTextField.makeSuccessView()
+                setDuplicateResultText(.success)
+            }
+        } else {
+            nickNameTextField.makeActiveView()
+            detailLabel.isHidden = true
+        }
+    }
+    
+    private func checkInactive(_ text: String) {
+        text == recentNickname && text.count > 0 ? checkNickname(text, duplicateResult) : nickNameTextField.makeInactiveView()
+    }
+    
+    private func hideDetailLabel(_ name: String) {
+        if name != recentNickname { detailLabel.isHidden = true }
+    }
+    
+    private func setDuplicateResultText(_ result: DuplicateCheckResult) {
+        detailLabel.isHidden = false
+        detailLabel.textColor = result.color
+        detailLabel.text = result.text
     }
     
     @objc
@@ -148,7 +219,14 @@ class NicknameViewController: UIViewController {
     
     @objc
     private func tapDuplicateButton() {
-        let name = nickNameTextField.getName()
+        recentNickname = nickNameTextField.getName()
+        
+        nicknameService.duplicateCheck(nickname: recentNickname) { response in
+            guard let response = response else { return }
+            let checkResult = response.data.isDuplicated ? DuplicateCheckResult.fail : DuplicateCheckResult.success
+            self.duplicateResult = response.data.isDuplicated
+            self.checkNickname(self.recentNickname, response.data.isDuplicated)
+        }
     }
     
     @objc
@@ -191,6 +269,11 @@ private extension NicknameViewController {
             style: .body3,
             weight: .medium,
             textColor: .winey_gray400
+        )
+        
+        static let detailLabelAttributes = Typography.Attributes(
+            style: .body3,
+            weight: .medium
         )
     }
     
