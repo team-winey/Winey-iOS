@@ -85,7 +85,8 @@ class AnimationOnboardingViewController: UIViewController {
     @objc
     private func nextButtonTapped() {
         if currentPage == onboardingData.count - 1 {
-            // 마지막 페이지인 경우
+            let setNicknameVC = NicknameViewController(viewType: .onboarding)
+            self.switchRootViewController(rootViewController: setNicknameVC, animated: true)
         } else {
             currentPage += 1
             setOnboardingData(data: onboardingData, page: currentPage)
