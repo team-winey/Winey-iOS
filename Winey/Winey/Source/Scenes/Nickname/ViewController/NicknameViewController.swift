@@ -244,7 +244,12 @@ class NicknameViewController: UIViewController {
     @objc
     private func tapCheckButton() {
         recentNickname = nickNameTextField.getName()
-        print(recentNickname)
+        
+        nicknameService.setNickname(nickname: recentNickname) { response in
+            response ? print("닉네임 등록 성공") : print("닉네임 등록 실패")
+        }
+        
+        self.dismiss(animated: true)
     }
     
     @objc
