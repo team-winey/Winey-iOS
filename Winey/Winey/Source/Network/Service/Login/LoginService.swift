@@ -8,6 +8,9 @@
 import Foundation
 
 import Moya
+import KakaoSDKAuth
+import KakaoSDKUser
+
 
 final class LoginService {
     
@@ -21,6 +24,29 @@ final class LoginService {
     private(set) var logoutResponse: LogoutResponse?
     private(set) var reissueResponse: ReissueResponse?
     
+    
+    func loginWithKakao(request: LoginRequest, token: String,
+                        completion: @escaping ((LoginResponse?) -> Void)) {
+        authProvider.request(.kakaoLogin(request: request, token: token)) {
+            [self] (result) in
+            switch result {
+            case .success(let response):
+                switch response.statusCode {
+                case 200..<300:
+                    do {
+                        self.loginResponse = try response.map(LoginResponse.self)
+                        completion(loginResponse)
+                    } catch {
+                        print("response mapping error")
+                    }
+                default:
+                    print(500)
+                }
+            case .failure(let err):
+                print(err)
+            }
+        }
+    }
     // 1. 애플 로그인
     
     func loginWithApple(request: LoginRequest, token: String,
@@ -126,66 +152,53 @@ final class LoginService {
         }
     }
     
-//    func loginWithKakao() {
-//        if (KakaoSDKUser.UserApi.isKakaoTalkLoginAvailable()) {
-//
-//            //카톡 설치되어있으면 -> 카톡으로 로그인
-//            KakaoSDKUser.UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-//                if let error = error {
-//                    print(error)
-//                } else {
-//                    print("카카오 톡으로 로그인 성공")
-//
-//                    _ = oauthToken
-//                    /// 로그인 관련 메소드 추가
-//                }
-//            }
-//        } else {
-//
-//            // 카톡 없으면 -> 계정으로 로그인
-//            KakaoSDKUser.UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
-//                if let error = error {
-//                    print(error)
-//                } else {
-//                    print("카카오 계정으로 로그인 성공")
-//
-//                    _ = oauthToken
-//                    // 관련 메소드 추가
-//                }
-//            }
-//        }
-//    }
-//// MARK: - Send To Server
-//    //사용자 정보 불러옴
-////    func loadUserInfo(ouathToken: Int?) {
-////        UserApi.shared.me { [self] user, error in
-////            if let error = error {
-////                print(error)
-////            } else {
-////
-////                guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
-////                      let name = user?.kakaoAccount?.profile?.nickname else{
-////                    print("token/email/name is nil")
-////                    return
-////                }
-////
-////                self.email = email
-////                self.accessToken = token
-////                self.name = name
-////
-////                //서버에 이메일/토큰/이름 보내주기
-////            }
-////        }
-////    }
-//    // MARK: - Logout
-//    func logout() {
-//        UserApi.shared.logout {(error) in
-//            if let error = error {
-//                print(error)
-//            }
-//            else {
-//                print("logout() success.")
-//            }
-//        }
-//    }
+    // MARK: - 로그인
+    func kakaoLogin(completion: @escaping ((String) -> Void)) {
+        print("KakaoAuthVM - handleKakaoLogin() called()")
+        //카카오톡 설치 여부 확인
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                }
+                else {
+                    print("loginWithKakaoTalk() success.")
+
+                    //do something
+                    _ = oauthToken
+                    print(oauthToken, "토큰? ")
+                    if let oauthToken = oauthToken{
+                        completion(oauthToken.accessToken)
+                    }
+                }
+            }
+        } else { //카카오톡이 설치가 안되어있으면
+            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        print("loginWithKakaoAccount() success.")
+
+                        //do something
+                        _ = oauthToken
+                        print(oauthToken, "토큰?")
+                        if let oauthToken = oauthToken{
+                            completion(oauthToken.accessToken)
+                        }
+                    }
+                }
+        }
+    }
+    // MARK: - 로그아웃
+    func kakaoLogOut() {
+        UserApi.shared.logout {(error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("logout() success.")
+            }
+        }
+    }
 }
