@@ -170,6 +170,11 @@ public final class WITextFieldView: UIView {
         textField.textColor = Color.inactiveText.color
     }
     
+    public func makeSuccessView() {
+        textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.nickNameSuccess.color)
+        textField.textColor = type.activeTextColor
+    }
+    
     public func changeTextLength(_ length: Int) {
         type.textLength = length
     }
@@ -183,8 +188,6 @@ extension WITextFieldView: UITextFieldDelegate {
     
     /// textFieldDidBeginEditing: textField의 편집이 시작될 때의 동작을 정의한 함수
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.textColor = type.activeTextColor
-        textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.activeColor.color)
         
         if type.keyboardType == .numberPad {
             pricePublisher.send(price)
@@ -194,6 +197,7 @@ extension WITextFieldView: UITextFieldDelegate {
                 else { textField.text = pure }
             }
         } else {
+            stringPublisher.send(textField.text ?? "")
             if textField.text == nil || textField.text == "" { textField.placeholder = "" }
         }
     }
@@ -213,6 +217,7 @@ extension WITextFieldView: UITextFieldDelegate {
             }
         } else if type.keyboardType == .default {
             countPublisher.send(textField.text?.count ?? 0)
+            stringPublisher.send(textField.text ?? "")
             
             if textField.text == "" { textField.placeholder = "" }
         }
@@ -222,7 +227,8 @@ extension WITextFieldView: UITextFieldDelegate {
     public func textFieldDidEndEditing(_ textField: UITextField) {
         if ((textField.text?.isEmpty) != nil) {
             textField.placeholder = type.placeholder
-            self.makeInactiveView()
+            
+            if type.keyboardType == .numberPad { self.makeInactiveView() }
         }
         textFieldDidEndEditingPublisher.send(Void())
     }
@@ -300,6 +306,7 @@ extension WITextFieldView {
         case errorBorderColor
         case cursorColor
         case backgroundColor
+        case nickNameSuccess
         
         var color: UIColor {
             switch self {
@@ -315,6 +322,8 @@ extension WITextFieldView {
                 return .winey_red500
             case .inactiveText:
                 return .winey_gray500
+            case .nickNameSuccess:
+                return .winey_blue500
             }
         }
     }
