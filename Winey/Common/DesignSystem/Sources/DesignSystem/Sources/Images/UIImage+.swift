@@ -34,6 +34,7 @@ public extension UIImage {
         public static let empty_comment     = UIImage(name: "ic_empty_comment")
         public static let alarm_default     = UIImage(name: "ic_alarm_default")
         public static let alarm_variant     = UIImage(name: "ic_alarm_variant")
+        public static let arrow             = UIImage(name: "ic_arrow")
     }
 
     enum Mypage {
@@ -84,6 +85,10 @@ public extension UIImage {
         public static let banner3 = UIImage(name: "img_banner3")
         public static let banner4 = UIImage(name: "img_banner4")
         public static let img_background = UIImage(name: "img_background")
+        public static let chat1 = UIImage(name: "img_chat1")
+        public static let chat2 = UIImage(name: "img_chat2")
+        public static let chat3 = UIImage(name: "img_chat3")
+        public static let canvas = UIImage(name: "img_canvasView")
     }
     
     enum Btn {
