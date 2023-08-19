@@ -12,10 +12,6 @@ import DesignSystem
 
 final class MenuCell: UICollectionViewCell {
 
-    // MARK: - Properties
-
-    static let identifier = MenuCell.className
-
     // MARK: - UIComponents
 
     private var nextImageView: UIImageView = {
