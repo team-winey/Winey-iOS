@@ -22,6 +22,7 @@ final class RecommendViewController: UIViewController {
     
     var dataSource : UICollectionViewDiffableDataSource<Int, RecommendModel>!
     private let recommendService = RecommendService()
+    private let notiService = NotificationService()
     private var recommendList: [RecommendModel] = []
     private var currentPage: Int = 1
     private var isEnd: Bool = false
@@ -51,6 +52,12 @@ final class RecommendViewController: UIViewController {
         setLayout()
         setupDataSource()
         getTotalRecommend(page: currentPage)
+        checkNewNotification()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkNewNotification()
     }
     
     private func setupDataSource() {
@@ -168,6 +175,16 @@ extension RecommendViewController {
             newSnapshot.appendItems(self.recommendList)
             
             self.dataSource.apply(newSnapshot, animatingDifferences: true)
+        }
+    }
+    
+    private func checkNewNotification() {
+        notiService.getNewNotificationStatus { [weak self] hasNewNotification in
+            if hasNewNotification {
+                self?.naviBar.alarmStatus = .newAlarm
+            } else {
+                self?.naviBar.alarmStatus = .defaultAlarm
+            }
         }
     }
 }
