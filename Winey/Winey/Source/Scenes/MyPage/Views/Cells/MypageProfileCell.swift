@@ -20,6 +20,8 @@ final class MypageProfileCell: UICollectionViewCell {
     // MARK: - Properties
     
     var infoButtonTappedClosure: (() -> Void)?
+    var nextButtonTappedClosure: (() -> Void)?
+    
     static let identifier = MypageProfileCell.className
     
     // MARK: - UIComponents
@@ -54,7 +56,6 @@ final class MypageProfileCell: UICollectionViewCell {
     private lazy var infoButton: UIButton = {
         let button = UIButton()
         button.setImage(.Icon.info, for: .normal)
-        button.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -93,12 +94,18 @@ final class MypageProfileCell: UICollectionViewCell {
         self.infoButtonTappedClosure?()
     }
     
+    @objc
+    private func nextButtonTapped() {
+        self.nextButtonTappedClosure?()
+    }
+    
     // MARK: - View Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
         setUI()
+        setAddTarget()
     }
     
     @available(*, unavailable)
@@ -170,5 +177,10 @@ final class MypageProfileCell: UICollectionViewCell {
             make.top.equalTo(characterImageView.snp.bottom).offset(13)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    func setAddTarget() {
+        infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
 }
