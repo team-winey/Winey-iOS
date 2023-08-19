@@ -18,8 +18,8 @@ struct Category {
 
 final class AlertViewController: UIViewController {
 
-
     // MARK: - Properties
+    
     var model: [Category] = [] {
         didSet {
             self.tableView.reloadData()
@@ -43,13 +43,24 @@ final class AlertViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setLayout()
+        setAddtarget()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getTotalAlert()
     }
+    
+    private func setAddtarget() {
+        navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
+
 // MARK: - Function
 
 extension AlertViewController: UITableViewDelegate, UITableViewDataSource {
@@ -71,7 +82,6 @@ extension AlertViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         pushState(at: model[indexPath.row].notiType)
     }
 }
@@ -92,7 +102,6 @@ extension AlertViewController {
     private func setLayout() {
         view.addSubviews(navigationBar,tableView)
         
-
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safearea)
             $0.horizontalEdges.equalToSuperview()
@@ -109,11 +118,7 @@ extension AlertViewController {
     private func getTotalAlert() {
         alertService.getTotalNotification() { [weak self] response in
             guard let response = response, let data = response.data else { return }
-
             guard let self else { return }
-            
-//            print("444", data.getNotiResponseDtoList)
-
             switch response.code {
             case 200..<300:
                 var newArray = model
@@ -133,7 +138,6 @@ extension AlertViewController {
     }
     
     func pushState(at data: String) {
-        
         switch data {
         case "위니 사용법":
             let guideViewController = GuideViewController()
