@@ -147,6 +147,11 @@ class NicknameViewController: UIViewController {
     }
     
     @objc
+    private func tapDuplicateButton() {
+        let name = nickNameTextField.getName()
+    }
+    
+    @objc
     private func keyboardWillShow(notification: NSNotification) {
         
         guard let userInfo = notification.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }

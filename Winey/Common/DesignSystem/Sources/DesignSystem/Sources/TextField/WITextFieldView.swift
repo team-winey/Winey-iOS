@@ -27,8 +27,6 @@ public final class WITextFieldView: UIView {
     
     public lazy var bag = Set<AnyCancellable>()
     
-    private lazy var name: String = ""
-    
     private lazy var price: Int = 0 {
         didSet { pricePublisher.send(price) }
     }
@@ -175,6 +173,10 @@ public final class WITextFieldView: UIView {
     public func changeTextLength(_ length: Int) {
         type.textLength = length
     }
+    
+    public func getName() -> String {
+        return textField.text ?? ""
+    }
 }
 
 extension WITextFieldView: UITextFieldDelegate {
@@ -211,6 +213,7 @@ extension WITextFieldView: UITextFieldDelegate {
             }
         } else if type.keyboardType == .default {
             countPublisher.send(textField.text?.count ?? 0)
+            
             if textField.text == "" { textField.placeholder = "" }
         }
     }
