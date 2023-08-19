@@ -12,3 +12,13 @@ struct NicknameResponse {
     let message: String
     let data: NSNull
 }
+
+struct DuplicateCheckResponse {
+    let code: Int
+    let message: String
+    let data: CheckResult
+}
+
+struct CheckResult {
+    let isDuplicated: Bool
+}
