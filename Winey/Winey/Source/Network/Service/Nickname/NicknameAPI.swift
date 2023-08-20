@@ -14,7 +14,7 @@ enum NicknameAPI {
     case checkNicknameDuplicate(nickname: String)
 }
 
-extension NicknameAPI: TargetType {
+extension NicknameAPI: TargetType, AccessTokenAuthorizable {
     
     var authorizationType: Moya.AuthorizationType? {
         switch self {
