@@ -191,6 +191,12 @@ extension MypageViewController: UICollectionViewDataSource {
                 saveGoalVC.modalPresentationStyle = .pageSheet
                 self?.present(saveGoalVC, animated: true, completion: nil)
             }
+            mypageGoalInfoCell.blockAlertTappedClosure = { [weak self] in
+                let blockAlert = MIPopupViewController(content: .init(title: "절약 목표 기간이 지나지 않아\n목표를 수정할 수 없어요"))
+                blockAlert.addButton(title: "닫기", type: .gray, tapButtonHandler: nil)
+                self?.present(blockAlert, animated: true)
+            }
+            
             return mypageGoalInfoCell
             
         case 2 :
