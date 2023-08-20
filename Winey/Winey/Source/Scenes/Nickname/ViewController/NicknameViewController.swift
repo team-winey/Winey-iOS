@@ -245,11 +245,16 @@ class NicknameViewController: UIViewController {
     private func tapCheckButton() {
         recentNickname = nickNameTextField.getName()
         
-        nicknameService.setNickname(nickname: recentNickname) { response in
-            response ? print("닉네임 등록 성공") : print("닉네임 등록 실패")
+        nicknameService.setNickname(nickname: recentNickname) { [self] response in
+            if response {
+                print("닉네임 등록 성공")
+                if self.viewType.naviExist {
+                    self.dismiss(animated: true)
+                } else {
+                    self.switchRootViewController(rootViewController: TabBarController(), animated: true)
+                }
+            } else { print("닉네임 등록 실패") }
         }
-        
-        self.dismiss(animated: true)
     }
     
     @objc
