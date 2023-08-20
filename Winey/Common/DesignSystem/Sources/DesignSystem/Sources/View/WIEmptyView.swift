@@ -9,11 +9,6 @@ import UIKit
 
 import SnapKit
 
-public final class ViewSingleton: NSObject {
-    static let emptyView = WIEmptyView()
-    private override init() { }
-}
-
 public final class WIEmptyView: UIView {
         
     private let emptyImg: UIImageView = {
