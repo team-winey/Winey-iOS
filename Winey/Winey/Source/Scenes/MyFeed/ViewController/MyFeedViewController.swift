@@ -194,9 +194,7 @@ extension MyFeedViewController {
         }
         
         emptyView.snp.makeConstraints {
-            $0.top.equalTo(naviBar.snp.bottom).offset(96)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.centerX.equalToSuperview()
+            $0.centerX.centerY.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints {
