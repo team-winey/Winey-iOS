@@ -11,9 +11,11 @@ import Moya
 import DesignSystem
 
 struct Category {
-    let notiType: String
-    let notiMessage: String
-    let timeago: String
+   let notiID: Int
+   let notiReceiver, notiMessage, notiType: String
+   let isChecked: Bool
+   let timeAgo, createdAt: String
+   let linkID: Int?
 }
 
 final class AlertViewController: UIViewController {
@@ -120,11 +122,20 @@ extension AlertViewController {
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
             switch response.code {
-            case 200..<300:
-                var newArray = model
-                for i in data.getNotiResponseDtoList {
-                    newArray.append(Category(notiType: i.notiMessage, notiMessage: i.notiMessage , timeago: i.timeAgo ))
-                }
+                        case 200..<300:
+                            var newArray = model
+                            for i in data.getNotiResponseDtoList {
+                                newArray.append(Category(
+                                    notiID: i.notiID,
+                                    notiReceiver: i.notiReceiver,
+                                    notiMessage: i.notiMessage,
+                                    notiType: i.notiType,
+                                    isChecked: i.isChecked,
+                                    timeAgo: i.timeAgo,
+                                    createdAt: i.createdAt,
+                                    linkID: i.linkID )
+                                )
+                            }
 
                 model = newArray
 

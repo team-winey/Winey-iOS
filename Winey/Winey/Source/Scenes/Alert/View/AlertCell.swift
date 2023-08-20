@@ -35,7 +35,7 @@ final class AlertCell: UITableViewCell {
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
-        label.setText("좋아요",
+        label.setText("알림항목(default)",
                       attributes: .init(
                         style: .detail,
                         weight: .medium,
@@ -46,7 +46,7 @@ final class AlertCell: UITableViewCell {
     
     private let contentLabel: UILabel = {
         let label = UILabel()
-        label.setText("님이 회원님의 게시물을 좋아해요",
+        label.setText("알림내용(default)",
                       attributes: .init(
                         style: .detail,
                         weight: .medium,
@@ -58,7 +58,7 @@ final class AlertCell: UITableViewCell {
     
     private let elapsedTimeLabel: UILabel = {
         let label = UILabel()
-        label.setText("10분전",
+        label.setText("몇 분 전(default)",
                       attributes: .init(
                         style: .detail,
                         weight: .medium,
@@ -118,36 +118,42 @@ final class AlertCell: UITableViewCell {
     }
     
     // MARK: - configure
-    
-    func configureCell(for model: Category) {
-        categoryLabel.text = model.notiMessage
         
-        //notiMessage
-        if model.notiMessage.contains("평민") {
-            contralImageView.image = UIImage.Img.commoner
-        }
-        else if model.notiMessage.contains("기사") {
-            contralImageView.image = UIImage.Img.knight
-        }
-        else if model.notiMessage.contains("귀족") {
-            contralImageView.image = UIImage.Img.noble
-        }
-        else if model.notiMessage.contains("황제") {
-            contralImageView.image = UIImage.Img.emperor
-        }
-        
-        //notiType
-        else if model.notiType.contains("좋아요") {
-            contralImageView.image = UIImage.Icon.like
-        }
-        else if model.notiType.contains("댓글") {
-            contralImageView.image = UIImage.Icon.commentAlram
-        }
-        else if model.notiType.contains("위니 사용법") {
-            contralImageView.image = UIImage.Icon.comment
-        }
-        else if model.notiType.contains("목표 달성 실패") {
-            contralImageView.image = UIImage.Icon.winey
+        func configureCell(for model: Category) {
+            categoryLabel.text = model.notiType
+            contentLabel.text = model.notiMessage
+            elapsedTimeLabel.text = model.timeAgo
+            
+            // 예외처리1) 닉네임에 '계급명'이 들어간 유저를 고려한 예외상황. ex) 귀족영민님이 회원님의 게시글을 좋아합니다.
+            // notiType에 따른 이미지 지정을 앞에,
+            // notiMessage에 따른 이미지 지정을 뒤에 둠으로써 예외처리1을 해결하였습니다.
+            
+            //notiType
+            if model.notiType.contains("좋아요") {
+                contralImageView.image = UIImage.Icon.like
+            }
+            else if model.notiType.contains("댓글") {
+                contralImageView.image = UIImage.Icon.commentAlram
+            }
+            else if model.notiType.contains("위니 사용법") {
+                contralImageView.image = UIImage.Icon.comment
+            }
+            else if model.notiType.contains("목표 달성 실패") {
+                contralImageView.image = UIImage.Icon.winey
+            }
+            
+            //notiMessage
+            else if model.notiMessage.contains("평민") {
+                contralImageView.image = UIImage.Img.commoner
+            }
+            else if model.notiMessage.contains("기사") {
+                contralImageView.image = UIImage.Img.knight
+            }
+            else if model.notiMessage.contains("귀족") {
+                contralImageView.image = UIImage.Img.noble
+            }
+            else if model.notiMessage.contains("황제") {
+                contralImageView.image = UIImage.Img.emperor
+            }
         }
     }
-}
