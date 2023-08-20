@@ -14,6 +14,9 @@ enum LoginAPI {
     case appleLogout(token: String)
     case appleWithdraw(token: String)
     case reissueToken(token: String)
+    case kakaoLogin(request: LoginRequest, token: String)
+    case kakaoLogout(token: String)
+    case kakaoWithdraw(token: String)
 }
 
 
@@ -39,6 +42,12 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
             return URLConstant.withdraw
         case .reissueToken:
             return URLConstant.token
+        case .kakaoLogin:
+            return URLConstant.signIn
+        case .kakaoLogout:
+            return URLConstant.signOut
+        case .kakaoWithdraw:
+            return URLConstant.withdraw
         }
     }
     
@@ -47,6 +56,10 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
         case .appleLogin, .appleLogout, .reissueToken:
             return .post
         case .appleWithdraw:
+            return .delete
+        case .kakaoLogin, .kakaoLogout:
+            return .post
+        case .kakaoWithdraw:
             return .delete
         }
     }
@@ -57,6 +70,10 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
             return .requestJSONEncodable(request)
         case .appleLogout, .appleWithdraw, .reissueToken:
             return .requestPlain
+        case .kakaoLogin(let request, _):
+            return .requestJSONEncodable(request)
+        case .kakaoLogout, .kakaoWithdraw:
+            return .requestPlain
         }
     }
     
@@ -66,6 +83,12 @@ extension LoginAPI: TargetType, AccessTokenAuthorizable {
             return ["Content-Type": "application/json",
                                               "Authorization": token]
         case .appleLogout(let token), .appleWithdraw(let token):
+            return ["Content-Type": "application/json",
+                                              "accessToken": token]
+        case .kakaoLogin(_, let token):
+            return ["Content-Type": "application/json",
+                                              "Authorization": token]
+        case .kakaoLogout(let token), .kakaoWithdraw(let token):
             return ["Content-Type": "application/json",
                                               "accessToken": token]
         case .reissueToken(let token):
