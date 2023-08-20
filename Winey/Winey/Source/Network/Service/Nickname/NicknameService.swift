@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 final class NicknameService {
-    let nickNameprovider = CustomMoyaProvider<NicknameAPI>()
+    let nickNameprovider = CustomMoyaProvider<NicknameAPI>(session: Session(interceptor: SessionInterceptor.shared))
     
     private var duplicateResponse: DuplicateCheckResponse?
     
