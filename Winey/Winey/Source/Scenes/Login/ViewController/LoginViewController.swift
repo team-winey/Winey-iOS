@@ -88,6 +88,7 @@ class LoginViewController: UIViewController {
     
     private func setAddTarget() {
         appleButton.addTarget(self, action: #selector(appleLogin), for: .touchUpInside)
+        kakaoButton.addTarget(self, action: #selector(kakaoLogin), for: .touchUpInside)
     }
     
     private func bind() {
@@ -113,13 +114,35 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
 extension LoginViewController: ASAuthorizationControllerDelegate {
     
     @objc
+    private func kakaoLogin() {
+        loginService.kakaoLogin(completion:{token in
+            DispatchQueue.main.async {
+                self.activityIndicator.startAnimating()
+                self.kakaoButton.isHidden = true
+                self.appleButton.isHidden = true
+                self.loginView.isHidden = true
+                // 2. 이 VC로 왔다는 것은 로그인이 필요한 상황 -> identityToken을 통한 Token들 재발급이 필요함
+                DispatchQueue.global(qos: .background).async {
+                    
+                    // 3. 다른 쓰레드에서는 로그인 실행
+                    print("identityToken으로 로그인 실행")
+                    let req = LoginRequest(socialType: "KAKAO")
+                    self.loginWithKakao(request: req,
+                                        token: token)
+                }
+            }
+        }
+        )
+    }
+    
+    @objc
     private func appleLogin() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
-        
+
         let requests = [request, ASAuthorizationPasswordProvider().createRequest()]
-        
+
         let authorizationController = ASAuthorizationController(authorizationRequests: requests)
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
@@ -194,6 +217,31 @@ extension LoginViewController {
                 KeychainManager.shared.delete("refreshToken")
                 KeychainManager.shared.delete("accessToken")
 
+                print(response.message)
+                print("access \(response.data.accessToken)")
+                print("refresh \(response.data.refreshToken)")
+                
+                KeychainManager.shared.create(response.data.refreshToken, "refreshToken")
+                KeychainManager.shared.create(response.data.accessToken, "accessToken")
+                
+                self.registerPublisher.send(response.data.isRegistered)
+            default:
+                print(500)
+            }
+        }
+    }
+    private func loginWithKakao(request: LoginRequest, token: String) {
+        loginService.loginWithKakao(request: request, token: token) { response in
+            guard let response = response else { return }
+            switch response.code {
+            case 200..<300:
+                UserDefaults.standard.set(true, forKey: "Signed")
+                print(UserDefaults.standard.bool(forKey: "Signed"))
+                print("로그인 성공 -> accessToken/refreshToken을 키체인에 저장")
+                
+                KeychainManager.shared.delete("refreshToken")
+                KeychainManager.shared.delete("accessToken")
+                
                 print(response.message)
                 print("access \(response.data.accessToken)")
                 print("refresh \(response.data.refreshToken)")
