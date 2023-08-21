@@ -101,22 +101,6 @@ class UploadViewController: UIViewController {
         return btn
     }()
     
-    private lazy var alert: MIPopupViewController = {
-        let vc = MIPopupViewController(content: .init(
-            title: "지금 나가시면 작성하신 게 지워져요",
-            subtitle: "절약 실천 게시물을 올리시면 레벨업에 가까워져요\n그래도 나가시겠습니까?")
-        )
-        
-        vc.addButton(title: "취소", type: .gray) {
-            vc.dismiss(animated: true)
-        }
-        
-        vc.addButton(title: "나가기", type: .yellow) {
-            self.gotoFront()
-        }
-        return vc
-    }()
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -330,11 +314,20 @@ class UploadViewController: UIViewController {
     
     @objc
     private func tapLeftButton() {
-        if navigationBar.leftBarItem == .back {
-            self.present(alert, animated: true)
-        } else {
-            self.dismissUploadViewController()
+        let vc = MIPopupViewController(content: .init(
+            title: "지금 나가시면 작성하신 게 지워져요",
+            subtitle: "절약 실천 게시물을 올리시면 레벨업에 가까워져요\n그래도 나가시겠습니까?")
+        )
+        
+        vc.addButton(title: "취소", type: .gray) {
+            vc.dismiss(animated: true)
         }
+        
+        vc.addButton(title: "나가기", type: .yellow) {
+            self.navigationBar.leftBarItem == .back ? self.gotoFront() : self.dismissUploadViewController()
+        }
+        
+        self.present(vc, animated: true)
     }
     
     @objc
