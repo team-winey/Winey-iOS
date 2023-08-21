@@ -143,8 +143,8 @@ class UploadViewController: UIViewController {
             .store(in: &bag)
         
         secondPage.textCountPublisher
-            .sink { [weak self] count in
-                self?.textExist = count > 0 ? true : false
+            .sink { [weak self] (count, result) in
+                self?.textExist = count > 0 && !result ? true : false
             }
             .store(in: &bag)
     }
