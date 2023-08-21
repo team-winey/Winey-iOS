@@ -27,6 +27,35 @@ public extension WIToastType {
         text: Toast.uploadFail.toastText,
         icon: Toast.uploadFail.toastIcon
     )
+    static let reportSuccess: WIToastType = WIToastType(
+        text: Toast.reportSuccess.toastText,
+        icon: Toast.reportSuccess.toastIcon
+    )
+    
+    static let reportFail: WIToastType = WIToastType(
+        text: Toast.reportFail.toastText,
+        icon: Toast.reportFail.toastIcon
+    )
+    
+    static let commentDeleteSuccess: WIToastType = WIToastType(
+        text: Toast.commentDeleteSuccess.toastText,
+        icon: Toast.commentDeleteSuccess.toastIcon
+    )
+    
+    static let commentDeleteFail: WIToastType = WIToastType(
+        text: Toast.commentDeleteFail.toastText,
+        icon: Toast.commentDeleteFail.toastIcon
+    )
+    
+    static let feedDeleteSuccess: WIToastType = WIToastType(
+        text: Toast.feedDeleteSuccess.toastText,
+        icon: Toast.feedDeleteSuccess.toastIcon
+    )
+    
+    static let feedDeleteFail: WIToastType = WIToastType(
+        text: Toast.feedDeleteFail.toastText,
+        icon: Toast.feedDeleteFail.toastIcon
+    )
 }
 
 public extension WIToastType {
