@@ -356,7 +356,9 @@ extension FeedViewController {
     }
     
     private func deleteMyFeed(feedId: Int) {
-        feedService.deleteMyFeed(feedId) { [weak self] response in }
+        feedService.deleteMyFeed(feedId) { [weak self] response in
+            response ? self?.showToast(.feedDeleteSuccess) : self?.showToast(.feedDeleteFail)
+        }
     }
     
     private func checkNewNotification() {
