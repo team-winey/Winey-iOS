@@ -194,7 +194,13 @@ final class FeedViewController: UIViewController {
             .store(in: &bag)
         
         NotificationCenter.default.publisher(for: .whenDeleteFeedCompleted)
-            .sink { [weak self] _ in self?.refresh() }
+            .map({
+                $0.userInfo?["type"] as! WIToastType
+            })
+            .sink(receiveValue: { [weak self] type in
+                self?.refresh()
+                self?.showToast(type)
+            })
             .store(in: &bag)
     }
     
