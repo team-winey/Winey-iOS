@@ -65,6 +65,8 @@ class UploadViewController: UIViewController {
         }
     }
     
+    private var textExist: Bool = false
+    
     private let postService = FeedService()
     
     private let imagePicker = UIImagePickerController()
@@ -137,6 +139,12 @@ class UploadViewController: UIViewController {
         thirdPageSubject
             .sink { [weak self] _ in
                 self?.thirdPage.textContentView.resetPrice()
+            }
+            .store(in: &bag)
+        
+        secondPage.textCountPublisher
+            .sink { [weak self] count in
+                self?.textExist = count > 0 ? true : false
             }
             .store(in: &bag)
     }
@@ -314,20 +322,28 @@ class UploadViewController: UIViewController {
     
     @objc
     private func tapLeftButton() {
-        let vc = MIPopupViewController(content: .init(
-            title: "지금 나가시면 작성하신 게 지워져요",
-            subtitle: "절약 실천 게시물을 올리시면 레벨업에 가까워져요\n그래도 나가시겠습니까?")
-        )
-        
-        vc.addButton(title: "취소", type: .gray) {
-            vc.dismiss(animated: true)
+        if isOk || (stageIdx == 1 && textExist){
+            let vc = MIPopupViewController(content: .init(
+                title: "지금 나가시면 작성하신 게 지워져요",
+                subtitle: "절약 실천 게시물을 올리시면 레벨업에 가까워져요\n그래도 나가시겠습니까?")
+            )
+            
+            vc.addButton(title: "취소", type: .gray) {
+                vc.dismiss(animated: true)
+            }
+            
+            vc.addButton(title: "나가기", type: .yellow) {
+                self.setNaviBtn(self.navigationBar.leftBarItem)
+            }
+            
+            self.present(vc, animated: true)
+        } else {
+            setNaviBtn(self.navigationBar.leftBarItem)
         }
-        
-        vc.addButton(title: "나가기", type: .yellow) {
-            self.navigationBar.leftBarItem == .back ? self.gotoFront() : self.dismissUploadViewController()
-        }
-        
-        self.present(vc, animated: true)
+    }
+    
+    private func setNaviBtn(_ type: WINavigationBar.BarItem?) {
+        type == .back ? self.gotoFront() : self.dismissUploadViewController()
     }
     
     @objc
