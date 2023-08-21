@@ -33,6 +33,12 @@ public extension WIToastType {
     enum Toast {
         case uploadSuccess
         case uploadFail
+        case reportSuccess
+        case reportFail
+        case commentDeleteSuccess
+        case commentDeleteFail
+        case feedDeleteSuccess
+        case feedDeleteFail
         
         var toastText: String {
             switch self {
@@ -40,14 +46,24 @@ public extension WIToastType {
                 return "업로드가 완료되었습니다 :)"
             case .uploadFail:
                 return "죄송합니다. 업로드에 실패했습니다 :("
+            case .reportSuccess:
+                return "정상적으로 신고되었습니다 :)"
+            case .reportFail:
+                return "죄송합니다. 신고 접수에 실패하였습니다."
+            case .commentDeleteSuccess:
+                return "댓글이 삭제되었습니다 :)"
+            case .commentDeleteFail, .feedDeleteFail:
+                return "죄송합니다. 다시 시도해 주세요."
+            case .feedDeleteSuccess:
+                return "게시물이 삭제되었습니다"
             }
         }
         
         var toastIcon: UIImage {
             switch self {
-            case .uploadSuccess:
+            case .uploadSuccess, .reportSuccess, .commentDeleteSuccess, .feedDeleteSuccess:
                 return UIImage.Icon.success!
-            case .uploadFail:
+            case .uploadFail, .reportFail, .commentDeleteFail, .feedDeleteFail:
                 return UIImage.Icon.fail!
             }
         }
