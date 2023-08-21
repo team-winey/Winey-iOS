@@ -165,7 +165,7 @@ final class FeedViewController: UIViewController {
         } else {
             print("으딜.")
             let reportAction = UIAlertAction(title: "신고하기", style: .destructive) { _ in
-                // 신고버튼 클릭 시
+                self.showToast(.reportSuccess)
             }
             alertController.addAction(reportAction)
         }
