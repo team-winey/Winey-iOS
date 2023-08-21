@@ -357,7 +357,9 @@ extension DetailViewController {
         Task(priority: .background) { [weak self] in
             guard let self else { return }
             
-            try await commentService.deleteComment(commentId: commentId)
+            let result = try await commentService.deleteComment(commentId: commentId)
+            
+            result ? showToast(.commentDeleteSuccess) : showToast(.commentDeleteFail)
             
             // TODO: 서버 response로 변경 필요
             guard let itemDeleted = dataSource.snapshot().itemIdentifiers.filter({
