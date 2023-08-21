@@ -157,9 +157,7 @@ final class FeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         if userId == UserSingleton.getId() {
             let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
-                // 삭제버튼 클릭 시
-                self.deleteMyFeed(feedId: feedId)
-                self.refresh()
+                self.setDeleteAlert(feedId)
             }
             alertController.addAction(deleteAction)
         } else {
@@ -222,6 +220,23 @@ final class FeedViewController: UIViewController {
     
     private func setAddTarget() {
         writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
+    }
+    
+    private func setDeleteAlert(_ feedId: Int) {
+        let deletePopup = MIPopupViewController(
+            content: .init(
+                title: "정말 게시물을 삭제하시겠어요?",
+                subtitle: "지금 게시물을 삭제하면 누적 금액이\n삭감되니 주의하세요!"
+            )
+        )
+        deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+        
+        deletePopup.addButton(title: "삭제하기", type: .yellow) {
+            self.deleteMyFeed(feedId: feedId)
+            self.refresh()
+        }
+        
+        self.present(deletePopup, animated: true)
     }
     
     @objc
