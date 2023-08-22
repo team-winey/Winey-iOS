@@ -5,6 +5,7 @@
 //  Created by 김응관 on 2023/07/13.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -17,6 +18,8 @@ class ContentsWriteView: UIView {
     /// textSendClosure:  선택된 이미지객체를 ViewController로 전달하기 위해 사용되는 클로저
     private let placeholder = "Ex) 버스 타고 가는 길을 운동 삼아 20분 일찍 일어나 걸어갔어요!"
     var textSendClousre: ((_ data: String) -> Void)?
+    
+    var textCountPublisher = PassthroughSubject<(Int, Bool), Never>()
     
     // MARK: - UI Components
     
@@ -102,6 +105,7 @@ extension ContentsWriteView: UITextViewDelegate {
             textView.text = nil
         }
         setColor(textView.text.count)
+        textCountPublisher.send((textView.text.count, textView.text == placeholder))
     }
     
     /// textViewDidEndEditing: 텍스트 뷰의 편집이 종료되었을때의 동작을 정의한 함수
@@ -114,11 +118,13 @@ extension ContentsWriteView: UITextViewDelegate {
             setColor(textView.text.count)
         }
         textView.makeBorder(width: 1, color: .winey_gray200)
+        textCountPublisher.send((textView.text.count, textView.text == placeholder))
     }
     
     /// textViewDidChange: 텍스트 뷰가 편집되었을때의 동작을 정의한 함수
     func textViewDidChange(_ textView: UITextView) {
         textSendClousre?(textView.text ?? "")
+        textCountPublisher.send((textView.text.count, textView.text == placeholder))
     }
     
     func resetContents() {
