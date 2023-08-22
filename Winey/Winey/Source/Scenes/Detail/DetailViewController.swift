@@ -160,6 +160,18 @@ extension DetailViewController {
             }
             .store(in: &bag)
     }
+    
+    private func showToast(_ type: WIToastType) {
+        let toast = WIToastBox(toastType: type)
+        
+        view.addSubview(toast)
+        
+        toast.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(23)
+            $0.height.equalTo(48)
+        }
+    }
 }
 
 // MARK: - DataSource
@@ -345,7 +357,9 @@ extension DetailViewController {
         Task(priority: .background) { [weak self] in
             guard let self else { return }
             
-            try await commentService.deleteComment(commentId: commentId)
+            let result = try await commentService.deleteComment(commentId: commentId)
+            
+            result ? showToast(.commentDeleteSuccess) : showToast(.commentDeleteFail)
             
             // TODO: 서버 response로 변경 필요
             guard let itemDeleted = dataSource.snapshot().itemIdentifiers.filter({
@@ -372,17 +386,16 @@ extension DetailViewController {
     }
     
     private func deleteFeed() {
-        feedService.deleteMyFeed(feedId) { [weak self] _ in
+        feedService.deleteMyFeed(feedId) { [weak self] response in
             guard let self else { return }
-            NotificationCenter.default.post(name: .whenDeleteFeedCompleted, object: nil)
+            let type = response ? WIToastType.feedDeleteSuccess : WIToastType.feedDeleteFail
+            NotificationCenter.default.post(name: .whenDeleteFeedCompleted, object: nil, userInfo: ["type": type])
             self.navigationController?.popViewController(animated: true)
         }
     }
     
     private func report() {
-        let popupController = MIPopupViewController(content: .init(title: "신고가 접수되었습니다."))
-        popupController.addButton(title: "확인", type: .gray, tapButtonHandler: nil)
-        self.present(popupController, animated: true)
+        showToast(.reportSuccess)
     }
 }
 

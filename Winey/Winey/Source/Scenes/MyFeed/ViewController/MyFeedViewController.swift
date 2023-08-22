@@ -84,7 +84,7 @@ final class MyFeedViewController: UIViewController {
                 self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
             }
             cell.moreButtonTappedClosure = { [weak self] feedId, _ in
-                self?.showAlert(feedId, indexPath.item)
+                self?.showBottomAlert(feedId: feedId, item: indexPath.item)
             }
         }
         
@@ -104,6 +104,20 @@ final class MyFeedViewController: UIViewController {
         snapshot.appendSections([0])
         snapshot.appendItems(self.myfeed)
         return snapshot
+    }
+    
+    private func showBottomAlert(feedId: Int, item: Int) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+            print("쫄?")
+        }
+        alertController.addAction(cancelAction)
+        let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
+            self.showAlert(feedId, item)
+            self.refresh()
+        }
+        alertController.addAction(deleteAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     private func showAlert(_ idx: Int, _ path: Int) {
@@ -180,14 +194,24 @@ extension MyFeedViewController {
         }
         
         emptyView.snp.makeConstraints {
-            $0.top.equalTo(naviBar.snp.bottom).offset(96)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.centerX.equalToSuperview()
+            $0.centerX.centerY.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(naviBar.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
+    private func showToast(_ type: WIToastType) {
+        let toast = WIToastBox(toastType: type)
+        
+        view.addSubview(toast)
+        
+        toast.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(23)
+            $0.height.equalTo(48)
         }
     }
 }
@@ -242,7 +266,9 @@ extension MyFeedViewController {
     }
     
     private func deleteMyFeed(idx: Int) {
-        feedService.deleteMyFeed(idx) { _ in }
+        feedService.deleteMyFeed(idx) { response in
+            response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
+        }
     }
     
     private func postFeedLike(feedId: Int, feedLike: Bool) {

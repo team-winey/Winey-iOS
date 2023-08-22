@@ -29,6 +29,9 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     // MARK: - Properties
 
     var saveGoalButtonTappedClosure : (() -> Void)?
+    var blockAlertTappedClosure: (() -> Void)?
+    
+    private var dday: String = ""
     
     // MARK: - UIComponents
     
@@ -212,7 +215,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     @objc
     private func modifyButtonTapped() {
-        self.saveGoalButtonTappedClosure?()
+        ["아직 없어요", "D-0"].contains(dday) ? self.saveGoalButtonTappedClosure?() : self.blockAlertTappedClosure?()
     }
     
     // MARK: - View Life Cycle
@@ -268,7 +271,8 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             )
         }
         
-        let dday = model.dday == nil ? "아직 없어요" : "D-\(model.dday ?? 0)"
+        dday = model.dday == nil ? "아직 없어요" : "D-\(model.dday ?? 0)"
+        
         savingPeriodLabel.setText(
             dday,
             attributes: .init(
@@ -277,6 +281,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
                 textColor: .winey_gray900
             )
         )
+        
         savingPeriodLabel.textAlignment = .center
         wineyCountLabel.textAlignment = .center
         accumulatedWineyLabel.textAlignment = .center

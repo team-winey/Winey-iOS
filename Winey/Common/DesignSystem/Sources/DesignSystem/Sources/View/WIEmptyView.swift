@@ -9,11 +9,6 @@ import UIKit
 
 import SnapKit
 
-public final class ViewSingleton: NSObject {
-    static let emptyView = WIEmptyView()
-    private override init() { }
-}
-
 public final class WIEmptyView: UIView {
         
     private let emptyImg: UIImageView = {
@@ -78,26 +73,21 @@ public final class WIEmptyView: UIView {
         
         emptyImg.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.height.width.equalTo(342)
+            $0.height.width.equalTo(150)
         }
         
         textStack.snp.makeConstraints {
             $0.top.equalTo(emptyImg.snp.bottom)
-            $0.width.equalTo(emptyImg.snp.width)
             $0.bottom.equalToSuperview()
         }
         
         mainText.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.width.equalTo(171)
-            $0.height.equalTo(30)
             $0.centerX.equalToSuperview()
         }
         
         subText.snp.makeConstraints {
             $0.top.equalTo(mainText.snp.bottom)
-            $0.width.equalTo(217)
-            $0.height.equalTo(20)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
