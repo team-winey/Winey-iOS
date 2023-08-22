@@ -120,7 +120,24 @@ final class AlertCell: UITableViewCell {
     // MARK: - configure
         
         func configureCell(for model: Category) {
-            categoryLabel.text = model.notiType
+            switch model.notiType {
+            case "HOWTOLEVELUP":
+                categoryLabel.text = "위니 사용법"
+            case "COMMENTNOTI":
+                categoryLabel.text = "댓글"
+            case "LIKENOTI":
+                categoryLabel.text = "좋아요"
+            case "RANKUPTO2", "RANKUPTO3", "RANKUPTO4":
+                categoryLabel.text = "등급 상승"
+            case "DELETERANKDOWNTO1", "DELETERANKDOWNTO2", "DELETERANKDOWNTO3":
+                categoryLabel.text = "등급 하락"
+            case "GOALFAILED":
+                categoryLabel.text = "목표달성 실패"
+                
+            default:
+                categoryLabel.text = model.notiType
+            }
+            
             contentLabel.text = model.notiMessage
             elapsedTimeLabel.text = model.timeAgo
             
@@ -129,16 +146,16 @@ final class AlertCell: UITableViewCell {
             // notiMessage에 따른 이미지 지정을 뒤에 둠으로써 예외처리1을 해결하였습니다.
             
             //notiType
-            if model.notiType.contains("좋아요") {
+            if model.notiType.contains("LIKENOTI") {
                 contralImageView.image = UIImage.Icon.like
             }
-            else if model.notiType.contains("댓글") {
+            else if model.notiType.contains("COMMENTNOTI") {
                 contralImageView.image = UIImage.Icon.commentAlram
             }
-            else if model.notiType.contains("위니 사용법") {
-                contralImageView.image = UIImage.Icon.comment
+            else if model.notiType.contains("HOWTOLEVELUP") {
+                contralImageView.image = UIImage.Icon.winey
             }
-            else if model.notiType.contains("목표 달성 실패") {
+            else if model.notiType.contains("GOALFAILED") {
                 contralImageView.image = UIImage.Icon.winey
             }
             
