@@ -219,6 +219,9 @@ final class FeedViewController: UIViewController {
     private func alertButtonTapped() {
         self.naviBar.alarmButtonClosure = { [weak self] in
             let alertVC = AlertViewController()
+            alertVC.completionHandler = { [weak self] in
+                self?.tabBarController?.selectedIndex = 2
+            }
             self?.navigationController?.pushViewController(alertVC, animated: true)
             print("tapped")
         }
