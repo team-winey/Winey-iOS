@@ -99,7 +99,7 @@ final class FeedService {
             switch result {
             case .success:
                 completion(true)
-            case .failure(let err):
+            case .failure:
                 completion(false)
             }
         }
