@@ -29,12 +29,14 @@ final class CommentService {
         }
     }
     
-    func deleteComment(commentId: Int) async throws -> Void {
+    // func deleteComment(commentId: Int) async throws -> Void {
+    func deleteComment(commentId: Int) async throws -> Bool {
         return try await withCheckedThrowingContinuation { continuation in
             provider.request(.delete(commentId: commentId)) { result in
                 do {
                     _ = try result.get().map(BaseResponse<EmptyResponseData>.self)
-                    continuation.resume(returning: Void())
+                    // continuation.resume(returning: Void())
+                    continuation.resume(returning: true)
                 } catch {
                     continuation.resume(throwing: CommentNetworkError.undefined)
                 }

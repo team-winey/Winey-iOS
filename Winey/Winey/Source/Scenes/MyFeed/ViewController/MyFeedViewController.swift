@@ -202,6 +202,18 @@ extension MyFeedViewController {
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
+    
+    private func showToast(_ type: WIToastType) {
+        let toast = WIToastBox(toastType: type)
+        
+        view.addSubview(toast)
+        
+        toast.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(23)
+            $0.height.equalTo(48)
+        }
+    }
 }
 
 // MARK: - CollectionViewDelegate
@@ -254,7 +266,9 @@ extension MyFeedViewController {
     }
     
     private func deleteMyFeed(idx: Int) {
-        feedService.deleteMyFeed(idx) { _ in }
+        feedService.deleteMyFeed(idx) { response in
+            response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
+        }
     }
     
     private func postFeedLike(feedId: Int, feedLike: Bool) {
