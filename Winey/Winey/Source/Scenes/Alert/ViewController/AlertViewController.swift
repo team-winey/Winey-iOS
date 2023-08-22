@@ -22,6 +22,8 @@ final class AlertViewController: UIViewController {
 
     // MARK: - Properties
     
+    var completionHandler: (()->Void)?
+    
     var model: [Category] = [] {
         didSet {
             self.tableView.reloadData()
@@ -51,6 +53,9 @@ final class AlertViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getTotalAlert()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        model = []
     }
     
     private func setAddtarget() {
@@ -84,7 +89,7 @@ extension AlertViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        pushState(at: model[indexPath.row].notiType)
+        pushState(at: model[indexPath.row])
     }
 }
 
@@ -148,19 +153,21 @@ extension AlertViewController {
         }
     }
     
-    func pushState(at data: String) {
-        switch data {
-        case "위니 사용법":
+    func pushState(at data: Category) {
+        switch data.notiType {
+        case "HOWTOLEVELUP":
             let guideViewController = GuideViewController()
             navigationController?.pushViewController(guideViewController, animated: true)
             
-        case "좋아요", "댓글":
-            let mypageViewController = MypageViewController()
-            navigationController?.pushViewController(mypageViewController, animated: true) //서버 - > 게시글 ID
+        case "COMMENTNOTI", "LIKENOTI":
+            let detailViewController = DetailViewController(feedId: data.linkID ?? 0)
+            detailViewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(detailViewController, animated: true)
             
-        case "등급 상승", "등급 하락", "목표 달성 실패":
-            let mypageViewController = MypageViewController()
-            navigationController?.pushViewController(mypageViewController, animated: true)
+        case "RANKUPTO2", "RANKUPTO3", "RANKUPTO4",
+            "DELETERANKDOWNTO1", "DELETERANKDOWNTO2", "DELETERANKDOWNTO3", "GOALFAILED":
+            completionHandler?()
+            navigationController?.popViewController(animated: true)
             
         default:
             return
