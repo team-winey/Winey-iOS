@@ -267,11 +267,19 @@ final class FeedViewController: UIViewController {
                     subtitle: "지금 마이프로필에서 간단한 목표를\n설정해보세요!"
                 )
             )
-            warningViewController.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+            warningViewController.addButton(title: "취소", type: .gray) {
+                let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": false])
+                AmplitudeManager.logEvent(event: logEvent)
+            }
             
             warningViewController.addButton(title: "목표 설정하러가기", type: .yellow) {
                 self.tabBarController?.selectedIndex = 2
+                let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
+                AmplitudeManager.logEvent(event: logEvent)
             }
+            
+            let logEvent = LogEventImpl(category: .view_goalsetting_popup)
+            AmplitudeManager.logEvent(event: logEvent)
             
             self.present(warningViewController, animated: true)
             return
