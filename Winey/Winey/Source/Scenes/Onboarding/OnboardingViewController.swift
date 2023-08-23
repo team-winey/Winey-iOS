@@ -20,7 +20,10 @@ class OnboardingViewController: UIViewController {
     private var currentPage: Int = 0 {
         didSet {
             pageControl.progress = Double(currentPage)
-            let logEvent = LogEventImpl(category: .view_onboarding, parameters: ["page_number": currentPage + 1])
+            let logEvent = LogEventImpl(
+                category: .view_onboarding,
+                parameters: ["page_number": currentPage + 1]
+            )
             AmplitudeManager.logEvent(event: logEvent)
             setButtonUI()
         }
@@ -64,7 +67,10 @@ class OnboardingViewController: UIViewController {
         setOnboardingData()
         setCollectionViewCell()
         
-        let logEvent = LogEventImpl(category: .view_onboarding, parameters: ["page_number": currentPage + 1])
+        let logEvent = LogEventImpl(
+            category: .view_onboarding,
+            parameters: ["page_number": currentPage + 1]
+        )
         AmplitudeManager.logEvent(event: logEvent)
     }
     
@@ -99,6 +105,14 @@ class OnboardingViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": "onboarding_next_button",
+                "page_number": currentPage + 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         if currentPage == onboardingData.count - 1 {
             UserDefaults.standard.set(true, forKey: "notFirstLaunch")
             let vc = LoginViewController()

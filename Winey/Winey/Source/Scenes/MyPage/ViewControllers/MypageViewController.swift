@@ -53,6 +53,11 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         getTotalUser()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let logEvent = LogEventImpl(category: .view_mypage)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
     // MARK: - UIComponents
     
     private func setUI() {
@@ -107,6 +112,8 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
 extension MypageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 2 && indexPath.item == 0 { // 마이피드
+            let logEvent = LogEventImpl(category: .click_myfeed)
+            AmplitudeManager.logEvent(event: logEvent)
             let myFeedViewController = MyFeedViewController()
             self.navigationController?.pushViewController(myFeedViewController, animated: true)
         } else if indexPath.section == 2 && indexPath.item == 1 { //1:1문의
@@ -155,11 +162,17 @@ extension MypageViewController: UICollectionViewDataSource {
             let userLevel = userLevel ?? .none
             mypageProfileCell.configure(model: .init(nickname: nickname, level: userLevel))
             mypageProfileCell.infoButtonTappedClosure = {
+                let logEvent = LogEventImpl(category: .click_info)
+                AmplitudeManager.logEvent(event: logEvent)
+                
                 let guideViewController = GuideViewController()
                 guideViewController.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(guideViewController, animated: true)
             }
             mypageProfileCell.nextButtonTappedClosure = {
+                let logEvent = LogEventImpl(category: .click_edit_nickname)
+                AmplitudeManager.logEvent(event: logEvent)
+                
                 let nicknameViewController = UINavigationController(rootViewController: NicknameViewController(viewType: .myPage))
                 nicknameViewController.setNavigationBarHidden(true, animated: false)
                 nicknameViewController.modalPresentationStyle = .fullScreen
@@ -187,6 +200,9 @@ extension MypageViewController: UICollectionViewDataSource {
                 )
             )
             mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
+                let logEvent = LogEventImpl(category: .click_goalsetting)
+                AmplitudeManager.logEvent(event: logEvent)
+                
                 let saveGoalVC = SaveGoalViewController()
                 saveGoalVC.modalPresentationStyle = .pageSheet
                 self?.present(saveGoalVC, animated: true, completion: nil)
@@ -361,6 +377,8 @@ extension MypageViewController {
         vc.addButton(title: MypageAlert.logOut.rightBtnText, type: .yellow) {
             let token = KeychainManager.shared.read("accessToken")!
             DispatchQueue.global(qos: .utility).async {
+                let logEvent = LogEventImpl(category: .click_logout)
+                AmplitudeManager.logEvent(event: logEvent)
                 self.logoutWithApple(token: token)
             }
         }
