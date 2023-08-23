@@ -14,6 +14,7 @@
 		0D13578B2A835AC4009ADFF8 /* FloatingCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D13578A2A835AC4009ADFF8 /* FloatingCommentView.swift */; };
 		0D13578D2A837406009ADFF8 /* FloatingCommentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D13578C2A837406009ADFF8 /* FloatingCommentTextView.swift */; };
 		0D13578F2A838108009ADFF8 /* KeyboardFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D13578E2A838108009ADFF8 /* KeyboardFrameView.swift */; };
+		0D256B6E2A96596E00A2D43B /* Amplitude+EventName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D256B6D2A96596E00A2D43B /* Amplitude+EventName.swift */; };
 		0D2E89792A683ADE00733BE1 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0D2E89782A683ADE00733BE1 /* Lottie */; };
 		0D444E752A861722007DB2F6 /* CreateCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D444E732A861722007DB2F6 /* CreateCommentRequest.swift */; };
 		0D444E762A861722007DB2F6 /* CreateCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D444E742A861722007DB2F6 /* CreateCommentResponse.swift */; };
@@ -38,6 +39,8 @@
 		0DC31E022A685467003BB220 /* ProductPolicyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC31E012A685467003BB220 /* ProductPolicyModel.swift */; };
 		0DC31E042A68571F003BB220 /* NotificationName+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC31E032A68571F003BB220 /* NotificationName+.swift */; };
 		0DE7E5E62A68385D006E36FF /* UploadLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */; };
+		0DFEA6CB2A95180F00389EF4 /* Amplitude in Frameworks */ = {isa = PBXBuildFile; productRef = 0DFEA6CA2A95180F00389EF4 /* Amplitude */; };
+		0DFEA6CE2A95211100389EF4 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFEA6CD2A95211100389EF4 /* AmplitudeManager.swift */; };
 		0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFF7D3B2A69C2DB0073ADAD /* SplashViewController.swift */; };
 		142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FE3842A7C011E00421732 /* OnboardingViewController.swift */; };
 		142FE3882A7C0DB900421732 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FE3872A7C0DB900421732 /* OnboardingCell.swift */; };
@@ -146,6 +149,7 @@
 		0D13578A2A835AC4009ADFF8 /* FloatingCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingCommentView.swift; sourceTree = "<group>"; };
 		0D13578C2A837406009ADFF8 /* FloatingCommentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingCommentTextView.swift; sourceTree = "<group>"; };
 		0D13578E2A838108009ADFF8 /* KeyboardFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardFrameView.swift; sourceTree = "<group>"; };
+		0D256B6D2A96596E00A2D43B /* Amplitude+EventName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Amplitude+EventName.swift"; sourceTree = "<group>"; };
 		0D444E732A861722007DB2F6 /* CreateCommentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCommentRequest.swift; sourceTree = "<group>"; };
 		0D444E742A861722007DB2F6 /* CreateCommentResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCommentResponse.swift; sourceTree = "<group>"; };
 		0D444E782A861730007DB2F6 /* CommentAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentAPI.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 		0DC31E012A685467003BB220 /* ProductPolicyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPolicyModel.swift; sourceTree = "<group>"; };
 		0DC31E032A68571F003BB220 /* NotificationName+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+.swift"; sourceTree = "<group>"; };
 		0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLoadingViewController.swift; sourceTree = "<group>"; };
+		0DFEA6CD2A95211100389EF4 /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		0DFF7D3B2A69C2DB0073ADAD /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		142FE3842A7C011E00421732 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		142FE3872A7C0DB900421732 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
@@ -271,6 +276,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DFEA6CB2A95180F00389EF4 /* Amplitude in Frameworks */,
 				F4BE08532A5D98EA0052F3B0 /* CHIPageControl in Frameworks */,
 				14F66FEB2A505E3A009703AD /* Kingfisher in Frameworks */,
 				14F66FE82A505A27009703AD /* Moya in Frameworks */,
@@ -370,6 +376,15 @@
 				0D13578C2A837406009ADFF8 /* FloatingCommentTextView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		0DFEA6CC2A95210900389EF4 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				0DFEA6CD2A95211100389EF4 /* AmplitudeManager.swift */,
+				0D256B6D2A96596E00A2D43B /* Amplitude+EventName.swift */,
+			);
+			path = Log;
 			sourceTree = "<group>";
 		};
 		0DFF7D3A2A69C2C20073ADAD /* Splash */ = {
@@ -715,6 +730,7 @@
 		14F66FEC2A54846C009703AD /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0DFEA6CC2A95210900389EF4 /* Log */,
 				14E28F692A65314D00E5E5C2 /* Network */,
 				14F66FFA2A550864009703AD /* Scenes */,
 				14F66FEE2A548497009703AD /* Global */,
@@ -1065,6 +1081,7 @@
 				0D2E89782A683ADE00733BE1 /* Lottie */,
 				1DBB85B52A7806EC00F084EA /* KakaoSDK */,
 				1DBB85B82A7806FC00F084EA /* RxKakaoSDK */,
+				0DFEA6CA2A95180F00389EF4 /* Amplitude */,
 			);
 			productName = Winey;
 			productReference = 14C1F6152A50501C0079FA20 /* Winey.app */;
@@ -1102,6 +1119,7 @@
 				0D2E89772A683ADE00733BE1 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				1DBB85B42A7806EC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				1DBB85B72A7806FC00F084EA /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
+				0DFEA6C92A95180F00389EF4 /* XCRemoteSwiftPackageReference "Amplitude-iOS" */,
 			);
 			productRefGroup = 14C1F6162A50501C0079FA20 /* Products */;
 			projectDirPath = "";
@@ -1151,6 +1169,7 @@
 				F40E8FCC2A7FC7C30092D280 /* LoginRequest.swift in Sources */,
 				142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */,
 				14E9B1142A68526000B85616 /* SaveGoalTextBoxView.swift in Sources */,
+				0DFEA6CE2A95211100389EF4 /* AmplitudeManager.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
 				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
 				142FE3882A7C0DB900421732 /* OnboardingCell.swift in Sources */,
@@ -1191,6 +1210,7 @@
 				143C00962A603273000FBD3F /* RecommendHeaderView.swift in Sources */,
 				14DB26542A5BF82700F42499 /* FeedViewController.swift in Sources */,
 				14E28F702A65351800E5E5C2 /* Encodable.swift in Sources */,
+				0D256B6E2A96596E00A2D43B /* Amplitude+EventName.swift in Sources */,
 				14C1F6192A50501C0079FA20 /* AppDelegate.swift in Sources */,
 				14576DC02A68969C00C79C9C /* PostGoalResponse.swift in Sources */,
 				0DB4A2C42A8280D200C40CCC /* DetailViewController.swift in Sources */,
@@ -1455,6 +1475,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = Release;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1491,6 +1512,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.0.0;
+			};
+		};
+		0DFEA6C92A95180F00389EF4 /* XCRemoteSwiftPackageReference "Amplitude-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-iOS";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 		14F66FE32A50562F009703AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -1552,6 +1581,11 @@
 		0D6D9BF12A5D74C8000AA356 /* DesignSystem */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DesignSystem;
+		};
+		0DFEA6CA2A95180F00389EF4 /* Amplitude */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0DFEA6C92A95180F00389EF4 /* XCRemoteSwiftPackageReference "Amplitude-iOS" */;
+			productName = Amplitude;
 		};
 		14F66FE42A50562F009703AD /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

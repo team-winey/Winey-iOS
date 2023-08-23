@@ -75,6 +75,13 @@ final class FeedViewController: UIViewController {
         checkNewNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let logEvent = LogEventImpl(category: .view_homefeed)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
@@ -250,6 +257,9 @@ final class FeedViewController: UIViewController {
     
     @objc
     private func goToUploadPage() {
+        let logEvent = LogEventImpl(category: .click_write_contents)
+        AmplitudeManager.logEvent(event: logEvent)
+        
         guard UserSingleton.getGaol() else {
             let warningViewController = MIPopupViewController(
                 content: .init(
@@ -257,15 +267,24 @@ final class FeedViewController: UIViewController {
                     subtitle: "지금 마이프로필에서 간단한 목표를\n설정해보세요!"
                 )
             )
-            warningViewController.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+            warningViewController.addButton(title: "취소", type: .gray) {
+                let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": false])
+                AmplitudeManager.logEvent(event: logEvent)
+            }
             
             warningViewController.addButton(title: "목표 설정하러가기", type: .yellow) {
                 self.tabBarController?.selectedIndex = 2
+                let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
+                AmplitudeManager.logEvent(event: logEvent)
             }
+            
+            let logEvent = LogEventImpl(category: .view_goalsetting_popup)
+            AmplitudeManager.logEvent(event: logEvent)
             
             self.present(warningViewController, animated: true)
             return
         }
+        
         let vc = UINavigationController(rootViewController: UploadViewController())
         vc.setNavigationBarHidden(true, animated: false)
         vc.modalPresentationStyle = .fullScreen
@@ -306,6 +325,13 @@ extension FeedViewController: UICollectionViewDelegate {
         let detailViewController = DetailViewController(feedId: itemModel.feedId)
         detailViewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailViewController, animated: true)
+        
+        let logEvent = LogEventImpl(category: .click_homefeed_contents, parameters: [
+            "article_id": itemModel.feedId,
+            "like_count": itemModel.like,
+            "comment_count": itemModel.comments
+        ])
+        AmplitudeManager.logEvent(event: logEvent)
     }
 }
 
@@ -374,6 +400,13 @@ extension FeedViewController {
             if let feedIndex = self.feedList.firstIndex(where: { $0.feedId == feedId }) {
                 self.feedList[feedIndex].isLiked = feedLike
                 self.feedList[feedIndex].like = data.likes
+                
+                let logEvent = LogEventImpl(category: .click_like, parameters: [
+                    "article_id": feedId,
+                    "from": "feed",
+                    "like_count": feedLike
+                ])
+                AmplitudeManager.logEvent(event: logEvent)
             }
             self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }

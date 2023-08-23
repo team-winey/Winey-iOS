@@ -80,6 +80,12 @@ class NicknameViewController: UIViewController {
         bind()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let logEvent = LogEventImpl(category: .view_set_nickname)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     // MARK: - methods
     
     private func setUI() {
@@ -244,6 +250,15 @@ class NicknameViewController: UIViewController {
     @objc
     private func tapCheckButton() {
         recentNickname = nickNameTextField.getName()
+        
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": "nickname_next_button",
+                "page_number": 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         
         nicknameService.setNickname(nickname: recentNickname) { [self] response in
             if response {

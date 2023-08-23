@@ -24,11 +24,15 @@ final class DetailViewController: UIViewController {
     private var commentViewBottomConstraint: Constraint?
     
     private var feedId: Int
+    private var likeCount: Int
+    private var commentCount: Int
     
     private var bag = Set<AnyCancellable>()
     
     init(feedId: Int) {
         self.feedId = feedId
+        self.likeCount = 0
+        self.commentCount = 0
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -354,6 +358,20 @@ extension DetailViewController {
             let detailSection: Section = .init(type: .info, items: [detailInfoItem])
             
             self.apply(sections: [detailSection, commentSection])
+            
+            self.commentCount = commentItems.count
+            self.likeCount = detailInfoViewModel.likeCount
+            
+            let logEvent = LogEventImpl(
+                category: .view_detail_contents,
+                parameters: [
+                    "article_id": feedId,
+                    "from": "article",
+                    "like_count": likeCount,
+                    "comment_count": commentCount
+                ]
+            )
+            AmplitudeManager.logEvent(event: logEvent)
         }
     }
     
@@ -367,6 +385,8 @@ extension DetailViewController {
             
             self.applyDetailInfoItem(item: detailInfoItem)
             self.applyNewComment(item: newCommentItem)
+            
+            self.commentCount += 1
         }
     }
     
@@ -389,6 +409,8 @@ extension DetailViewController {
             
             self.applyDetailInfoItem(item: detailInfoItem)
             self.applyDeleteComment(item: itemDeleted)
+            
+            self.commentCount -= 1
         }
     }
     
@@ -399,6 +421,20 @@ extension DetailViewController {
             else { return }
             
             self.applyDetailInfoItem(item: detailInfoItem)
+            
+            let addCount = direction ? 1 : -1
+            self.likeCount += addCount
+            
+            let logEvent = LogEventImpl(
+                category: .click_like,
+                parameters: [
+                    "article_id": feedId,
+                    "from": "article",
+                    "like_count": likeCount,
+                    "comment_count": commentCount
+                ]
+            )
+            AmplitudeManager.logEvent(event: logEvent)
         }
     }
     
