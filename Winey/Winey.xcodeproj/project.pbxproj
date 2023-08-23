@@ -91,7 +91,6 @@
 		14F6700B2A550CBA009703AD /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6700A2A550CBA009703AD /* UIButton+.swift */; };
 		14F670112A550F1A009703AD /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670102A550F1A009703AD /* NSObject+.swift */; };
 		14F670142A551BCF009703AD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F670132A551BCF009703AD /* TabBarController.swift */; };
-		1D306C132A92375500918866 /* CheckAllNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D306C122A92375500918866 /* CheckAllNotificationResponse.swift */; };
 		1D3CBAFD2A5E7C6D00AE8138 /* MypageProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */; };
 		1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3CBAFE2A5E7CF100AE8138 /* MypageViewController.swift */; };
 		1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */; };
@@ -222,7 +221,6 @@
 		14F6700A2A550CBA009703AD /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		14F670102A550F1A009703AD /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
 		14F670132A551BCF009703AD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		1D306C122A92375500918866 /* CheckAllNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAllNotificationResponse.swift; sourceTree = "<group>"; };
 		1D3CBAFC2A5E7C6D00AE8138 /* MypageProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageProfileCell.swift; sourceTree = "<group>"; };
 		1D3CBAFE2A5E7CF100AE8138 /* MypageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewController.swift; sourceTree = "<group>"; };
 		1D3CBB042A5EC92700AE8138 /* MypageGoalInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageGoalInfoCell.swift; sourceTree = "<group>"; };
@@ -902,7 +900,6 @@
 		1DBF95C52A8CA02500AF39B9 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				1D306C122A92375500918866 /* CheckAllNotificationResponse.swift */,
 				1DBF95C62A8CA03300AF39B9 /* NotificationResponse.swift */,
 				148D57402A91277700B37161 /* CheckNewNotificationResponse.swift */,
 			);
@@ -1152,7 +1149,6 @@
 				14DB26572A5C06C400F42499 /* FeedCell.swift in Sources */,
 				0D8F5AC82A88808100D4B214 /* DetailMapper.swift in Sources */,
 				F40E8FCC2A7FC7C30092D280 /* LoginRequest.swift in Sources */,
-				1D306C132A92375500918866 /* CheckAllNotificationResponse.swift in Sources */,
 				142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */,
 				14E9B1142A68526000B85616 /* SaveGoalTextBoxView.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,

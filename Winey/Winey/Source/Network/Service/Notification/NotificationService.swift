@@ -18,8 +18,6 @@ final class NotificationService {
     BaseResponse<TotalNotificationResponse>?
 
     private(set) var checkNewNotificationData: Bool?
-    			
-    private(set) var checkAllNotificationResponse: CheckAllNotificationResponse?
     
     // 1. 알림 전체 조회
     
@@ -60,30 +58,6 @@ final class NotificationService {
             case .failure(let err):
                 print(err)
                 completion(false)
-            }
-        }
-    }
-    
-    
-    // 3. 모든 알림 읽음 처리
-    func patchAllNotification(completion: @escaping (CheckAllNotificationResponse?) -> Void) {
-
-        notificationProvider.request(.patchCheckAllNotification) { result in
-            switch result {
-            case .success(let response):
-                switch response.statusCode {
-                case 200..<300:
-                    do {
-                        self.checkAllNotificationResponse = try response.map(CheckAllNotificationResponse.self)
-                        completion(self.checkAllNotificationResponse)
-                    } catch let error {
-                        print(error.localizedDescription)
-                    }
-                default:
-                    print("error")
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
             }
         }
     }
