@@ -53,6 +53,7 @@ final class AlertViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getTotalAlert()
+        checkAllNotification()
     }
     override func viewWillDisappear(_ animated: Bool) {
         model = []
@@ -171,6 +172,25 @@ extension AlertViewController {
             
         default:
             return
+        }
+    }
+    
+    private func checkAllNotification() {
+        alertService.patchAllNotification() { [weak self] response in
+            guard let self = self else { return } // Unwrap self
+            
+            switch response?.code {
+            case .some(200..<300): // Changed the pattern matching here
+                if let message = response?.message {
+                    print("😀", message)
+                } else {
+                    print("Message not available")
+                }
+            case .some(400...500):
+                print("🥰")
+            default:
+                print("default")
+            }
         }
     }
 }
