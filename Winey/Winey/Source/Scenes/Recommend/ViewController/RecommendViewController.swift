@@ -61,6 +61,12 @@ final class RecommendViewController: UIViewController {
         checkNewNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let logEvent = LogEventImpl(category: .view_recommend)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     private func setupDataSource() {
         let cellRegistration = CellRegistration<RecommendCell, RecommendModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
