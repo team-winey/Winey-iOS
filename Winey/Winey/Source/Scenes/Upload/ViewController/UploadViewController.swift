@@ -115,6 +115,12 @@ class UploadViewController: UIViewController {
         getData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let logEvnet = LogEventImpl(category: .view_upload)
+        AmplitudeManager.logEvent(event: logEvnet)
+    }
     // MARK: - Methods
     
     /// touchesBegan: 화면 터치하면 firstResponder resign
@@ -376,6 +382,14 @@ class UploadViewController: UIViewController {
     /// nextButton 눌렀을 때의 동작을 정의하는 함수들
     @objc
     private func gotoNext() {
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": "upload_next_button",
+                "page_number": stageIdx + 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         navigationBar.leftButton.isEnabled = false
         
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
@@ -399,6 +413,14 @@ class UploadViewController: UIViewController {
     /// 피드 업로드 함수
     @objc
     private func postData() {
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": "upload_next_button",
+                "page_number": stageIdx + 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         let feed = UploadModel(feedTitle, feedPrice)
         postFeed(feed: feed)
     }

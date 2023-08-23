@@ -46,6 +46,13 @@ class AnimationOnboardingViewController: UIViewController {
         setOnboardingData(data: onboardingData, page: currentPage)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let logEvent = LogEventImpl(category: .view_storytelling)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     func setOnboardingData(data: [AnimationOnboardingDataModel], page: Int) {
         self.chatImageView.image = data[page].chatImage
         self.animationView.animation = data[page].animationView.animation
@@ -84,6 +91,14 @@ class AnimationOnboardingViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": "storytelling_next_button",
+                "page_number": currentPage + 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         if currentPage == onboardingData.count - 1 {
             let setNicknameVC = NicknameViewController(viewType: .onboarding)
             self.switchRootViewController(rootViewController: setNicknameVC, animated: true)
