@@ -20,7 +20,7 @@ class OnboardingViewController: UIViewController {
     private var currentPage: Int = 0 {
         didSet {
             pageControl.progress = Double(currentPage)
-            let logEvent = LogEventImpl(category: .view_onboarding, parameters: ["page_number": currentPage])
+            let logEvent = LogEventImpl(category: .view_onboarding, parameters: ["page_number": currentPage + 1])
             AmplitudeManager.logEvent(event: logEvent)
             setButtonUI()
         }
@@ -64,7 +64,7 @@ class OnboardingViewController: UIViewController {
         setOnboardingData()
         setCollectionViewCell()
         
-        let logEvent = LogEventImpl(category: .view_onboarding, parameters: ["page_number": currentPage])
+        let logEvent = LogEventImpl(category: .view_onboarding, parameters: ["page_number": currentPage + 1])
         AmplitudeManager.logEvent(event: logEvent)
     }
     
