@@ -23,6 +23,14 @@ extension AmplitudeManager {
         case view_recommend
         case view_upload
         case view_onboarding
+        case view_set_nickname
+        case view_signup
+        case view_storytelling
+        case view_mypage
+        case view_homefeed
+        case view_goalsetting_popup
+        case view_goalsetting
+        case view_detail_contents
     }
 }
 
