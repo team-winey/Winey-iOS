@@ -41,6 +41,12 @@ final class SaveGoalViewController: UIViewController {
         bind()
         addKeyboardObserver()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let logEvent = LogEventImpl(category: .view_goalsetting)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
 }
 
 // MARK: - TextField

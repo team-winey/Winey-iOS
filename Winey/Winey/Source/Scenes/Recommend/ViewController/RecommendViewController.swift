@@ -61,6 +61,12 @@ final class RecommendViewController: UIViewController {
         checkNewNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let logEvent = LogEventImpl(category: .view_recommend)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     private func setupDataSource() {
         let cellRegistration = CellRegistration<RecommendCell, RecommendModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
@@ -77,6 +83,12 @@ final class RecommendViewController: UIViewController {
                     alertViewController.addButton(title: "닫기", type: .gray, tapButtonHandler: nil)
                     self?.present(alertViewController, animated: true)
                 }
+                
+                let logEvent = LogEventImpl(category: .click_contents, parameters: [
+                    "contents_id": model.id,
+                    "screen_name": linkString ?? ""
+                ])
+                AmplitudeManager.logEvent(event: logEvent)
             }
         }
         
