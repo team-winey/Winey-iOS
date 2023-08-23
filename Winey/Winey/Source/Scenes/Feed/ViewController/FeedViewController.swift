@@ -75,6 +75,13 @@ final class FeedViewController: UIViewController {
         checkNewNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let logEvent = LogEventImpl(category: .view_homefeed)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     private func setupDataSource() {
         let cellRegistration = CellRegistration<FeedCell, FeedModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
@@ -250,6 +257,9 @@ final class FeedViewController: UIViewController {
     
     @objc
     private func goToUploadPage() {
+        let logEvent = LogEventImpl(category: .click_write_contents)
+        AmplitudeManager.logEvent(event: logEvent)
+        
         guard UserSingleton.getGaol() else {
             let warningViewController = MIPopupViewController(
                 content: .init(
@@ -266,6 +276,7 @@ final class FeedViewController: UIViewController {
             self.present(warningViewController, animated: true)
             return
         }
+        
         let vc = UINavigationController(rootViewController: UploadViewController())
         vc.setNavigationBarHidden(true, animated: false)
         vc.modalPresentationStyle = .fullScreen
@@ -306,6 +317,13 @@ extension FeedViewController: UICollectionViewDelegate {
         let detailViewController = DetailViewController(feedId: itemModel.feedId)
         detailViewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailViewController, animated: true)
+        
+        let logEvent = LogEventImpl(category: .click_homefeed_contents, parameters: [
+            "article_id": itemModel.feedId,
+            "like_count": itemModel.like,
+            "comment_count": itemModel.comments
+        ])
+        AmplitudeManager.logEvent(event: logEvent)
     }
 }
 
@@ -374,6 +392,13 @@ extension FeedViewController {
             if let feedIndex = self.feedList.firstIndex(where: { $0.feedId == feedId }) {
                 self.feedList[feedIndex].isLiked = feedLike
                 self.feedList[feedIndex].like = data.likes
+                
+                let logEvent = LogEventImpl(category: .click_like, parameters: [
+                    "article_id": feedId,
+                    "from": "feed",
+                    "like_count": feedLike
+                ])
+                AmplitudeManager.logEvent(event: logEvent)
             }
             self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
