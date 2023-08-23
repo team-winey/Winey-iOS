@@ -83,6 +83,12 @@ final class RecommendViewController: UIViewController {
                     alertViewController.addButton(title: "닫기", type: .gray, tapButtonHandler: nil)
                     self?.present(alertViewController, animated: true)
                 }
+                
+                let logEvent = LogEventImpl(category: .click_contents, parameters: [
+                    "contents_id": model.id,
+                    "screen_name": linkString ?? ""
+                ])
+                AmplitudeManager.logEvent(event: logEvent)
             }
         }
         
