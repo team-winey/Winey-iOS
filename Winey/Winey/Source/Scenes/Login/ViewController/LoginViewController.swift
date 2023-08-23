@@ -60,6 +60,12 @@ class LoginViewController: UIViewController {
         bind()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let logEvent = LogEventImpl(category: .view_signup, parameters: ["screen_name": "sign_up"])
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     private func setUI() {
         view.backgroundColor = .winey_gray0
     }
