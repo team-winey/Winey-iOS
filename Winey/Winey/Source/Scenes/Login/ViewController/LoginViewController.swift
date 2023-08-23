@@ -115,6 +115,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     
     @objc
     private func kakaoLogin() {
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": ["kakao_signup_button", "onboarding_button"],
+                "page_number": 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         loginService.kakaoLogin(completion:{token in
             DispatchQueue.main.async {
                 self.activityIndicator.startAnimating()
@@ -137,6 +145,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     
     @objc
     private func appleLogin() {
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": ["apple_signup_button", "onboarding_button"],
+                "page_number": 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
