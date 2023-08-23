@@ -30,12 +30,10 @@ extension NotificationAPI: TargetType {
     
     var path: String {
            switch self {
-           case .getTotalNotification:
+           case .getTotalNotification, .patchCheckAllNotification:
                return URLConstant.notification
            case .getNewNotificationStatus:
                return URLConstant.notification + "/check"
-           case .patchCheckAllNotification:
-               return URLConstant.notification
            }
        }
 
