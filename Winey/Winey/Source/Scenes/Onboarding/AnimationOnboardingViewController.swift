@@ -91,6 +91,14 @@ class AnimationOnboardingViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
+        let logEvent = LogEventImpl(
+            category: .click_button,
+            parameters: [
+                "button_name": "storytelling_next_button",
+                "page_number": currentPage + 1
+            ]
+        )
+        AmplitudeManager.logEvent(event: logEvent)
         if currentPage == onboardingData.count - 1 {
             let setNicknameVC = NicknameViewController(viewType: .onboarding)
             self.switchRootViewController(rootViewController: setNicknameVC, animated: true)
