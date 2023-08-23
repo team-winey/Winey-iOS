@@ -46,6 +46,13 @@ class AnimationOnboardingViewController: UIViewController {
         setOnboardingData(data: onboardingData, page: currentPage)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let logEvent = LogEventImpl(category: .view_storytelling)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
     func setOnboardingData(data: [AnimationOnboardingDataModel], page: Int) {
         self.chatImageView.image = data[page].chatImage
         self.animationView.animation = data[page].animationView.animation
