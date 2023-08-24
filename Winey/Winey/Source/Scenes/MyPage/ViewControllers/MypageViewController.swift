@@ -173,10 +173,10 @@ extension MypageViewController: UICollectionViewDataSource {
                 let logEvent = LogEventImpl(category: .click_edit_nickname)
                 AmplitudeManager.logEvent(event: logEvent)
                 
-                let nicknameViewController = UINavigationController(rootViewController: NicknameViewController(viewType: .myPage))
-                nicknameViewController.setNavigationBarHidden(true, animated: false)
-                nicknameViewController.modalPresentationStyle = .fullScreen
-                self.present(nicknameViewController, animated: true, completion: nil)
+                let nicknameViewController = NicknameViewController(viewType: .myPage)
+                nicknameViewController.hidesBottomBarWhenPushed = true
+                nicknameViewController.configureNickname(nickname)
+                self.navigationController?.pushViewController(nicknameViewController, animated: true)
             }
             return mypageProfileCell
             

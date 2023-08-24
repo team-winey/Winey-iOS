@@ -24,6 +24,11 @@ class NicknameViewController: UIViewController {
     private let nicknameService = NicknameService()
     
     private var recentNickname: String = ""
+    private var originalNickname: String = "" {
+        didSet {
+            nickNameTextField.setName(originalNickname)
+        }
+    }
     
     private var duplicateResult: Bool = false
     
@@ -229,9 +234,13 @@ class NicknameViewController: UIViewController {
         }
     }
     
+    func configureNickname(_ name: String) {
+        originalNickname = name
+    }
+    
     @objc
     private func tapLeftButton() {
-        self.dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc

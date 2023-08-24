@@ -21,6 +21,7 @@ public struct WITextFieldType {
     public let labelWidth: CGFloat
     public let labelColor: UIColor
     public let activeTextColor: UIColor
+    public let activeBorderColor: UIColor
     
     public init(
         textLeftPadding: CGFloat,
@@ -35,7 +36,8 @@ public struct WITextFieldType {
         placeholder: String,
         labelWidth: CGFloat,
         labelColor: UIColor,
-        activeTextColor: UIColor
+        activeTextColor: UIColor,
+        activeBorderColor: UIColor
     ) {
         self.textLeftPadding = textLeftPadding
         self.textRightPadding = textRightPadding
@@ -50,6 +52,7 @@ public struct WITextFieldType {
         self.labelWidth = labelWidth
         self.labelColor = labelColor
         self.activeTextColor = activeTextColor
+        self.activeBorderColor = activeBorderColor
     }
 }
 
@@ -68,7 +71,8 @@ public extension WITextFieldType {
         placeholder: TextField.price.placeholder,
         labelWidth: TextField.price.labelWidth,
         labelColor: TextField.price.labelColor,
-        activeTextColor: TextField.price.activeTextColor
+        activeTextColor: TextField.price.activeTextColor,
+        activeBorderColor: TextField.price.activeBorderColor
     )
     
     static let day: WITextFieldType = WITextFieldType(
@@ -84,8 +88,8 @@ public extension WITextFieldType {
         placeholder: TextField.day.placeholder,
         labelWidth: TextField.day.labelWidth,
         labelColor: TextField.day.labelColor,
-        activeTextColor: TextField.day.activeTextColor
-
+        activeTextColor: TextField.day.activeTextColor,
+        activeBorderColor: TextField.day.activeBorderColor
     )
     
     static let nickName: WITextFieldType = WITextFieldType(
@@ -102,7 +106,8 @@ public extension WITextFieldType {
         placeholder: TextField.nickName.placeholder,
         labelWidth: TextField.nickName.labelWidth,
         labelColor: TextField.nickName.labelColor,
-        activeTextColor: TextField.nickName.activeTextColor
+        activeTextColor: TextField.nickName.activeTextColor,
+        activeBorderColor: TextField.nickName.activeBorderColor
     )
 }
 
@@ -205,6 +210,15 @@ extension WITextFieldType {
         }
         
         var activeTextColor: UIColor {
+            switch self {
+            case .price, .day:
+                return .winey_purple400
+            case .nickName:
+                return .winey_gray900
+            }
+        }
+        
+        var activeBorderColor: UIColor {
             switch self {
             case .price, .day:
                 return .winey_purple400
