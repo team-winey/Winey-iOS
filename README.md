@@ -106,5 +106,3 @@ Winey
       </td>
     </tr>
 </table>
- <h2> 🤑 최종과제 🤑 </h2>
-  https://www.notion.so/4823906585c2482388752a8aadc34f0e?pvs=4
