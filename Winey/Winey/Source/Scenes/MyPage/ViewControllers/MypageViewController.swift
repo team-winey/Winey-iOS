@@ -262,9 +262,9 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     )
     -> CGSize {
         switch indexPath.section {
-        case 0: return CGSize(width: (UIScreen.main.bounds.width), height: 339)
-        case 1: return CGSize(width: (UIScreen.main.bounds.width), height: 174)
-        case 2: return CGSize(width: (UIScreen.main.bounds.width), height: 55)
+        case 0: return CGSize(width: (UIScreen.main.bounds.width), height: 345)
+        case 1: return CGSize(width: (UIScreen.main.bounds.width), height: 177)
+        case 2: return CGSize(width: (UIScreen.main.bounds.width), height: 57)
         default : return .zero
         }
     }
@@ -284,7 +284,7 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return 4
+        return 0
     }
     
     func collectionView(
@@ -293,9 +293,9 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
         switch section {
-        case 0: return .init(top: 0, left: 0, bottom: 5, right: 0)
-        case 1: return .init(top: 0, left: 0, bottom: 5, right: 0)
-        case 2: return .init(top: 0, left: 0, bottom: 3, right: 0)
+        case 0: return .init(top: 0, left: 0, bottom: 0, right: 0)
+        case 1: return .init(top: 0, left: 0, bottom: 0, right: 0)
+        case 2: return .init(top: 0, left: 0, bottom: 0, right: 0)
         default: return .zero
         }
     }
