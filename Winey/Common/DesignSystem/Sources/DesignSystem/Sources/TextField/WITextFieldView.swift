@@ -216,13 +216,23 @@ extension WITextFieldView: UITextFieldDelegate {
                 textField.text = text
             }
         } else if type.keyboardType == .default {
-            countPublisher.send(textField.text?.count ?? 0)
-            stringPublisher.send(textField.text ?? "")
-            
+            if let text = textField.text {
+                if text.count >= type.textLength + 1 {
+                    let index = text.index(text.startIndex, offsetBy: type.textLength)
+                    let newString = text[text.startIndex..<index]
+                    self.textField.text = String(newString)
+                    countPublisher.send(type.textLength)
+                    textFieldDidEndEditingPublisher.send(Void())
+                    textField.resignFirstResponder()
+                } else {
+                    countPublisher.send(text.count)
+                    stringPublisher.send(text)
+                }
+            }
             if textField.text == "" { textField.placeholder = "" }
         }
     }
-    
+
     /// textFieldDidEndEditing: textField의 편집이 종료되었을때 작동하는 함수
     public func textFieldDidEndEditing(_ textField: UITextField) {
         if ((textField.text?.isEmpty) != nil) {
@@ -236,18 +246,18 @@ extension WITextFieldView: UITextFieldDelegate {
     /// textField: 텍스트필드에 새로운 문자가 추가되었을때 text를 바꿔주는 함수
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                           replacementString string: String) -> Bool {
-        
-        var price: Int = 0
-        var isCorrect: Bool = true
-        
-        if let pureText = textField.text {
-            price = pureText.count + string.count - range.length
-            
+        if let text = self.textField.text {
+            let newLength = text.count + string.count - range.length
+            print(newLength)
             if type.keyboardType == .default {
-                isCorrect = nameValidation(text: pureText+string)
+                return !(newLength > type.textLength + 1)
+            } else if type.textLength == 11 {
+                return !(newLength > type.textLength + 3)
+            } else {
+                return !(newLength > type.textLength)
             }
         }
-        return !(price > type.textLength) && isCorrect
+        return true
     }
 }
 
