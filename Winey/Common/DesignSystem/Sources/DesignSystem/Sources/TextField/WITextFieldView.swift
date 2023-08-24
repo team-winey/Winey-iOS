@@ -161,7 +161,7 @@ public final class WITextFieldView: UIView {
     }
     
     public func makeActiveView() {
-        textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.activeColor.color)
+        textField.makeBorder(width: Size.borderWidth.rawValue, color: type.activeBorderColor)
         textField.textColor = type.activeTextColor
     }
     
