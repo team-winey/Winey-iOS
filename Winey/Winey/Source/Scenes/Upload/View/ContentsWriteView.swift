@@ -116,6 +116,11 @@ extension ContentsWriteView: UITextViewDelegate {
         } else {
             textView.textColor = .winey_gray900
             setColor(textView.text.count)
+            
+            if textView.text.count > 36 {
+                textView.text.removeLast()
+                textNum.text = "(36/36)"
+            }
         }
         textView.makeBorder(width: 1, color: .winey_gray200)
         textCountPublisher.send((textView.text.count, textView.text == placeholder))
@@ -123,6 +128,8 @@ extension ContentsWriteView: UITextViewDelegate {
     
     /// textViewDidChange: 텍스트 뷰가 편집되었을때의 동작을 정의한 함수
     func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count > 36 { textView.resignFirstResponder() }
+        
         textSendClousre?(textView.text ?? "")
         textCountPublisher.send((textView.text.count, textView.text == placeholder))
     }
@@ -144,10 +151,29 @@ extension ContentsWriteView: UITextViewDelegate {
             textView.resignFirstResponder()
             return false
         } else {
-            let changedText = currentText.replacingCharacters(in: stringRange, with: text)
-            setColor(changedText.count)
-            textNum.text = "(\(changedText.count)/36)"
-            return changedText.count <= 35
+            let newLength = textView.text.count - range.length + text.count
+            let koreanMaxCount = 37
+            
+            if newLength > koreanMaxCount {
+                let overflow = newLength - koreanMaxCount
+                if text.count < overflow {
+                    return true
+                }
+                let index = text.index(text.endIndex, offsetBy: -overflow)
+                let newText = text[..<index]
+                guard let startPosition = textView.position(from: textView.beginningOfDocument, offset: range.location) else { return false }
+                guard let endPosition = textView.position(from: textView.beginningOfDocument, offset: NSMaxRange(range)) else { return false }
+                guard let textRange = textView.textRange(from: startPosition, to: endPosition) else { return false }
+                    
+                textView.replace(textRange, withText: String(newText))
+                textNum.text = "(36/36)"
+                
+                return false
+            } else {
+                setColor(newLength)
+                textNum.text = "(\(newLength)/36)"
+                return true
+            }
         }
     }
     
