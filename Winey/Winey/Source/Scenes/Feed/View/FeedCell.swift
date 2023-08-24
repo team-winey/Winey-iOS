@@ -33,7 +33,7 @@ final class FeedCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let nicknameLabel: UILabel = UILabel()
+    private let nicknameLabel = UILabel()
     
     private lazy var moreButton: UIButton = {
         let button = UIButton()
@@ -57,7 +57,7 @@ final class FeedCell: UICollectionViewCell {
         return view
     }()
     
-    private let feedMoneyLabel: UILabel = UILabel()
+    private let feedMoneyLabel = UILabel()
     
     private let feedTitleLabel: UILabel = {
         let label = UILabel()
@@ -65,7 +65,7 @@ final class FeedCell: UICollectionViewCell {
         return label
     }()
     
-    private let likeCountLabel: UILabel = UILabel()
+    private let likeCountLabel = UILabel()
     
     private lazy var likeButton: UIButton = {
         let button = UIButton()
