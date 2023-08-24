@@ -248,7 +248,6 @@ extension WITextFieldView: UITextFieldDelegate {
                           replacementString string: String) -> Bool {
         if let text = self.textField.text {
             let newLength = text.count + string.count - range.length
-            print(newLength)
             if type.keyboardType == .default {
                 return !(newLength > type.textLength + 1)
             } else if type.textLength == 11 {
