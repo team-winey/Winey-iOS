@@ -29,6 +29,12 @@ class LoginViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let character: UIImageView = {
+        let img = UIImageView()
+        img.image = .Login.character?.resizeWithWidth(width: 280)
+        return img
+    }()
+    
     private let appleButton: LoginButton = {
         let button = LoginButton(type: .apple)
         return button
@@ -37,6 +43,12 @@ class LoginViewController: UIViewController {
     private let kakaoButton: LoginButton = {
         let button = LoginButton(type: .kakao)
         return button
+    }()
+    
+    private let stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        return stack
     }()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -71,16 +83,22 @@ class LoginViewController: UIViewController {
     }
     
     private func setLayout() {
-        view.addSubviews(loginView, kakaoButton, appleButton, activityIndicator)
+        view.addSubviews(loginView, character, kakaoButton, appleButton, activityIndicator)
         
         loginView.snp.makeConstraints {
-            $0.top.equalTo(safeArea).offset(72)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(72)
+            $0.height.equalTo(93)
+            $0.centerX.equalToSuperview()
+        }
+        
+        character.snp.makeConstraints {
+            $0.top.equalTo(loginView.snp.bottom).offset(88)
             $0.leading.equalToSuperview().inset(40)
             $0.trailing.equalToSuperview().inset(70)
         }
         
         kakaoButton.snp.makeConstraints {
-            $0.top.equalTo(loginView.snp.bottom).offset(48)
+            $0.top.equalTo(character.snp.bottom).offset(48)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
@@ -89,6 +107,7 @@ class LoginViewController: UIViewController {
             $0.top.equalTo(kakaoButton.snp.bottom).offset(10)
             $0.horizontalEdges.equalTo(kakaoButton.snp.horizontalEdges)
             $0.height.equalTo(54)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(64)
         }
     }
     
