@@ -26,12 +26,6 @@ final class LoginView: UIView {
         return text
     }()
     
-    private let character: UIImageView = {
-        let img = UIImageView()
-        img.image = .Login.character?.resizeWithWidth(width: 280)
-        return img
-    }()
-    
     // MARK: - Init func
     
     override init(frame: CGRect) {
@@ -46,23 +40,18 @@ final class LoginView: UIView {
     // MARK: - Methods
     
     private func setLayout() {
-        addSubviews(logo, title, character)
+        addSubviews(logo, title)
         
         logo.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(27)
-            $0.leading.equalToSuperview().inset(57)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(67)
+            $0.width.equalTo(196)
         }
         
         title.snp.makeConstraints {
             $0.top.equalTo(logo.snp.bottom).offset(2)
-            $0.leading.equalToSuperview().inset(80)
-            $0.trailing.equalToSuperview().inset(50)
-        }
-        
-        character.snp.makeConstraints {
-            $0.top.equalTo(title.snp.bottom).offset(88)
-            $0.horizontalEdges.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
     }
