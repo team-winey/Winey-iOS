@@ -287,6 +287,11 @@ class UploadViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
+    private func textValidation(text: String) -> Bool {
+        let pureText = text.trimmingCharacters(in: .whitespaces)
+        return pureText.count > 0
+    }
+    
     /// setButtonActivate
     /// 업로드 단계에 따라 버튼이 활성화 될 지 말지를 결정해주는 함수
     private func setButtonActivate(_ step: Int) {
@@ -298,7 +303,7 @@ class UploadViewController: UIViewController {
                 isOk = false
             }
         case 1:
-            if feedTitle.count >= 5 {
+            if feedTitle.count >= 5 && textValidation(text: feedTitle) {
                 isOk = true
             } else {
                 isOk = false
