@@ -213,6 +213,12 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         return label
     }()
     
+    private var devideView: UIView = {
+        let containerView = UIView()
+        containerView.backgroundColor = UIColor.winey_gray50
+        return containerView
+    }()
+    
     @objc
     private func modifyButtonTapped() {
         ["아직 없어요", "D-0"].contains(dday) ? self.saveGoalButtonTappedClosure?() : self.blockAlertTappedClosure?()
@@ -295,13 +301,19 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     private func setLayout() {
         contentView.addSubviews(goalContainerView, goalInfoStackView)
-        contentView.addSubviews(firstDevideView, secondDevideView)
+        contentView.addSubviews(firstDevideView, secondDevideView, devideView)
         
         goalContainerView.addSubviews(goalTitleLabel, goalLabel, modifyButton)
         goalInfoStackView.addArrangedSubviews(leftView, centerView, rightView)
         leftView.addSubviews(savingPeriodLabel, savingPeriodTitleLabel)
         centerView.addSubviews(accumulatedWineyTitleLabel, accumulatedWineyLabel)
         rightView.addSubviews(wineyCountTitleLabel, wineyCountLabel)
+        
+        devideView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(centerView.snp.bottom).offset(-2)
+        }
         
         leftView.snp.makeConstraints { make in
             make.leading.equalToSuperview()

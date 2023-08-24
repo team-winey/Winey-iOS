@@ -26,6 +26,12 @@ final class MypageProfileCell: UICollectionViewCell {
     
     // MARK: - UIComponents
     
+    private var devideView: UIView = {
+        let containerView = UIView()
+        containerView.backgroundColor = UIColor.winey_gray50
+        return containerView
+    }()
+    
     private var levelContainerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_yellow
@@ -139,8 +145,7 @@ final class MypageProfileCell: UICollectionViewCell {
     func setLayout() {
         contentView.backgroundColor = .white
         contentView.addSubviews(levelContainerView, nicknameLabel)
-        contentView.addSubviews(progressbarImageView, infoButton, characterImageView)
-        contentView.addSubviews(progressbarImageView, infoButton, characterImageView, nextButton)
+        contentView.addSubviews(progressbarImageView, infoButton, characterImageView, nextButton, devideView)
         
         levelContainerView.addSubview(levelLabel)
         
@@ -161,7 +166,7 @@ final class MypageProfileCell: UICollectionViewCell {
         
         nextButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.bottom.equalTo(characterImageView.snp.top)
+            make.bottom.equalTo(characterImageView.snp.top).offset(-5)
         }
         
         nicknameLabel.snp.makeConstraints { make in
@@ -176,6 +181,11 @@ final class MypageProfileCell: UICollectionViewCell {
         progressbarImageView.snp.makeConstraints { make in
             make.top.equalTo(characterImageView.snp.bottom).offset(13)
             make.centerX.equalToSuperview()
+        }
+        devideView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(-7)
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(progressbarImageView.snp.bottom).offset(10)
         }
     }
     
