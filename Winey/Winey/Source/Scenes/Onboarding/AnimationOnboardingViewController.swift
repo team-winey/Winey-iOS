@@ -28,6 +28,7 @@ class AnimationOnboardingViewController: UIViewController {
     private let pageLabel = UILabel()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
+    private let skipButton = UIButton()
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
@@ -100,6 +101,7 @@ class AnimationOnboardingViewController: UIViewController {
         )
         AmplitudeManager.logEvent(event: logEvent)
         if currentPage == onboardingData.count - 1 {
+            skipButton.isHidden = true
             let setNicknameVC = NicknameViewController(viewType: .onboarding)
             self.switchRootViewController(rootViewController: setNicknameVC, animated: true)
         } else {
@@ -107,6 +109,12 @@ class AnimationOnboardingViewController: UIViewController {
             setOnboardingData(data: onboardingData, page: currentPage)
         }
         print(currentPage)
+    }
+    
+    @objc
+    private func skipButtonTapped() {
+        currentPage = onboardingData.count - 1
+        setOnboardingData(data: onboardingData, page: currentPage)
     }
 }
 
@@ -120,11 +128,15 @@ extension AnimationOnboardingViewController {
         self.titleLabel.setText( "위니제국 세이버의\n눈물나는 스토리", attributes: Const.titleAttributes)
         bottomView.layer.cornerRadius = 10
         bottomView.backgroundColor = .winey_gray0
+        
+        let skipAtrributeString = Typography.build(string: "건너뛰기", attributes: Const.skipButtonAttributes)
+        skipButton.setAttributedTitle(skipAtrributeString, for: .normal)
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     private func setLayout() {
         view.addSubviews(chatImageView, canvasImageView, animationView, bottomView, nextButton)
-        bottomView.addSubviews(pageLabel, titleLabel, subtitleLabel)
+        bottomView.addSubviews(pageLabel, titleLabel, subtitleLabel, skipButton)
         
         chatImageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(36)
@@ -168,6 +180,13 @@ extension AnimationOnboardingViewController {
             $0.trailing.equalToSuperview().inset(16)
             $0.size.equalTo(56)
         }
+        
+        skipButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(15)
+            make.trailing.equalToSuperview().inset(16)
+            make.width.equalTo(56)
+            make.height.equalTo(30)
+        }
     }
 }
 
@@ -187,6 +206,11 @@ extension AnimationOnboardingViewController {
             style: .body,
             weight: .medium,
             textColor: .winey_gray600
+        )
+        static let skipButtonAttributes = Typography.Attributes(
+            style: .body3,
+            weight: .medium,
+            textColor: .winey_gray500
         )
     }
 }
