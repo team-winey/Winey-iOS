@@ -30,7 +30,7 @@ public final class DuplicateCheckButton: UIButton {
                                                                            weight: .medium,
                                                                            textColor: .winey_gray700))
         setAttributedTitle(btnText, for: .normal)
-        backgroundColor = .winey_gray50
+        backgroundColor = .winey_yellow
         makeCornerRound(radius: 5)
     }
 }
