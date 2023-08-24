@@ -195,7 +195,7 @@ extension AnimationOnboardingViewController {
         static let pageAttributes = Typography.Attributes(
             style: .body3,
             weight: .medium,
-            textColor: .winey_gray400
+            textColor: .winey_gray900
         )
         static let titleAttributes = Typography.Attributes(
             style: .headLine3,
@@ -205,7 +205,7 @@ extension AnimationOnboardingViewController {
         static let subtitleAttributes = Typography.Attributes(
             style: .body,
             weight: .medium,
-            textColor: .winey_gray600
+            textColor: .winey_gray500
         )
         static let skipButtonAttributes = Typography.Attributes(
             style: .body3,
