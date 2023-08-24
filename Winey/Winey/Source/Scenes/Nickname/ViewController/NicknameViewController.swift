@@ -231,7 +231,7 @@ class NicknameViewController: UIViewController {
     
     @objc
     private func tapLeftButton() {
-        self.dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc
