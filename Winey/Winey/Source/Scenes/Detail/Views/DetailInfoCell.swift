@@ -95,7 +95,7 @@ final class DetailInfoCell: UITableViewCell {
         imageHeightConstraint?.update(offset: viewModel.imageInfo.height)
         let money = viewModel.money.addCommaToString() ?? ""
         moneyLabel.attributedText = NSMutableAttributedString()
-            .appending(string: money, attributes: Const.moneyAttributes)
+            .appending(string: money + "원", attributes: Const.moneyAttributes)
             .appending(string: "  절약", attributes: Const.trashAttributes)
     }
     
@@ -196,8 +196,7 @@ extension DetailInfoCell {
             make.height.equalTo(36)
         }
         moneyLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-2)
+            make.center.equalToSuperview()
         }
 
         containerView.makeCornerRound(radius: 18)

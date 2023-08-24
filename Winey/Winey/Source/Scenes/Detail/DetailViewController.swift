@@ -176,6 +176,22 @@ extension DetailViewController {
             $0.height.equalTo(48)
         }
     }
+    
+    private func setDeleteAlert(_ feedId: Int) {
+        let deletePopup = MIPopupViewController(
+            content: .init(
+                title: "정말 게시물을 삭제하시겠어요?",
+                subtitle: "지금 게시물을 삭제하면 누적 금액이\n삭감되니 주의하세요!"
+            )
+        )
+        deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+        
+        deletePopup.addButton(title: "삭제하기", type: .yellow) {
+            self.deleteFeed()
+        }
+        
+        self.present(deletePopup, animated: true)
+    }
 }
 
 // MARK: - DataSource
@@ -209,7 +225,8 @@ extension DetailViewController {
                 }
                 cell.subscribeTapMoreButton {
                     let action = viewModel.isMine
-                    ? ActionHandler(title: "삭제하기", handler: { self.deleteFeed() })
+                    ? ActionHandler(title: "삭제하기", handler: { self.setDeleteAlert(self.feedId)
+                    })
                     : ActionHandler(title: "신고하기", handler: { self.report() })
                     self.presentActionSheet(actions: [action])
                 }
