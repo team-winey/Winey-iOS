@@ -182,6 +182,10 @@ public final class WITextFieldView: UIView {
     public func getName() -> String {
         return textField.text ?? ""
     }
+    
+    public func setName(_ name: String) {
+        textField.text = name
+    }
 }
 
 extension WITextFieldView: UITextFieldDelegate {

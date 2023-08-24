@@ -24,6 +24,11 @@ class NicknameViewController: UIViewController {
     private let nicknameService = NicknameService()
     
     private var recentNickname: String = ""
+    private var originalNickname: String = "" {
+        didSet {
+            nickNameTextField.setName(originalNickname)
+        }
+    }
     
     private var duplicateResult: Bool = false
     
@@ -227,6 +232,10 @@ class NicknameViewController: UIViewController {
         } else {
             nextButton.isEnabled = false
         }
+    }
+    
+    func configureNickname(_ name: String) {
+        originalNickname = name
     }
     
     @objc

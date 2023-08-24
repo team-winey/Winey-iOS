@@ -175,6 +175,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 
                 let nicknameViewController = NicknameViewController(viewType: .myPage)
                 nicknameViewController.hidesBottomBarWhenPushed = true
+                nicknameViewController.configureNickname(nickname)
                 self.navigationController?.pushViewController(nicknameViewController, animated: true)
             }
             return mypageProfileCell
