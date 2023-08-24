@@ -30,6 +30,12 @@ final class MenuCell: UICollectionViewCell {
         label.lineBreakMode = .byWordWrapping
         return label
     }()
+    
+    private var devideView: UIView = {
+        let containerView = UIView()
+        containerView.backgroundColor = UIColor.winey_gray50
+        return containerView
+    }()
 
     private func setUI() {
         contentView.backgroundColor = .white
@@ -51,7 +57,7 @@ final class MenuCell: UICollectionViewCell {
     // MARK: - Layout
 
     private func setLayout() {
-        contentView.addSubviews(titleLabel, nextImageView)
+        contentView.addSubviews(titleLabel, nextImageView, devideView)
 
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(17)
@@ -61,6 +67,11 @@ final class MenuCell: UICollectionViewCell {
         nextImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.verticalEdges.equalToSuperview()
+        }
+        devideView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(nextImageView.snp.bottom).offset(-5)
         }
     }
     // MARK: - Config
