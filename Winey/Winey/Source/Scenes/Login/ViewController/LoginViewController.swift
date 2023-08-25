@@ -248,6 +248,8 @@ extension LoginViewController {
             switch response.code {
             case 200..<300:
                 UserDefaults.standard.set(true, forKey: "Signed")
+                UserDefaults.standard.set(true, forKey: "notRegistered")
+                
                 print(UserDefaults.standard.bool(forKey: "Signed"))
                 print("로그인 성공 -> accessToken/refreshToken을 키체인에 저장")
                 
@@ -273,6 +275,8 @@ extension LoginViewController {
             switch response.code {
             case 200..<300:
                 UserDefaults.standard.set(true, forKey: "Signed")
+                UserDefaults.standard.set(true, forKey: "notRegistered")
+
                 print(UserDefaults.standard.bool(forKey: "Signed"))
                 print("로그인 성공 -> accessToken/refreshToken을 키체인에 저장")
                 
