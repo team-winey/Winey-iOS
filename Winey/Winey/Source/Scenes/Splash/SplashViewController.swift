@@ -49,8 +49,9 @@ final class SplashViewController: UIViewController {
         
         let refreshToken = KeychainManager.shared.read("refreshToken")
         let notFirstLaunch = UserDefaults.standard.bool(forKey: "notFirstLaunch")
+        let notRegistered = UserDefaults.standard.bool(forKey: "notRegistered")
         
-        if notFirstLaunch {
+        if notFirstLaunch && notRegistered {
             // 로그인 여부에 따라 다른 VC로 이동
             if signed {
                 print("로그인 되어 있음")
@@ -66,12 +67,12 @@ final class SplashViewController: UIViewController {
                             print("토큰 재발급 성공, 로그인이 되어 있으므로 메인 뷰로 이동")
                             // rootViewController = LoginTestViewController()
                             rootViewController = TabBarController()
-                            self.window?.rootViewController = rootViewController
                             // 토큰 재발급 실패 -> 로그인 화면으로 이동
                         case false:
                             print("토큰 재발급 실패, 로그인을 다시 해주세요")
                             rootViewController = LoginViewController()
                         }
+                        self.window?.rootViewController = rootViewController
                     }
                 }
             } else {
