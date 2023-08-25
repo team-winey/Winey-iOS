@@ -93,7 +93,7 @@ final class FeedViewController: UIViewController {
                 self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
             }
             cell.moreButtonTappedClosure = { [weak self] feedId, userId in
-                self?.showAlert(feedId: feedId, userId: userId)
+                self?.showAlert(feedId: feedId, userId: userId, item: indexPath.item)
             }
         }
         
@@ -157,7 +157,7 @@ final class FeedViewController: UIViewController {
         }
     }
     
-    private func showAlert(feedId: Int, userId: Int) {
+    private func showAlert(feedId: Int, userId: Int, item: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
             print("쫄?")
@@ -165,7 +165,7 @@ final class FeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         if userId == UserSingleton.getId() {
             let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
-                self.setDeleteAlert(feedId)
+                self.setDeleteAlert(feedId, item)
             }
             alertController.addAction(deleteAction)
         } else {
@@ -239,7 +239,7 @@ final class FeedViewController: UIViewController {
         writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
     }
     
-    private func setDeleteAlert(_ feedId: Int) {
+    private func setDeleteAlert(_ feedId: Int, _ item: Int) {
         let deletePopup = MIPopupViewController(
             content: .init(
                 title: "정말 게시물을 삭제하시겠어요?",
@@ -249,12 +249,24 @@ final class FeedViewController: UIViewController {
         deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
         
         deletePopup.addButton(title: "삭제하기", type: .yellow) {
-            self.deleteMyFeed(feedId: feedId)
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.deleteMyFeed(feedId: feedId)
+            }
+            
+            self.deleteCell(item)
             self.refresh()
             self.feedDeletePublisher.send((Void()))
         }
         
         self.present(deletePopup, animated: true)
+    }
+    
+    func deleteCell(_ path: Int) {
+        var snapshot = dataSource.snapshot()
+        let targetItem = snapshot.itemIdentifiers[path]
+        snapshot.deleteItems([targetItem])
+        dataSource.apply(snapshot)
+        feedList.remove(at: path)
     }
     
     @objc
