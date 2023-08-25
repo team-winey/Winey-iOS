@@ -151,10 +151,6 @@ public final class WITextFieldView: UIView {
         textField.resignFirstResponder()
     }
     
-    public func resetPrice() {
-        textField.text = "0"
-    }
-    
     public func makeErrorView() {
         textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.errorBorderColor.color)
         textField.textColor = Color.errorTextColor.color
