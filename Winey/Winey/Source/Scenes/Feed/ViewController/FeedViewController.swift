@@ -74,6 +74,7 @@ final class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkNewNotification()
+        refresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -210,11 +211,6 @@ final class FeedViewController: UIViewController {
                 self?.showToast(type)
             })
             .store(in: &bag)
-        NotificationCenter.default.publisher(for: .whenMyfeedDeleteCompleted)
-            .sink(receiveValue: { [weak self] _ in
-                self?.refresh()
-            })
-            .store(in: &bag)
     }
     
     private func refresh() {
@@ -254,13 +250,8 @@ final class FeedViewController: UIViewController {
         deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
         
         deletePopup.addButton(title: "삭제하기", type: .yellow) {
-            DispatchQueue.global(qos: .userInteractive).async {
-                self.deleteMyFeed(feedId: feedId)
-            }
-            
+            self.deleteMyFeed(feedId: feedId)
             self.deleteCell(item)
-            self.refresh()
-            self.feedDeletePublisher.send((Void()))
         }
         
         self.present(deletePopup, animated: true)
@@ -435,7 +426,8 @@ extension FeedViewController {
         feedService.deleteMyFeed(feedId) { [weak self] response in
             guard let self = self else { return }
             response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
-            self.dataSource.apply(self.snapshot(), animatingDifferences: false)
+            self.refresh()
+            // self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
     }
     
