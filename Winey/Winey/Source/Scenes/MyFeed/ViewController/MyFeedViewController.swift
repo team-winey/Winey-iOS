@@ -65,7 +65,6 @@ final class MyFeedViewController: UIViewController {
         register()
         setupDataSource()
         getMyFeed(page: currentPage)
-        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,21 +139,12 @@ final class MyFeedViewController: UIViewController {
         alertController.addButton(title: "삭제하기", type: .yellow) { [weak self] in
             DispatchQueue.global(qos: .userInteractive).async {
                 self?.deleteMyFeed(idx: idx)
-                NotificationCenter.default.post(name: .whenMyfeedDeleteCompleted, object: nil)
             }
             
             self?.deleteCell(path)
         }
         
         present(alertController, animated: true, completion: nil)
-    }
-    
-    private func bind() {
-        NotificationCenter.default.publisher(for: .whenDeleteFeedCompleted)
-            .sink(receiveValue: { [weak self] _ in
-                self?.refresh()
-            })
-            .store(in: &bag)
     }
     
     private func refresh() {
