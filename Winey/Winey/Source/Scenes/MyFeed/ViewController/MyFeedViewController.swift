@@ -117,7 +117,6 @@ final class MyFeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
             self.showAlert(feedId, item)
-            self.refresh()
         }
         alertController.addAction(deleteAction)
         present(alertController, animated: true, completion: nil)
@@ -137,10 +136,7 @@ final class MyFeedViewController: UIViewController {
         }
         
         alertController.addButton(title: "삭제하기", type: .yellow) { [weak self] in
-            DispatchQueue.global(qos: .userInteractive).async {
-                self?.deleteMyFeed(idx: idx)
-            }
-            
+            self?.deleteMyFeed(idx: idx)
             self?.deleteCell(path)
         }
         
@@ -276,8 +272,10 @@ extension MyFeedViewController {
     }
     
     private func deleteMyFeed(idx: Int) {
-        feedService.deleteMyFeed(idx) { response in
+        feedService.deleteMyFeed(idx) { [weak self] response in
+            guard let self = self else { return }
             response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
+            self.refresh()
         }
     }
     
