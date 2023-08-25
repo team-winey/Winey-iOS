@@ -69,6 +69,7 @@ final class MyFeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        emptyView.isHidden = true
         refresh()
     }
     
@@ -137,7 +138,6 @@ final class MyFeedViewController: UIViewController {
         
         alertController.addButton(title: "삭제하기", type: .yellow) { [weak self] in
             self?.deleteMyFeed(idx: idx)
-            self?.deleteCell(path)
         }
         
         present(alertController, animated: true, completion: nil)
@@ -153,16 +153,6 @@ final class MyFeedViewController: UIViewController {
     private func getMoreFeed() {
         self.currentPage += 1
         self.getMyFeed(page: self.currentPage)
-    }
-    
-    func deleteCell(_ path: Int) {
-        var snapshot = dataSource.snapshot()
-        let targetItem = snapshot.itemIdentifiers[path]
-        snapshot.deleteItems([targetItem])
-        dataSource.apply(snapshot)
-        myfeed.remove(at: path)
-        
-        checkEmpty()
     }
     
     @objc private func didTapLeftButton() {

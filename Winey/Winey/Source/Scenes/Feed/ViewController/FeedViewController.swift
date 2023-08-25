@@ -251,18 +251,9 @@ final class FeedViewController: UIViewController {
         
         deletePopup.addButton(title: "삭제하기", type: .yellow) {
             self.deleteMyFeed(feedId: feedId)
-            self.deleteCell(item)
         }
         
         self.present(deletePopup, animated: true)
-    }
-    
-    func deleteCell(_ path: Int) {
-        var snapshot = dataSource.snapshot()
-        let targetItem = snapshot.itemIdentifiers[path]
-        snapshot.deleteItems([targetItem])
-        dataSource.apply(snapshot)
-        feedList.remove(at: path)
     }
     
     @objc
