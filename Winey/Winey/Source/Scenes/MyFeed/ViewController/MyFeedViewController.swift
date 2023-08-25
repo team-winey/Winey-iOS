@@ -5,6 +5,7 @@
 //  Created by 김인영 on 2023/07/12.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -25,6 +26,8 @@ final class MyFeedViewController: UIViewController {
     private var isEnd: Bool = false
     
     private let emptyView: WIEmptyView = WIEmptyView()
+    
+    private var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
     
@@ -62,11 +65,12 @@ final class MyFeedViewController: UIViewController {
         register()
         setupDataSource()
         getMyFeed(page: currentPage)
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        refresh()
     }
     
     private func setUI() {
@@ -142,6 +146,14 @@ final class MyFeedViewController: UIViewController {
         }
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func bind() {
+        NotificationCenter.default.publisher(for: .whenDeleteFeedCompleted)
+            .sink(receiveValue: { [weak self] _ in
+                self?.refresh()
+            })
+            .store(in: &bag)
     }
     
     private func refresh() {
