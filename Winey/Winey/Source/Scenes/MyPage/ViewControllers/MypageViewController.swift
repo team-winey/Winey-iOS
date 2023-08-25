@@ -394,7 +394,7 @@ extension MypageViewController {
                 UserDefaults.standard.set(false, forKey: "Signed")
                 
                 DispatchQueue.main.async {
-                    let vc = LoginViewController()
+                    let vc = OnboardingViewController()
                     self.switchRootViewController(rootViewController: vc, animated: true)
                 }
             } else {
