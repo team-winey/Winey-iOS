@@ -28,6 +28,7 @@ final class FeedViewController: UIViewController {
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
+    private var feedDeletePublisher = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
     private var currentBannerType: BannerState = .initial
@@ -250,6 +251,7 @@ final class FeedViewController: UIViewController {
         deletePopup.addButton(title: "삭제하기", type: .yellow) {
             self.deleteMyFeed(feedId: feedId)
             self.refresh()
+            self.feedDeletePublisher.send((Void()))
         }
         
         self.present(deletePopup, animated: true)
@@ -414,7 +416,9 @@ extension FeedViewController {
     
     private func deleteMyFeed(feedId: Int) {
         feedService.deleteMyFeed(feedId) { [weak self] response in
-            response ? self?.showToast(.feedDeleteSuccess) : self?.showToast(.feedDeleteFail)
+            guard let self = self else { return }
+            response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
+            self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
     }
     
