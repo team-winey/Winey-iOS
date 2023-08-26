@@ -190,6 +190,8 @@ extension MypageViewController: UICollectionViewDataSource {
             if isOver {
                 duringGoalCount = nil
                 duringGoalAmount = nil
+                targetMoney = nil
+                dday = nil
             }
             mypageGoalInfoCell.configure(
                 model: .init(
