@@ -394,6 +394,10 @@ extension MypageViewController {
                 UserDefaults.standard.set(false, forKey: "Signed")
                 UserDefaults.standard.set(false, forKey: "notRegistered")
                 
+                if UserDefaults.standard.string(forKey: "loginType") == "KAKAO" {
+                    self.loginService.kakaoLogOut()
+                }
+                
                 DispatchQueue.main.async {
                     let vc = OnboardingViewController()
                     self.switchRootViewController(rootViewController: vc, animated: true)
@@ -411,6 +415,10 @@ extension MypageViewController {
                 KeychainManager.shared.delete("refreshToken")
                 
                 UserDefaults.standard.set(false, forKey: "Signed")
+                
+                if UserDefaults.standard.string(forKey: "loginType") == "KAKAO" {
+                    self.loginService.kakaoLogOut()
+                }
                 
                 DispatchQueue.main.async {
                     let vc = LoginViewController()
