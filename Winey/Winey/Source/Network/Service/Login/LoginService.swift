@@ -126,8 +126,10 @@ final class LoginService {
                     do {
                         self.reissueResponse = try response.map(ReissueResponse.self)
                         guard let data = self.reissueResponse?.data else { return }
-                        _ = try KeychainManager.shared.updateToken(data.refreshToken, "refreshToken")
-                        _ = try KeychainManager.shared.updateToken(data.accessToken, "accessToken")
+                        
+                        KeychainManager.shared.update(data.refreshToken, "refreshToken")
+                        KeychainManager.shared.update(data.accessToken, "accessToken")
+                        
                         print(data.refreshToken)
                         print(data.accessToken)
                         print(reissueResponse?.message as Any)
@@ -138,8 +140,8 @@ final class LoginService {
                 default:
                     // 토큰 재발급의 실패 -> 유효기간이 만료되서 -> 저장되있던 토큰들 삭제
                     do {
-                        _ = try KeychainManager.shared.deleteToken("accessToken")
-                        _ = try KeychainManager.shared.deleteToken("refreshToken")
+                        KeychainManager.shared.delete("accessToken")
+                        KeychainManager.shared.delete("refreshToken")
                         print(500)
                         completion(false)
                     } catch {
