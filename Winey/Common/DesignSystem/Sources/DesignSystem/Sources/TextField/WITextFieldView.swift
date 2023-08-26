@@ -247,13 +247,15 @@ extension WITextFieldView: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                           replacementString string: String) -> Bool {
         if let text = self.textField.text {
+            
             let newLength = text.count + string.count - range.length
+            
             if type.keyboardType == .default {
-                return !(newLength > type.textLength + 1)
+                return !(newLength > type.textLength + 1) && nameValidation(text: string)
             } else if type.textLength == 11 {
-                return !(newLength > type.textLength + 3)
+                return !(newLength > type.textLength + 3) && nameValidation(text: string)
             } else {
-                return !(newLength > type.textLength)
+                return !(newLength > type.textLength) && nameValidation(text: string)
             }
         }
         return true
