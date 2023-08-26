@@ -138,17 +138,12 @@ final class LoginService {
                         print(err.localizedDescription)
                     }
                 default:
-                    // 토큰 재발급의 실패 -> 유효기간이 만료되서 -> 저장되있던 토큰들 삭제
-                    do {
-                        KeychainManager.shared.delete("accessToken")
-                        KeychainManager.shared.delete("refreshToken")
-                        print(500)
-                        completion(false)
-                    } catch {
-                        print("token delete error")
-                    }
+                    KeychainManager.shared.delete("accessToken")
+                    KeychainManager.shared.delete("refreshToken")
+                    completion(false)
                 }
             case .failure(let err):
+                print("리프레쉬 토큰 만료")
                 print(err)
             }
         }
@@ -168,7 +163,6 @@ final class LoginService {
 
                     //do something
                     _ = oauthToken
-                    print(oauthToken, "토큰? ")
                     if let oauthToken = oauthToken{
                         completion(oauthToken.accessToken)
                     }
@@ -184,7 +178,6 @@ final class LoginService {
 
                         //do something
                         _ = oauthToken
-                        print(oauthToken, "토큰?")
                         if let oauthToken = oauthToken{
                             completion(oauthToken.accessToken)
                         }
