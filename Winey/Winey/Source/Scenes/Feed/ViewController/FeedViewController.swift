@@ -273,7 +273,7 @@ final class FeedViewController: UIViewController {
                 AmplitudeManager.logEvent(event: logEvent)
             }
             
-            warningViewController.addButton(title: "목표 설정하러가기", type: .yellow) {
+            warningViewController.addButton(title: "설정하기", type: .yellow) {
                 self.tabBarController?.selectedIndex = 2
                 let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
                 AmplitudeManager.logEvent(event: logEvent)
