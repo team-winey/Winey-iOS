@@ -28,6 +28,7 @@ final class FeedViewController: UIViewController {
     private var currentPage: Int = 1
     private var isEnd: Bool = false
     
+    private var feedDeletePublisher = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
     private var currentBannerType: BannerState = .initial
@@ -73,6 +74,7 @@ final class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkNewNotification()
+        refresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,7 +94,7 @@ final class FeedViewController: UIViewController {
                 self?.postFeedLike(feedId: selectedFeedId, feedLike: isLiked)
             }
             cell.moreButtonTappedClosure = { [weak self] feedId, userId in
-                self?.showAlert(feedId: feedId, userId: userId)
+                self?.showAlert(feedId: feedId, userId: userId, item: indexPath.item)
             }
         }
         
@@ -156,7 +158,7 @@ final class FeedViewController: UIViewController {
         }
     }
     
-    private func showAlert(feedId: Int, userId: Int) {
+    private func showAlert(feedId: Int, userId: Int, item: Int) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
             print("쫄?")
@@ -164,7 +166,7 @@ final class FeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         if userId == UserSingleton.getId() {
             let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
-                self.setDeleteAlert(feedId)
+                self.setDeleteAlert(feedId, item)
             }
             alertController.addAction(deleteAction)
         } else {
@@ -238,7 +240,7 @@ final class FeedViewController: UIViewController {
         writeButton.addTarget(self, action: #selector(goToUploadPage), for: .touchUpInside)
     }
     
-    private func setDeleteAlert(_ feedId: Int) {
+    private func setDeleteAlert(_ feedId: Int, _ item: Int) {
         let deletePopup = MIPopupViewController(
             content: .init(
                 title: "정말 게시물을 삭제하시겠어요?",
@@ -249,7 +251,6 @@ final class FeedViewController: UIViewController {
         
         deletePopup.addButton(title: "삭제하기", type: .yellow) {
             self.deleteMyFeed(feedId: feedId)
-            self.refresh()
         }
         
         self.present(deletePopup, animated: true)
@@ -414,7 +415,10 @@ extension FeedViewController {
     
     private func deleteMyFeed(feedId: Int) {
         feedService.deleteMyFeed(feedId) { [weak self] response in
-            response ? self?.showToast(.feedDeleteSuccess) : self?.showToast(.feedDeleteFail)
+            guard let self = self else { return }
+            response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
+            self.refresh()
+            // self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
     }
     
