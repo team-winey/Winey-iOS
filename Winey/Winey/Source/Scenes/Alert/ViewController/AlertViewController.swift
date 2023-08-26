@@ -176,8 +176,7 @@ extension AlertViewController {
     }
     
     private func checkAllNotification() {
-        alertService.patchAllNotification() { [weak self] response in
-            guard let self = self else { return } // Unwrap self
+        alertService.patchAllNotification() { response in
             
             switch response?.code {
             case .some(200..<300): // Changed the pattern matching here

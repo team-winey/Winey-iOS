@@ -45,9 +45,8 @@ final class SplashViewController: UIViewController {
     @objc private func didFinishSplash() {
         
         var rootViewController = UIViewController()
-        let signed = UserDefaults.standard.bool(forKey: "Signed")
         
-        let refreshToken = KeychainManager.shared.read("refreshToken")
+        let signed = UserDefaults.standard.bool(forKey: "Signed")
         let notFirstLaunch = UserDefaults.standard.bool(forKey: "notFirstLaunch")
         let notRegistered = UserDefaults.standard.bool(forKey: "notRegistered")
         
