@@ -392,9 +392,10 @@ extension MypageViewController {
                 KeychainManager.shared.delete("refreshToken")
                 
                 UserDefaults.standard.set(false, forKey: "Signed")
+                UserDefaults.standard.set(false, forKey: "notRegistered")
                 
                 DispatchQueue.main.async {
-                    let vc = LoginViewController()
+                    let vc = OnboardingViewController()
                     self.switchRootViewController(rootViewController: vc, animated: true)
                 }
             } else {
