@@ -388,6 +388,7 @@ extension DetailViewController {
             self.applyNewComment(item: newCommentItem)
             
             self.commentCount += 1
+            fetchFeedDetail()
         }
     }
     
