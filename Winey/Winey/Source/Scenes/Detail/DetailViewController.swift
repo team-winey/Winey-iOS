@@ -89,6 +89,7 @@ extension DetailViewController {
         tableView.registerCell(DetailInfoCell.self)
         tableView.registerCell(EmptyCommentCell.self)
         tableView.contentInsetAdjustmentBehavior = .never
+        tableView.backgroundColor = .winey_gray50
         // TODO: 키보드 내리는 동작 UX 개선
         tableView.keyboardDismissMode = .interactive
         naviBar.leftButton.addTarget(self, action: #selector(didTapNaviBarLeftButton), for: .touchUpInside)
@@ -387,6 +388,7 @@ extension DetailViewController {
             self.applyNewComment(item: newCommentItem)
             
             self.commentCount += 1
+            fetchFeedDetail()
         }
     }
     

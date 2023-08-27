@@ -153,7 +153,7 @@ extension FloatingCommentTextView: UITextViewDelegate {
 extension FloatingCommentTextView {
     enum Const {
         static let maxLineCount: Int = 4
-        static let minimumWarningCount: Int = 100
+        static let minimumWarningCount: Int = 450
         static let maximumLimitCount: Int = 500
         static let minimumViewHeight: CGFloat = 22
         static let textInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
