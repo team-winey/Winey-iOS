@@ -24,9 +24,7 @@ class UploadViewController: UIViewController {
             setUI()
             setButtonActivate(stageIdx)
             
-            if stageIdx != 0 {
-                setAddTarget()
-            }
+            if stageIdx != 0 { setAddTarget() }
         }
     }
     
@@ -142,7 +140,7 @@ class UploadViewController: UIViewController {
         
         imagePicker.delegate = self
         
-        nextButton.setTitle("확인", for: .normal)
+        nextButton.setTitle(stageIdx == 2 ? "업로드" : "다음", for: .normal)
         
         /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
         switch stageIdx {

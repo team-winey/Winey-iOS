@@ -10,7 +10,7 @@ import UIKit
 import Moya
 
 final class CommentService {
-    let provider = CustomMoyaProvider<CommentAPI>()
+    let provider = CustomMoyaProvider<CommentAPI>(session: Session(interceptor: SessionInterceptor.shared))
 
     private typealias CreateCommentRes = BaseResponse<CreateCommentResponse>
     

@@ -132,7 +132,7 @@ extension FloatingCommentView {
         static let limitAttributes = Typography.Attributes(
             style: .detail3,
             weight: .medium,
-            textColor: .red
+            textColor: .winey_red500
         )
     }
 }
