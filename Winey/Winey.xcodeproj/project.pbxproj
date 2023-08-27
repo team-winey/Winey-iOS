@@ -128,6 +128,7 @@
 		F476886C2A910A4D00D57BA8 /* NicknameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476886B2A910A4D00D57BA8 /* NicknameService.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
+		F4921FF82A9B213700DEDC16 /* LimitedPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4921FF72A9B213700DEDC16 /* LimitedPickerViewController.swift */; };
 		F4A4E0472A7AD79B00673741 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4E0462A7AD79B00673741 /* LoginView.swift */; };
 		F4A6D53E2A7C3C48006905AE /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */; };
 		F4A6D5412A7C3D30006905AE /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D5402A7C3D30006905AE /* LoginAPI.swift */; };
@@ -259,6 +260,7 @@
 		F476886B2A910A4D00D57BA8 /* NicknameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameService.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		F4921FF72A9B213700DEDC16 /* LimitedPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedPickerViewController.swift; sourceTree = "<group>"; };
 		F4A4E0462A7AD79B00673741 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		F4A6D5402A7C3D30006905AE /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
@@ -1034,6 +1036,7 @@
 			children = (
 				F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */,
 				0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */,
+				F4921FF72A9B213700DEDC16 /* LimitedPickerViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1220,6 +1223,7 @@
 				0DB4A2C42A8280D200C40CCC /* DetailViewController.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
 				1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */,
+				F4921FF82A9B213700DEDC16 /* LimitedPickerViewController.swift in Sources */,
 				0D09FB062A697C3C00893A6D /* TestUserViewController.swift in Sources */,
 				145B44BA2A68AC410043D10C /* TotalRecommendResponse.swift in Sources */,
 				0D13578F2A838108009ADFF8 /* KeyboardFrameView.swift in Sources */,
