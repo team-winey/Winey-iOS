@@ -224,6 +224,7 @@ extension MypageViewController: UICollectionViewDataSource {
             switch indexPath.item {
             case 0:
                 menuCell.configureCell(.myfeed)
+                menuCell.titleLabel.setText("마이피드", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: nil)
             case 1:
                 menuCell.configureCell(.inquiry)
                 menuCell.titleLabel.setText("1:1문의", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
@@ -232,6 +233,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 menuCell.titleLabel.setText("이용약관", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
             case 3:
                 menuCell.configureCell(.logout)
+                menuCell.titleLabel.setText("로그아웃", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: nil)
             default:
                 return UICollectionViewCell()
             }
