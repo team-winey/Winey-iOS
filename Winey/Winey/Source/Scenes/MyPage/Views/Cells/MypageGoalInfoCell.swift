@@ -282,7 +282,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             )
         }
         
-        dday = model.dday == nil ? "아직 없어요" : "D\(model.dday ?? 0)"
+        dday = model.dday == nil ? "아직 없어요" : "D-\(model.dday ?? 0)"
         
         savingPeriodLabel.setText(
             dday,
