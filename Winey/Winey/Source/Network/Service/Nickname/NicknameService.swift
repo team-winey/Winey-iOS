@@ -22,6 +22,7 @@ final class NicknameService {
             case .success(let response):
                 switch response.statusCode {
                 case 200..<300:
+                    UserSingleton.saveNickname(nickname)
                     completion(true)
                 default:
                     completion(false)

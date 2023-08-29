@@ -24,9 +24,7 @@ class UploadViewController: UIViewController {
             setUI()
             setButtonActivate(stageIdx)
             
-            if stageIdx != 0 {
-                setAddTarget()
-            }
+            if stageIdx != 0 { setAddTarget() }
         }
     }
     
@@ -41,8 +39,6 @@ class UploadViewController: UIViewController {
     private let spacing: CGFloat = 24
     
     private var pageGuideSubject = PassthroughSubject<Void, Never>()
-    private var secondPageSubjcet = PassthroughSubject<Void, Never>()
-    private var thirdPageSubject = PassthroughSubject<Void, Never>()
     private var bag = Set<AnyCancellable>()
     
     /// 업로드 단계별로 나타나는 뷰와 커스텀 네비게이션 바 객체 생성
@@ -132,25 +128,6 @@ class UploadViewController: UIViewController {
         pageGuideSubject
             .sink { [weak self] _ in
                 self?.pageGuide.setUI()
-                self?.thirdPage.textContentView.resetPrice()
-            }
-            .store(in: &bag)
-        
-        secondPageSubjcet
-            .sink { [weak self] _ in
-                self?.secondPage.resetContents()
-            }
-            .store(in: &bag)
-        
-        thirdPageSubject
-            .sink { [weak self] _ in
-                self?.thirdPage.textContentView.resetPrice()
-            }
-            .store(in: &bag)
-        
-        secondPage.textCountPublisher
-            .sink { [weak self] (count, result) in
-                self?.textExist = count > 0 && !result ? true : false
             }
             .store(in: &bag)
     }
@@ -163,7 +140,7 @@ class UploadViewController: UIViewController {
         
         imagePicker.delegate = self
         
-        nextButton.setTitle("확인", for: .normal)
+        nextButton.setTitle(stageIdx == 2 ? "업로드" : "다음", for: .normal)
         
         /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
         switch stageIdx {
@@ -317,23 +294,12 @@ class UploadViewController: UIViewController {
         }
     }
     
-    private func deleteContents() {
-        switch stageIdx {
-        case 1:
-            secondPage.resetContents()
-            secondPageSubjcet.send(Void())
-        default:
-            thirdPage.textContentView.resetPrice()
-            thirdPageSubject.send(Void())
-        }
-    }
-    
     // NavigationBar
     /// NavigationBar 상의 버튼을 클릭했을때의 동작을 정의하는 함수
     
     @objc
     private func tapLeftButton() {
-        if isOk || (stageIdx == 1 && textExist){
+        if stageIdx == 0 && isOk {
             let vc = MIPopupViewController(content: .init(
                 title: "지금 나가시면 작성하신 게 지워져요",
                 subtitle: "절약 실천 게시물을 올리시면 레벨업에 가까워져요\n그래도 나가시겠습니까?")
@@ -368,7 +334,6 @@ class UploadViewController: UIViewController {
         
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x
                                             - UIScreen.main.bounds.width, y: 0), animated: true)
-        deleteContents()
         stageIdx -= 1
         grayDot.progress -= 1
         grayDot.progress = Double(stageIdx)

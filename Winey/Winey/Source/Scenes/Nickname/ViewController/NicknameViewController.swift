@@ -273,7 +273,7 @@ class NicknameViewController: UIViewController {
             if response {
                 print("닉네임 등록 성공")
                 if self.viewType.naviExist {
-                    self.dismiss(animated: true)
+                    self.navigationController?.popViewController(animated: true)
                 } else {
                     self.switchRootViewController(rootViewController: TabBarController(), animated: true)
                 }
