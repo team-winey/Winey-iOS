@@ -83,12 +83,13 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }()
 
     
-    private var goalContainerView: UIView = {
-        let containerView = UIView()
+    private var goalContainerViewButton: UIButton = {
+        let containerView = UIButton()
         containerView.backgroundColor = UIColor.winey_gray50
         containerView.layer.cornerRadius = 10
         containerView.layer.borderWidth = 1.0
         containerView.layer.borderColor = UIColor.winey_gray200.cgColor
+        containerView.addTarget(self, action: #selector(modifyButtonTapped), for: .touchUpInside)
         return containerView
     }()
     
@@ -300,10 +301,10 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }
     
     private func setLayout() {
-        contentView.addSubviews(goalContainerView, goalInfoStackView)
+        contentView.addSubviews(goalContainerViewButton, goalInfoStackView)
         contentView.addSubviews(firstDevideView, secondDevideView, devideView)
         
-        goalContainerView.addSubviews(goalTitleLabel, goalLabel, modifyButton)
+        goalContainerViewButton.addSubviews(goalTitleLabel, goalLabel, modifyButton)
         goalInfoStackView.addArrangedSubviews(leftView, centerView, rightView)
         leftView.addSubviews(savingPeriodLabel, savingPeriodTitleLabel)
         centerView.addSubviews(accumulatedWineyTitleLabel, accumulatedWineyLabel)
@@ -328,7 +329,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             make.top.equalToSuperview()
         }
         
-        goalContainerView.snp.makeConstraints { make in
+        goalContainerViewButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(18)
                         
