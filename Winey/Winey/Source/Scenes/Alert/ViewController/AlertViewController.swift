@@ -69,9 +69,12 @@ final class AlertViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc
-    private func refreshTableView() {
-        getTotalAlert()
+    @objc private func refreshTableView() {
+        let delay: DispatchTime = .now() + 1.0
+        let closure: () -> Void = { [weak self] in
+            self?.getTotalAlert()
+        }
+        DispatchQueue.main.asyncAfter(deadline: delay, execute: closure)
     }
 }
 
@@ -182,13 +185,8 @@ extension AlertViewController {
     }
     
     private func checkAllNotification() {
-<<<<<<< HEAD
         alertService.patchAllNotification() { [weak self] response in
             guard self != nil else { return } // Unwrap self
-=======
-        alertService.patchAllNotification() { response in
->>>>>>> 52865783c7058fc1ae312746f395443ca1c79f16
-            
             switch response?.code {
             case .some(200..<300): // Changed the pattern matching here
                 if let message = response?.message {
