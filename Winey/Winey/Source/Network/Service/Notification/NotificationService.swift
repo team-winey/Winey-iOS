@@ -30,7 +30,7 @@ final class NotificationService {
             case .success(let response):
                 do {
                     self.totalNotificationData = try response.map(BaseResponse<TotalNotificationResponse>.self)
-                    print("❤️❤️❤️❤️❤️❤️❤️", totalNotificationData)
+                    // print("❤️❤️❤️❤️❤️❤️❤️", totalNotificationData)
                     completion(totalNotificationData)
                 } catch let error {
                     print(error.localizedDescription, 500)

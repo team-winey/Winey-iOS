@@ -5,6 +5,7 @@
 //  Created by 김인영 on 2023/07/12.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -25,6 +26,8 @@ final class MyFeedViewController: UIViewController {
     private var isEnd: Bool = false
     
     private let emptyView: WIEmptyView = WIEmptyView()
+    
+    private var bag = Set<AnyCancellable>()
     
     // MARK: - UI Components
     
@@ -66,7 +69,8 @@ final class MyFeedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        emptyView.isHidden = true
+        refresh()
     }
     
     private func setUI() {
@@ -114,7 +118,6 @@ final class MyFeedViewController: UIViewController {
         alertController.addAction(cancelAction)
         let deleteAction = UIAlertAction(title: "삭제하기", style: .destructive) { _ in
             self.showAlert(feedId, item)
-            self.refresh()
         }
         alertController.addAction(deleteAction)
         present(alertController, animated: true, completion: nil)
@@ -134,11 +137,7 @@ final class MyFeedViewController: UIViewController {
         }
         
         alertController.addButton(title: "삭제하기", type: .yellow) { [weak self] in
-            DispatchQueue.global(qos: .userInteractive).async {
-                self?.deleteMyFeed(idx: idx)
-            }
-            
-            self?.deleteCell(path)
+            self?.deleteMyFeed(idx: idx)
         }
         
         present(alertController, animated: true, completion: nil)
@@ -154,16 +153,6 @@ final class MyFeedViewController: UIViewController {
     private func getMoreFeed() {
         self.currentPage += 1
         self.getMyFeed(page: self.currentPage)
-    }
-    
-    func deleteCell(_ path: Int) {
-        var snapshot = dataSource.snapshot()
-        let targetItem = snapshot.itemIdentifiers[path]
-        snapshot.deleteItems([targetItem])
-        dataSource.apply(snapshot)
-        myfeed.remove(at: path)
-        
-        checkEmpty()
     }
     
     @objc private func didTapLeftButton() {
@@ -273,8 +262,10 @@ extension MyFeedViewController {
     }
     
     private func deleteMyFeed(idx: Int) {
-        feedService.deleteMyFeed(idx) { response in
+        feedService.deleteMyFeed(idx) { [weak self] response in
+            guard let self = self else { return }
             response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
+            self.refresh()
         }
     }
     

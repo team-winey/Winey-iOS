@@ -61,7 +61,7 @@ public final class WITextFieldView: UIView {
         textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.inactiveBorder.color)
         textField.backgroundColor = Color.backgroundColor.color
         textField.font = type.textStyle
-        textField.textColor = Color.inactiveText.color
+        textField.textColor = type.inactiveTextColor
         textField.keyboardType = type.keyboardType
         textField.textAlignment = type.textAlignment
         textField.tintColor = Color.cursorColor.color
@@ -151,10 +151,6 @@ public final class WITextFieldView: UIView {
         textField.resignFirstResponder()
     }
     
-    public func resetPrice() {
-        textField.text = "0"
-    }
-    
     public func makeErrorView() {
         textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.errorBorderColor.color)
         textField.textColor = Color.errorTextColor.color
@@ -167,7 +163,7 @@ public final class WITextFieldView: UIView {
     
     public func makeInactiveView() {
         textField.makeBorder(width: Size.borderWidth.rawValue, color: Color.inactiveBorder.color)
-        textField.textColor = Color.inactiveText.color
+        textField.textColor = type.inactiveTextColor
     }
     
     public func makeSuccessView() {
@@ -251,13 +247,15 @@ extension WITextFieldView: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                           replacementString string: String) -> Bool {
         if let text = self.textField.text {
+            
             let newLength = text.count + string.count - range.length
+            
             if type.keyboardType == .default {
-                return !(newLength > type.textLength + 1)
+                return !(newLength > type.textLength + 1) && nameValidation(text: string)
             } else if type.textLength == 11 {
-                return !(newLength > type.textLength + 3)
+                return !(newLength > type.textLength + 3) && nameValidation(text: string)
             } else {
-                return !(newLength > type.textLength)
+                return !(newLength > type.textLength) && nameValidation(text: string)
             }
         }
         return true
@@ -313,7 +311,6 @@ extension WITextFieldView {
     
     enum Color {
         case inactiveBorder
-        case inactiveText
         case activeColor
         case errorTextColor
         case errorBorderColor
@@ -333,8 +330,6 @@ extension WITextFieldView {
                 return .winey_gray900
             case .errorBorderColor:
                 return .winey_red500
-            case .inactiveText:
-                return .winey_gray500
             case .nickNameSuccess:
                 return .winey_blue500
             }

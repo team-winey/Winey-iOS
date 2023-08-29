@@ -32,6 +32,8 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     var blockAlertTappedClosure: (() -> Void)?
     
     private var dday: String = ""
+    private var goalAmount: String = "0"
+    private var target: String = "0"
     
     // MARK: - UIComponents
     
@@ -222,7 +224,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     
     @objc
     private func modifyButtonTapped() {
-        ["아직 없어요", "D-0"].contains(dday) ? self.saveGoalButtonTappedClosure?() : self.blockAlertTappedClosure?()
+        ["아직 없어요", "D-0"].contains(dday) || goalAmount >= target ? self.saveGoalButtonTappedClosure?() : self.blockAlertTappedClosure?()
     }
     
     // MARK: - View Life Cycle
@@ -239,7 +241,8 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }
     
     func configure(model: ViewModel) {
-        let goalAmount = model.duringGoalAmount?.addCommaToString() ?? "0"
+        goalAmount = model.duringGoalAmount?.addCommaToString() ?? "0"
+        
         accumulatedWineyLabel.setText(
             "\(goalAmount)원",
             attributes: .init(
@@ -257,10 +260,11 @@ final class MypageGoalInfoCell: UICollectionViewCell {
                 textColor: .winey_gray900
             )
         )
+        
         if let targetMoney = model.targetMoney {
-            let money = targetMoney.addCommaToString() ?? "0"
+            target = targetMoney.addCommaToString() ?? "0"
             goalLabel.setText(
-                "\(money)원",
+                "\(target)원",
                 attributes: .init(
                     style: .headLine4,
                     weight: .bold,

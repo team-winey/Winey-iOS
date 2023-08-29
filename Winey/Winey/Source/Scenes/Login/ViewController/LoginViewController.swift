@@ -148,6 +148,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 self.kakaoButton.isHidden = true
                 self.appleButton.isHidden = true
                 self.loginView.isHidden = true
+                self.character.isHidden = true
                 // 2. 이 VC로 왔다는 것은 로그인이 필요한 상황 -> identityToken을 통한 Token들 재발급이 필요함
                 DispatchQueue.global(qos: .background).async {
                     
@@ -175,10 +176,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
-
-        let requests = [request, ASAuthorizationPasswordProvider().createRequest()]
-
-        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
@@ -209,6 +208,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     self.kakaoButton.isHidden = true
                     self.appleButton.isHidden = true
                     self.loginView.isHidden = true
+                    self.character.isHidden = true
                     // 2. 이 VC로 왔다는 것은 로그인이 필요한 상황 -> identityToken을 통한 Token들 재발급이 필요함
                     DispatchQueue.global(qos: .background).async {
                         
@@ -246,6 +246,9 @@ extension LoginViewController {
             switch response.code {
             case 200..<300:
                 UserDefaults.standard.set(true, forKey: "Signed")
+                UserDefaults.standard.set(true, forKey: "notRegistered")
+                UserDefaults.standard.set("APPLE", forKey: "loginType")
+                
                 print(UserDefaults.standard.bool(forKey: "Signed"))
                 print("로그인 성공 -> accessToken/refreshToken을 키체인에 저장")
                 
@@ -271,6 +274,9 @@ extension LoginViewController {
             switch response.code {
             case 200..<300:
                 UserDefaults.standard.set(true, forKey: "Signed")
+                UserDefaults.standard.set(true, forKey: "notRegistered")
+                UserDefaults.standard.set("KAKAO", forKey: "loginType")
+
                 print(UserDefaults.standard.bool(forKey: "Signed"))
                 print("로그인 성공 -> accessToken/refreshToken을 키체인에 저장")
                 

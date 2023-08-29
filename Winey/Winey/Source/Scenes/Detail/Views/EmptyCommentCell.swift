@@ -29,7 +29,7 @@ final class EmptyCommentCell: UITableViewCell {
 extension EmptyCommentCell {
     func setupAttribute() {
         self.emptyImageView.image = .Icon.empty_comment
-        self.backgroundColor = .winey_gray100
+        self.backgroundColor = .winey_gray50
         self.emptyLabel.setText(
             "아직 댓글이 없어요",
             attributes: .init(
