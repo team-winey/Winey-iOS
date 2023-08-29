@@ -313,7 +313,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         devideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(centerView.snp.bottom).offset(-2)
+            make.top.equalTo(centerView.snp.bottom)
         }
         
         leftView.snp.makeConstraints { make in
@@ -353,7 +353,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         
         goalInfoStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(15)
-            make.bottom.equalToSuperview().inset(6)
+            make.bottom.equalToSuperview().inset(10)
             
             savingPeriodTitleLabel.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(14)
