@@ -286,7 +286,7 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return 0
+        return 3
     }
     
     func collectionView(
