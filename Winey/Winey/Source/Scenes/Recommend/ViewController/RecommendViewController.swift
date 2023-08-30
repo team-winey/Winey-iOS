@@ -129,6 +129,7 @@ final class RecommendViewController: UIViewController {
     private func alertButtonTapped() {
         naviBar.alarmButtonClosure = {[weak self] in
             let alertVC = AlertViewController()
+            self?.tabBarController?.tabBar.isHidden = true
             self?.navigationController?.pushViewController(alertVC, animated: true)
         }
     }
