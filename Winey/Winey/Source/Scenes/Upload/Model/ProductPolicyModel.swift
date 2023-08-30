@@ -9,7 +9,7 @@ import Foundation
 
 enum ProductPolicy: String {
     case error
-    case 계란빵
+    case 티끌_모아_태산 = "티끌 모아 태산"
     case 추파춥스
     case 삼각김밥
     case 음료수
@@ -27,7 +27,7 @@ enum ProductPolicy: String {
     
     static func productBy(_ cost: UploadModel.Cost) -> ProductPolicy {
         switch cost {
-        case 0..<500: return .계란빵
+        case 0..<500: return .티끌_모아_태산
         case 500..<1000: return .추파춥스
         case 1000..<1500: return .삼각김밥
         case 1500..<2500: return .음료수
