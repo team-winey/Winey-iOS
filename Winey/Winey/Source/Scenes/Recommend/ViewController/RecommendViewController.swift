@@ -129,7 +129,12 @@ final class RecommendViewController: UIViewController {
     private func alertButtonTapped() {
         naviBar.alarmButtonClosure = {[weak self] in
             let alertVC = AlertViewController()
+            alertVC.completionHandler = { [weak self] in
+                self?.tabBarController?.selectedIndex = 2
+                print("아아")
+            }
             self?.navigationController?.pushViewController(alertVC, animated: true)
+            print("tapped")
         }
     }
 }
