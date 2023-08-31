@@ -67,7 +67,7 @@ class PhotoUploadView: UIView {
     }()
     
     private let plusImg: UIImageView = {
-        let plusImg = UIImageView(frame: CGRect(x: 161, y: 47, width: 36, height: 36))
+        let plusImg = UIImageView(frame: CGRect(x: 153, y: 86.5, width: 36, height: 36))
         plusImg.image = .Btn.btn_plus
         return plusImg
     }()
@@ -99,7 +99,7 @@ class PhotoUploadView: UIView {
         }
         
         plusImg.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(47)
+            $0.top.equalToSuperview().inset(86.5)
             $0.centerX.equalToSuperview()
         }
         
