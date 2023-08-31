@@ -126,7 +126,6 @@ class OnboardingViewController: UIViewController {
 }
 
 extension OnboardingViewController {
-    
     private func setButtonUI() {
         let nextButtonAtrributeString = Typography.build(
             string: "다음으로",
