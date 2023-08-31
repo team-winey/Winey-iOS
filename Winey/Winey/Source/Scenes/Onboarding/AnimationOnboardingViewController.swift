@@ -113,8 +113,8 @@ class AnimationOnboardingViewController: UIViewController {
     
     @objc
     private func skipButtonTapped() {
-        currentPage = onboardingData.count - 1
-        setOnboardingData(data: onboardingData, page: currentPage)
+        let setNicknameVC = NicknameViewController(viewType: .onboarding)
+        self.switchRootViewController(rootViewController: setNicknameVC, animated: true)
     }
 }
 
@@ -128,6 +128,9 @@ extension AnimationOnboardingViewController {
         self.titleLabel.setText( "위니제국 세이버의\n눈물나는 스토리", attributes: Const.titleAttributes)
         bottomView.layer.cornerRadius = 10
         bottomView.backgroundColor = .winey_gray0
+        canvasImageView.contentMode = .scaleToFill
+        chatImageView.contentMode = .scaleAspectFit
+        animationView.contentMode = .scaleAspectFit
         
         let skipAtrributeString = Typography.build(string: "건너뛰기", attributes: Const.skipButtonAttributes)
         skipButton.setAttributedTitle(skipAtrributeString, for: .normal)
@@ -135,38 +138,42 @@ extension AnimationOnboardingViewController {
     }
     
     private func setLayout() {
-        view.addSubviews(chatImageView, canvasImageView, animationView, bottomView, nextButton)
+        view.addSubviews(canvasImageView, chatImageView, bottomView, nextButton)
+        canvasImageView.addSubviews(animationView)
         bottomView.addSubviews(pageLabel, titleLabel, subtitleLabel, skipButton)
         
         chatImageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(36)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(Const.chatImageViewTop.adjustedH)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(228)
+            make.width.equalTo(Const.chatImageViewWidth)
+            make.height.equalTo(Const.chatImageViewHeight)
         }
         
         canvasImageView.snp.makeConstraints { make in
-            make.top.equalTo(chatImageView.snp.bottom).offset(-31)
+            make.top.equalTo(chatImageView).offset(Const.animationViewTop.adjustedH)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(390)
+            make.height.equalTo(Const.animationViewSize.adjustedH)
         }
         
         animationView.snp.makeConstraints{ make in
-            make.edges.equalTo(canvasImageView)
+            make.edges.leading.equalToSuperview()
+            make.height.equalTo(Const.animationViewSize.adjustedH)
+            make.width.equalTo(Const.animationViewSize.adjustedW)
         }
         
         bottomView.snp.makeConstraints { make in
-            make.top.equalTo(canvasImageView.snp.bottom).offset(-20)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(Const.bottomHeight)
         }
         
         pageLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(Const.pageLabelTop.adjustedH)
             make.leading.equalToSuperview().inset(16)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(pageLabel.snp.bottom).offset(22)
+            make.top.equalTo(pageLabel.snp.bottom).offset(Const.titleLabelTop.adjustedH)
             make.leading.equalTo(pageLabel)
         }
         
@@ -182,7 +189,7 @@ extension AnimationOnboardingViewController {
         }
         
         skipButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(15)
+            make.top.equalTo(pageLabel)
             make.trailing.equalToSuperview().inset(16)
             make.width.equalTo(56)
             make.height.equalTo(30)
@@ -212,6 +219,15 @@ extension AnimationOnboardingViewController {
             weight: .medium,
             textColor: .winey_gray500
         )
+        
+        static let chatImageViewTop: CGFloat = 36
+        static let chatImageViewWidth: CGFloat = 390
+        static let chatImageViewHeight: CGFloat = 228
+        static let animationViewTop: CGFloat = 197
+        static let animationViewSize: CGFloat = 390
+        static let bottomHeight: CGFloat = 160
+        static let pageLabelTop: CGFloat = 20
+        static let titleLabelTop: CGFloat = 22
     }
 }
 

@@ -22,10 +22,6 @@ final class MenuCell: UICollectionViewCell {
 
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.setText("",
-            attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700),
-            customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]
-        )
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         return label
@@ -76,6 +72,9 @@ final class MenuCell: UICollectionViewCell {
     }
     // MARK: - Config
     func configureCell(_ menu: Menu) {
-            titleLabel.text = menu.title
-        }
+        titleLabel.setText(
+            menu.title,
+            attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700)
+        )
+    }
 }
