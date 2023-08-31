@@ -131,10 +131,9 @@ final class RecommendViewController: UIViewController {
             let alertVC = AlertViewController()
             alertVC.completionHandler = { [weak self] in
                 self?.tabBarController?.selectedIndex = 2
-                print("아아")
             }
+            self?.tabBarController?.tabBar.isHidden = true
             self?.navigationController?.pushViewController(alertVC, animated: true)
-            print("tapped")
         }
     }
 }
