@@ -160,7 +160,7 @@ class UploadViewController: UIViewController {
         
         for idx in 0..<3 {
             let component = subViews[idx]
-            component.frame = CGRect(x: x+spacing, y: 0, width: viewWidth, height: 182)
+            component.frame = CGRect(x: x+spacing, y: 0, width: viewWidth, height: 256)
             
             component.backgroundColor = .white
             scrollView.addSubview(component)
@@ -168,7 +168,7 @@ class UploadViewController: UIViewController {
             x += view.frame.origin.x + viewWidth + (2 * spacing)
         }
         
-        scrollView.contentSize = CGSize(width: x+spacing, height: 182)
+        scrollView.contentSize = CGSize(width: x+spacing, height: 256)
     }
     
     private func setLayout() {
@@ -194,7 +194,7 @@ class UploadViewController: UIViewController {
         scrollView.snp.makeConstraints {
             $0.top.equalTo(pageGuide.snp.bottom).offset(42)
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(182)
+            $0.height.equalTo(256)
         }
         
         nextButton.snp.makeConstraints {
