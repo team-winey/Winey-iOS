@@ -40,7 +40,6 @@ final class UploadLoadingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUI()
         setLayout()
         bind()
@@ -113,10 +112,17 @@ extension UploadLoadingViewController {
         
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
-        todayLabel.setText("오늘은", attributes: Const.titleAttributes)
-        let keyword = (keyword ?? "") + " 값을"
-        keywordLabel.setText(keyword, attributes: Const.titleAttributes)
-        saveLabel.setText("절약했어요", attributes: Const.titleAttributes)
+        
+        let keyword = keyword ?? ""
+        if keyword == "티끌 모아 태산" {
+            keywordLabel.setText("티끌 모아 태산", attributes: Const.titleAttributes)
+            saveLabel.setText("조금 더 아껴볼까요?", attributes: Const.titleAttributes)
+        } else {
+            todayLabel.setText("오늘은", attributes: Const.titleAttributes)
+            let keyword = keyword + " 값을"
+            keywordLabel.setText(keyword, attributes: Const.titleAttributes)
+            saveLabel.setText("절약했어요", attributes: Const.titleAttributes)
+        }
         keywordContainerView.backgroundColor = .winey_yellow
         todayLabel.textAlignment = .center
         saveLabel.textAlignment = .center
@@ -133,7 +139,10 @@ extension UploadLoadingViewController {
         view.addSubview(arrowImageView)
         view.addSubview(stackView)
         view.addSubview(animationView)
-        stackView.addArrangedSubview(todayLabel)
+        
+        if keyword != "티끌 모아 태산" {
+            stackView.addArrangedSubview(todayLabel)
+        }
         stackView.addArrangedSubview(keywordContainerView)
         stackView.addArrangedSubview(saveLabel)
         keywordContainerView.addSubview(keywordLabel)
@@ -144,18 +153,18 @@ extension UploadLoadingViewController {
             make.width.equalTo(28)
             make.height.equalTo(56)
         }
+        
         stackView.snp.makeConstraints { make in
             make.top.equalTo(arrowImageView.snp.bottom).offset(12)
             make.centerX.equalToSuperview()
         }
+        
         animationView.snp.makeConstraints { make in
             make.top.equalTo(stackView.snp.bottom).offset(33)
             make.bottom.equalToSuperview().inset(34)
             make.leading.equalToSuperview().offset(67)
             make.trailing.equalToSuperview().inset(39)
         }
-        
-        
         
         keywordLabel.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(1)

@@ -93,13 +93,13 @@ final class FeedCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        nicknameLabel.text = "초기 닉네임"
-        feedTitleLabel.text = "초기 titleLabel"
+        nicknameLabel.text = ""
+        feedTitleLabel.text = ""
         likeCountLabel.text = "0"
         self.isLiked = false
         self.feedId = 0
         self.commentCountLabel.text = "0"
-        self.timeAgoLabel.text = "지금 이 순대"
+        self.timeAgoLabel.text = "방금 전"
     }
     
     override func layoutSubviews() {
