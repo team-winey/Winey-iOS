@@ -513,6 +513,7 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
             }
             alertVC.addAction(cancelAction)
             alertVC.addAction(confirmAction)
+            
             self.present(alertVC, animated: true, completion: nil)
         }
     }
@@ -561,6 +562,8 @@ extension UploadViewController: UIImagePickerControllerDelegate, UINavigationCon
         
         alertController.addAction(allowAction)
         alertController.addAction(cancelAction)
+        
+        alertController.overrideUserInterfaceStyle = .dark
         
         self.present(alertController, animated: false, completion: nil)
     }
