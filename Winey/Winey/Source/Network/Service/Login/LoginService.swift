@@ -10,6 +10,7 @@ import Foundation
 import Moya
 import KakaoSDKAuth
 import KakaoSDKUser
+import UIKit
 
 
 final class LoginService {
@@ -138,12 +139,21 @@ final class LoginService {
                         print(err.localizedDescription)
                     }
                 default:
-                    KeychainManager.shared.delete("accessToken")
-                    KeychainManager.shared.delete("refreshToken")
+                    print("network issue")
                     completion(false)
                 }
             case .failure(let err):
-                print("리프레쉬 토큰 만료")
+                print("리프레쉬 토큰 만료 -> 만료 로직 실행")
+                
+                // 토큰 삭제
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+                
+                // 로그아웃 처리
+                UserDefaults.standard.set(false, forKey: "Signed")
+                
+                // 루트 뷰 교체
+                UIViewController().switchRootViewController(rootViewController: LoginViewController(), animated: true)
                 print(err)
             }
         }
