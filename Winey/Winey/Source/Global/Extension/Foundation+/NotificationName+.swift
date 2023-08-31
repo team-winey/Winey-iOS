@@ -18,4 +18,6 @@ extension Notification.Name {
     static let feedUploadResult = Notification.Name(rawValue: "feedUploadResult")
     /// 피드 삭제후 노티
     static let whenDeleteFeedCompleted = Notification.Name(rawValue: "whenDeleteFeedCompleted")
+    static let whenImgSelected = Notification.Name(rawValue: "whenImgSelected")
+    static let imgLoadingEnd = Notification.Name(rawValue: "imgLoadingEnd")
 }
