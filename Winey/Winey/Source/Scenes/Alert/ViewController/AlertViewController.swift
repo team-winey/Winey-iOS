@@ -34,6 +34,7 @@ final class AlertViewController: UIViewController {
     private var notiMessage: String?
     private var timeago: String?
     private let alertService = NotificationService()
+    private let refreshControl = UIRefreshControl()
 
     // MARK: - UI Components
 
@@ -67,6 +68,14 @@ final class AlertViewController: UIViewController {
     private func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    @objc private func refreshTableView() {
+        let delay: DispatchTime = .now() + 1.0
+        let closure: () -> Void = { [weak self] in
+            self?.getTotalAlert()
+        }
+        DispatchQueue.main.asyncAfter(deadline: delay, execute: closure)
     }
 }
 
@@ -106,6 +115,8 @@ extension AlertViewController {
         tableView.backgroundColor = .winey_gray0
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
     }
 
     private func setLayout() {
@@ -126,32 +137,29 @@ extension AlertViewController {
 extension AlertViewController {
     private func getTotalAlert() {
         alertService.getTotalNotification() { [weak self] response in
-            guard let response = response, let data = response.data else { return }
-            guard let self else { return }
-            switch response.code {
-                        case 200..<300:
-                            var newArray = model
-                            for i in data.getNotiResponseDtoList {
-                                newArray.append(Category(
-                                    notiID: i.notiID,
-                                    notiReceiver: i.notiReceiver,
-                                    notiMessage: i.notiMessage,
-                                    notiType: i.notiType,
-                                    isChecked: i.isChecked,
-                                    timeAgo: i.timeAgo,
-                                    createdAt: i.createdAt,
-                                    linkID: i.linkID )
-                                )
-                            }
-
-                model = newArray
-
-                print("😀", data)
-            case 400...500:
-                print("🥰")
-            default:
-                print("default")
+            guard let response = response, let data = response.data else {
+                return
             }
+            
+            var newArray: [Category] = []
+            
+            for i in data.getNotiResponseDtoList {
+                newArray.append(Category(
+                    notiID: i.notiID,
+                    notiReceiver: i.notiReceiver,
+                    notiMessage: i.notiMessage,
+                    notiType: i.notiType,
+                    isChecked: i.isChecked,
+                    timeAgo: i.timeAgo,
+                    createdAt: i.createdAt,
+                    linkID: i.linkID )
+                )
+            }
+            
+            self?.model = newArray
+            
+            self?.refreshControl.endRefreshing()
+            print("😀", data)
         }
     }
     
@@ -168,8 +176,9 @@ extension AlertViewController {
             
         case "RANKUPTO2", "RANKUPTO3", "RANKUPTO4",
             "DELETERANKDOWNTO1", "DELETERANKDOWNTO2", "DELETERANKDOWNTO3", "GOALFAILED":
-            completionHandler?()
-            navigationController?.popViewController(animated: true)
+            let mypageViewController = MypageViewController()
+            mypageViewController.navigationBar.isHidden = false
+            navigationController?.pushViewController(mypageViewController, animated: true)
             
         default:
             return
@@ -177,8 +186,8 @@ extension AlertViewController {
     }
     
     private func checkAllNotification() {
-        alertService.patchAllNotification() { response in
-            
+        alertService.patchAllNotification() { [weak self] response in
+            guard self != nil else { return } // Unwrap self
             switch response?.code {
             case .some(200..<300): // Changed the pattern matching here
                 if let message = response?.message {
