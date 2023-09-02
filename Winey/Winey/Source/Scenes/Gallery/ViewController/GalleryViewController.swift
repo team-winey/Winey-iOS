@@ -22,17 +22,24 @@ class GalleryViewController: UIViewController {
     
     private let navigationBar = WINavigationBar(leftBarItem: .back, title: "Photos")
     
-    private lazy var flowLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
-        return layout
+//    private lazy var flowLayout: UICollectionViewFlowLayout = {
+//        let layout = UICollectionViewFlowLayout()
+//        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
+//        return layout
+//    }()
+    
+    private let flowLayout: UICollectionViewLayout = {
+        return UICollectionViewCompositionalLayout { _ , layoutEnvironment -> NSCollectionLayoutSection? in
+            var listConfig = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            listConfig.headerMode = .supplementary
+            return NSCollectionLayoutSection.list(using: listConfig, layoutEnvironment: layoutEnvironment)
+        }
     }()
     
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         view.register(GalleryCell.self, forCellWithReuseIdentifier: GalleryCell.className)
         view.showsVerticalScrollIndicator = true
-        view.
         return view
     }()
 
