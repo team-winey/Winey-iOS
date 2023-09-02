@@ -85,12 +85,13 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }()
 
     
-    private var goalContainerView: UIView = {
-        let containerView = UIView()
+    private var goalContainerViewButton: UIButton = {
+        let containerView = UIButton()
         containerView.backgroundColor = UIColor.winey_gray50
         containerView.layer.cornerRadius = 10
         containerView.layer.borderWidth = 1.0
         containerView.layer.borderColor = UIColor.winey_gray200.cgColor
+        containerView.addTarget(self, action: #selector(modifyButtonTapped), for: .touchUpInside)
         return containerView
     }()
     
@@ -304,10 +305,10 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }
     
     private func setLayout() {
-        contentView.addSubviews(goalContainerView, goalInfoStackView)
+        contentView.addSubviews(goalContainerViewButton, goalInfoStackView)
         contentView.addSubviews(firstDevideView, secondDevideView, devideView)
         
-        goalContainerView.addSubviews(goalTitleLabel, goalLabel, modifyButton)
+        goalContainerViewButton.addSubviews(goalTitleLabel, goalLabel, modifyButton)
         goalInfoStackView.addArrangedSubviews(leftView, centerView, rightView)
         leftView.addSubviews(savingPeriodLabel, savingPeriodTitleLabel)
         centerView.addSubviews(accumulatedWineyTitleLabel, accumulatedWineyLabel)
@@ -316,7 +317,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         devideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(centerView.snp.bottom).offset(-2)
+            make.top.equalTo(centerView.snp.bottom)
         }
         
         leftView.snp.makeConstraints { make in
@@ -332,7 +333,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             make.top.equalToSuperview()
         }
         
-        goalContainerView.snp.makeConstraints { make in
+        goalContainerViewButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
             make.top.equalToSuperview().inset(18)
                         
@@ -356,7 +357,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         
         goalInfoStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(15)
-            make.bottom.equalToSuperview().inset(6)
+            make.bottom.equalToSuperview().inset(10)
             
             savingPeriodTitleLabel.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(14)

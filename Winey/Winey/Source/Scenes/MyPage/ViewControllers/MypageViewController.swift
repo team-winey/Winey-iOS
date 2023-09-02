@@ -28,7 +28,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - UIComponents
     
-    private let navigationBar = WINavigationBar.init(title: "마이페이지")
     private lazy var safearea = self.view.safeAreaLayoutGuide
     private let topBackgroundColor = UIColor.winey_gray0
     private let bottomBackgroundColor = UIColor.winey_gray50
@@ -46,6 +45,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         setLayout()
         setUI()
         bind()
+        setAddTarget()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +80,22 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+    }
+    
+    lazy var navigationBar: WINavigationBar = {
+        let bar = WINavigationBar(leftBarItem: .back, title: "마이페이지")
+        bar.isHidden = true // 처음에는 숨김
+
+        return bar
+    }()
+
+    private func setAddTarget() {
+        navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Layout
@@ -226,6 +242,7 @@ extension MypageViewController: UICollectionViewDataSource {
             switch indexPath.item {
             case 0:
                 menuCell.configureCell(.myfeed)
+                menuCell.titleLabel.setText("마이피드", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: nil)
             case 1:
                 menuCell.configureCell(.inquiry)
                 menuCell.titleLabel.setText("1:1문의", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
@@ -234,6 +251,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 menuCell.titleLabel.setText("이용약관", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
             case 3:
                 menuCell.configureCell(.logout)
+                menuCell.titleLabel.setText("로그아웃", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: nil)
             default:
                 return UICollectionViewCell()
             }
