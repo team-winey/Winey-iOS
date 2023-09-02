@@ -28,7 +28,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - UIComponents
     
-//    private lazy var navigationBar = WINavigationBar.init(leftBarItem: .back, title: "마이페이지")
     private lazy var safearea = self.view.safeAreaLayoutGuide
     private let topBackgroundColor = UIColor.winey_gray0
     private let bottomBackgroundColor = UIColor.winey_gray50
@@ -305,7 +304,7 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return 3
+        return 0
     }
     
     func collectionView(
