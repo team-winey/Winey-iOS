@@ -177,8 +177,9 @@ extension AlertViewController {
             
         case "RANKUPTO2", "RANKUPTO3", "RANKUPTO4",
             "DELETERANKDOWNTO1", "DELETERANKDOWNTO2", "DELETERANKDOWNTO3", "GOALFAILED":
-            completionHandler?()
-            navigationController?.popViewController(animated: true)
+            let mypageViewController = MypageViewController()
+            mypageViewController.navigationBar.isHidden = false
+            navigationController?.pushViewController(mypageViewController, animated: true)
             
         default:
             return
