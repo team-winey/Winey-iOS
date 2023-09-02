@@ -22,24 +22,19 @@ class GalleryViewController: UIViewController {
     
     private let navigationBar = WINavigationBar(leftBarItem: .back, title: "Photos")
     
-//    private lazy var flowLayout: UICollectionViewFlowLayout = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
-//        return layout
-//    }()
-    
     private let flowLayout: UICollectionViewLayout = {
-        return UICollectionViewCompositionalLayout { _ , layoutEnvironment -> NSCollectionLayoutSection? in
-            var listConfig = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-            listConfig.headerMode = .supplementary
-            return NSCollectionLayoutSection.list(using: listConfig, layoutEnvironment: layoutEnvironment)
-        }
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 100)
+        return flowLayout
     }()
     
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         view.register(GalleryCell.self, forCellWithReuseIdentifier: GalleryCell.className)
+        view.register(CustomCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CustomCollectionHeaderView.className)
         view.showsVerticalScrollIndicator = true
+        view.backgroundColor = .winey_gray50
+
         return view
     }()
 
@@ -78,7 +73,7 @@ class GalleryViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(4)
+            $0.top.equalTo(navigationBar.snp.bottom)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
@@ -96,7 +91,7 @@ class GalleryViewController: UIViewController {
     }
 }
 
-extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryCell.className, for: indexPath)
@@ -116,6 +111,17 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
         vc.fetchResult = allPhotos
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CustomCollectionHeaderView.className, for: indexPath) as? CustomCollectionHeaderView else {
+                return CustomCollectionHeaderView()
+            }
+            return header
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+            return CGSize(width: view.frame.size.width, height: 10)
+    }
 }
 
 extension GalleryViewController: PHPhotoLibraryChangeObserver {
@@ -125,5 +131,12 @@ extension GalleryViewController: PHPhotoLibraryChangeObserver {
                 allPhotos = changeDetails.fetchResultAfterChanges
             }
         }
+    }
+}
+
+
+class CustomCollectionHeaderView: UICollectionReusableView {
+    func setUI() {
+        backgroundColor = .winey_gray50
     }
 }
