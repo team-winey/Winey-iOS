@@ -28,7 +28,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - UIComponents
     
-    private let navigationBar = WINavigationBar.init(title: "마이페이지")
+//    private lazy var navigationBar = WINavigationBar.init(leftBarItem: .back, title: "마이페이지")
     private lazy var safearea = self.view.safeAreaLayoutGuide
     private let topBackgroundColor = UIColor.winey_gray0
     private let bottomBackgroundColor = UIColor.winey_gray50
@@ -46,6 +46,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         setLayout()
         setUI()
         bind()
+        setAddTarget()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +81,22 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+    }
+    
+    lazy var navigationBar: WINavigationBar = {
+        let bar = WINavigationBar(leftBarItem: .back, title: "마이페이지")
+        bar.isHidden = true // 처음에는 숨김
+
+        return bar
+    }()
+
+    private func setAddTarget() {
+        navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Layout
