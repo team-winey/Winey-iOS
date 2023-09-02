@@ -35,7 +35,7 @@ class LimitedPickerViewController: UIViewController {
     var availableWidth: CGFloat = 0
     
     private var bag = Set<AnyCancellable>()
-
+    
     // MARK: - UI Components
     
     private lazy var flowLayout: UICollectionViewFlowLayout = {
@@ -199,24 +199,22 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LimitedPickerCollectionViewCell.className, for: indexPath) as? LimitedPickerCollectionViewCell else { return LimitedPickerCollectionViewCell() }
         
-        // if let fetchResult = fetchResult {
-            let asset = fetchResult.object(at: indexPath.item)
-            
-            cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: asset,
-                                      targetSize: thumbnailSize,
-                                      contentMode: .aspectFill,
-                                      options: nil, resultHandler: { image, _ in
-                guard let image = image else { return }
-                if cell.representedAssetIdentifier == asset.localIdentifier {
-                    cell.thumbnailImage = image
-                    cell.originalSize = image.size
-                }
-            })
-        // }
+        let asset = fetchResult.object(at: indexPath.item)
+        
+        cell.representedAssetIdentifier = asset.localIdentifier
+        imageManager.requestImage(for: asset,
+                                  targetSize: thumbnailSize,
+                                  contentMode: .aspectFill,
+                                  options: nil, resultHandler: { image, _ in
+            guard let image = image else { return }
+            if cell.representedAssetIdentifier == asset.localIdentifier {
+                cell.thumbnailImage = image
+                cell.originalSize = image.size
+            }
+        })
         return cell
     }
     
@@ -227,28 +225,26 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
         let width = (UIScreen.main.bounds.width)
         let height = ratio * width
         
-        // if let fetchResult = fetchResult {
-            let asset = fetchResult.object(at: indexPath.item)
+        let asset = fetchResult.object(at: indexPath.item)
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.isNetworkAccessAllowed = true
+        requestOptions.isSynchronous = true
+        requestOptions.resizeMode = .exact
+        
+        imageManager.requestImage(for: asset,
+                                  targetSize: CGSize(width: width * scale, height: height * scale * ratio),
+                                  contentMode: .aspectFill,
+                                  options: requestOptions) { image, _ in
+            guard let image = image else { return }
             
-            let requestOptions = PHImageRequestOptions()
-            requestOptions.deliveryMode = .highQualityFormat
-            requestOptions.isNetworkAccessAllowed = true
-            requestOptions.isSynchronous = true
-            requestOptions.resizeMode = .exact
+            NotificationCenter.default.post(name: .whenImgSelected, object: nil, userInfo: ["img": image])
             
-            imageManager.requestImage(for: asset,
-                                      targetSize: CGSize(width: width * scale, height: height * scale * ratio),
-                                      contentMode: .aspectFill,
-                                      options: requestOptions) { image, _ in
-                guard let image = image else { return }
-                
-                NotificationCenter.default.post(name: .whenImgSelected, object: nil, userInfo: ["img": image])
-                
-                DispatchQueue.main.async {
-                    self.navigationController?.popToRootViewController(animated: true)
-                }
+            DispatchQueue.main.async {
+                self.navigationController?.popToRootViewController(animated: true)
             }
-        // }
+        }
     }
 }
 
