@@ -42,7 +42,41 @@ class GalleryViewController: UIViewController {
         view.backgroundColor = .winey_gray0
         return view
     }()
+    
+    private func morePhotoAlert() {
+            let alert = UIAlertController(title: "'Winey'이(가) 사용자의 사진에 접근하려고 합니다.",
+                                          message: "선택된 사진은 접근 권한이 허용됩니다.",
+                                          preferredStyle: UIAlertController.Style.alert)
+            
+            alert.overrideUserInterfaceStyle = .dark
+            
+            let allowAction = UIAlertAction(title: "더 많은 사진 선택...", style: .default) { (action) in
+                
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self) { [weak self] _ in
+                    DispatchQueue.global(qos: .utility).async {
+                        self?.setPhotoFetch()
+                        self?.vc.fetchResult = self?.allPhotos ?? PHFetchResult<PHAsset>()
+                        DispatchQueue.main.async {
+                            self?.collectionView.reloadData()
+                        }
+                    }
+                }
+                
+            }
+            let cancelAction = UIAlertAction(title: "현재 선택 항목 유지", style: .cancel, handler: nil)
+            
+        alert.addAction(allowAction)
+        alert.addAction(cancelAction)
+            
+            self.present(alert, animated: true)
+        
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        PHPhotoLibrary.shared().register(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setCollectionView()
@@ -51,6 +85,7 @@ class GalleryViewController: UIViewController {
         setLayout()
         bind()
         setPhotoFetch()
+        morePhotoAlert()
     }
     
     deinit {
@@ -99,18 +134,16 @@ class GalleryViewController: UIViewController {
     private func setPhotoFetch() {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        // allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
         
-        if let albums = allPhotos {
-            sendTunmbnail(albums.firstObject)
-            setImageCount(albums.count)
+        if let albums = self.allPhotos {
+            self.sendTunmbnail(albums.firstObject)
+            self.setImageCount(albums.count ?? 0)
         } else {
-            sendTunmbnail(nil)
-            setImageCount(0)
+            self.sendTunmbnail(nil)
+            self.setImageCount(0)
         }
-        
-        PHPhotoLibrary.shared().register(self)
     }
     
     private func sendTunmbnail(_ target: PHAsset?) {
