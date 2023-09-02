@@ -5,6 +5,7 @@
 //  Created by 김응관 on 2023/08/31.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -32,6 +33,8 @@ class LimitedPickerViewController: UIViewController {
     
     var previousPreheatRect = CGRect.zero
     var availableWidth: CGFloat = 0
+    
+    private var bag = Set<AnyCancellable>()
 
     // MARK: - UI Components
     
@@ -72,6 +75,7 @@ class LimitedPickerViewController: UIViewController {
         setLayout()
         setCollectionView()
         setUI()
+        bind()
         PHPhotoLibrary.shared().register(self)
         imageManager.allowsCachingHighQualityImages = true
     }
@@ -82,6 +86,15 @@ class LimitedPickerViewController: UIViewController {
     
     func setUI() {
         view.backgroundColor = .winey_gray0
+    }
+    
+    func bind() {
+        NotificationCenter.default.publisher(for: .whenEnterForeground)
+            .sink(receiveValue: { [weak self] _ in
+                self?.updateCachedAssets()
+                self?.collectionView.reloadData()
+            })
+            .store(in: &bag)
     }
     
     private func setCollectionView() {
@@ -127,19 +140,22 @@ class LimitedPickerViewController: UIViewController {
         guard delta > view.bounds.height / 4 else { return }
         
         let (addedRects, removedRects) = differencesBetweenRects(previousPreheatRect, preheatRect)
-        let addedAssets = addedRects
-            .flatMap { rect in collectionView.indexPathsForElements(in: rect) }
-            .map { indexPath in fetchResult.object(at: indexPath.item) }
-        let removedAssets = removedRects
-            .flatMap { rect in collectionView.indexPathsForElements(in: rect) }
-            .map { indexPath in fetchResult.object(at: indexPath.item) }
         
-        imageManager.startCachingImages(for: addedAssets,
-                                        targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
-        imageManager.stopCachingImages(for: removedAssets,
-                                       targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
-        
-        previousPreheatRect = preheatRect
+        if fetchResult != PHFetchResult<PHAsset>() {
+            let addedAssets = addedRects
+                .flatMap { rect in collectionView.indexPathsForElements(in: rect) }
+                .map { indexPath in fetchResult.object(at: indexPath.item) }
+            let removedAssets = removedRects
+                .flatMap { rect in collectionView.indexPathsForElements(in: rect) }
+                .map { indexPath in fetchResult.object(at: indexPath.item) }
+            
+            imageManager.startCachingImages(for: addedAssets,
+                                            targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+            imageManager.stopCachingImages(for: removedAssets,
+                                           targetSize: thumbnailSize, contentMode: .aspectFill, options: nil)
+            
+            previousPreheatRect = preheatRect
+        } else { return }
     }
     
     private func differencesBetweenRects(_ old: CGRect, _ new: CGRect) -> (added: [CGRect], removed: [CGRect]) {
@@ -183,22 +199,24 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let asset = fetchResult.object(at: indexPath.item)
-        
+            
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LimitedPickerCollectionViewCell.className, for: indexPath) as? LimitedPickerCollectionViewCell else { return LimitedPickerCollectionViewCell() }
         
-        cell.representedAssetIdentifier = asset.localIdentifier
-        imageManager.requestImage(for: asset,
-                                  targetSize: thumbnailSize,
-                                  contentMode: .aspectFill,
-                                  options: nil, resultHandler: { image, _ in
-            guard let image = image else { return }
-
-            if cell.representedAssetIdentifier == asset.localIdentifier {
-                cell.thumbnailImage = image
-                cell.originalSize = image.size
-            }
-        })
+        // if let fetchResult = fetchResult {
+            let asset = fetchResult.object(at: indexPath.item)
+            
+            cell.representedAssetIdentifier = asset.localIdentifier
+            imageManager.requestImage(for: asset,
+                                      targetSize: thumbnailSize,
+                                      contentMode: .aspectFill,
+                                      options: nil, resultHandler: { image, _ in
+                guard let image = image else { return }
+                if cell.representedAssetIdentifier == asset.localIdentifier {
+                    cell.thumbnailImage = image
+                    cell.originalSize = image.size
+                }
+            })
+        // }
         return cell
     }
     
@@ -209,26 +227,28 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
         let width = (UIScreen.main.bounds.width - 24)
         let height = ratio * width
         
-        let asset = fetchResult.object(at: indexPath.item)
-        
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.deliveryMode = .highQualityFormat
-        requestOptions.isNetworkAccessAllowed = true
-        requestOptions.isSynchronous = true
-        requestOptions.resizeMode = .exact
-        
-        imageManager.requestImage(for: asset,
-                                  targetSize: CGSize(width: width * scale, height: height * scale),
-                                  contentMode: .aspectFill,
-                                  options: requestOptions) { image, _ in
-            guard let image = image else { return }
+        // if let fetchResult = fetchResult {
+            let asset = fetchResult.object(at: indexPath.item)
             
-            NotificationCenter.default.post(name: .whenImgSelected, object: nil, userInfo: ["img": image])
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.deliveryMode = .highQualityFormat
+            requestOptions.isNetworkAccessAllowed = true
+            requestOptions.isSynchronous = true
+            requestOptions.resizeMode = .exact
             
-            DispatchQueue.main.async {
-                self.navigationController?.popToRootViewController(animated: true)
+            imageManager.requestImage(for: asset,
+                                      targetSize: CGSize(width: width * scale, height: height * scale),
+                                      contentMode: .aspectFill,
+                                      options: requestOptions) { image, _ in
+                guard let image = image else { return }
+                
+                NotificationCenter.default.post(name: .whenImgSelected, object: nil, userInfo: ["img": image])
+                
+                DispatchQueue.main.async {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
             }
-        }
+        // }
     }
 }
 
@@ -236,10 +256,10 @@ extension LimitedPickerViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
         guard let changes = changeInstance.changeDetails(for: fetchResult)
-            else { return }
+        else { return }
         
         DispatchQueue.main.sync {
-            fetchResult = changes.fetchResultAfterChanges
+            _ = changes.fetchResultAfterChanges
             if changes.hasIncrementalChanges {
                 collectionView.performBatchUpdates({
                     if let removed = changes.removedIndexes, !removed.isEmpty {
@@ -250,10 +270,10 @@ extension LimitedPickerViewController: PHPhotoLibraryChangeObserver {
                     }
                     changes.enumerateMoves { fromIndex, toIndex in
                         self.collectionView.moveItem(at: IndexPath(item: fromIndex, section: 0),
-                                                to: IndexPath(item: toIndex, section: 0))
+                                                     to: IndexPath(item: toIndex, section: 0))
                     }
                 })
-  
+                
                 if let changed = changes.changedIndexes, !changed.isEmpty {
                     collectionView.reloadItems(at: changed.map({ IndexPath(item: $0, section: 0) }))
                 }

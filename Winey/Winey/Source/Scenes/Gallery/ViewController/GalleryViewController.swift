@@ -14,14 +14,16 @@ import SnapKit
 
 class GalleryViewController: UIViewController {
     
-    var allPhotos: PHFetchResult<PHAsset>!
+    var allPhotos: PHFetchResult<PHAsset>?
     let imageSpace: CGFloat = 2
     var thumbnailSize: CGSize {
         return CGSize(width: (((UIScreen.main.bounds.width) - (imageSpace * 3)) / 4),
                       height: (((UIScreen.main.bounds.width) - (imageSpace * 3)) / 4))
     }
     
-    private var tumbnailImg: UIImage = UIImage()
+    let vc = LimitedPickerViewController()
+    
+    private var tumbnailImg: UIImage?
     private var imgCount: Int = 0
     
     private let navigationBar = WINavigationBar(leftBarItem: .back, title: "Photos")
@@ -40,11 +42,6 @@ class GalleryViewController: UIViewController {
         view.backgroundColor = .winey_gray0
         return view
     }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setPhotoFetch()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +50,7 @@ class GalleryViewController: UIViewController {
         setAddTarget()
         setLayout()
         bind()
+        setPhotoFetch()
     }
     
     deinit {
@@ -62,8 +60,11 @@ class GalleryViewController: UIViewController {
     func bind() {
         NotificationCenter.default.publisher(for: .whenEnterForeground)
             .sink(receiveValue: { [weak self] _ in
-                self?.setPhotoFetch()
-                self?.collectionView.reloadData()
+                guard let self = self else { return }
+
+                self.setPhotoFetch()
+                self.collectionView.reloadData()
+                self.vc.fetchResult = self.allPhotos ?? PHFetchResult<PHAsset>()
             })
             .store(in: &bag)
     }
@@ -99,32 +100,42 @@ class GalleryViewController: UIViewController {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
-        sendTunmbnail(allPhotos.firstObject ?? PHAsset())
-        setImageCount(allPhotos.count)
+        
+        if let albums = allPhotos {
+            sendTunmbnail(albums.firstObject)
+            setImageCount(albums.count)
+        } else {
+            sendTunmbnail(nil)
+            setImageCount(0)
+        }
+        
         PHPhotoLibrary.shared().register(self)
     }
     
-    private func sendTunmbnail(_ target: PHAsset) {
+    private func sendTunmbnail(_ target: PHAsset?) {
         
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.deliveryMode = .highQualityFormat
-        requestOptions.isNetworkAccessAllowed = true
-        requestOptions.isSynchronous = true
-        requestOptions.resizeMode = .exact
-        
-        PHCachingImageManager().startCachingImages(for: [target],
-                                                   targetSize: CGSize(width: 80, height: 80),
-                                                   contentMode: .aspectFill,
-                                                   options: requestOptions)
-        
-        PHImageManager().requestImage(for: target,
-                                  targetSize: CGSize(width: 80, height: 80),
-                                  contentMode: .aspectFill,
-                                  options: requestOptions, resultHandler: { [weak self] image, _ in
-            guard let image = image else { return }
-            guard let self = self else { return }
-            self.tumbnailImg = image
-        })
+        if let target = target {
+            
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.deliveryMode = .highQualityFormat
+            requestOptions.isNetworkAccessAllowed = true
+            requestOptions.isSynchronous = true
+            requestOptions.resizeMode = .exact
+            
+            PHCachingImageManager().startCachingImages(for: [target],
+                                                       targetSize: CGSize(width: 80, height: 80),
+                                                       contentMode: .aspectFill,
+                                                       options: requestOptions)
+            
+            PHImageManager().requestImage(for: target,
+                                          targetSize: CGSize(width: 80, height: 80),
+                                          contentMode: .aspectFill,
+                                          options: requestOptions, resultHandler: { [weak self] image, _ in
+                guard let image = image else { return }
+                guard let self = self else { return }
+                self.tumbnailImg = image
+            })
+        } else { tumbnailImg = nil }
     }
     
     private func setImageCount(_ count: Int) {
@@ -155,8 +166,7 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = LimitedPickerViewController()
-        vc.fetchResult = allPhotos
+        vc.fetchResult = allPhotos ?? PHFetchResult<PHAsset>()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -164,10 +174,11 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
 extension GalleryViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         DispatchQueue.main.sync {
-            if let changeDetails = changeInstance.changeDetails(for: allPhotos) {
-                allPhotos = changeDetails.fetchResultAfterChanges
-                sendTunmbnail(allPhotos.firstObject ?? PHAsset())
-                setImageCount(allPhotos.count)
+            guard let album = allPhotos else { return }
+            if let changeDetails = changeInstance.changeDetails(for: album) {
+                let changedAlbum = changeDetails.fetchResultAfterChanges
+                sendTunmbnail(changedAlbum.firstObject)
+                setImageCount(changedAlbum.count)
             }
         }
     }
