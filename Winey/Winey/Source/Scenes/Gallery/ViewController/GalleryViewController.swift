@@ -31,10 +31,8 @@ class GalleryViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         view.register(GalleryCell.self, forCellWithReuseIdentifier: GalleryCell.className)
-        view.register(CustomCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CustomCollectionHeaderView.className)
         view.showsVerticalScrollIndicator = true
-        view.backgroundColor = .winey_gray50
-
+        view.backgroundColor = .winey_gray0
         return view
     }()
 
@@ -111,17 +109,6 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
         vc.fetchResult = allPhotos
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CustomCollectionHeaderView.className, for: indexPath) as? CustomCollectionHeaderView else {
-                return CustomCollectionHeaderView()
-            }
-            return header
-        }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-            return CGSize(width: view.frame.size.width, height: 10)
-    }
 }
 
 extension GalleryViewController: PHPhotoLibraryChangeObserver {
@@ -131,12 +118,5 @@ extension GalleryViewController: PHPhotoLibraryChangeObserver {
                 allPhotos = changeDetails.fetchResultAfterChanges
             }
         }
-    }
-}
-
-
-class CustomCollectionHeaderView: UICollectionReusableView {
-    func setUI() {
-        backgroundColor = .winey_gray50
     }
 }
