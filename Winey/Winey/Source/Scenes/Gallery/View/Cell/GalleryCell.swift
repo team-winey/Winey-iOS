@@ -66,8 +66,8 @@ class GalleryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(_ img: UIImage, _ count: Int) {
-        if img != UIImage() {
+    public func configure(_ img: UIImage?, _ count: Int) {
+        if let img = img {
             thumbnailImg.image = img
             thumbnailContentView.backgroundColor = .clear
         } else {
