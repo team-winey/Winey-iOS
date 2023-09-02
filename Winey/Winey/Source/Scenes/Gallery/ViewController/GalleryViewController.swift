@@ -134,12 +134,12 @@ class GalleryViewController: UIViewController {
     private func setPhotoFetch() {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        // allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
         
         if let albums = self.allPhotos {
             self.sendTunmbnail(albums.firstObject)
-            self.setImageCount(albums.count ?? 0)
+            self.setImageCount(albums.count)
         } else {
             self.sendTunmbnail(nil)
             self.setImageCount(0)
