@@ -23,7 +23,7 @@
 		<string>kakaolink</string>
 	</array>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
-	<true/>
+	<false/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Bold.otf</string>
