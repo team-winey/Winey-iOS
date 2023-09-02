@@ -20,4 +20,6 @@ extension Notification.Name {
     static let whenDeleteFeedCompleted = Notification.Name(rawValue: "whenDeleteFeedCompleted")
     /// 피커에서 이미지 선택됐을때 노티
     static let whenImgSelected = Notification.Name(rawValue: "whenImgSelected")
+    /// 앱이 foreground로 넘어왔을때 전달하는 노티
+    static let whenEnterForeground = Notification.Name(rawValue: "whenEnterForeground")
 }
