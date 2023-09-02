@@ -111,7 +111,7 @@ class GalleryCell: UICollectionViewCell {
         }
         
         arrow.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview()
             $0.centerY.equalToSuperview()
         }
     }
