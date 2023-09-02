@@ -40,6 +40,7 @@ class GalleryCell: UICollectionViewCell {
     private let thumbnailImg: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(systemName: "photo")?.resizeWithWidth(width: 40)?.withTintColor(.winey_gray400)
+        img.contentMode = .scaleAspectFill
         return img
     }()
     
@@ -65,6 +66,18 @@ class GalleryCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func configure(_ img: UIImage, _ count: Int) {
+        if img != UIImage() {
+            thumbnailImg.image = img
+            thumbnailContentView.backgroundColor = .clear
+        } else {
+            thumbnailImg.image = UIImage(systemName: "photo")?.resizeWithWidth(width: 40)?.withTintColor(.winey_gray400)
+            thumbnailContentView.backgroundColor = .winey_gray200
+        }
+        
+        imageCount.text = "\(count)"
+    }
+    
     private func setUI() {
         contentView.backgroundColor = .winey_gray0
     }
@@ -88,12 +101,12 @@ class GalleryCell: UICollectionViewCell {
         
         thumbnailContentView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(24)
-            $0.height.width.equalTo(60)
+            $0.height.width.equalTo(80)
             $0.centerY.equalToSuperview()
         }
         
         stackView.snp.makeConstraints {
-            $0.leading.equalTo(thumbnailImg.snp.trailing).offset(20)
+            $0.leading.equalTo(thumbnailContentView.snp.trailing).offset(20)
             $0.centerY.equalToSuperview()
         }
         
