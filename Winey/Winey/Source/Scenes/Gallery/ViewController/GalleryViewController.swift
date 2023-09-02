@@ -99,6 +99,7 @@ class GalleryViewController: UIViewController {
     private func setPhotoFetch() {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
         
         if let albums = allPhotos {
