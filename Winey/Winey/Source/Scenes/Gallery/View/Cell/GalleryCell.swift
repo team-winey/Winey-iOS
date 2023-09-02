@@ -69,13 +69,13 @@ class GalleryCell: UICollectionViewCell {
     public func configure(_ img: UIImage?, _ count: Int) {
         if let img = img {
             thumbnailImg.image = img
+            imageCount.text = "\(count)"
             thumbnailContentView.backgroundColor = .clear
         } else {
             thumbnailImg.image = UIImage(systemName: "photo")?.resizeWithWidth(width: 40)?.withTintColor(.winey_gray400)
             thumbnailContentView.backgroundColor = .winey_gray200
+            imageCount.text = "0"
         }
-        
-        imageCount.text = "\(count)"
     }
     
     private func setUI() {
