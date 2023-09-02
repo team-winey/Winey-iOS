@@ -802,6 +802,7 @@
 				1D69E0162A61A55500D4E3B5 /* Guide */,
 				0D4DFA092A5F2E3C008F6D63 /* Test */,
 				14A7A4372A56F12F00C0CA4E /* SaveGoal */,
+				F4CB98EB2AA32CA4003F3095 /* Gallery */,
 				14A7A4362A56F12600C0CA4E /* Upload */,
 				14A7A4352A56F10600C0CA4E /* MyFeed */,
 				148C7B8B2A56B1AD007DFE55 /* MyPage */,
@@ -1045,8 +1046,6 @@
 			children = (
 				F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */,
 				0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */,
-				F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */,
-				F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1059,10 +1058,43 @@
 				F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */,
 				F4867A642A6061940016389C /* PriceUploadView.swift */,
 				F4BCFA762A68913900D97B1E /* DotLayerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F4CB98EB2AA32CA4003F3095 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98ED2AA32CD0003F3095 /* View */,
+				F4CB98EC2AA32CBC003F3095 /* ViewController */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		F4CB98EC2AA32CBC003F3095 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */,
+				F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		F4CB98ED2AA32CD0003F3095 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98EE2AA32CD5003F3095 /* Cell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F4CB98EE2AA32CD5003F3095 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
 				F4CB98E52AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift */,
 				F4CB98E92AA0A02F003F3095 /* GalleryCell.swift */,
 			);
-			path = View;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		F4FAA3B22A8C145B00B980CB /* Nickname */ = {
