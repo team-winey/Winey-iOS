@@ -138,7 +138,6 @@ extension AlertViewController {
     private func getTotalAlert() {
         alertService.getTotalNotification() { [weak self] response in
             guard let response = response, let data = response.data else {
-                self?.refreshControl.endRefreshing()
                 return
             }
             
