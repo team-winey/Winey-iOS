@@ -119,16 +119,16 @@ final class FeedHeaderView: UICollectionReusableView {
             }
         case .banner4:
             imageView.snp.updateConstraints { make in
-                make.top.bottom.equalToSuperview().inset(22)
-                make.trailing.equalToSuperview().inset(29)
-                make.width.equalTo(111)
+                make.top.equalToSuperview().inset(35)
+                make.trailing.equalToSuperview().inset(34)
+                make.bottom.equalToSuperview().inset(30)
+                make.width.equalTo(115)
             }
         }
     }
 }
 
 extension FeedHeaderView {
-    
     public enum BannerType: CaseIterable {
         case banner1
         case banner2

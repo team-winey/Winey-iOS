@@ -67,6 +67,7 @@ final class AlertViewController: UIViewController {
     @objc
     private func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     @objc private func refreshTableView() {
