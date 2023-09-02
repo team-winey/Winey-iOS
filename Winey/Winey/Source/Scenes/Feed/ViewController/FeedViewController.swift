@@ -232,6 +232,7 @@ final class FeedViewController: UIViewController {
                 self?.tabBarController?.selectedIndex = 2
             }
             self?.navigationController?.pushViewController(alertVC, animated: true)
+            self?.tabBarController?.tabBar.isHidden = true
             print("tapped")
         }
     }
