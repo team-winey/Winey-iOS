@@ -51,17 +51,7 @@ class GalleryViewController: UIViewController {
             alert.overrideUserInterfaceStyle = .dark
             
             let allowAction = UIAlertAction(title: "더 많은 사진 선택...", style: .default) { (action) in
-                
-                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self) { [weak self] _ in
-                    DispatchQueue.global(qos: .utility).async {
-                        self?.setPhotoFetch()
-                        self?.vc.fetchResult = self?.allPhotos ?? PHFetchResult<PHAsset>()
-                        DispatchQueue.main.async {
-                            self?.collectionView.reloadData()
-                        }
-                    }
-                }
-                
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
             }
             let cancelAction = UIAlertAction(title: "현재 선택 항목 유지", style: .cancel, handler: nil)
             
@@ -210,9 +200,12 @@ extension GalleryViewController: PHPhotoLibraryChangeObserver {
         DispatchQueue.main.sync {
             guard let album = allPhotos else { return }
             if let changeDetails = changeInstance.changeDetails(for: album) {
-                let changedAlbum = changeDetails.fetchResultAfterChanges
-                sendTunmbnail(changedAlbum.firstObject)
-                setImageCount(changedAlbum.count)
+                allPhotos = changeDetails.fetchResultAfterChanges
+                sendTunmbnail(allPhotos?.firstObject)
+                setImageCount(allPhotos?.count ?? 0)
+                
+                vc.fetchResult = allPhotos ?? PHFetchResult<PHAsset>()
+                self.collectionView.reloadData()
             }
         }
     }
