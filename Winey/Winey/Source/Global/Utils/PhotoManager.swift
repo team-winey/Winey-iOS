@@ -44,9 +44,9 @@ class PhotoManager: UIViewController {
         return imgPicker
     }()
     
-    lazy var alertController: UIAlertController = {
+    let alertController: UIAlertController = {
         let alert = UIAlertController(title: "권한 거부됨",
-                                      message: "갤러리 접근이 거부 되었습니다. 피드 작성이 불가합니다",
+                                      message: "갤러리 접근이 거부 되었습니다.\n피드 작성이 불가합니다",
                                       preferredStyle: UIAlertController.Style.alert)
         
         alert.overrideUserInterfaceStyle = .dark
@@ -65,8 +65,8 @@ class PhotoManager: UIViewController {
         }
         let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         
-        alertController.addAction(allowAction)
-        alertController.addAction(cancelAction)
+        alert.addAction(allowAction)
+        alert.addAction(cancelAction)
         
         return alert
     }()
