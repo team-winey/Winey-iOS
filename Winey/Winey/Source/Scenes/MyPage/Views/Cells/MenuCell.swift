@@ -67,7 +67,7 @@ final class MenuCell: UICollectionViewCell {
         devideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(nextImageView.snp.bottom).offset(-1)
+            make.top.equalTo(nextImageView.snp.bottom).offset(-5)
         }
     }
     // MARK: - Config
