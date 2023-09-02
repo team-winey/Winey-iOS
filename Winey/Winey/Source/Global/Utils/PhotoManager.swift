@@ -71,33 +71,6 @@ class PhotoManager: UIViewController {
         return alert
     }()
     
-    
-    func getCanAccessImages() -> [UIImage] {
-        authorizedPhotos = []
-        let requestOptions = PHImageRequestOptions()
-        // requestOptions.deliveryMode = .highQualityFormat
-        // requestOptions.isNetworkAccessAllowed = true
-        requestOptions.isSynchronous = true
-        
-        let fetchOptions = PHFetchOptions()
-        fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        fetchResult.enumerateObjects { (asset, _, _) in
-            PHImageManager().requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: requestOptions) { (image, info) in
-                guard let image = image else { return }
-                
-                let rendererConfig = UIGraphicsImageRendererFormat()
-                let render = UIGraphicsImageRenderer(size: image.size, format: rendererConfig)
-                let renderImage = render.image { context in
-                    image.draw(in: CGRect(origin: .zero, size: image.size))
-                }
-                
-                self.authorizedPhotos.append(renderImage)
-            }
-        }
-        
-        return authorizedPhotos
-    }
-    
     func setGalleryAuth() {
         PHPhotoLibrary.requestAuthorization(for: .readWrite) { (status) in
             switch status {
@@ -110,11 +83,9 @@ class PhotoManager: UIViewController {
                     self.photoDelegate?.openTotalGallery()
                 }
             case .limited:
-                // self.requestPHPhotoLibraryAuthorization {
-                    DispatchQueue.main.async {
-                        self.photoDelegate?.openLimitedGallery()
-                    }
-                // }
+                DispatchQueue.main.async {
+                    self.photoDelegate?.openLimitedGallery()
+                }
             case .notDetermined, .restricted:
                 PHPhotoLibrary.requestAuthorization(for: .readWrite) { (state) in
                     switch state {
@@ -123,11 +94,9 @@ class PhotoManager: UIViewController {
                             self.photoDelegate?.openTotalGallery()
                         }
                     case .limited:
-                        // self.requestPHPhotoLibraryAuthorization {
-                            DispatchQueue.main.async {
-                                self.photoDelegate?.openLimitedGallery()
-                            }
-                        // }
+                        DispatchQueue.main.async {
+                            self.photoDelegate?.openLimitedGallery()
+                        }
                     case .notDetermined, .restricted:
                         DispatchQueue.main.async {
                             self.photoDelegate?.deniedAlert()
@@ -164,51 +133,4 @@ extension PhotoManager: PHPickerViewControllerDelegate {
         }
     }
 }
-
-
-//extension PhotoManager: PHPhotoLibraryChangeObserver {
-//    func photoLibraryDidChange(_ changeInstance: PHChange) {
-//        print("change in manager")
-//        _ = self.getCanAccessImages()
-//    }
-//    // getCanAccessImages()
-//    //        self.authorizedPhotos = []
-//    //        guard let details = changeInstance.changeDetails(for: self.fetchResult) else { return }
-//    //        self.update(changes: details.fetchResultAfterChanges)
-//}
-
-//extension PhotoManager: PHPhotoLibraryChangeObserver {
-//    func photoLibraryDidChange(_ changeInstance: PHChange) {
-//        print("upadte in manager")
-//        guard let details = changeInstance.changeDetails(for: self.fetchResult) else { return }
-//        self.authorizedPhotos = []
-//        self.update(changes: details.fetchResultAfterChanges)
-//    }
-//
-//    func update(changes: PHFetchResult<PHAsset>) {
-//        print("updating")
-//        let requestOptions = PHImageRequestOptions()
-//        requestOptions.isSynchronous = true
-//        changes.enumerateObjects { (asset, _, _) in
-//            PHImageManager().requestImage(for: asset, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: requestOptions) { (image, info) in
-//                guard let image = image else { return }
-//                self.authorizedPhotos.append(image)
-//            }
-//        }
-//    }
-//
-//    func requestPHPhotoLibraryAuthorization(completion: @escaping () -> Void) {
-//        PHPhotoLibrary.requestAuthorization(for: .readWrite) { (status) in
-//            switch status {
-//            case .limited:
-//                PHPhotoLibrary.shared().register(self)
-//                completion()
-//            case .authorized:
-//                completion()
-//            default:
-//                break
-//            }
-//        }
-//    }
-//}
 
