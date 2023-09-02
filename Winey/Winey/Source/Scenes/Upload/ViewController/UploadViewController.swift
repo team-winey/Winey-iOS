@@ -109,6 +109,7 @@ class UploadViewController: UIViewController {
         setNotification()
         setAddTarget()
         getData()
+        setDelegate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -129,6 +130,13 @@ class UploadViewController: UIViewController {
             .sink { [weak self] _ in
                 self?.pageGuide.setUI()
             }
+            .store(in: &bag)
+        
+        NotificationCenter.default.publisher(for: .whenImgSelected)
+            .compactMap({ $0.userInfo?["img"] as? UIImage })
+            .sink(receiveValue: { [weak self] img in
+                self?.afterImageSelected(img)
+            })
             .store(in: &bag)
     }
     
@@ -231,6 +239,13 @@ class UploadViewController: UIViewController {
         }
     }
     
+    private func afterImageSelected(_ img: UIImage) {
+        self.firstPage.photoBtn.setImage(img, for: .normal)
+        self.feedImage = img
+        self.setButtonActivate(self.stageIdx)
+        self.firstPage.configure(img)
+    }
+    
     /// getData
     /// 1. secondPage 객체로부터 절약 내용 데이터를 전달 받음
     /// 2. thridPage 객체로부터 절약 금액 데이터를 전달 받음
@@ -267,6 +282,10 @@ class UploadViewController: UIViewController {
     private func textValidation(text: String) -> Bool {
         let pureText = text.trimmingCharacters(in: .whitespaces)
         return pureText.count > 0
+    }
+    
+    private func setDelegate() {
+        PhotoManager.shared.photoDelegate = self
     }
     
     /// setButtonActivate
@@ -400,7 +419,7 @@ class UploadViewController: UIViewController {
     /// 갤러리 접근 함수
     @objc
     private func pickPhoto() {
-        setGalleryAuth()
+        PhotoManager.shared.setGalleryAuth()
     }
     
     // keyboard
@@ -431,6 +450,28 @@ class UploadViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
         }
         view.layoutIfNeeded()
+    }
+}
+
+extension UploadViewController: PhotoManaging {
+    func pickImage() {
+        guard let targetImg = PhotoManager.shared.selectedImage else { return }
+        afterImageSelected(targetImg)
+    }
+    
+    func deniedAlert() {
+        self.present(PhotoManager.shared.alertController, animated: true)
+    }
+    
+    func openTotalGallery() {
+        let vc = PhotoManager.shared.photoPicker
+        self.present(vc, animated: true)
+        vc.modalPresentationStyle = .overFullScreen
+    }
+    
+    func openLimitedGallery() {
+        let vc = GalleryViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
