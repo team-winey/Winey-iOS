@@ -26,7 +26,6 @@ class PhotoManager: UIViewController {
     let scale = UIScreen.main.scale
     
     var fetchResult = PHFetchResult<PHAsset>()
-    var authorizedPhotos = [UIImage]()
     
     var thumbnailSize: CGSize {
         return CGSize(width: UIScreen.main.bounds.width,
@@ -37,10 +36,9 @@ class PhotoManager: UIViewController {
         var config = PHPickerConfiguration()
         config.filter = .images
         config.selectionLimit = 1
-        
+        config.preselectedAssetIdentifiers = []
         let imgPicker = PHPickerViewController(configuration: config)
         imgPicker.delegate = self
-        
         return imgPicker
     }()
     
@@ -70,6 +68,23 @@ class PhotoManager: UIViewController {
         
         return alert
     }()
+    
+    func clearPreselectedAssets() {
+        // 이미지 선택 초기화
+        selectedImage = nil
+        photoPicker = {
+            var config = PHPickerConfiguration()
+            config.filter = .images
+            config.selectionLimit = 1
+            config.preselectedAssetIdentifiers = []
+            
+            let imgPicker = PHPickerViewController(configuration: config)
+            imgPicker.delegate = self
+            return imgPicker
+        }()
+        
+        present(photoPicker, animated: true, completion: nil)
+    }
     
     func setGalleryAuth() {
         PHPhotoLibrary.requestAuthorization(for: .readWrite) { (status) in
@@ -125,10 +140,11 @@ extension PhotoManager: PHPickerViewControllerDelegate {
            itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                 guard let selectedImage = image as? UIImage else { return }
-                self.selectedImage = selectedImage
                 DispatchQueue.main.async {
+                    self.selectedImage = selectedImage
                     self.photoDelegate?.pickImage()
                 }
+                self.selectedImage = nil
             }
         }
     }
