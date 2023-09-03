@@ -56,7 +56,7 @@ class PhotoUploadView: UIView {
     }()
     
     private let guideText: UILabel = {
-        let label = UILabel(frame: CGRect(x: 92, y: 93, width: 173, height: 37))
+        let label = UILabel()
         label.numberOfLines = 0
         label.setText("절약을 인증할 수 있는\n사진을 업로드해 주세요.",
                       attributes: Typography.Attributes(style: .body,

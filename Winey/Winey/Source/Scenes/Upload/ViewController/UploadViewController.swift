@@ -160,7 +160,7 @@ class UploadViewController: UIViewController {
         let subViews = [firstPage, secondPage, thirdPage]
         
         var x: CGFloat = 0
-        let viewWidth: CGFloat = UIScreen.main.bounds.width - (2*spacing)
+        let viewWidth: CGFloat = UIScreen.main.bounds.width - (2 * spacing)
         
         for idx in 0..<3 {
             let component = subViews[idx]
