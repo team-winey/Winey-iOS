@@ -83,9 +83,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     lazy var navigationBar: WINavigationBar = {
-        let bar = WINavigationBar(leftBarItem: .back, title: "마이페이지")
-        bar.isHidden = true // 처음에는 숨김
-
+        let bar = WINavigationBar(title: "마이페이지")
         return bar
     }()
 
