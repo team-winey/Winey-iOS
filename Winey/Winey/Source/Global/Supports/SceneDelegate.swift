@@ -51,6 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.setAlert(window)
             }
         }
+        
+        NotificationCenter.default.post(name: .whenEnterForeground, object: nil)
     }
     
     func setAlert(_ window: UIWindow) {
