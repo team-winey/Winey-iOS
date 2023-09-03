@@ -347,9 +347,8 @@ extension FeedViewController: UIScrollViewDelegate {
     }
     
     func scrollToTop() {
-        collectionView.setContentOffset(.zero, animated: true)
         refresh()
-        refreshHeaderView()
+        collectionView.setContentOffset(.zero, animated: true)
     }
 }
 
