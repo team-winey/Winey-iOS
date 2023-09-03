@@ -24,9 +24,16 @@ class NicknameViewController: UIViewController {
     private let nicknameService = NicknameService()
     
     private var recentNickname: String = ""
+    
     private var originalNickname: String = "" {
         didSet {
             nickNameTextField.setName(originalNickname)
+        }
+    }
+    
+    private var nickNameLength: Int = 0 {
+        didSet {
+            nickNameTextField.setLabel(nickNameLength)
         }
     }
     
@@ -234,8 +241,9 @@ class NicknameViewController: UIViewController {
         }
     }
     
-    func configureNickname(_ name: String) {
+    func configure(_ name: String) {
         originalNickname = name
+        nickNameTextField.setLabel(name.count)
     }
     
     @objc
