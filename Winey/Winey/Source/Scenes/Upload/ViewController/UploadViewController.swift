@@ -164,7 +164,7 @@ class UploadViewController: UIViewController {
         
         for idx in 0..<3 {
             let component = subViews[idx]
-            component.frame = CGRect(x: x+spacing, y: 0, width: viewWidth, height: 256)
+            component.frame = CGRect(x: x + spacing, y: 0, width: viewWidth, height: 256)
             
             component.backgroundColor = .white
             scrollView.addSubview(component)
@@ -172,7 +172,7 @@ class UploadViewController: UIViewController {
             x += view.frame.origin.x + viewWidth + (2 * spacing)
         }
         
-        scrollView.contentSize = CGSize(width: x+spacing, height: 256)
+        scrollView.contentSize = CGSize(width: x + spacing, height: 256)
     }
     
     private func setLayout() {
