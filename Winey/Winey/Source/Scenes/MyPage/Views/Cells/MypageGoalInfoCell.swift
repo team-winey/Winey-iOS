@@ -315,27 +315,27 @@ final class MypageGoalInfoCell: UICollectionViewCell {
         rightView.addSubviews(wineyCountTitleLabel, wineyCountLabel)
         
         devideView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(centerView.snp.bottom)
+            make.top.equalTo(centerView.snp.bottom).offset(3)
+            make.bottom.equalTo(centerView.snp.bottom).offset(20)
         }
         
         leftView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalTo(goalContainerViewButton.snp.bottom).offset(17)
         }
         centerView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalTo(goalContainerViewButton.snp.bottom).offset(17)
         }
         rightView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalTo(goalContainerViewButton.snp.bottom).offset(17)
         }
         
         goalContainerViewButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
-            make.top.equalToSuperview().inset(18)
+            make.top.equalToSuperview().inset(16)
                         
             goalTitleLabel.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(13)
@@ -360,28 +360,27 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             make.bottom.equalToSuperview().inset(10)
             
             savingPeriodTitleLabel.snp.makeConstraints { make in
-                make.top.equalToSuperview().inset(14)
+                make.top.equalToSuperview().inset(4)
                 make.horizontalEdges.equalToSuperview()
                 make.centerX.equalToSuperview().inset(32)
             }
             
             savingPeriodLabel.snp.makeConstraints { make in
-                make.top.equalTo(savingPeriodTitleLabel.snp.bottom).offset(6)
+                make.top.equalTo(savingPeriodTitleLabel.snp.bottom).offset(5)
                 make.horizontalEdges.equalToSuperview()
                 make.centerX.equalToSuperview().inset(4)
-                make.bottom.equalToSuperview().inset(13)
             }
             
             firstDevideView.snp.makeConstraints { make in
-                make.leading.equalTo(leftView.snp.trailing)
-                make.centerY.equalTo(leftView)
+                make.leading.equalTo(leftView.snp.trailing).offset(-10)
+                make.top.equalTo(goalContainerViewButton.snp.bottom).offset(34)
                 make.width.equalTo(1)
                 make.height.equalTo(22)
             }
             
             secondDevideView.snp.makeConstraints { make in
-                make.leading.equalTo(centerView.snp.trailing)
-                make.centerY.equalTo(centerView)
+                make.leading.equalTo(centerView.snp.trailing).offset(10)
+                make.top.equalTo(goalContainerViewButton.snp.bottom).offset(34)
                 make.width.equalTo(1)
                 make.height.equalTo(22)
             }
@@ -389,25 +388,25 @@ final class MypageGoalInfoCell: UICollectionViewCell {
             accumulatedWineyTitleLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(32)
                 make.horizontalEdges.equalToSuperview()
-                make.top.equalToSuperview().inset(14)
+                make.top.equalToSuperview().inset(4)
             }
             
             accumulatedWineyLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(4)
                 make.horizontalEdges.equalToSuperview()
-                make.bottom.equalToSuperview().inset(13)
+                make.top.equalTo(accumulatedWineyTitleLabel.snp.bottom).offset(5)
             }
             
             wineyCountTitleLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(32)
-                make.top.equalToSuperview().inset(14)
+                make.top.equalToSuperview().inset(4)
                 make.horizontalEdges.equalToSuperview()
             }
             
             wineyCountLabel.snp.makeConstraints { make in
                 make.centerX.equalToSuperview().inset(4)
-                make.bottom.equalToSuperview().inset(13)
                 make.horizontalEdges.equalToSuperview()
+                make.top.equalTo(wineyCountTitleLabel.snp.bottom).offset(5)
             }
         }
     }
