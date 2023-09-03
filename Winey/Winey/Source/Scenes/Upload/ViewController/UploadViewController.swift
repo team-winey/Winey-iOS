@@ -453,6 +453,7 @@ extension UploadViewController: PhotoManaging {
     func pickImage() {
         guard let targetImg = PhotoManager.shared.selectedImage else { return }
         afterImageSelected(targetImg)
+        PhotoManager.shared.clearPreselectedAssets()
     }
     
     func deniedAlert() {
@@ -461,6 +462,7 @@ extension UploadViewController: PhotoManaging {
     
     func openTotalGallery() {
         let vc = PhotoManager.shared.photoPicker
+        
         self.present(vc, animated: true)
         vc.modalPresentationStyle = .overFullScreen
     }
