@@ -23,14 +23,14 @@ class UploadBaseView: UIView {
     /// subTitle: 업로드 페이지 서브 타이틀
     
     private let title: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 3, width: 174, height: 56))
+        let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
         return label
     }()
     
     private let subTitle: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 66, width: 268, height: 20))
+        let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
         return label
