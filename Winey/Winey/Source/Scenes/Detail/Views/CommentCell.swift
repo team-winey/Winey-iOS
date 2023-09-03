@@ -69,7 +69,7 @@ extension CommentCell {
     private func setupAttribute() {
         commentLabel.numberOfLines = 0
         moreButton.setImage(.Btn.more, for: .normal)
-        moreButton.tintColor = .winey_gray600
+        moreButton.tintColor = .winey_gray300
         moreButton.addTarget(self, action: #selector(didTapMoreButton), for: .touchUpInside)
         dividerView.backgroundColor = .winey_gray100
     }
