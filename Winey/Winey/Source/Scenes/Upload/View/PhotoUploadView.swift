@@ -105,7 +105,8 @@ class PhotoUploadView: UIView {
         
         guideText.snp.makeConstraints {
             $0.top.equalTo(plusImg.snp.bottom).offset(10)
-            $0.horizontalEdges.equalToSuperview().inset(92)
+            $0.centerX.equalToSuperview()
+            // $0.horizontalEdges.equalToSuperview().inset(92)
         }
     }
     
