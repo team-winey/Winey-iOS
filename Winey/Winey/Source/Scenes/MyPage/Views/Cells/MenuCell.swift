@@ -56,18 +56,18 @@ final class MenuCell: UICollectionViewCell {
         contentView.addSubviews(titleLabel, nextImageView, devideView)
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(17)
+            make.top.equalToSuperview().inset(11)
             make.bottom.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(23)
         }
         nextImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.verticalEdges.equalToSuperview()
+            make.centerY.equalTo(titleLabel)
         }
         devideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(nextImageView.snp.bottom).offset(-5)
+            make.top.equalTo(nextImageView.snp.bottom).offset(-1)
         }
     }
     // MARK: - Config
