@@ -64,9 +64,7 @@ class UploadViewController: UIViewController {
     private var textExist: Bool = false
     
     private let postService = FeedService()
-    
-    private let imagePicker = UIImagePickerController()
-        
+            
     // MARK: - UI Components
     
     /// grayDot: 업로드 단계를 알려주는 커스텀 PageControl
@@ -109,6 +107,7 @@ class UploadViewController: UIViewController {
         setNotification()
         setAddTarget()
         getData()
+        setDelegate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -130,6 +129,13 @@ class UploadViewController: UIViewController {
                 self?.pageGuide.setUI()
             }
             .store(in: &bag)
+        
+        NotificationCenter.default.publisher(for: .whenImgSelected)
+            .compactMap({ $0.userInfo?["img"] as? UIImage })
+            .sink(receiveValue: { [weak self] img in
+                self?.afterImageSelected(img)
+            })
+            .store(in: &bag)
     }
     
     /// UploadViewController.view의 UI를 설정해주는 함수
@@ -137,9 +143,7 @@ class UploadViewController: UIViewController {
         view.backgroundColor = .white
         
         pageGuide.currentPage = stageIdx
-        
-        imagePicker.delegate = self
-        
+                
         nextButton.setTitle(stageIdx == 2 ? "업로드" : "다음", for: .normal)
         
         /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
@@ -231,6 +235,13 @@ class UploadViewController: UIViewController {
         }
     }
     
+    private func afterImageSelected(_ img: UIImage) {
+        self.firstPage.photoBtn.setImage(img, for: .normal)
+        self.feedImage = img
+        self.setButtonActivate(self.stageIdx)
+        self.firstPage.configure(img)
+    }
+    
     /// getData
     /// 1. secondPage 객체로부터 절약 내용 데이터를 전달 받음
     /// 2. thridPage 객체로부터 절약 금액 데이터를 전달 받음
@@ -267,6 +278,10 @@ class UploadViewController: UIViewController {
     private func textValidation(text: String) -> Bool {
         let pureText = text.trimmingCharacters(in: .whitespaces)
         return pureText.count > 0
+    }
+    
+    private func setDelegate() {
+        PhotoManager.shared.photoDelegate = self
     }
     
     /// setButtonActivate
@@ -400,7 +415,7 @@ class UploadViewController: UIViewController {
     /// 갤러리 접근 함수
     @objc
     private func pickPhoto() {
-        setGalleryAuth()
+        PhotoManager.shared.setGalleryAuth()
     }
     
     // keyboard
@@ -434,137 +449,26 @@ class UploadViewController: UIViewController {
     }
 }
 
-extension UploadViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    // 이미지 선택했을때의 동작
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-
-        picker.dismiss(animated: true)
-
-        let itemProvider = results.first?.itemProvider
-
-        if let itemProvider = itemProvider,
-           itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-
-                guard let targetImg = image as? UIImage else { return }
-
-                DispatchQueue.main.async {
-                    self.firstPage.photoBtn.setImage(targetImg, for: .normal)
-                    self.feedImage = targetImg
-                    self.setButtonActivate(self.stageIdx)
-                    self.firstPage.configure(targetImg)
-                }
-            }
-        }
-        else {
-            print("갤러리 닫기")
-        }
+extension UploadViewController: PhotoManaging {
+    func pickImage() {
+        guard let targetImg = PhotoManager.shared.selectedImage else { return }
+        afterImageSelected(targetImg)
     }
     
-    /// 갤러리 접근 권한 상태에 따른 함수 분기처리 
-    func setGalleryAuth() {
-            
-        switch PHPhotoLibrary.authorizationStatus(for: .addOnly) {
-        // 1. 갤러리 접근 거부상태
-        case .denied:
-            DispatchQueue.main.async {
-                self.moveToSetting()
-            }
-        // 2. 갤러리 접근 권한 허용
-        case .authorized, .limited:
-            self.openGallery()
-        // 3. 갤러리 접근 권한 설정 미지정 상태
-        case .notDetermined, .restricted:
-            PHPhotoLibrary.requestAuthorization(for: .addOnly) { state in
-                if state == .authorized || state == .limited {
-                    self.openGallery()
-                } else {
-                    DispatchQueue.main.async {
-                        self.moveToSetting()
-                    }
-                }
-            }
-        default:
-            break
-        }
+    func deniedAlert() {
+        self.present(PhotoManager.shared.alertController, animated: true)
     }
     
-    /// 갤러리 접근권한 허용 Alert에 관한 세팅
-    func setAuthAlert(_ type: String) {
-        if let appName = Bundle.main.infoDictionary!["CFBundleDisplayName"] as? String {
-            let alertVC = UIAlertController(
-                title: "설정",
-                message: "\(appName)이(가) \(type) 접근 허용되어 있지 않습니다. 설정화면으로 가시겠습니까?",
-                preferredStyle: .alert
-            )
-            let cancelAction = UIAlertAction(
-                title: "취소",
-                style: .cancel,
-                handler: nil
-            )
-            let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-                UIApplication.shared.open(
-                    URL(
-                        string: UIApplication.openSettingsURLString)!,
-                    options: [:],
-                    completionHandler: nil
-                )
-            }
-            alertVC.addAction(cancelAction)
-            alertVC.addAction(confirmAction)
-            self.present(alertVC, animated: true, completion: nil)
-        }
+    func openTotalGallery() {
+        let vc = PhotoManager.shared.photoPicker
+        self.present(vc, animated: true)
+        vc.modalPresentationStyle = .overFullScreen
     }
     
-    /// 앨범 열기 함수
-    func openGallery() {
-        if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
-            DispatchQueue.main.async {
-                self.imagePicker.sourceType = .savedPhotosAlbum
-                self.imagePicker.modalPresentationStyle = .currentContext
-                self.present(self.imagePicker, animated: true, completion: nil)
-            }
-        }
+    func openLimitedGallery() {
+        let vc = GalleryViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    /// 이미지 선택 시에 동작할 함수
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            feedImage = image
-            setButtonActivate(stageIdx)
-            firstPage.configure(image)
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
-    /// 갤러리 접근 권한 거부되었을때 뜨는 알람
-    func moveToSetting() {
-        let alertController = UIAlertController(title: "권한 거부됨",
-                                                message: "갤러리 접근이 거부 되었습니다. 피드 작성이 불가합니다",
-                                                preferredStyle: UIAlertController.Style.alert)
-        
-        let allowAction = UIAlertAction(title: "권한 설정으로 이동하기", style: .default) { (action) in
-            
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
-            
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                    print("Settings opened: \(success)")
-                })
-            }
-        }
-        let cancelAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        
-        alertController.addAction(allowAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: false, completion: nil)
-    }
-
 }
 
 extension UploadViewController {

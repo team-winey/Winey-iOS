@@ -138,6 +138,11 @@
 		F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */; };
 		F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */; };
 		F4BE08532A5D98EA0052F3B0 /* CHIPageControl in Frameworks */ = {isa = PBXBuildFile; productRef = F4BE08522A5D98EA0052F3B0 /* CHIPageControl */; };
+		F4CB98E22AA05401003F3095 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E12AA05401003F3095 /* PhotoManager.swift */; };
+		F4CB98E42AA05780003F3095 /* LimitedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */; };
+		F4CB98E62AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E52AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift */; };
+		F4CB98E82AA098A8003F3095 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */; };
+		F4CB98EA2AA0A02F003F3095 /* GalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E92AA0A02F003F3095 /* GalleryCell.swift */; };
 		F4FAA3B42A8C147600B980CB /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAA3B32A8C147600B980CB /* NicknameViewController.swift */; };
 		F4FB9B5C2A67ACC100EDB141 /* PostFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FB9B5B2A67ACC100EDB141 /* PostFeedResponse.swift */; };
 /* End PBXBuildFile section */
@@ -269,6 +274,11 @@
 		F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadBaseView.swift; sourceTree = "<group>"; };
 		F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUploadView.swift; sourceTree = "<group>"; };
+		F4CB98E12AA05401003F3095 /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedPhotoViewController.swift; sourceTree = "<group>"; };
+		F4CB98E52AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedPickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
+		F4CB98E92AA0A02F003F3095 /* GalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCell.swift; sourceTree = "<group>"; };
 		F4FAA3B32A8C147600B980CB /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		F4FB9B5B2A67ACC100EDB141 /* PostFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -792,6 +802,7 @@
 				1D69E0162A61A55500D4E3B5 /* Guide */,
 				0D4DFA092A5F2E3C008F6D63 /* Test */,
 				14A7A4372A56F12F00C0CA4E /* SaveGoal */,
+				F4CB98EB2AA32CA4003F3095 /* Gallery */,
 				14A7A4362A56F12600C0CA4E /* Upload */,
 				14A7A4352A56F10600C0CA4E /* MyFeed */,
 				148C7B8B2A56B1AD007DFE55 /* MyPage */,
@@ -980,6 +991,7 @@
 			isa = PBXGroup;
 			children = (
 				F4A6D5422A7C4568006905AE /* KeychainManager.swift */,
+				F4CB98E12AA05401003F3095 /* PhotoManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1048,6 +1060,41 @@
 				F4BCFA762A68913900D97B1E /* DotLayerView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F4CB98EB2AA32CA4003F3095 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98ED2AA32CD0003F3095 /* View */,
+				F4CB98EC2AA32CBC003F3095 /* ViewController */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		F4CB98EC2AA32CBC003F3095 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */,
+				F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		F4CB98ED2AA32CD0003F3095 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98EE2AA32CD5003F3095 /* Cell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F4CB98EE2AA32CD5003F3095 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98E52AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift */,
+				F4CB98E92AA0A02F003F3095 /* GalleryCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		F4FAA3B22A8C145B00B980CB /* Nickname */ = {
@@ -1153,6 +1200,7 @@
 				1D69E0222A62B45D00D4E3B5 /* LevelupDescriptionView.swift in Sources */,
 				0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */,
 				0D13578B2A835AC4009ADFF8 /* FloatingCommentView.swift in Sources */,
+				F4CB98E22AA05401003F3095 /* PhotoManager.swift in Sources */,
 				0D13578D2A837406009ADFF8 /* FloatingCommentTextView.swift in Sources */,
 				F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */,
 				0DE7E5E62A68385D006E36FF /* UploadLoadingViewController.swift in Sources */,
@@ -1164,6 +1212,7 @@
 				14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */,
 				14E28F8F2A6559CF00E5E5C2 /* GetFeedResponse.swift in Sources */,
 				14576DBB2A68932C00C79C9C /* GoalAPI.swift in Sources */,
+				F4CB98E82AA098A8003F3095 /* GalleryViewController.swift in Sources */,
 				0D444E7B2A861730007DB2F6 /* CommentService.swift in Sources */,
 				F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
@@ -1188,6 +1237,7 @@
 				1D8F027C2A83B60900658B41 /* Menu.swift in Sources */,
 				14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */,
 				0D6037472A89443600AC2FB4 /* EmptyCommentCell.swift in Sources */,
+				F4CB98E62AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				0D444E752A861722007DB2F6 /* CreateCommentRequest.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
@@ -1205,6 +1255,7 @@
 				F40E8FD22A8367A50092D280 /* SessionInterceptor.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,
 				F4A6D5412A7C3D30006905AE /* LoginAPI.swift in Sources */,
+				F4CB98EA2AA0A02F003F3095 /* GalleryCell.swift in Sources */,
 				F40E8FC32A7CE59E0092D280 /* LoginService.swift in Sources */,
 				1472F4E92A67342000B00899 /* FeedLikeAPI.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
@@ -1269,6 +1320,7 @@
 				0D09FB002A696CF800893A6D /* UserDefaultsManager.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
 				1D69E0262A62B4F100D4E3B5 /* CautionView.swift in Sources */,
+				F4CB98E42AA05780003F3095 /* LimitedPhotoViewController.swift in Sources */,
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,
 				1D7640B32A682E7100922332 /* UserLevel.swift in Sources */,
 				14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */,
