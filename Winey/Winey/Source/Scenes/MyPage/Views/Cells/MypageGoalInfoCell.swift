@@ -85,7 +85,7 @@ final class MypageGoalInfoCell: UICollectionViewCell {
     }()
 
     
-    private var goalContainerViewButton: UIButton = {
+    private lazy var goalContainerViewButton: UIButton = {
         let containerView = UIButton()
         containerView.backgroundColor = UIColor.winey_gray50
         containerView.layer.cornerRadius = 10

@@ -49,6 +49,15 @@ final class TabBarController: UITabBarController {
         tabBar.tintColor = .winey_purple400
         tabBar.unselectedItemTintColor = .winey_gray300
         tabBar.backgroundImage = UIImage()
+        self.delegate = self
+    }
+}
+
+extension TabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let feedViewController = viewController.children.first(where: { $0 is FeedViewController }) as? FeedViewController {
+            feedViewController.scrollToTop()
+        }
     }
 }
 
