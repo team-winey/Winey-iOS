@@ -68,16 +68,6 @@ public final class WITextFieldView: UIView {
         textField.placeholder = type.placeholder
     }
     
-    private func setLabel(_ count: Int) {
-        if type.keyboardType == .default {
-            label.setText("(\(count)/\(type.textLength))", attributes: type.labelStyle)
-        } else {
-            label.setText(type.label, attributes: type.labelStyle)
-        }
-        
-        label.textColor = type.labelColor
-    }
-    
     private func setAddTarget() {
         textField.addTarget(self, action: #selector(textfieldDidChange), for: .editingChanged)
     }
@@ -181,6 +171,16 @@ public final class WITextFieldView: UIView {
     
     public func setName(_ name: String) {
         textField.text = name
+    }
+    
+    public func setLabel(_ count: Int) {
+        if type.keyboardType == .default {
+            label.setText("(\(count)/\(type.textLength))", attributes: type.labelStyle)
+        } else {
+            label.setText(type.label, attributes: type.labelStyle)
+        }
+        
+        label.textColor = type.labelColor
     }
 }
 
