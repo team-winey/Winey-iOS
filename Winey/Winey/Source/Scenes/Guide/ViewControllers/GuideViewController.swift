@@ -31,7 +31,7 @@ final class GuideViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setLayout()
-        setAddTartget()
+        setAddTarget()
         setupCloseButtonClosure()
     }
     
@@ -43,7 +43,7 @@ final class GuideViewController: UIViewController {
         }
     }
     
-    private func setAddTartget() {
+    private func setAddTarget() {
         navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
