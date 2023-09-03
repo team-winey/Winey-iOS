@@ -33,7 +33,7 @@ class LimitedPickerCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupLayout()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -45,7 +45,7 @@ extension LimitedPickerCollectionViewCell {
     
     // MARK: - Layout
     
-    private func setupLayout() {
+    private func setLayout() {
         contentView.addSubview(imageView)
         
         imageView.snp.makeConstraints {

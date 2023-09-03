@@ -42,25 +42,6 @@ class GalleryViewController: UIViewController {
         view.backgroundColor = .winey_gray0
         return view
     }()
-    
-    private func morePhotoAlert() {
-            let alert = UIAlertController(title: "'Winey'이(가) 사용자의 사진에 접근하려고 합니다.",
-                                          message: "선택된 사진은 접근 권한이 허용됩니다.",
-                                          preferredStyle: UIAlertController.Style.alert)
-            
-            alert.overrideUserInterfaceStyle = .dark
-            
-            let allowAction = UIAlertAction(title: "더 많은 사진 선택...", style: .default) { (action) in
-                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-            }
-            let cancelAction = UIAlertAction(title: "현재 선택 항목 유지", style: .cancel, handler: nil)
-            
-        alert.addAction(allowAction)
-        alert.addAction(cancelAction)
-            
-            self.present(alert, animated: true)
-        
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -119,6 +100,25 @@ class GalleryViewController: UIViewController {
             $0.top.equalTo(navigationBar.snp.bottom)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
+    }
+    
+    private func morePhotoAlert() {
+            let alert = UIAlertController(title: "'Winey'이(가) 사용자의 사진에 접근하려고 합니다.",
+                                          message: "선택된 사진은 접근 권한이 허용됩니다.",
+                                          preferredStyle: UIAlertController.Style.alert)
+            
+            alert.overrideUserInterfaceStyle = .dark
+            
+            let allowAction = UIAlertAction(title: "더 많은 사진 선택...", style: .default) { (action) in
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+            }
+            let cancelAction = UIAlertAction(title: "현재 선택 항목 유지", style: .cancel, handler: nil)
+            
+        alert.addAction(allowAction)
+        alert.addAction(cancelAction)
+            
+            self.present(alert, animated: true)
+        
     }
     
     private func setPhotoFetch() {
