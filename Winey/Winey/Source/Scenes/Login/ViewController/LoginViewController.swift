@@ -31,17 +31,20 @@ class LoginViewController: UIViewController {
     
     private let character: UIImageView = {
         let img = UIImageView()
-        img.image = .Login.character?.resizeWithWidth(width: 280)
+        img.image = .Login.character?.resizeWithWidth(width: UIScreen.main.bounds.width - 110)
+        img.contentMode = .scaleAspectFit
         return img
     }()
     
     private let appleButton: LoginButton = {
         let button = LoginButton(type: .apple)
+        button.contentMode = .scaleAspectFit
         return button
     }()
     
     private let kakaoButton: LoginButton = {
         let button = LoginButton(type: .kakao)
+        button.contentMode = .scaleAspectFit
         return button
     }()
     
@@ -80,28 +83,27 @@ class LoginViewController: UIViewController {
         view.addSubviews(loginView, character, kakaoButton, appleButton, activityIndicator)
         
         loginView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(72)
-            $0.height.equalTo(93)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(0.085 * UIScreen.main.bounds.height)
             $0.centerX.equalToSuperview()
         }
         
         character.snp.makeConstraints {
-            $0.top.equalTo(loginView.snp.bottom).offset(88)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(0.29 * UIScreen.main.bounds.height)
             $0.leading.equalToSuperview().inset(40)
             $0.trailing.equalToSuperview().inset(70)
         }
         
         kakaoButton.snp.makeConstraints {
-            $0.top.equalTo(character.snp.bottom).offset(48)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset((0.075 * UIScreen.main.bounds.height) + 64)
         }
         
         appleButton.snp.makeConstraints {
             $0.top.equalTo(kakaoButton.snp.bottom).offset(10)
             $0.horizontalEdges.equalTo(kakaoButton.snp.horizontalEdges)
             $0.height.equalTo(54)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(64)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(0.075 * UIScreen.main.bounds.height)
         }
     }
     
