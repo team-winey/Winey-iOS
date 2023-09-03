@@ -19,6 +19,8 @@ class AnimationOnboardingViewController: UIViewController {
     private var onboardingData: [AnimationOnboardingDataModel] = []
     private var currentPage: Int = 0
     
+    private lazy var safeAreaBottom = self.view.safeAreaLayoutGuide.bottomAnchor
+    
     // MARK: - UI Components
     
     private let chatImageView = UIImageView()
@@ -193,6 +195,16 @@ extension AnimationOnboardingViewController {
             make.trailing.equalToSuperview().inset(16)
             make.width.equalTo(56)
             make.height.equalTo(30)
+        }
+        
+        let bottomSafeAreaView = UIView()
+        bottomSafeAreaView.backgroundColor = .winey_gray0
+        
+        view.addSubview(bottomSafeAreaView)
+        
+        bottomSafeAreaView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
