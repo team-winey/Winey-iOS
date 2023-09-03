@@ -58,6 +58,7 @@ final class RecommendViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        showTabBar()
         checkNewNotification()
     }
     
@@ -65,6 +66,10 @@ final class RecommendViewController: UIViewController {
         super.viewDidAppear(animated)
         let logEvent = LogEventImpl(category: .view_recommend)
         AmplitudeManager.logEvent(event: logEvent)
+    }
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func setupDataSource() {
