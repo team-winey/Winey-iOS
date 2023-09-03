@@ -16,13 +16,16 @@ final class LoginView: UIView {
     
     private let logo: UIImageView = {
         let img = UIImageView()
-        img.image = .Login.logo?.resizeWithWidth(width: 196)
+        img.image = .Login.logo?.resizeWithWidth(width: UIScreen.main.bounds.width - 194)
+        img.contentMode = .scaleAspectFit
         return img
     }()
     
     private let title: UILabel = {
         let text = UILabel()
         text.setText("절약을 더 쉽고 재밌게", attributes: Const.titleAttributes)
+        text.sizeToFit()
+        text.contentMode = .scaleAspectFit
         return text
     }()
     
@@ -45,8 +48,6 @@ final class LoginView: UIView {
         logo.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(67)
-            $0.width.equalTo(196)
         }
         
         title.snp.makeConstraints {
