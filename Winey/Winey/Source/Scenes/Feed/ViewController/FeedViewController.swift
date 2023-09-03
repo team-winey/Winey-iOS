@@ -74,6 +74,7 @@ final class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkNewNotification()
+        showTabBar()
         refresh()
     }
     
@@ -82,6 +83,10 @@ final class FeedViewController: UIViewController {
         
         let logEvent = LogEventImpl(category: .view_homefeed)
         AmplitudeManager.logEvent(event: logEvent)
+    }
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func setupDataSource() {
