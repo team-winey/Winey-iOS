@@ -234,7 +234,7 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
         requestOptions.resizeMode = .exact
         
         imageManager.requestImage(for: asset,
-                                  targetSize: CGSize(width: width * scale, height: height * scale * ratio),
+                                  targetSize: CGSize(width: cell.originalSize.width * scale, height: cell.originalSize.height * scale),
                                   contentMode: .aspectFill,
                                   options: requestOptions) { image, _ in
             guard let image = image else { return }
