@@ -345,6 +345,12 @@ extension FeedViewController: UIScrollViewDelegate {
             getMoreFeed()
         }
     }
+    
+    func scrollToTop() {
+        collectionView.setContentOffset(.zero, animated: true)
+        refresh()
+        refreshHeaderView()
+    }
 }
 
 // MARK: - Network
