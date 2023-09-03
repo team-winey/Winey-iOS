@@ -20,7 +20,7 @@ final class TabBarController: UITabBarController {
         
         getUser()
     }
-    
+
     private func setViewControllers() {
         let viewControllers = TabBarItem.allCases
             .map { navigationController(with: $0, rootViewController: $0.rootViewController) }
@@ -40,6 +40,9 @@ final class TabBarController: UITabBarController {
         
         nav.navigationBar.backgroundColor = .clear
         nav.isNavigationBarHidden = true
+        
+        nav.interactivePopGestureRecognizer?.isEnabled = true
+        nav.interactivePopGestureRecognizer?.delegate = self
         
         return nav
     }
@@ -105,3 +108,5 @@ extension TabBarController {
         }
     }
 }
+
+extension TabBarController: UIGestureRecognizerDelegate  {}
