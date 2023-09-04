@@ -223,6 +223,7 @@ class NicknameViewController: UIViewController {
                         nickNameTextField.makeSuccessView()
                         setDuplicateResultText(.success)
                     } else {
+                        duplicateResult.toggle()
                         nickNameTextField.makeActiveView()
                     }
                 }
@@ -310,6 +311,10 @@ class NicknameViewController: UIViewController {
                         }
                     } else { print("닉네임 등록 실패") }
                 }
+            } else {
+                recentNickname = nickNameTextField.getName()
+                nickNameTextField.makeErrorView()
+                setDuplicateResultText(.notChecked)
             }
         } else {
             recentNickname = nickNameTextField.getName()
