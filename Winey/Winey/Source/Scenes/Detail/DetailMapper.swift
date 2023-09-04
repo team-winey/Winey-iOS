@@ -94,8 +94,8 @@ final class DetailMapper: DetailMappingLogic {
             KingfisherManager.shared.retrieveImage(with: imageUrl) { result in
                 switch result {
                 case .success(let result):
-                    let width = DeviceInfo.width - DetailInfoCell.PublicConst.inset * 2
-                    let height = result.image.getHeightOfResizedImageView(avaliableWidth: width)
+                     let width = DeviceInfo.width - DetailInfoCell.PublicConst.inset * 2
+                     let height = result.image.getHeightOfResizedImageView(avaliableWidth: width)
                     let image = result.image
                     let imageInfo = DetailInfoCell.ViewModel.ImageInfo(
                         image: image,
@@ -146,6 +146,10 @@ private extension KFCrossPlatformImage {
     func getHeightOfResizedImageView(avaliableWidth: CGFloat) -> CGFloat {
         let ratio = avaliableWidth / self.size.width
         let scaledHeight = self.size.height * ratio
+        
+        print("디테일뷰")
+        print(avaliableWidth)
+        print(scaledHeight)
         
         return scaledHeight
     }
