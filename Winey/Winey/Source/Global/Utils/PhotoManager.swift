@@ -129,11 +129,7 @@ class PhotoManager: UIViewController {
 
 
 extension PhotoManager: PHPickerViewControllerDelegate {
-    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        
-        picker.dismiss(animated: true, completion: nil)
-        
         let itemProvider = results.first?.itemProvider
         
         if let itemProvider = itemProvider,
@@ -141,8 +137,10 @@ extension PhotoManager: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                 guard let selectedImage = image as? UIImage else { return }
                 DispatchQueue.main.async {
-                    self.selectedImage = selectedImage
-                    self.photoDelegate?.pickImage()
+                    picker.dismiss(animated: true) {
+                        self.selectedImage = selectedImage
+                        self.photoDelegate?.pickImage()
+                    }
                 }
                 self.selectedImage = nil
             }
