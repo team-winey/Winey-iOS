@@ -239,15 +239,6 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
                                   options: requestOptions) { image, _ in
             guard let image = image else { return }
             
-//            print("사진선택")
-//            print(self.scale)
-//            print(ratio)
-//            print(cell.originalSize.width)
-//            print(cell.originalSize.height)
-//            print(cell.originalSize.width * self.scale)
-//            print(cell.originalSize.height * self.scale)
-//            print(width * self.scale)
-//            print(height * self.scale)
             NotificationCenter.default.post(name: .whenImgSelected, object: nil, userInfo: ["img": image])
             
             DispatchQueue.main.async {
