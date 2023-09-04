@@ -208,7 +208,7 @@ class NicknameViewController: UIViewController {
         if text.count > 0 {
                 if result {
                     if recentNickname == text {
-                        if duplicateChecked {
+                        if duplicateResult {
                             nickNameTextField.makeErrorView()
                             setDuplicateResultText(.fail)
                         } else {
@@ -301,6 +301,7 @@ class NicknameViewController: UIViewController {
         
         if duplicateChecked {
             if !duplicateResult {
+                
                 nicknameService.setNickname(nickname: recentNickname) { [self] response in
                     if response {
                         print("닉네임 등록 성공")
