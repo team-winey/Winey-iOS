@@ -281,7 +281,7 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     -> CGSize {
         switch indexPath.section {
         case 0: return CGSize(width: (UIScreen.main.bounds.width), height: 345)
-        case 1: return CGSize(width: (UIScreen.main.bounds.width), height: 177)
+        case 1: return CGSize(width: (UIScreen.main.bounds.width), height: 182)
         case 2: return CGSize(width: (UIScreen.main.bounds.width), height: 57)
         default : return .zero
         }
