@@ -226,11 +226,18 @@ class NicknameViewController: UIViewController {
                         nickNameTextField.makeActiveView()
                     }
                 }
-            }
+        } else {
+            nickNameTextField.makeErrorView()
+            setDuplicateResultText(.none)
+        }
     }
     
     private func checkInactive(_ text: String) {
-        text == recentNickname && text.count > 0 ? checkNickname(text, duplicateResult) : nickNameTextField.makeInactiveView()
+        if text.count == 0 {
+            nickNameTextField.makeErrorView()
+        } else {
+            text == recentNickname ? checkNickname(text, duplicateResult) : nickNameTextField.makeInactiveView()
+        }
     }
     
     private func hideDetailLabel(_ name: String) {
@@ -363,6 +370,7 @@ private extension NicknameViewController {
         case success
         case fail
         case notChecked
+        case none
         
         var text: String {
             switch self {
@@ -372,6 +380,8 @@ private extension NicknameViewController {
                 return "중복된 닉네임입니다 :("
             case .notChecked:
                 return "닉네임 중복확인을 해주세요 :("
+            case .none:
+                return "1자 이상 입력해주세요 :("
             }
         }
         
@@ -379,7 +389,7 @@ private extension NicknameViewController {
             switch self {
             case .success:
                 return .winey_blue500
-            case .fail, .notChecked:
+            case .fail, .notChecked, .none:
                 return .winey_red500
             }
         }
