@@ -14,7 +14,7 @@ class NicknameViewController: UIViewController {
     
     private let duplicateCheckBtn = DuplicateCheckButton()
     private let nickNameTextField = WITextFieldView(type: .nickName)
-    private let navigationBar = WINavigationBar(leftBarItem: .close)
+    private let navigationBar = WINavigationBar(leftBarItem: .back)
     
     private let viewType: NicknameType
     
