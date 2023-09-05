@@ -37,7 +37,7 @@ final class FeedCell: UICollectionViewCell {
     
     private lazy var moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(.Icon.more, for: .normal)
+        button.setImage(.Btn.more, for: .normal)
         button.addTarget(self, action: #selector(tapMoreButton), for: .touchUpInside)
         return button
     }()

@@ -221,9 +221,9 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? LimitedPickerCollectionViewCell else { return }
         
-        let ratio = cell.originalSize.height / cell.originalSize.width
-        let width = (UIScreen.main.bounds.width)
-        let height = ratio * width
+        let width = UIScreen.main.bounds.width - 32
+        let ratio = (UIScreen.main.bounds.width - 32) / cell.originalSize.width
+        let height = cell.originalSize.height * ratio
         
         let asset = fetchResult.object(at: indexPath.item)
         
@@ -234,8 +234,8 @@ extension LimitedPickerViewController: UICollectionViewDelegate, UICollectionVie
         requestOptions.resizeMode = .exact
         
         imageManager.requestImage(for: asset,
-                                  targetSize: CGSize(width: cell.originalSize.width * scale, height: cell.originalSize.height * scale),
-                                  contentMode: .aspectFill,
+                                  targetSize: CGSize(width: width * self.scale, height: height * self.scale),
+                                  contentMode: .aspectFit,
                                   options: requestOptions) { image, _ in
             guard let image = image else { return }
             

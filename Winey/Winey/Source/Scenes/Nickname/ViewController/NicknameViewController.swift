@@ -14,7 +14,7 @@ class NicknameViewController: UIViewController {
     
     private let duplicateCheckBtn = DuplicateCheckButton()
     private let nickNameTextField = WITextFieldView(type: .nickName)
-    private let navigationBar = WINavigationBar(leftBarItem: .close)
+    private let navigationBar = WINavigationBar(leftBarItem: .back)
     
     private let viewType: NicknameType
     
@@ -37,7 +37,8 @@ class NicknameViewController: UIViewController {
         }
     }
     
-    private var duplicateResult: Bool = false
+    private var duplicateResult: Bool = true
+    private var duplicateChecked: Bool = false
     
     // MARK: - UI Components
     
@@ -63,8 +64,7 @@ class NicknameViewController: UIViewController {
     }()
     
     private let nextButton: MIButton = {
-        let btn = MIButton(type: .yellow)
-        btn.isEnabled = false
+        let btn = MIButton(type: .gray)
         btn.setTitle("확인", for: .normal)
         return btn
     }()
@@ -205,22 +205,40 @@ class NicknameViewController: UIViewController {
     }
     
     private func checkNickname(_ text: String, _ result: Bool) {
-        if text == recentNickname && text.count > 0 {
-            if result {
-                nickNameTextField.makeErrorView()
-                setDuplicateResultText(.fail)
-            } else {
-                nickNameTextField.makeSuccessView()
-                setDuplicateResultText(.success)
-            }
+        if text.count > 0 {
+                if result {
+                    if recentNickname == text {
+                        if duplicateResult {
+                            nickNameTextField.makeErrorView()
+                            setDuplicateResultText(.fail)
+                        } else {
+                            nickNameTextField.makeErrorView()
+                            setDuplicateResultText(.notChecked)
+                        }
+                    } else {
+                        nickNameTextField.makeActiveView()
+                    }
+                } else {
+                    if recentNickname == text {
+                        nickNameTextField.makeSuccessView()
+                        setDuplicateResultText(.success)
+                    } else {
+                        duplicateResult.toggle()
+                        nickNameTextField.makeActiveView()
+                    }
+                }
         } else {
-            nickNameTextField.makeActiveView()
-            detailLabel.isHidden = true
+            nickNameTextField.makeErrorView()
+            setDuplicateResultText(.none)
         }
     }
     
     private func checkInactive(_ text: String) {
-        text == recentNickname && text.count > 0 ? checkNickname(text, duplicateResult) : nickNameTextField.makeInactiveView()
+        if text.count == 0 {
+            nickNameTextField.makeErrorView()
+        } else {
+            text == recentNickname ? checkNickname(text, duplicateResult) : nickNameTextField.makeInactiveView()
+        }
     }
     
     private func hideDetailLabel(_ name: String) {
@@ -234,10 +252,12 @@ class NicknameViewController: UIViewController {
     }
     
     private func setButtonActivate(_ text: String, _ result: Bool) {
-        if !result && text == recentNickname && text != "" {
-            nextButton.isEnabled = true
-        } else {
-            nextButton.isEnabled = false
+        if duplicateChecked {
+            if text == recentNickname {
+                nextButton.setNicknameBtnActivate(result)
+            } else {
+                nextButton.setNicknameBtnActivate(true)
+            }
         }
     }
     
@@ -253,6 +273,8 @@ class NicknameViewController: UIViewController {
     
     @objc
     private func tapDuplicateButton() {
+        if !duplicateChecked { duplicateChecked.toggle() }
+            
         recentNickname = nickNameTextField.getName()
         
         nicknameService.duplicateCheck(nickname: recentNickname) { response in
@@ -277,15 +299,28 @@ class NicknameViewController: UIViewController {
         )
         AmplitudeManager.logEvent(event: logEvent)
         
-        nicknameService.setNickname(nickname: recentNickname) { [self] response in
-            if response {
-                print("닉네임 등록 성공")
-                if self.viewType.naviExist {
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    self.switchRootViewController(rootViewController: TabBarController(), animated: true)
+        if duplicateChecked {
+            if !duplicateResult {
+                
+                nicknameService.setNickname(nickname: recentNickname) { [self] response in
+                    if response {
+                        print("닉네임 등록 성공")
+                        if self.viewType.naviExist {
+                            self.navigationController?.popViewController(animated: true)
+                        } else {
+                            self.switchRootViewController(rootViewController: TabBarController(), animated: true)
+                        }
+                    } else { print("닉네임 등록 실패") }
                 }
-            } else { print("닉네임 등록 실패") }
+            } else {
+                recentNickname = nickNameTextField.getName()
+                nickNameTextField.makeErrorView()
+                setDuplicateResultText(.notChecked)
+            }
+        } else {
+            recentNickname = nickNameTextField.getName()
+            nickNameTextField.makeErrorView()
+            setDuplicateResultText(.notChecked)
         }
     }
     
@@ -340,6 +375,8 @@ private extension NicknameViewController {
     enum DuplicateCheckResult {
         case success
         case fail
+        case notChecked
+        case none
         
         var text: String {
             switch self {
@@ -347,6 +384,10 @@ private extension NicknameViewController {
                 return "사용 가능한 닉네임입니다 :)"
             case .fail:
                 return "중복된 닉네임입니다 :("
+            case .notChecked:
+                return "닉네임 중복확인을 해주세요 :("
+            case .none:
+                return "1자 이상 입력해주세요 :("
             }
         }
         
@@ -354,7 +395,7 @@ private extension NicknameViewController {
             switch self {
             case .success:
                 return .winey_blue500
-            case .fail:
+            case .fail, .notChecked, .none:
                 return .winey_red500
             }
         }

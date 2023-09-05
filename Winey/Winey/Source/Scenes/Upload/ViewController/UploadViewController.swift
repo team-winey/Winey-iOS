@@ -452,7 +452,7 @@ class UploadViewController: UIViewController {
 extension UploadViewController: PhotoManaging {
     func pickImage() {
         guard let targetImg = PhotoManager.shared.selectedImage else { return }
-        afterImageSelected(targetImg)
+        self.afterImageSelected(targetImg)
         PhotoManager.shared.clearPreselectedAssets()
     }
     
@@ -462,9 +462,8 @@ extension UploadViewController: PhotoManaging {
     
     func openTotalGallery() {
         let vc = PhotoManager.shared.photoPicker
-        
+        vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
-        vc.modalPresentationStyle = .overFullScreen
     }
     
     func openLimitedGallery() {
