@@ -157,8 +157,6 @@ extension AlertViewController {
             }
             
             self?.model = newArray
-            
-            self?.refreshControl.endRefreshing()
             print("😀", data)
         }
     }
