@@ -157,8 +157,6 @@ extension AlertViewController {
             }
             
             self?.model = newArray
-            
-            self?.refreshControl.endRefreshing()
             print("😀", data)
         }
     }
@@ -177,7 +175,7 @@ extension AlertViewController {
         case "RANKUPTO2", "RANKUPTO3", "RANKUPTO4",
             "DELETERANKDOWNTO1", "DELETERANKDOWNTO2", "DELETERANKDOWNTO3", "GOALFAILED":
             let mypageViewController = MypageViewController()
-            mypageViewController.navigationBar.isHidden = false
+            mypageViewController.navigationBar = WINavigationBar(leftBarItem: .back, title: "마이페이지")
             navigationController?.pushViewController(mypageViewController, animated: true)
             
         default:
