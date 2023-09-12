@@ -40,9 +40,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("리프레쉬 토큰을 통한 액세스 토큰 재발급")
         LoginService.shared.reissueApple(token: refreshToken) { result in
             switch result {
-            case true:
+            case .success:
                 print("토큰 재발급 성공!")
-            case false:
+            case .failure(let error):
+                print(error)
                 print("refreshToken 만료")
                 print("토큰 재발급 실패 -> LoginView로 변환")
                 guard let windowScene = (scene as? UIWindowScene) else { return }
