@@ -13,7 +13,7 @@ import Moya
 
 final class FeedService {
     
-    let feedProvider = CustomMoyaProvider<FeedAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let feedProvider = CustomMoyaProvider<FeedAPI>()
     
     init() { }
     
@@ -32,6 +32,7 @@ final class FeedService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }
@@ -50,6 +51,7 @@ final class FeedService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }
@@ -87,6 +89,7 @@ final class FeedService {
                     completionHandler(false)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
                 completionHandler(false)
             }
@@ -114,6 +117,7 @@ final class FeedService {
                     else { throw FeedNetworkError.undefined }
                     continuation.resume(returning: response)
                 } catch {
+                    LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                     continuation.resume(throwing: FeedNetworkError.undefined)
                 }
             }

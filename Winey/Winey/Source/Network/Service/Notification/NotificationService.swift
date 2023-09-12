@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 final class NotificationService {
-    let notificationProvider = CustomMoyaProvider<NotificationAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let notificationProvider = CustomMoyaProvider<NotificationAPI>()
 
     init() { }
 
@@ -36,6 +36,9 @@ final class NotificationService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in
+                    self.getTotalNotification { _ in }
+                }
                 print(err)
             }
         }
@@ -58,6 +61,7 @@ final class NotificationService {
                     completion(false)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
                 completion(false)
             }
@@ -83,6 +87,7 @@ final class NotificationService {
                     print("error")
                 }
             case .failure(let error):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(error.localizedDescription)
             }
         }
