@@ -49,26 +49,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 guard let windowScene = (scene as? UIWindowScene) else { return }
                 let window = UIWindow(windowScene: windowScene)
                 self.window = window
-                self.setAlert(window)
             }
         }
         
         NotificationCenter.default.post(name: .whenEnterForeground, object: nil)
-    }
-    
-    func setAlert(_ window: UIWindow) {
-        let alert = MIPopupViewController(
-            content: .init(
-                title: "세션이 만료되었습니다",
-                subtitle: "확인 버튼을 눌러서 다시 로그인을 진행해주세요"
-            )
-        )
-        alert.addButton(title: "확인", type: .yellow) {
-            window.rootViewController = LoginViewController()
-            window.makeKeyAndVisible()
-        }
-        window.rootViewController = alert
-        window.makeKeyAndVisible()
-        window.backgroundColor = .winey_gray0
     }
 }
