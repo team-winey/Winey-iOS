@@ -10,7 +10,7 @@ import UIKit
 import Moya
 
 final class CommentService {
-    let provider = CustomMoyaProvider<CommentAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let provider = CustomMoyaProvider<CommentAPI>()
 
     private typealias CreateCommentRes = BaseResponse<CreateCommentResponse>
     
@@ -23,6 +23,7 @@ final class CommentService {
                     else { throw CommentNetworkError.undefined }
                     continuation.resume(returning: response)
                 } catch {
+                    LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                     continuation.resume(throwing: CommentNetworkError.undefined)
                 }
             }
@@ -38,6 +39,7 @@ final class CommentService {
                     // continuation.resume(returning: Void())
                     continuation.resume(returning: true)
                 } catch {
+                    LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                     continuation.resume(throwing: CommentNetworkError.undefined)
                 }
             }

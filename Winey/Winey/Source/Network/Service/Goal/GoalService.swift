@@ -11,7 +11,7 @@ import Moya
 
 final class GoalService {
     
-    let goalProvider = CustomMoyaProvider<GoalAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let goalProvider = CustomMoyaProvider<GoalAPI>()
     
     init() { }
     
@@ -30,6 +30,7 @@ final class GoalService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }

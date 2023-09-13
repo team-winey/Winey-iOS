@@ -11,7 +11,7 @@ import Moya
 
 final class UserService {
     
-    let userProvider = CustomMoyaProvider<UserAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let userProvider = CustomMoyaProvider<UserAPI>()
     
     init() { }
     
@@ -29,6 +29,7 @@ final class UserService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }

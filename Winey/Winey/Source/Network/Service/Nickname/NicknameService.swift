@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 final class NicknameService {
-    let nickNameprovider = CustomMoyaProvider<NicknameAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let nickNameprovider = CustomMoyaProvider<NicknameAPI>()
     
     private var duplicateResponse: DuplicateCheckResponse?
     
@@ -28,6 +28,7 @@ final class NicknameService {
                     completion(false)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }
@@ -51,6 +52,7 @@ final class NicknameService {
                     print("error")
                 }
             case .failure(let error):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(error.localizedDescription)
             }
         }
