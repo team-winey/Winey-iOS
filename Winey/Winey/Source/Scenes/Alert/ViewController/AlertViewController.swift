@@ -71,11 +71,9 @@ final class AlertViewController: UIViewController {
     }
     
     @objc private func refreshTableView() {
-        let delay: DispatchTime = .now() + 1.0
-        let closure: () -> Void = { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             self?.getTotalAlert()
         }
-        DispatchQueue.main.asyncAfter(deadline: delay, execute: closure)
     }
 }
 
@@ -156,9 +154,12 @@ extension AlertViewController {
                 )
             }
             
-            self?.model = newArray
-            print("😀", data)
-        }
+            DispatchQueue.main.async { [weak self] in
+               
+                self?.refreshControl.endRefreshing()
+                self?.model = newArray
+                print("😀", data)
+            }        }
     }
     
     func pushState(at data: Category) {
