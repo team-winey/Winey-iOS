@@ -177,7 +177,7 @@ final class FeedViewController: UIViewController {
         } else {
             print("으딜.")
             let reportAction = UIAlertAction(title: "신고하기", style: .destructive) { _ in
-                self.showToast(.reportSuccess)
+                self.setReportAlert(feedId)
             }
             alertController.addAction(reportAction)
         }
@@ -257,6 +257,22 @@ final class FeedViewController: UIViewController {
         
         deletePopup.addButton(title: "삭제하기", type: .yellow) {
             self.deleteMyFeed(feedId: feedId)
+        }
+        
+        self.present(deletePopup, animated: true)
+    }
+    
+    private func setReportAlert(_ feedId: Int) {
+        let deletePopup = MIPopupViewController(
+            content: .init(
+                title: "신고하시겠습니까?",
+                subtitle: "욕설/비하, 상업적 광고 및 판매,\n낚시/놀람/도배 글의 경우 신고할 수 있습니다."
+            )
+        )
+        deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+        
+        deletePopup.addButton(title: "신고하기", type: .yellow) {
+            self.showToast(.reportSuccess)
         }
         
         self.present(deletePopup, animated: true)
