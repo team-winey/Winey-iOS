@@ -10,7 +10,9 @@ import UIKit
 
 import DesignSystem
 import Moya
+import WebKit
 import SnapKit
+import SafariServices
 
 final class FeedViewController: UIViewController {
     
@@ -272,7 +274,9 @@ final class FeedViewController: UIViewController {
         deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
         
         deletePopup.addButton(title: "신고하기", type: .yellow) {
-            self.showToast(.reportSuccess)
+            let url = URL(string: "https://docs.google.com/forms/d/1fymNx8ALanWWzwR4O2s8hpt76mnRClOmfDx4Vbdk2kk/edit")!
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true)
         }
         
         self.present(deletePopup, animated: true)
