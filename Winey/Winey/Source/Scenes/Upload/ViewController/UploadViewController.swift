@@ -13,6 +13,7 @@ import UIKit
 import CHIPageControl
 import DesignSystem
 import SnapKit
+import SafariServices
 
 class UploadViewController: UIViewController {
     
@@ -165,7 +166,9 @@ class UploadViewController: UIViewController {
     }
 
     @objc private func tapWineyRule() {
-        print("탓치")
+        let url = URL(string: "https://empty-weaver-a9f.notion.site/iney-9dbfe130c7df4fb9a0903481c3e377e6?pvs=4")!
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true)
     }
     
     private func makeTouchableRuleView() {
