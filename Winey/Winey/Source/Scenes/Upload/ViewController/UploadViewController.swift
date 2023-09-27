@@ -89,6 +89,8 @@ class UploadViewController: UIViewController {
         return view
     }()
     
+    private let warningLabel = UILabel()
+    
     /// nextButton: 다음 단계로 이동하는 하단 버튼
     private let nextButton: MIButton = {
         let btn = MIButton(type: .yellow)
@@ -108,6 +110,7 @@ class UploadViewController: UIViewController {
         setAddTarget()
         getData()
         setDelegate()
+        makeTouchableRuleView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -146,12 +149,45 @@ class UploadViewController: UIViewController {
                 
         nextButton.setTitle(stageIdx == 2 ? "업로드" : "다음", for: .normal)
         
+        warningLabel.text = Const.warningString
+        warningLabel.numberOfLines = 0
+        warningLabel.isUserInteractionEnabled = true
+        warningLabel.setText(Const.warningString, attributes: Const.warningAttributes)
+        warningLabel.setUnderLine(targetString: "위니 이용약관의 13조")
+        
         /// 업로드 뷰 단계에 따라서 네비게이션바 좌측 버튼에 다른 이미지가 들어가도록 함
         switch stageIdx {
         case 1, 2:
             navigationBar.leftBarItem = .back
         default:
             navigationBar.leftBarItem = .close
+        }
+    }
+
+    @objc private func tapWineyRule() {
+        print("탓치")
+    }
+    
+    private func makeTouchableRuleView() {
+        if let rect = warningLabel.rectFromString(with: "위니 이용약관의 13조") {
+            // CGRect를 기반으로 10씩 확장
+            let expandedRect = CGRect(
+                x: rect.origin.x - 10,
+                y: rect.origin.y + 15,
+                width: rect.size.width + 20,
+                height: rect.size.height + 20
+            )
+
+            let touchableView = UIView(frame: expandedRect)
+            
+            touchableView.backgroundColor = .clear
+            
+            touchableView.isUserInteractionEnabled = true
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapWineyRule))
+            touchableView.addGestureRecognizer(tapGesture)
+            
+            self.warningLabel.addSubview(touchableView)
         }
     }
     
@@ -178,7 +214,7 @@ class UploadViewController: UIViewController {
     private func setLayout() {
         setScrollView()
         
-        view.addSubviews(navigationBar, grayDot, pageGuide, scrollView, nextButton)
+        view.addSubviews(navigationBar, grayDot, pageGuide, scrollView, warningLabel, nextButton)
         
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(safeArea)
@@ -205,6 +241,11 @@ class UploadViewController: UIViewController {
             $0.bottom.equalTo(safeArea).inset(4)
             $0.height.equalTo(52)
             $0.horizontalEdges.equalToSuperview().inset(10)
+        }
+        
+        warningLabel.snp.makeConstraints {
+            $0.bottom.equalTo(nextButton.snp.top).offset(-15)
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(15)
         }
     }
     
@@ -437,6 +478,8 @@ class UploadViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide)
                 .inset(adjustedBottomSpace)
         }
+        warningLabel.isHidden = true
+        
         view.layoutIfNeeded()
     }
     
@@ -445,6 +488,7 @@ class UploadViewController: UIViewController {
         self.nextButton.snp.updateConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
         }
+        warningLabel.isHidden = false
         view.layoutIfNeeded()
     }
 }
@@ -482,5 +526,17 @@ extension UploadViewController {
             loadingViewController.feedUploadResult = result
         }
         self.navigationController?.pushViewController(loadingViewController, animated: true)
+    }
+}
+
+extension UploadViewController {
+    enum Const {
+        static let warningString = "위니는 긍정적인 소비습관을 함께 만들어 나가는 커뮤니티입니다. 긍정적인 커뮤니티를 만들기 위해 커뮤니티 이용 규칙을 제정하여 운영하고 있습니다. 위반 시 게시물이 삭제 되고 계정이 일정 기간 제한될 수 있습니다. \n더 자세한 이용 규칙은 위니 이용약관의 13조를 참고해주세요."
+        
+        static let warningAttributes = Typography.Attributes(
+            style: .detail3,
+            weight: .medium,
+            textColor: .winey_gray400
+        )
     }
 }
