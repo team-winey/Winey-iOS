@@ -11,6 +11,7 @@ import UIKit
 import DesignSystem
 import Kingfisher
 import SnapKit
+import SafariServices
 
 final class DetailViewController: UIViewController {
     typealias Section = DetailSection
@@ -450,7 +451,21 @@ extension DetailViewController {
     }
     
     private func report() {
-        showToast(.reportSuccess)
+        let deletePopup = MIPopupViewController(
+            content: .init(
+                title: "신고하시겠습니까?",
+                subtitle: "욕설/비하, 상업적 광고 및 판매,\n낚시/놀람/도배 글의 경우 신고할 수 있습니다."
+            )
+        )
+        deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+        
+        deletePopup.addButton(title: "신고하기", type: .yellow) {
+            let url = URL(string: "https://docs.google.com/forms/d/1fymNx8ALanWWzwR4O2s8hpt76mnRClOmfDx4Vbdk2kk/edit")!
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true)
+        }
+        
+        self.present(deletePopup, animated: true)
     }
 }
 
