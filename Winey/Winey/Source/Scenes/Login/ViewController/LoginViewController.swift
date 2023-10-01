@@ -11,6 +11,7 @@ import UIKit
 
 import DesignSystem
 import SnapKit
+import SafariServices
 
 class LoginViewController: UIViewController {
     
@@ -60,6 +61,9 @@ class LoginViewController: UIViewController {
         return activityIndicator
     }()
     
+    private let privacyPolicyLabel = UILabel()
+    private let privacyPolicyBoldLabel = UILabel()
+    
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,10 +81,16 @@ class LoginViewController: UIViewController {
     
     private func setUI() {
         view.backgroundColor = .winey_gray0
+        
+        privacyPolicyLabel.textAlignment = .center
+        privacyPolicyBoldLabel.textAlignment = .center
+        privacyPolicyLabel.setText(Const.policyString, attributes: Const.policyAttributes)
+        privacyPolicyBoldLabel.setText(Const.policyBoldString, attributes: Const.policyBoldAttributes)
     }
     
     private func setLayout() {
         view.addSubviews(loginView, character, kakaoButton, appleButton, activityIndicator)
+        view.addSubviews(privacyPolicyLabel, privacyPolicyBoldLabel)
         
         loginView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(0.085 * UIScreen.main.bounds.height)
@@ -105,6 +115,31 @@ class LoginViewController: UIViewController {
             $0.height.equalTo(54)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(0.075 * UIScreen.main.bounds.height)
         }
+        
+        privacyPolicyLabel.snp.makeConstraints {
+            $0.top.equalTo(appleButton.snp.bottom).offset(Const.policyTop.adjustedH)
+            $0.centerX.equalToSuperview()
+        }
+        
+        privacyPolicyBoldLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(privacyPolicyLabel.snp.bottom).offset(2)
+        }
+        
+        let touchableView = UIView()
+        touchableView.backgroundColor = .clear
+        touchableView.isUserInteractionEnabled = true
+        self.privacyPolicyBoldLabel.isUserInteractionEnabled = true
+        self.privacyPolicyBoldLabel.addSubview(touchableView)
+        
+        touchableView.snp.makeConstraints {
+            $0.top.equalTo(privacyPolicyBoldLabel.snp.top).offset(-8)
+            $0.leading.trailing.equalToSuperview().inset(-5)
+            $0.bottom.equalTo(privacyPolicyBoldLabel).offset(8)
+        }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapWineyRule))
+        touchableView.addGestureRecognizer(tapGesture)
     }
     
     private func setAddTarget() {
@@ -123,6 +158,12 @@ class LoginViewController: UIViewController {
                 }
             }
             .store(in: &bag)
+    }
+    
+    @objc private func tapWineyRule() {
+        let url = URL(string: "https://empty-weaver-a9f.notion.site/iney-9dbfe130c7df4fb9a0903481c3e377e6?pvs=4")!
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true)
     }
 }
 
@@ -300,3 +341,23 @@ extension LoginViewController {
     }
 }
 
+extension LoginViewController {
+    enum Const {
+        static let policyString = "가입 시, Winey의 다음 사항에 동의하는 것으로 간주합니다."
+        static let policyBoldString = "서비스 이용약관 및 개인정보 정책"
+        
+        static let policyAttributes = Typography.Attributes(
+            style: .detail3,
+            weight: .medium,
+            textColor: .winey_gray400
+        )
+        
+        static let policyBoldAttributes = Typography.Attributes(
+            style: .detail3,
+            weight: .bold,
+            textColor: .winey_gray600
+        )
+        
+        static let policyTop: CGFloat = 20
+    }
+}
