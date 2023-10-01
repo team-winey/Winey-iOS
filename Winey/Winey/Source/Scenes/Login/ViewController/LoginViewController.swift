@@ -11,6 +11,7 @@ import UIKit
 
 import DesignSystem
 import SnapKit
+import SafariServices
 
 class LoginViewController: UIViewController {
     
@@ -124,6 +125,21 @@ class LoginViewController: UIViewController {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(privacyPolicyLabel.snp.bottom).offset(2)
         }
+        
+        let touchableView = UIView()
+        touchableView.backgroundColor = .clear
+        touchableView.isUserInteractionEnabled = true
+        self.privacyPolicyBoldLabel.isUserInteractionEnabled = true
+        self.privacyPolicyBoldLabel.addSubview(touchableView)
+        
+        touchableView.snp.makeConstraints {
+            $0.top.equalTo(privacyPolicyBoldLabel.snp.top).offset(-8)
+            $0.leading.trailing.equalToSuperview().inset(-5)
+            $0.bottom.equalTo(privacyPolicyBoldLabel).offset(8)
+        }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapWineyRule))
+        touchableView.addGestureRecognizer(tapGesture)
     }
     
     private func setAddTarget() {
@@ -142,6 +158,12 @@ class LoginViewController: UIViewController {
                 }
             }
             .store(in: &bag)
+    }
+    
+    @objc private func tapWineyRule() {
+        let url = URL(string: "https://empty-weaver-a9f.notion.site/iney-9dbfe130c7df4fb9a0903481c3e377e6?pvs=4")!
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true)
     }
 }
 
