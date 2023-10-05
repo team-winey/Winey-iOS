@@ -23,22 +23,34 @@ class NicknameViewController: UIViewController {
     
     private let nicknameService = NicknameService()
     
+    // 최근에 입력했던 닉네임
     private var recentNickname: String = ""
     
+    // 기존 닉네임
     private var originalNickname: String = "" {
         didSet {
             nickNameTextField.setName(originalNickname)
         }
     }
     
+    // 닉네임 길이
     private var nickNameLength: Int = 0 {
         didSet {
             nickNameTextField.setLabel(nickNameLength)
         }
     }
     
+    // 중복 검사 결과
     private var duplicateResult: Bool = true
+    
+    // 중복 체크 여부
     private var duplicateChecked: Bool = false
+    
+    // 확인 버튼 터치 여부
+    private var saveBtnTapped: Bool = false
+    
+    // 에러 발생 여부
+    private var isError: Bool = false
     
     // MARK: - UI Components
     
@@ -191,42 +203,64 @@ class NicknameViewController: UIViewController {
     private func bind() {
         nickNameTextField.stringPublisher
             .sink { [weak self] name in
-                self?.hideDetailLabel(name)
                 self?.checkNickname(name, self?.duplicateResult ?? false)
-                self?.setButtonActivate(name, self?.duplicateResult ?? false)
             }
             .store(in: &bag)
         
         nickNameTextField.textFieldDidEndEditingPublisher
             .sink { [weak self] _ in
                 self?.checkInactive(self?.nickNameTextField.getName() ?? "")
-                self?.setButtonActivate(self?.nickNameTextField.getName() ?? "", self?.duplicateResult ?? false)
             }.store(in: &bag)
+        
+        nickNameTextField.startFixingPublisher
+            .sink { [weak self] _ in
+                self?.saveBtnTapped = false
+                self?.detailLabel.isHidden = true
+                self?.nickNameTextField.makeActiveView()
+                self?.duplicateChecked = false
+                self?.nextButton.setNicknameBtnActivate(true)
+                self?.recentNickname = ""
+                
+                if self?.nickNameTextField.getName().count == 0 {
+                    self?.nickNameTextField.makeErrorView()
+                    self?.setDuplicateResultText(.none)
+                }
+            }
+            .store(in: &bag)
     }
     
+    // 중복 검사 결과 닉네임 & 중복 여부 값
     private func checkNickname(_ text: String, _ result: Bool) {
         if text.count > 0 {
-                if result {
-                    if recentNickname == text {
-                        if duplicateResult {
-                            nickNameTextField.makeErrorView()
-                            setDuplicateResultText(.fail)
-                        } else {
-                            nickNameTextField.makeErrorView()
-                            setDuplicateResultText(.notChecked)
-                        }
-                    } else {
-                        nickNameTextField.makeActiveView()
+            // 닉네임 중복
+            if result {
+                // 최초 텍스트필드 탭 하였을 때
+                if recentNickname == "" && originalNickname == nickNameTextField.getName() {
+                    nickNameTextField.makeActiveView()
+                }
+                // 중복 판정 받은 닉네임과 현재 텍스트필드에 적힌 닉네임이 같을경우
+                else if recentNickname == nickNameTextField.getName() {
+                    if !saveBtnTapped {
+                        nickNameTextField.makeErrorView()
+                        setDuplicateResultText(.fail)
+                        detailLabel.isHidden = false
                     }
                 } else {
-                    if recentNickname == text {
-                        nickNameTextField.makeSuccessView()
-                        setDuplicateResultText(.success)
-                    } else {
-                        duplicateResult.toggle()
-                        nickNameTextField.makeActiveView()
-                    }
+                    // 중복 판정 받은 닉네임 != 텍스트필드에 적힌 닉네임
+                    nickNameTextField.makeActiveView()
                 }
+            } else {
+                // 닉네임 중복 x
+                // 사용 가능 판정 받은 닉네임과 현재 텍스트필드에 적힌 닉네임이 같을경우
+                if recentNickname == nickNameTextField.getName() {
+                    nickNameTextField.makeSuccessView()
+                    setDuplicateResultText(.success)
+                    detailLabel.isHidden = false
+                } else {
+                    // 사용 가능 판정 받은 닉네임 != 텍스트필드에 적힌 닉네임
+                    nickNameTextField.makeActiveView()
+                }
+            }
         } else {
             nickNameTextField.makeErrorView()
             setDuplicateResultText(.none)
@@ -235,14 +269,13 @@ class NicknameViewController: UIViewController {
     
     private func checkInactive(_ text: String) {
         if text.count == 0 {
-            nickNameTextField.makeErrorView()
+            nickNameTextField.makeInactiveView()
+            detailLabel.isHidden = true
         } else {
-            text == recentNickname ? checkNickname(text, duplicateResult) : nickNameTextField.makeInactiveView()
+            if detailLabel.isHidden == true {
+                nickNameTextField.makeInactiveView()
+            }
         }
-    }
-    
-    private func hideDetailLabel(_ name: String) {
-        if name != recentNickname { detailLabel.isHidden = true }
     }
     
     private func setDuplicateResultText(_ result: DuplicateCheckResult) {
@@ -252,12 +285,11 @@ class NicknameViewController: UIViewController {
     }
     
     private func setButtonActivate(_ text: String, _ result: Bool) {
-        if duplicateChecked {
-            if text == recentNickname {
-                nextButton.setNicknameBtnActivate(result)
-            } else {
-                nextButton.setNicknameBtnActivate(true)
-            }
+        // 중복체크완료 + 중복검사 통과 + 텍스트필드 안변했을 때
+        if !result && duplicateChecked {
+            nextButton.setNicknameBtnActivate(false)
+        } else {
+            nextButton.setNicknameBtnActivate(true)
         }
     }
     
@@ -273,21 +305,39 @@ class NicknameViewController: UIViewController {
     
     @objc
     private func tapDuplicateButton() {
-        if !duplicateChecked { duplicateChecked.toggle() }
-            
-        recentNickname = nickNameTextField.getName()
         
-        nicknameService.duplicateCheck(nickname: recentNickname) { response in
-            guard let response = response else { return }
- 
-            self.duplicateResult = response.data.isDuplicated
-            self.checkNickname(self.recentNickname, response.data.isDuplicated)
-            self.setButtonActivate(self.recentNickname, response.data.isDuplicated)
+        if nickNameTextField.getName().count == 0 {
+            nickNameTextField.makeErrorView()
+            setDuplicateResultText(.none)
+        } else {
+            // 중복체크 x -> 중복체크 o로 토글
+            if !duplicateChecked { duplicateChecked.toggle() }
+            
+            // 중복체크 받은 닉네임 저장
+            recentNickname = nickNameTextField.getName()
+            
+            // 중복 검사 서버통신
+            nicknameService.duplicateCheck(nickname: recentNickname) { response in
+                guard let response = response else { return }
+                
+                // 중복여부 결과 값 반영
+                self.duplicateResult = response.data.isDuplicated
+                self.setButtonActivate(self.recentNickname, response.data.isDuplicated)
+                
+                if response.data.isDuplicated {
+                    self.nickNameTextField.makeErrorView()
+                    self.setDuplicateResultText(.fail)
+                } else {
+                    self.nickNameTextField.makeSuccessView()
+                    self.setDuplicateResultText(.success)
+                }
+            }
         }
     }
     
     @objc
     private func tapCheckButton() {
+        saveBtnTapped = true
         recentNickname = nickNameTextField.getName()
         
         let logEvent = LogEventImpl(
@@ -299,28 +349,33 @@ class NicknameViewController: UIViewController {
         )
         AmplitudeManager.logEvent(event: logEvent)
         
-        if duplicateChecked {
-            if !duplicateResult {
-                
-                nicknameService.setNickname(nickname: recentNickname) { [self] response in
-                    if response {
-                        print("닉네임 등록 성공")
-                        if self.viewType.naviExist {
-                            self.navigationController?.popViewController(animated: true)
-                        } else {
-                            self.switchRootViewController(rootViewController: TabBarController(), animated: true)
-                        }
-                    } else { print("닉네임 등록 실패") }
+        if nickNameTextField.getName().count == 0 {
+            nickNameTextField.makeErrorView()
+            setDuplicateResultText(.none)
+        } else {
+            if duplicateChecked {
+                if !duplicateResult {
+                    
+                    nicknameService.setNickname(nickname: recentNickname) { [self] response in
+                        if response {
+                            print("닉네임 등록 성공")
+                            if self.viewType.naviExist {
+                                self.navigationController?.popViewController(animated: true)
+                            } else {
+                                self.switchRootViewController(rootViewController: TabBarController(), animated: true)
+                            }
+                        } else { print("닉네임 등록 실패") }
+                    }
+                } else {
+                    recentNickname = nickNameTextField.getName()
+                    nickNameTextField.makeErrorView()
+                    setDuplicateResultText(.notChecked)
                 }
             } else {
                 recentNickname = nickNameTextField.getName()
                 nickNameTextField.makeErrorView()
                 setDuplicateResultText(.notChecked)
             }
-        } else {
-            recentNickname = nickNameTextField.getName()
-            nickNameTextField.makeErrorView()
-            setDuplicateResultText(.notChecked)
         }
     }
     
