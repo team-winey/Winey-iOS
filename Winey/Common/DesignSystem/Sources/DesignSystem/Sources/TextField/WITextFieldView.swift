@@ -24,6 +24,8 @@ public final class WITextFieldView: UIView {
     public lazy var pricePublisher = PassthroughSubject<Int, Never>()
     public lazy var countPublisher = PassthroughSubject<Int, Never>()
     public lazy var stringPublisher = PassthroughSubject<String, Never>()
+    public lazy var duplicatedCheckPublisher = PassthroughSubject<Void, Never>()
+    public lazy var startFixingPublisher = PassthroughSubject<Void, Never>()
     
     public lazy var bag = Set<AnyCancellable>()
     
@@ -229,6 +231,7 @@ extension WITextFieldView: UITextFieldDelegate {
                     stringPublisher.send(text)
                 }
             }
+            startFixingPublisher.send(Void())
             if textField.text == "" { textField.placeholder = "" }
         }
     }
