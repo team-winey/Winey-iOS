@@ -48,6 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 print("토큰 재발급 실패 -> LoginView로 변환")
                 guard let windowScene = (scene as? UIWindowScene) else { return }
                 let window = UIWindow(windowScene: windowScene)
+                window.rootViewController = LoginViewController()
                 self.window = window
             }
         }
