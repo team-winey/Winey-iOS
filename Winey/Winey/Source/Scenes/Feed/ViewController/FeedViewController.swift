@@ -77,7 +77,6 @@ final class FeedViewController: UIViewController {
         super.viewWillAppear(animated)
         checkNewNotification()
         showTabBar()
-        refresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -219,6 +218,16 @@ final class FeedViewController: UIViewController {
             .sink(receiveValue: { [weak self] type in
                 self?.refresh()
                 self?.showToast(type)
+            })
+            .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenDeleteFeedCompletedInMyFeed)
+            .map { $0.userInfo?["feedId"] as? Int }
+            .sink(receiveValue: { [weak self] id in
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == id }) {
+                    self?.feedList.remove(at: index)
+                    self?.refresh()
+                }
             })
             .store(in: &bag)
     }
@@ -423,7 +432,6 @@ extension FeedViewController {
                         comments: feedData.comments,
                         timeAgo: feedData.timeAgo
                     )
-                    
                     self.feedList.append(feed)
                     self.feedList = self.feedList.removeDuplicates()
                 }

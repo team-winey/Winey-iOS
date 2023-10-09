@@ -22,4 +22,6 @@ extension Notification.Name {
     static let whenImgSelected = Notification.Name(rawValue: "whenImgSelected")
     /// 앱이 foreground로 넘어왔을때 전달하는 노티
     static let whenEnterForeground = Notification.Name(rawValue: "whenEnterForeground")
+    /// 마이피드에서 피드 삭제후 노티
+    static let whenDeleteFeedCompletedInMyFeed = Notification.Name(rawValue: "whenDeleteFeedCompletedInMyFeed")
 }
