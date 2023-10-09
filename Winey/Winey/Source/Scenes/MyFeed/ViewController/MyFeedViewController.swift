@@ -266,6 +266,7 @@ extension MyFeedViewController {
             guard let self = self else { return }
             response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
             self.refresh()
+            NotificationCenter.default.post(name: .whenDeleteFeedCompletedInMyFeed, object: nil, userInfo: ["feedId": idx])
         }
     }
     

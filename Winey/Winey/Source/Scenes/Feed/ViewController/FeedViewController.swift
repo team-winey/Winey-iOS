@@ -77,7 +77,6 @@ final class FeedViewController: UIViewController {
         super.viewWillAppear(animated)
         checkNewNotification()
         showTabBar()
-        refresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -117,6 +116,9 @@ final class FeedViewController: UIViewController {
                 elementKind: UICollectionView.elementKindSectionHeader
         ) { view, _, _ in
             view.setState(self.currentBannerType)
+            view.didTapPublisher
+                .sink { [weak self] in self?.goToWebViewController(url: $0) }
+                .store(in: &view.cancellables)
         }
         
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
@@ -218,6 +220,26 @@ final class FeedViewController: UIViewController {
                 self?.showToast(type)
             })
             .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenDeleteFeedCompletedInMyFeed)
+            .map { $0.userInfo?["feedId"] as? Int }
+            .sink(receiveValue: { [weak self] id in
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == id }) {
+                    self?.feedList.remove(at: index)
+                    self?.refresh()
+                }
+            })
+            .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenMeetDeletedFeed)
+            .map { $0.userInfo?["feedId"] as? Int }
+            .sink(receiveValue: { [weak self] id in
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == id }) {
+                    self?.feedList.remove(at: index)
+                    self?.refresh()
+                }
+            })
+            .store(in: &bag)
     }
     
     private func refresh() {
@@ -281,7 +303,7 @@ final class FeedViewController: UIViewController {
         
         self.present(deletePopup, animated: true)
     }
-    
+
     @objc
     private func goToUploadPage() {
         let logEvent = LogEventImpl(category: .click_write_contents)
@@ -299,8 +321,15 @@ final class FeedViewController: UIViewController {
                 AmplitudeManager.logEvent(event: logEvent)
             }
             
-            warningViewController.addButton(title: "설정하기", type: .yellow) {
-                self.tabBarController?.selectedIndex = 2
+            warningViewController.addButton(title: "설정하기", type: .yellow) { [weak self] in
+                guard let viewController = self?.tabBarController?.viewControllers?[2],
+                      let navigationController = viewController as? UINavigationController,
+                      let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
+                else { return }
+
+                mypageViewController.movedByPopupFromFeedViewController = true
+                self?.tabBarController?.selectedIndex = 2
+
                 let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
                 AmplitudeManager.logEvent(event: logEvent)
             }
@@ -316,6 +345,13 @@ final class FeedViewController: UIViewController {
         vc.setNavigationBarHidden(true, animated: false)
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)
+    }
+
+    private func goToWebViewController(url: URL?) {
+        guard let url else { return }
+
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true)
     }
 }
 
@@ -406,7 +442,6 @@ extension FeedViewController {
                         comments: feedData.comments,
                         timeAgo: feedData.timeAgo
                     )
-                    
                     self.feedList.append(feed)
                     self.feedList = self.feedList.removeDuplicates()
                 }

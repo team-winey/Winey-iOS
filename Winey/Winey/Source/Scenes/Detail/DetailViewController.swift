@@ -347,33 +347,44 @@ extension DetailViewController {
 extension DetailViewController {
     private func fetchFeedDetail() {
         Task(priority: .background) {
-            let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
-            var commentItems: [Section.Item] = response.getCommentResponseList
-                .compactMap { try? mapper.convertToCommentViewModel($0) }
-                .map { .comment($0) }
-            if commentItems.isEmpty {
-                commentItems.append(.emptyComment)
+            do {
+                let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
+                var commentItems: [Section.Item] = response.getCommentResponseList
+                    .compactMap { try? mapper.convertToCommentViewModel($0) }
+                    .map { .comment($0) }
+                if commentItems.isEmpty {
+                    commentItems.append(.emptyComment)
+                }
+                let commentSection: Section = .init(type: .comments, items: commentItems)
+                let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
+                let detailInfoItem: Section.Item = .info(detailInfoViewModel)
+                let detailSection: Section = .init(type: .info, items: [detailInfoItem])
+
+                self.apply(sections: [detailSection, commentSection])
+
+                self.commentCount = commentItems.count
+                self.likeCount = detailInfoViewModel.likeCount
+
+                let logEvent = LogEventImpl(
+                    category: .view_detail_contents,
+                    parameters: [
+                        "article_id": feedId,
+                        "from": "article",
+                        "like_count": likeCount,
+                        "comment_count": commentCount
+                    ]
+                )
+                AmplitudeManager.logEvent(event: logEvent)
+            } catch {
+                let content = MIPopupContent(title: "해당 게시물은 삭제되었어요.")
+                let alertPopup = MIPopupViewController(content: content)
+                alertPopup.addButton(title: "확인", type: .gray, tapButtonHandler: { [weak self] in
+                    guard let self else { return }
+                    NotificationCenter.default.post(name: .whenMeetDeletedFeed, object: nil, userInfo: ["feedId": self.feedId])
+                    self.navigationController?.popViewController(animated: true)
+                })
+                present(alertPopup, animated: true)
             }
-            let commentSection: Section = .init(type: .comments, items: commentItems)
-            let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
-            let detailInfoItem: Section.Item = .info(detailInfoViewModel)
-            let detailSection: Section = .init(type: .info, items: [detailInfoItem])
-            
-            self.apply(sections: [detailSection, commentSection])
-            
-            self.commentCount = commentItems.count
-            self.likeCount = detailInfoViewModel.likeCount
-            
-            let logEvent = LogEventImpl(
-                category: .view_detail_contents,
-                parameters: [
-                    "article_id": feedId,
-                    "from": "article",
-                    "like_count": likeCount,
-                    "comment_count": commentCount
-                ]
-            )
-            AmplitudeManager.logEvent(event: logEvent)
         }
     }
     

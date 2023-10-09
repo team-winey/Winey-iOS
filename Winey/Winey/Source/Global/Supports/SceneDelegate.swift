@@ -31,28 +31,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
-    
-    // 앱을 background에서 foreground로 불러올 경우
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        guard let refreshToken = KeychainManager.shared.read("refreshToken") else { return }
-        print("background에서 foreground로 진입")
-        
-        print("리프레쉬 토큰을 통한 액세스 토큰 재발급")
-        LoginService.shared.reissueApple(token: refreshToken) { result in
-            switch result {
-            case .success:
-                print("토큰 재발급 성공!")
-            case .failure(let error):
-                print(error)
-                print("refreshToken 만료")
-                print("토큰 재발급 실패 -> LoginView로 변환")
-                guard let windowScene = (scene as? UIWindowScene) else { return }
-                let window = UIWindow(windowScene: windowScene)
-                window.rootViewController = LoginViewController()
-                self.window = window
-            }
-        }
-        
-        NotificationCenter.default.post(name: .whenEnterForeground, object: nil)
-    }
 }

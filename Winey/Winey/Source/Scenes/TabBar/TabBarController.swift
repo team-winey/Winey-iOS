@@ -11,7 +11,8 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     private let userService = UserService()
-    
+    private var selectedIndexCache: Int = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
@@ -58,8 +59,12 @@ final class TabBarController: UITabBarController {
 extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if let feedViewController = viewController.children.first(where: { $0 is FeedViewController }) as? FeedViewController {
-            feedViewController.scrollToTop()
+            if selectedIndexCache == tabBarController.selectedIndex {
+                feedViewController.scrollToTop()
+            }
         }
+
+        selectedIndexCache = tabBarController.selectedIndex
     }
 }
 
