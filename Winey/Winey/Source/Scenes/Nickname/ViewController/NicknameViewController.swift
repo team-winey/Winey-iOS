@@ -221,10 +221,10 @@ class NicknameViewController: UIViewController {
                 self?.nextButton.setNicknameBtnActivate(true)
                 self?.recentNickname = ""
                 
-                if self?.nickNameTextField.getName().count == 0 {
-                    self?.nickNameTextField.makeErrorView()
-                    self?.setDuplicateResultText(.none)
-                }
+//                if self?.nickNameTextField.getName().count == 0 {
+//                    self?.nickNameTextField.makeErrorView()
+//                    self?.setDuplicateResultText(.none)
+//                }
             }
             .store(in: &bag)
     }
@@ -262,8 +262,8 @@ class NicknameViewController: UIViewController {
                 }
             }
         } else {
-            nickNameTextField.makeErrorView()
-            setDuplicateResultText(.none)
+            nickNameTextField.makeActiveView()
+            // setDuplicateResultText(.none)
         }
     }
     
@@ -442,7 +442,7 @@ private extension NicknameViewController {
             case .notChecked:
                 return "닉네임 중복확인을 해주세요 :("
             case .none:
-                return "1자 이상 입력해주세요 :("
+                return "닉네임을 입력 해주세요 :("
             }
         }
         
