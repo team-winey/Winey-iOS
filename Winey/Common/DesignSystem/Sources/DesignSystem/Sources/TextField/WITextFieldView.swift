@@ -100,7 +100,7 @@ public final class WITextFieldView: UIView {
     
     private func nameValidation(text: String) -> Bool {
         let arr = Array(text)
-        let pattern = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]$"
+        let pattern = "^[0-9a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ\\u318D\\u119E\\u11A2\\u2022\\u2025\\u00B7\\uFE55\\u4E10\\u3163\\u3161\\s]$"
         if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
             var index = 0
             while index < arr.count { // string 내 각 문자 하나하나 마다 정규식 체크 후 충족하지 못한것은 제거.
@@ -207,7 +207,6 @@ extension WITextFieldView: UITextFieldDelegate {
     /// textfieldDidChange: textField의 text가 변경되었을때 작동하는 함수
     @objc
     private func textfieldDidChange(_ sender: UITextField) {
-        
         if type.keyboardType == .numberPad {
             makeComma()
             
@@ -249,19 +248,22 @@ extension WITextFieldView: UITextFieldDelegate {
     /// textField: 텍스트필드에 새로운 문자가 추가되었을때 text를 바꿔주는 함수
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                           replacementString string: String) -> Bool {
-        if let text = self.textField.text {
-            
-            let newLength = text.count + string.count - range.length
-            
-            if type.keyboardType == .default {
-                return !(newLength > type.textLength + 1) && nameValidation(text: string)
-            } else if type.textLength == 11 {
-                return !(newLength > type.textLength + 3) && nameValidation(text: string)
-            } else {
-                return !(newLength > type.textLength) && nameValidation(text: string)
+        if string == " " { return false }
+        else {
+            if let text = self.textField.text {
+                
+                let newLength = text.count + string.count - range.length
+                
+                if type.keyboardType == .default {
+                    return !(newLength > type.textLength + 1) && nameValidation(text: string)
+                } else if type.textLength == 11 {
+                    return !(newLength > type.textLength + 3) && nameValidation(text: string)
+                } else {
+                    return !(newLength > type.textLength) && nameValidation(text: string)
+                }
             }
+            return true
         }
-        return true
     }
 }
 
