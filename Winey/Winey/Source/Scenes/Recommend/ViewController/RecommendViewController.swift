@@ -187,16 +187,19 @@ extension RecommendViewController {
             self.isEnd = pageData.isEnd
             
             for recommendData in data.recommendsResponseDto {
-                let recommend = RecommendModel(
-                    id: recommendData.recommendID,
-                    link: recommendData.recommendLink,
-                    title: recommendData.recommendTitle,
-                    subtitle: recommendData.recommendSubtitle ?? "",
-                    discount: recommendData.recommendDiscount,
-                    image: recommendData.recommendImage
-                )
-                self.recommendList.append(recommend)
-                self.recommendList = self.recommendList.removeDuplicates()
+                if recommendData.recommendLink != nil {
+                    let recommend = RecommendModel(
+                        id: recommendData.recommendID,
+                        link: recommendData.recommendLink?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                        title: recommendData.recommendTitle,
+                        subtitle: recommendData.recommendSubtitle ?? "",
+                        discount: recommendData.recommendDiscount,
+                        image: recommendData.recommendImage
+                    )
+                    
+                    self.recommendList.append(recommend)
+                    self.recommendList = self.recommendList.removeDuplicates()
+                }
             }
 
             var newSnapshot = NSDiffableDataSourceSnapshot<Int, RecommendModel>()

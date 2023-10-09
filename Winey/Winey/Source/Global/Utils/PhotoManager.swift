@@ -144,6 +144,8 @@ extension PhotoManager: PHPickerViewControllerDelegate {
                 }
                 self.selectedImage = nil
             }
+        } else {
+            picker.dismiss(animated: true)
         }
     }
 }
