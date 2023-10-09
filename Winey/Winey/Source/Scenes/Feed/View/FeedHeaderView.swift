@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Combine
 import DesignSystem
 import SnapKit
 
@@ -17,9 +18,9 @@ enum BannerState: CaseIterable {
     public var banner: FeedHeaderView.BannerType {
         switch self {
         case .initial:
-            return .banner1
+            return .banner5
         case .refreshed:
-            return .allCases.randomElement() ?? .banner1
+            return .allCases.randomElement() ?? .banner5
         }
     }
 }
@@ -31,11 +32,24 @@ final class FeedHeaderView: UICollectionReusableView {
     private let subtitleLabel = UILabel()
     private let imageView = UIImageView()
     
+    private let didTapSubject = PassthroughSubject<URL?, Never>()
+    var didTapPublisher: AnyPublisher<URL?, Never> {
+        didTapSubject.eraseToAnyPublisher()
+    }
+
+    private var state: BannerType = .banner1
+
+    var cancellables = Set<AnyCancellable>()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
     }
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -45,6 +59,10 @@ final class FeedHeaderView: UICollectionReusableView {
     }
     
     private func setLayout(){
+        self.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapGesture))
+        self.addGestureRecognizer(tapGesture)
+      
         backgroundColor = .winey_gray0
         containerView.backgroundColor = .winey_gray100
         containerView.makeCornerRound(radius: 5)
@@ -80,49 +98,62 @@ final class FeedHeaderView: UICollectionReusableView {
     }
     
     func setBannerUI(_ state: BannerType) {
+        imageView.image = state.image
+        containerView.backgroundColor = state.backgroundColor
+
         switch state {
         case .banner1:
-            imageView.image = state.image
             introLabel.setText(state.introTitle, attributes: Const.titleAttributes)
             subtitleLabel.setText(state.subtitle, attributes: Const.subtitleAttributes)
-            setBannerLayout(state)
         case .banner2, .banner3, .banner4:
-            imageView.image = state.image
             introLabel.setText(state.introTitle, attributes: Const.subtitleAttributes)
             subtitleLabel.setText(state.subtitle, attributes: Const.titleAttributes)
-            setBannerLayout(state)
+        case .banner5:
+            introLabel.setText(state.introTitle, attributes: Const.whiteTitleAttributes)
+            subtitleLabel.setText(state.subtitle, attributes: Const.whiteSubtitleAttributes)
         }
+        setBannerLayout(state)
     }
-    
+
+    @objc private func didTapGesture() {
+        didTapSubject.send(state.url)
+    }
+
     private func setBannerLayout(_ state: BannerType) {
         switch state {
         case .banner1:
-            imageView.snp.updateConstraints { make in
+            imageView.snp.remakeConstraints { make in
                 make.top.equalToSuperview().inset(11)
                 make.trailing.equalToSuperview().offset(-8)
                 make.bottom.equalToSuperview().inset(8)
                 make.width.equalTo(94)
             }
         case .banner2:
-            imageView.snp.updateConstraints { make in
+            imageView.snp.remakeConstraints { make in
                 make.top.equalToSuperview()
                 make.trailing.equalToSuperview().inset(16)
                 make.bottom.equalToSuperview().inset(12)
                 make.width.equalTo(129)
             }
         case .banner3:
-            imageView.snp.updateConstraints { make in
+            imageView.snp.remakeConstraints { make in
                 make.top.equalToSuperview()
                 make.trailing.equalToSuperview().inset(15)
                 make.bottom.equalToSuperview().inset(18)
                 make.width.equalTo(142)
             }
         case .banner4:
-            imageView.snp.updateConstraints { make in
+            imageView.snp.remakeConstraints { make in
                 make.top.equalToSuperview().inset(35)
                 make.trailing.equalToSuperview().inset(34)
                 make.bottom.equalToSuperview().inset(30)
                 make.width.equalTo(115)
+            }
+        case .banner5:
+            imageView.snp.remakeConstraints { make in
+                make.trailing.equalToSuperview().inset(10)
+                make.bottom.equalToSuperview()
+                make.width.equalTo(132)
             }
         }
     }
@@ -134,7 +165,8 @@ extension FeedHeaderView {
         case banner2
         case banner3
         case banner4
-        
+        case banner5
+
         var introTitle: String {
             switch self {
             case .banner1:
@@ -145,6 +177,8 @@ extension FeedHeaderView {
                 return "서로의 절약방법을 피드백해요"
             case .banner4:
                 return "찾기 힘든 국가기관 금융혜택도"
+            case .banner5:
+                return "무슨 앱인지 궁금하다면?"
             }
         }
         
@@ -158,6 +192,8 @@ extension FeedHeaderView {
                 return "좋아요를 눌러 서로의 절약을\n응원해주세요!"
             case .banner4:
                 return "위니 추천피드에서\n한번에 볼 수 있어요!"
+            case .banner5:
+                return "위니 공식 인스타에서\n더 재밌게 사용하는 법 알아보기!"
             }
         }
         
@@ -171,7 +207,24 @@ extension FeedHeaderView {
                 return .Img.banner3
             case .banner4:
                 return .Img.banner4
+            case .banner5:
+                return .Img.banner5
             }
+        }
+
+        var backgroundColor: UIColor? {
+            switch self {
+            case .banner5:
+                return .winey_gray700
+            default:
+                return .winey_gray100
+            }
+        }
+
+        var url: URL? {
+            // TODO: 배너마다 분기처리가 필요합니다. - 재용
+            // 아래 URL은 Winey 공식 인스타그램입니다.
+            return URL(string: "https://instagram.com/winey__official?igshid=MzRlODBiNWFlZA==")
         }
     }
 }
@@ -187,6 +240,16 @@ private extension FeedHeaderView {
             style: .body3,
             weight: .medium,
             textColor: .winey_gray500
+        )
+        static let whiteTitleAttributes = Typography.Attributes(
+            style: .headLine3,
+            weight: .bold,
+            textColor: .winey_gray0
+        )
+        static let whiteSubtitleAttributes = Typography.Attributes(
+            style: .body3,
+            weight: .medium,
+            textColor: .winey_gray200
         )
     }
 }
