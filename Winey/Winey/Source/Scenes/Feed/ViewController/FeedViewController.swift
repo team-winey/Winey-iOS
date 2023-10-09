@@ -117,6 +117,9 @@ final class FeedViewController: UIViewController {
                 elementKind: UICollectionView.elementKindSectionHeader
         ) { view, _, _ in
             view.setState(self.currentBannerType)
+            view.didTapPublisher
+                .sink { [weak self] in self?.goToWebViewController(url: $0) }
+                .store(in: &view.cancellables)
         }
         
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
@@ -281,7 +284,7 @@ final class FeedViewController: UIViewController {
         
         self.present(deletePopup, animated: true)
     }
-    
+
     @objc
     private func goToUploadPage() {
         let logEvent = LogEventImpl(category: .click_write_contents)
@@ -316,6 +319,13 @@ final class FeedViewController: UIViewController {
         vc.setNavigationBarHidden(true, animated: false)
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)
+    }
+
+    private func goToWebViewController(url: URL?) {
+        guard let url else { return }
+
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true)
     }
 }
 
