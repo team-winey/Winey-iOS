@@ -302,8 +302,15 @@ final class FeedViewController: UIViewController {
                 AmplitudeManager.logEvent(event: logEvent)
             }
             
-            warningViewController.addButton(title: "설정하기", type: .yellow) {
-                self.tabBarController?.selectedIndex = 2
+            warningViewController.addButton(title: "설정하기", type: .yellow) { [weak self] in
+                guard let viewController = self?.tabBarController?.viewControllers?[2],
+                      let navigationController = viewController as? UINavigationController,
+                      let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
+                else { return }
+
+                mypageViewController.movedByPopupFromFeedViewController = true
+                self?.tabBarController?.selectedIndex = 2
+
                 let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
                 AmplitudeManager.logEvent(event: logEvent)
             }

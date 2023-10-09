@@ -38,6 +38,8 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     private var bag = Set<AnyCancellable>()
     
+    var movedByPopupFromFeedViewController: Bool = false
+
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -57,7 +59,13 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidAppear(animated)
         let logEvent = LogEventImpl(category: .view_mypage)
         AmplitudeManager.logEvent(event: logEvent)
+
+        if movedByPopupFromFeedViewController {
+            movedByPopupFromFeedViewController = false
+            goToSaveGoal()
+        }
     }
+    
     // MARK: - UIComponents
     
     private func setUI() {
@@ -120,6 +128,12 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
                 self?.getTotalUser()
             }
             .store(in: &bag)
+    }
+
+    private func goToSaveGoal() {
+        let saveGoalVC = SaveGoalViewController()
+        saveGoalVC.modalPresentationStyle = .pageSheet
+        present(saveGoalVC, animated: true, completion: nil)
     }
 }
 
@@ -218,10 +232,8 @@ extension MypageViewController: UICollectionViewDataSource {
             mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
                 let logEvent = LogEventImpl(category: .click_goalsetting)
                 AmplitudeManager.logEvent(event: logEvent)
-                
-                let saveGoalVC = SaveGoalViewController()
-                saveGoalVC.modalPresentationStyle = .pageSheet
-                self?.present(saveGoalVC, animated: true, completion: nil)
+
+                self?.goToSaveGoal()
             }
             mypageGoalInfoCell.blockAlertTappedClosure = { [weak self] in
                 let blockAlert = MIPopupViewController(content: .init(title: "절약 목표 기간이 지나지 않아\n목표를 수정할 수 없어요"))
