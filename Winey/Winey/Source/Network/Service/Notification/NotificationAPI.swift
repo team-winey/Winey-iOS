@@ -56,7 +56,8 @@ extension NotificationAPI: TargetType {
        var headers: [String : String]? {
            switch self {
            case .getTotalNotification, .getNewNotificationStatus, .patchCheckAllNotification:
-               return NetworkConstant.defaultHeader
+               return ["Content-Type": "application/json",
+                       "accessToken": KeychainManager.shared.read("accessToken")!]
            }
        }
     

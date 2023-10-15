@@ -57,9 +57,10 @@ extension NicknameAPI: TargetType, AccessTokenAuthorizable {
        var headers: [String : String]? {
            switch self {
            case .changeNickname:
-               return NetworkConstant.defaultHeader
+               return ["Content-Type": "application/json",
+                       "accessToken": KeychainManager.shared.read("accessToken")!]
            case .checkNicknameDuplicate:
-               return NetworkConstant.nicknameDuplicateCheckHeader
+               return ["Content-Type": "application/json"]
            }
        }
     

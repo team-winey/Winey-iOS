@@ -45,4 +45,9 @@ extension CommentAPI: WineyAPI {
             return .requestPlain
         }
     }
+    
+    var headers: [String : String]? {
+        return ["Content-Type": "application/json",
+                "accessToken": KeychainManager.shared.read("accessToken")!]
+    }
 }

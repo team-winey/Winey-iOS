@@ -51,7 +51,8 @@ extension FeedAPI: WineyAPI, AccessTokenAuthorizable {
     var headers: [String : String]? {
         switch self {
         case .getMyFeed, .getTotalFeed, .deleteMyFeed, .detail:
-            return NetworkConstant.defaultHeader
+            return ["Content-Type": "application/json",
+                    "accessToken": KeychainManager.shared.read("accessToken")!]
         }
     }
     
