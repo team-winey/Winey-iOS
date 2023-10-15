@@ -230,6 +230,16 @@ final class FeedViewController: UIViewController {
                 }
             })
             .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenMeetDeletedFeed)
+            .map { $0.userInfo?["feedId"] as? Int }
+            .sink(receiveValue: { [weak self] id in
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == id }) {
+                    self?.feedList.remove(at: index)
+                    self?.refresh()
+                }
+            })
+            .store(in: &bag)
     }
     
     private func refresh() {
