@@ -309,6 +309,38 @@ final class FeedViewController: UIViewController {
         let logEvent = LogEventImpl(category: .click_write_contents)
         AmplitudeManager.logEvent(event: logEvent)
         
+        guard UserSingleton.getGaol() else {
+            let warningViewController = MIPopupViewController(
+                content: .init(
+                    title: "목표 설정 시 피드 작성이 가능해요!",
+                    subtitle: "지금 마이프로필에서 간단한 목표를\n설정해보세요!"
+                )
+            )
+            warningViewController.addButton(title: "취소", type: .gray) {
+                let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": false])
+                AmplitudeManager.logEvent(event: logEvent)
+            }
+            
+            warningViewController.addButton(title: "설정하기", type: .yellow) { [weak self] in
+                guard let viewController = self?.tabBarController?.viewControllers?[2],
+                      let navigationController = viewController as? UINavigationController,
+                      let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
+                else { return }
+                
+                mypageViewController.movedByPopupFromFeedViewController = true
+                self?.tabBarController?.selectedIndex = 2
+                
+                let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
+                AmplitudeManager.logEvent(event: logEvent)
+            }
+            
+            let logEvent = LogEventImpl(category: .view_goalsetting_popup)
+            AmplitudeManager.logEvent(event: logEvent)
+            
+            self.present(warningViewController, animated: true)
+            return
+        }
+        
         UserService().getTotalUser() { [weak self] response in
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
@@ -346,39 +378,7 @@ final class FeedViewController: UIViewController {
                 self.present(successViewController, animated: true)
                 return
                 
-            } else { // 목표 미달성
-                guard UserSingleton.getGaol() else {
-                    let warningViewController = MIPopupViewController(
-                        content: .init(
-                            title: "목표 설정 시 피드 작성이 가능해요!",
-                            subtitle: "지금 마이프로필에서 간단한 목표를\n설정해보세요!"
-                        )
-                    )
-                    warningViewController.addButton(title: "취소", type: .gray) {
-                        let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": false])
-                        AmplitudeManager.logEvent(event: logEvent)
-                    }
-                    
-                    warningViewController.addButton(title: "설정하기", type: .yellow) { [weak self] in
-                        guard let viewController = self?.tabBarController?.viewControllers?[2],
-                              let navigationController = viewController as? UINavigationController,
-                              let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
-                        else { return }
-                        
-                        mypageViewController.movedByPopupFromFeedViewController = true
-                        self?.tabBarController?.selectedIndex = 2
-                        
-                        let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
-                        AmplitudeManager.logEvent(event: logEvent)
-                    }
-                    
-                    let logEvent = LogEventImpl(category: .view_goalsetting_popup)
-                    AmplitudeManager.logEvent(event: logEvent)
-                    
-                    self.present(warningViewController, animated: true)
-                    return
-                }
-                
+            } else {
                 let vc = UINavigationController(rootViewController: UploadViewController())
                 vc.setNavigationBarHidden(true, animated: false)
                 vc.modalPresentationStyle = .fullScreen

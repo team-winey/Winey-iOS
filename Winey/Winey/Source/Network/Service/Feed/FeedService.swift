@@ -164,7 +164,7 @@ final class FeedService {
 class API {
     static let session: Session = {
         let interceptorConfig = URLSessionConfiguration.af.default
-        interceptorConfig.timeoutIntervalForRequest = 10
+        // interceptorConfig.timeoutIntervalForRequest = 10
         // interceptorConfig.waitsForConnectivity = true
         let interceptor = SessionInterceptor()
         
