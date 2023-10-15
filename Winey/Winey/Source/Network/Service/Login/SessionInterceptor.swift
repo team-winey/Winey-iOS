@@ -31,27 +31,27 @@ final class SessionInterceptor: RequestInterceptor {
         completion(.success(urlRequest))
     }
     
-    func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        print("retry 진입")
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode >= 400 else {
-            dump(error)
-            completion(.doNotRetryWithError(error))
-            return
-        }
-
-        guard let refreshToken = KeychainManager.shared.read("refreshToken") else { return }
-
-        LoginService.shared.reissueApple(token: refreshToken) { result in
-            switch result {
-            case .success:
-                print("Retry-토큰 재발급 성공")
-                completion(.retry)
-            case .failure(let error):
-                completion(.doNotRetryWithError(error))
-                return
-            }
-        }
-    }
+//    func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+//        print("retry 진입")
+//        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode >= 400 else {
+//            dump(error)
+//            completion(.doNotRetryWithError(error))
+//            return
+//        }
+//
+//        guard let refreshToken = KeychainManager.shared.read("refreshToken") else { return }
+//
+//        LoginService.shared.reissueApple(token: refreshToken) { result in
+//            switch result {
+//            case .success:
+//                print("Retry-토큰 재발급 성공")
+//                completion(.retry)
+//            case .failure(let error):
+//                completion(.doNotRetryWithError(error))
+//                return
+//            }
+//        }
+//    }
 }
 
 
