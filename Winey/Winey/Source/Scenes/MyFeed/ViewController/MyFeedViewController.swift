@@ -277,6 +277,11 @@ extension MyFeedViewController {
             if let feedIndex = self.myfeed.firstIndex(where: { $0.feedId == feedId }) {
                 self.myfeed[feedIndex].isLiked = feedLike
                 self.myfeed[feedIndex].like = data.likes
+                NotificationCenter.default.post(
+                    name: .whenLikeButtonDidTap,
+                    object: nil,
+                    userInfo: ["feedId": feedId, "isLiked": feedLike]
+                )
             }
             self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }
