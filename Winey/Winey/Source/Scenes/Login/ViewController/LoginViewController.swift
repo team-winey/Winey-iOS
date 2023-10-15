@@ -192,6 +192,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 self.appleButton.isHidden = true
                 self.loginView.isHidden = true
                 self.character.isHidden = true
+                self.privacyPolicyLabel.isHidden = true
+                self.privacyPolicyBoldLabel.isHidden = true
                 // 2. 이 VC로 왔다는 것은 로그인이 필요한 상황 -> identityToken을 통한 Token들 재발급이 필요함
                 DispatchQueue.global(qos: .background).async {
                     
