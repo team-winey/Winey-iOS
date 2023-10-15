@@ -47,7 +47,8 @@ extension GoalAPI: TargetType, AccessTokenAuthorizable {
     }
     
     var headers: [String : String]? {
-        return NetworkConstant.defaultHeader
+        return ["Content-Type": "application/json",
+                "accessToken": KeychainManager.shared.read("accessToken")!]
     }
     
     var validationType: ValidationType {
