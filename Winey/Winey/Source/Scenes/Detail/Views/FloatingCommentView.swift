@@ -65,6 +65,10 @@ final class FloatingCommentView: UIView {
         textView.handleAfterSendComment()
         textView.resignFirstResponder()
     }
+
+    @objc private func didTapTextView() {
+        textView.becomeFirstResponder()
+    }
 }
 
 extension FloatingCommentView {
@@ -72,6 +76,9 @@ extension FloatingCommentView {
         backgroundColor = .winey_gray100
         textViewContainerView.backgroundColor = .winey_gray0
         textViewContainerView.makeCornerRound(radius: 10)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTextView))
+        textViewContainerView.isUserInteractionEnabled = true
+        textViewContainerView.addGestureRecognizer(tapGesture)
         sendButton.setTitle("등록", for: .normal)
         sendButton.setTitleColor(.winey_purple400, for: .normal)
         sendButton.addTarget(self, action: #selector(didTapSendButton), for: .touchUpInside)
