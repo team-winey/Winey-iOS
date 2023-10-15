@@ -240,6 +240,20 @@ final class FeedViewController: UIViewController {
                 }
             })
             .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenLikeButtonDidTap)
+            .compactMap { $0.userInfo }
+            .sink(receiveValue: { [weak self] userInfo in
+                guard let feedId = userInfo["feedId"] as? Int,
+                      let isLiked = userInfo["isLiked"] as? Bool
+                else { return }
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == feedId }) {
+                    self?.feedList[index].isLiked = isLiked
+                    self?.feedList[index].like += isLiked ? 1 : -1
+                    self?.applyItems()
+                }
+            })
+            .store(in: &bag)
     }
     
     private func refresh() {
@@ -352,6 +366,16 @@ final class FeedViewController: UIViewController {
 
         let safariViewController = SFSafariViewController(url: url)
         self.present(safariViewController, animated: true)
+    }
+
+    private func applyItems() {
+        var newSnapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
+        newSnapshot.appendSections([0])
+        newSnapshot.appendItems(self.feedList)
+
+        self.dataSource.apply(newSnapshot, animatingDifferences: true) {
+            self.stopRefreshControl()
+        }
     }
 }
 
