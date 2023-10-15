@@ -62,9 +62,42 @@ final class FeedService {
     func feedPost(_ imageData: Data, _ feed: UploadModel,
                   _ completionHandler: @escaping ((Bool) -> Void)) {
         
+        //        API.session.upload(multipartFormData: { multipartFormData in
+        //            multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
+        //            multipartFormData.append(Data(String(feed.feedMoney).utf8), withName: "feedMoney")
+        //            multipartFormData.append(
+        //                imageData,
+        //                withName: "feedImage",
+        //                fileName: "feedImage.jpeg",
+        //                mimeType: "feedImage/jpeg"
+        //            )
+        //        }, to: url, method: .post)
+        //        .validate()
+        //        .responseData { response in
+        //            guard let statusCode = response.response?.statusCode else { return }
+        //            let result = response.result
+        //
+        //            switch result {
+        //            case .success:
+        //                switch statusCode {
+        //                case 200..<300:
+        //                    completionHandler(true)
+        //                default:
+        //                    completionHandler(false)
+        //                }
+        //            case .failure(let err):
+        //                print("here")
+        //                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
+        //                print(err)
+        //                completionHandler(false)
+        //            }
+        //        }
+        
         let url = "\(URLConstant.baseURL)/feed"
-
-        API.session.upload(multipartFormData: { multipartFormData in
+        let token = KeychainManager.shared.read("accessToken")!
+        let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "accessToken": token]
+        
+        AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
             multipartFormData.append(Data(String(feed.feedMoney).utf8), withName: "feedMoney")
             multipartFormData.append(
@@ -73,8 +106,7 @@ final class FeedService {
                 fileName: "feedImage.jpeg",
                 mimeType: "feedImage/jpeg"
             )
-        }, to: url, method: .post)
-        .validate()
+        }, to: url, method: .post, headers: header)
         .responseData { response in
             guard let statusCode = response.response?.statusCode else { return }
             let result = response.result
@@ -88,44 +120,10 @@ final class FeedService {
                     completionHandler(false)
                 }
             case .failure(let err):
-                print("here")
-                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
                 completionHandler(false)
             }
         }
-        
-        // let token = KeychainManager.shared.read("accessToken")!
-        // let header: HTTPHeaders = ["Content-Type": "multipart/form-data", "accessToken": token]
-                
-//        session.upload(multipartFormData: { multipartFormData in
-//            multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
-//            multipartFormData.append(Data(String(feed.feedMoney).utf8), withName: "feedMoney")
-//            multipartFormData.append(
-//                imageData,
-//                withName: "feedImage",
-//                fileName: "feedImage.jpeg",
-//                mimeType: "feedImage/jpeg"
-//            )
-//        }, to: url, method: .post, headers: header)
-//        .responseData { response in
-//            guard let statusCode = response.response?.statusCode else { return }
-//            let result = response.result
-//
-//            switch result {
-//            case .success:
-//                switch statusCode {
-//                case 200..<300:
-//                    completionHandler(true)
-//                default:
-//                    completionHandler(false)
-//                }
-//            case .failure(let err):
-//                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
-//                print(err)
-//                completionHandler(false)
-//            }
-//        }
     }
     
     // 4. 마이 피드 삭제하기
@@ -161,13 +159,13 @@ final class FeedService {
     }
 }
 
-class API {
-    static let session: Session = {
-        let interceptorConfig = URLSessionConfiguration.af.default
-        interceptorConfig.timeoutIntervalForRequest = 10
-        // interceptorConfig.waitsForConnectivity = true
-        let interceptor = SessionInterceptor()
-        
-        return Session(configuration: interceptorConfig, interceptor: interceptor)
-    }()
-}
+//class API {
+//    static let session: Session = {
+//        let interceptorConfig = URLSessionConfiguration.af.default
+//        // interceptorConfig.timeoutIntervalForRequest = 10
+//        // interceptorConfig.waitsForConnectivity = true
+//        let interceptor = SessionInterceptor()
+//
+//        return Session(configuration: interceptorConfig, interceptor: interceptor)
+//    }()
+//}

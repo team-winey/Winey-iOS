@@ -340,10 +340,10 @@ final class FeedViewController: UIViewController {
                       let navigationController = viewController as? UINavigationController,
                       let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
                 else { return }
-
+                
                 mypageViewController.movedByPopupFromFeedViewController = true
                 self?.tabBarController?.selectedIndex = 2
-
+                
                 let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
                 AmplitudeManager.logEvent(event: logEvent)
             }
@@ -355,10 +355,50 @@ final class FeedViewController: UIViewController {
             return
         }
         
-        let vc = UINavigationController(rootViewController: UploadViewController())
-        vc.setNavigationBarHidden(true, animated: false)
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
+        UserService().getTotalUser() { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self else { return }
+            guard let userData = data.userResponseGoalDto else { return }
+            
+            if userData.isAttained {
+                let successViewController = MIPopupViewController(
+                    content: .init(
+                        title: "목표 달성을 축하드려요!",
+                        subtitle: "마이페이지에서 새 목표를 설정해볼까요?"
+                    )
+                )
+                
+                successViewController.addButton(title: "취소", type: .gray) {
+                    let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": false])
+                    AmplitudeManager.logEvent(event: logEvent)
+                }
+                
+                successViewController.addButton(title: "설정하기", type: .yellow) { [weak self] in
+                    guard let viewController = self?.tabBarController?.viewControllers?[2],
+                          let navigationController = viewController as? UINavigationController,
+                          let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
+                    else { return }
+                    
+                    mypageViewController.movedByPopupFromFeedViewController = true
+                    self?.tabBarController?.selectedIndex = 2
+                    
+                    let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
+                    AmplitudeManager.logEvent(event: logEvent)
+                }
+                
+                let logEvent = LogEventImpl(category: .view_goalsetting_popup)
+                AmplitudeManager.logEvent(event: logEvent)
+                
+                self.present(successViewController, animated: true)
+                return
+                
+            } else {
+                let vc = UINavigationController(rootViewController: UploadViewController())
+                vc.setNavigationBarHidden(true, animated: false)
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+            }
+        }
     }
 
     private func goToWebViewController(url: URL?) {

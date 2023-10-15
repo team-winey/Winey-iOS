@@ -50,7 +50,8 @@ extension RecommendAPI: TargetType, AccessTokenAuthorizable {
     var headers: [String : String]? {
         switch self {
         case .getTotalRecommend:
-            return NetworkConstant.defaultHeader
+            return ["Content-Type": "application/json",
+                    "accessToken": KeychainManager.shared.read("accessToken")!]
         }
     }
     
