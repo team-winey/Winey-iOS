@@ -433,7 +433,11 @@ extension DetailViewController {
             guard let self,
                   let detailInfoItem = detailInfoItemUpdatedIfNeeded(isLiked: direction)
             else { return }
-            
+            NotificationCenter.default.post(
+                name: .whenLikeButtonDidTap,
+                object: nil,
+                userInfo: ["feedId": feedId, "isLiked": direction]
+            )
             self.applyDetailInfoItem(item: detailInfoItem)
             
             let addCount = direction ? 1 : -1

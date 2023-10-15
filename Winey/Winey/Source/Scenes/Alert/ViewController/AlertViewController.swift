@@ -10,7 +10,7 @@ import SnapKit
 import Moya
 import DesignSystem
 
-struct Category {
+struct Category: Hashable {
    let notiID: Int
    let notiReceiver, notiMessage, notiType: String
    let isChecked: Bool
@@ -56,10 +56,7 @@ final class AlertViewController: UIViewController {
         getTotalAlert()
         checkAllNotification()
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        model = []
-    }
-    
+
     private func setAddtarget() {
         navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
@@ -138,9 +135,9 @@ extension AlertViewController {
             guard let response = response, let data = response.data else {
                 return
             }
-            
+
             var newArray: [Category] = []
-            
+
             for i in data.getNotiResponseDtoList {
                 newArray.append(Category(
                     notiID: i.notiID,
@@ -153,13 +150,14 @@ extension AlertViewController {
                     linkID: i.linkID )
                 )
             }
-            
+
+            newArray = newArray.removeDuplicates()
             DispatchQueue.main.async { [weak self] in
-               
                 self?.refreshControl.endRefreshing()
                 self?.model = newArray
                 print("😀", data)
-            }        }
+            }
+        }
     }
     
     func pushState(at data: Category) {
@@ -200,5 +198,12 @@ extension AlertViewController {
                 print("default")
             }
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }
