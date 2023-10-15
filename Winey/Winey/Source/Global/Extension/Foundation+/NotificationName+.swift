@@ -24,4 +24,6 @@ extension Notification.Name {
     static let whenEnterForeground = Notification.Name(rawValue: "whenEnterForeground")
     /// 마이피드에서 피드 삭제후 노티
     static let whenDeleteFeedCompletedInMyFeed = Notification.Name(rawValue: "whenDeleteFeedCompletedInMyFeed")
+    /// 피드에서 삭제된 피드로 들어갔을 경우..
+    static let whenMeetDeletedFeed = Notification.Name(rawValue: "whenMeetDeletedFeed")
 }
