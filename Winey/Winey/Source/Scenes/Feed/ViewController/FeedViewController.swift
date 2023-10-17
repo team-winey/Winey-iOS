@@ -363,8 +363,8 @@ final class FeedViewController: UIViewController {
             if userData.isAttained {
                 let successViewController = MIPopupViewController(
                     content: .init(
-                        title: "목표 달성을 축하드려요!",
-                        subtitle: "마이페이지에서 새 목표를 설정해볼까요?"
+                        title: "🎉 목표 달성을 축하드려요! 🎉",
+                        subtitle: "마이페이지에서 새 목표를 \n설정해볼까요?"
                     )
                 )
                 
