@@ -1442,11 +1442,11 @@
 				CODE_SIGN_ENTITLEMENTS = Winey/Winey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 66PR7H87SL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Winey/Resource/info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "위니";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "'Winey' 앱이 Face ID를 사용하도록 허용하겠습니까?";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "위니 피드 인증 글을 작성하기 위해서 갤러리 접근 권한 설정이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1458,7 +1458,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.winey-iOS.Winey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1480,11 +1480,11 @@
 				CODE_SIGN_ENTITLEMENTS = Winey/Winey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 66PR7H87SL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Winey/Resource/info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "위니";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "'Winey' 앱이 Face ID를 사용하도록 허용하겠습니까?";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "위니 피드 인증 글을 작성하기 위해서 갤러리 접근 권한 설정이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1496,7 +1496,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.winey-iOS.Winey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
