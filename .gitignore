@@ -6,6 +6,10 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+# keys
+Info.plist
+AmplitudeManager.swift
+
 ## User settings
 xcuserdata/
 Package.resolved

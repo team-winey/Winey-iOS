@@ -13,7 +13,15 @@ enum RecommendAPI {
     case getTotalRecommend(page: Int)
 }
 
-extension RecommendAPI: TargetType {
+extension RecommendAPI: TargetType, AccessTokenAuthorizable {
+    
+    var authorizationType: Moya.AuthorizationType? {
+        switch self {
+        default:
+            return nil
+        }
+    }
+    
     var baseURL: URL {
         return URL(string: URLConstant.baseURL)!
     }
@@ -42,7 +50,12 @@ extension RecommendAPI: TargetType {
     var headers: [String : String]? {
         switch self {
         case .getTotalRecommend:
-            return NetworkConstant.defaultHeader
+            return ["Content-Type": "application/json",
+                    "accessToken": KeychainManager.shared.read("accessToken")!]
         }
+    }
+    
+    var validationType: ValidationType {
+        return .successCodes
     }
 }

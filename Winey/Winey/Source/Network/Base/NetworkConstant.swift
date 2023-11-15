@@ -8,7 +8,9 @@
 import Foundation
 
 struct NetworkConstant {
-    // userId는 5까지 아무거나 사용 가능
-    static let defaultHeader = ["Content-Type": "application/json", "userId": "4"]
-    static let postfeedHeader = ["Content-Type": "multipart/form-data", "userId": "2"]
+    static let defaultHeader = ["Content-Type": "application/json",
+                                    "accessToken": KeychainManager.shared.read("accessToken")!]
+    static let postfeedHeader = ["Content-Type": "multipart/form-data",
+                                     "accessToken": KeychainManager.shared.read("accessToken")!]
+    static let nicknameDuplicateCheckHeader = ["Content-Type": "application/json"]
 }

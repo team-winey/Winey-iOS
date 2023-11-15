@@ -13,7 +13,7 @@ final class RecommendService {
     
     let recommendProvider = CustomMoyaProvider<RecommendAPI>()
     
-    init() { }
+    init() {}
     
     private(set) var recommendData: BaseResponse<TotalRecommendResponse>?
     
@@ -25,11 +25,12 @@ final class RecommendService {
             case .success(let response):
                 do {
                     self.recommendData = try response.map(BaseResponse<TotalRecommendResponse>.self)
-                    completion(recommendData)
+                    completion(self.recommendData)
                 } catch let error {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }

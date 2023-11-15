@@ -20,6 +20,21 @@ public extension UIImage {
         public static let danger            = UIImage(name: "ic_danger")
         public static let floating          = UIImage(name: "btn_floating")
         public static let link              = UIImage(name: "ic_link")
+        public static let apple             = UIImage(name: "ic_apple")
+        public static let kakao             = UIImage(name: "ic_kakao")
+        public static let info              = UIImage(name: "ic_info")
+        public static let progressbar       = UIImage(name: "level_progressbar")
+        public static let pen               = UIImage(name: "ic_pen")
+        public static let like              = UIImage(name: "ic_like")
+        public static let comment           = UIImage(name: "ic_comment")
+        public static let commentAlram      = UIImage(name: "ic_commentAlram")
+        public static let winey             = UIImage(name: "ic_winey")
+        public static let success           = UIImage(name: "ic_success")
+        public static let fail              = UIImage(name: "ic_fail")
+        public static let empty_comment     = UIImage(name: "ic_empty_comment")
+        public static let alarm_default     = UIImage(name: "ic_alarm_default")
+        public static let alarm_variant     = UIImage(name: "ic_alarm_variant")
+        public static let arrow             = UIImage(name: "ic_arrow")
     }
 
     enum Mypage {
@@ -37,11 +52,11 @@ public extension UIImage {
     }
     
     enum Img {
-        public static let appbar_logo = UIImage(name: "appbar_logo")
-        public static let mypage_level_one = UIImage(name: "img_mypage_level_one")
-        public static let mypage_level_two = UIImage(name: "img_mypage_level_two")
-        public static let mypage_level_three = UIImage(name: "img_mypage_level_three")
-        public static let mypage_level_four = UIImage(name: "img_mypage_level_four")
+        public static let appbar_logo = UIImage(name: "img_appbar_logo")
+        public static let mypage_level_one = UIImage(name: "img_mypage_lv1")
+        public static let mypage_level_two = UIImage(name: "img_mypage_lv2")
+        public static let mypage_level_three = UIImage(name: "img_mypage_lv3")
+        public static let mypage_level_four = UIImage(name: "img_mypage_lv4")
         public static let progressbar_level_one = UIImage(name: "img_progressbar_level_one")
         public static let progressbar_level_two = UIImage(name: "img_progressbar_level_two")
         public static let progressbar_level_three = UIImage(name: "img_progressbar_level_three")
@@ -49,6 +64,32 @@ public extension UIImage {
         public static let guide_character = UIImage(name: "img_guide_character")
         public static let guide_character_hand = UIImage(name: "img_guide_character_hand")
         public static let loading_arrow = UIImage(name: "img_loading_arrow")
+        public static let profile_level_one = UIImage(name: "ic_profile_lv1")
+        public static let profile_level_two = UIImage(name: "ic_profile_lv2")
+        public static let profile_level_three = UIImage(name: "ic_profile_lv3")
+        public static let profile_level_four = UIImage(name: "ic_profile_lv4")
+        public static let feed_character = UIImage(name: "img_feed_character")
+        public static let recommend_character = UIImage(name: "img_recommend_character")
+        public static let img_empty = UIImage(name: "img_empty")
+        public static let bubble = UIImage(name: "img_bubble")
+        public static let guide1 = UIImage(name: "img_guide1")
+        public static let guide2 = UIImage(name: "img_guide2")
+        public static let commoner = UIImage(name: "img_commoner")
+        public static let knight = UIImage(name: "img_knight")
+        public static let noble = UIImage(name: "img_noble")
+        public static let emperor = UIImage(name: "img_emperor")
+        public static let img_onboarding1 = UIImage(name: "img_onboarding1")
+        public static let img_onboarding2 = UIImage(name: "img_onboarding2")
+        public static let img_onboarding3 = UIImage(name: "img_onboarding3")
+        public static let banner2 = UIImage(name: "img_banner2")
+        public static let banner3 = UIImage(name: "img_banner3")
+        public static let banner4 = UIImage(name: "img_banner4")
+        public static let banner5 = UIImage(name: "banner_insta")
+        public static let img_background = UIImage(name: "img_background")
+        public static let chat1 = UIImage(name: "img_chat1")
+        public static let chat2 = UIImage(name: "img_chat2")
+        public static let chat3 = UIImage(name: "img_chat3")
+        public static let canvas = UIImage(name: "img_canvasView")
     }
     
     enum Btn {
@@ -56,6 +97,12 @@ public extension UIImage {
         public static let back      = UIImage(name: "btn_back")
         public static let floating  = UIImage(name: "btn_floating")
         public static let btn_plus  = UIImage(name: "btn_plus")
+        public static let more  = UIImage(name: "btn_more")
+    }
+    
+    enum Login {
+        public static let character = UIImage(name: "img_loginCharacter")
+        public static let logo = UIImage(name: "img_loginLogo")
     }
 }
 
@@ -77,7 +124,7 @@ extension UIImage {
     
     public func resizeWithWidth(width: CGFloat) -> UIImage? {
          let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
-         imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
          imageView.image = self
          UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
          guard let context = UIGraphicsGetCurrentContext() else { return nil }

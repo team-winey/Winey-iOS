@@ -43,7 +43,7 @@ final class CautionView: UIView {
         return label
     }()
     
-    private let closeButton: UIButton = {
+    private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setTitle("닫기", for: .normal)
         button.setTitleColor(.winey_gray500, for: .normal)
@@ -80,19 +80,19 @@ final class CautionView: UIView {
         
         cautionTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.equalToSuperview().inset(17)
+            make.horizontalEdges.equalToSuperview()
         }
         
         cautionLabel.snp.makeConstraints { make in
             make.top.equalTo(cautionTitleLabel.snp.bottom).offset(8)
-            make.centerX.equalToSuperview().inset(17)
+            make.horizontalEdges.equalToSuperview()
         }
         
         closeButton.snp.makeConstraints { make in
-            make.width.equalTo(358)
+            make.top.equalTo(cautionLabel.snp.bottom).offset(44)
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(46)
-            make.bottom.equalToSuperview().inset(4)
-            make.centerX.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview()
         }
     }
 }

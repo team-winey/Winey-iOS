@@ -13,13 +13,10 @@ enum FeedAPI {
     case getTotalFeed(page: Int)
     case getMyFeed(page: Int)
     case deleteMyFeed(idx: Int)
+    case detail(id: Int)
 }
 
-extension FeedAPI: TargetType {
-    var baseURL: URL {
-        return URL(string: URLConstant.baseURL)!
-    }
-    
+extension FeedAPI: WineyAPI, AccessTokenAuthorizable {
     var path: String {
         switch self {
         case .getTotalFeed:
@@ -28,12 +25,14 @@ extension FeedAPI: TargetType {
             return URLConstant.myfeed
         case .deleteMyFeed(let idx):
             return "\(URLConstant.feed)/\(idx)"
+        case .detail(let feedId):
+            return "/feed/\(feedId)"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getMyFeed, .getTotalFeed:
+        case .getMyFeed, .getTotalFeed, .detail:
             return .get
         case .deleteMyFeed:
             return .delete
@@ -44,15 +43,20 @@ extension FeedAPI: TargetType {
         switch self {
         case .getTotalFeed(let page), .getMyFeed(page: let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
-        case .deleteMyFeed:
+        case .deleteMyFeed, .detail:
             return .requestPlain
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getMyFeed, .getTotalFeed, .deleteMyFeed:
-            return NetworkConstant.defaultHeader
+        case .getMyFeed, .getTotalFeed, .deleteMyFeed, .detail:
+            return ["Content-Type": "application/json",
+                    "accessToken": KeychainManager.shared.read("accessToken")!]
         }
+    }
+    
+    var validationType: ValidationType {
+        return .successCodes
     }
 }

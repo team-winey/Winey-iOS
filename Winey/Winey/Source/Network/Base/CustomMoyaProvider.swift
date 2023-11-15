@@ -12,6 +12,7 @@ import Moya
 class CustomMoyaProvider<Target: TargetType>: MoyaProvider<Target> {
     convenience init() {
         let plugins: [PluginType] = [MoyaLoggerPlugin()]
+        // let session = Session(interceptor: SessionInterceptor())
         self.init(plugins: plugins)
     }
 }

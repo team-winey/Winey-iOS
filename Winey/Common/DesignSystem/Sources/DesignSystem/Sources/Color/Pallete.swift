@@ -10,6 +10,8 @@ import UIKit
 enum Pallete: String {
     case mainYellow
     case lightYellow
+    case darkYellow
+    case kakaoYellow
     
     case blue500
     case green500
@@ -30,6 +32,7 @@ enum Pallete: String {
     case gray500
     case gray600
     case gray700
+    case gray750
     case gray800
     case gray900
 }

@@ -22,6 +22,7 @@ final class RecommendViewController: UIViewController {
     
     var dataSource : UICollectionViewDiffableDataSource<Int, RecommendModel>!
     private let recommendService = RecommendService()
+    private let notiService = NotificationService()
     private var recommendList: [RecommendModel] = []
     private var currentPage: Int = 1
     private var isEnd: Bool = false
@@ -32,10 +33,10 @@ final class RecommendViewController: UIViewController {
     private let naviBar = WIMainNavigationBar()
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width - 32, height: RecommendCell.cellHeight())
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
+        layout.itemSize = CGSize(width: view.bounds.width - 32, height: RecommendCell.cellHeight())
         layout.minimumLineSpacing = 16
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 154)
+        layout.headerReferenceSize = CGSize(width: view.bounds.width, height: 154)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .winey_gray0
@@ -51,19 +52,48 @@ final class RecommendViewController: UIViewController {
         setLayout()
         setupDataSource()
         getTotalRecommend(page: currentPage)
+        checkNewNotification()
+        alertButtonTapped()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showTabBar()
+        checkNewNotification()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let logEvent = LogEventImpl(category: .view_recommend)
+        AmplitudeManager.logEvent(event: logEvent)
+    }
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func setupDataSource() {
         let cellRegistration = CellRegistration<RecommendCell, RecommendModel> { [weak self] cell, indexPath, model in
             guard let self = self else { return }
             guard indexPath.item < self.recommendList.count else { return }
-            
             cell.configure(model: self.recommendList[indexPath.item])
             cell.linkButtonTappedClosure = { [weak self] linkString in
-                if let url = URL(string: linkString) {
+                if let linkString, let url = URL(string: linkString) {
                     let safariViewController = SFSafariViewController(url: url)
                     self?.present(safariViewController, animated: true)
+                } else {
+                    let alertViewController = MIPopupViewController(
+                        content: .init(title: "속았지.\n이건 링크 없지롱")
+                    )
+                    alertViewController.addButton(title: "닫기", type: .gray, tapButtonHandler: nil)
+                    self?.present(alertViewController, animated: true)
                 }
+                
+                let logEvent = LogEventImpl(category: .click_contents, parameters: [
+                    "contents_id": model.id,
+                    "screen_name": linkString ?? ""
+                ])
+                AmplitudeManager.logEvent(event: logEvent)
             }
         }
         
@@ -100,12 +130,24 @@ final class RecommendViewController: UIViewController {
         self.currentPage += 1
         self.getTotalRecommend(page: self.currentPage)
     }
+    
+    private func alertButtonTapped() {
+        naviBar.alarmButtonClosure = {[weak self] in
+            let alertVC = AlertViewController()
+            alertVC.completionHandler = { [weak self] in
+                self?.tabBarController?.selectedIndex = 2
+            }
+            self?.tabBarController?.tabBar.isHidden = true
+            self?.navigationController?.pushViewController(alertVC, animated: true)
+        }
+    }
 }
 
 // MARK: - UI & Layout
 
 extension RecommendViewController {
     private func setLayout() {
+        collectionView.backgroundColor = .winey_gray50
         view.backgroundColor = .winey_gray0
         view.addSubviews(naviBar, collectionView)
         
@@ -142,28 +184,46 @@ extension RecommendViewController {
             guard let response = response, let data = response.data else { return }
             guard let self else { return }
             let pageData = data.pageResponseDto
-            var newItems: [RecommendModel] = []
             self.isEnd = pageData.isEnd
             
             for recommendData in data.recommendsResponseDto {
-                let recommend = RecommendModel(
-                    id: recommendData.recommendID,
-                    link: recommendData.recommendLink,
-                    title: recommendData.recommendTitle,
-                    subtitle: recommendData.recommendSubTitle ?? "",
-                    discount: recommendData.recommendDiscount,
-                    image: recommendData.recommendImage
-                )
-                self.recommendList.append(recommend)
-                newItems.append(recommend)
+                if recommendData.recommendLink != nil {
+                    let recommend = RecommendModel(
+                        id: recommendData.recommendID,
+                        link: recommendData.recommendLink?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                        title: recommendData.recommendTitle,
+                        subtitle: recommendData.recommendSubtitle ?? "",
+                        discount: recommendData.recommendDiscount,
+                        image: recommendData.recommendImage
+                    )
+                    
+                    self.recommendList.append(recommend)
+                    self.recommendList = self.recommendList.removeDuplicates()
+                }
             }
+
+            var newSnapshot = NSDiffableDataSourceSnapshot<Int, RecommendModel>()
+            newSnapshot.appendSections([0])
+            newSnapshot.appendItems(self.recommendList)
             
-            var newSnapshot = self.snapshot()
-            newSnapshot.appendItems(newItems, toSection: 0)
-            
-            DispatchQueue.global().async {
-                self.dataSource.apply(newSnapshot, animatingDifferences: true)
+            self.dataSource.apply(newSnapshot, animatingDifferences: true)
+        }
+    }
+    
+    private func checkNewNotification() {
+        notiService.getNewNotificationStatus { [weak self] hasNewNotification in
+            if hasNewNotification {
+                self?.naviBar.alarmStatus = .newAlarm
+            } else {
+                self?.naviBar.alarmStatus = .defaultAlarm
             }
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }

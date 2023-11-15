@@ -44,6 +44,7 @@ class PhotoUploadView: UIView {
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         btn.backgroundColor = .winey_purple100
+        btn.isExclusiveTouch = true
         return btn
     }()
     
@@ -52,11 +53,12 @@ class PhotoUploadView: UIView {
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         btn.imageView?.contentMode = .scaleAspectFill
+        btn.isExclusiveTouch = true
         return btn
     }()
     
     private let guideText: UILabel = {
-        let label = UILabel(frame: CGRect(x: 92, y: 93, width: 173, height: 37))
+        let label = UILabel()
         label.numberOfLines = 0
         label.setText("절약을 인증할 수 있는\n사진을 업로드해 주세요.",
                       attributes: Typography.Attributes(style: .body,
@@ -67,7 +69,7 @@ class PhotoUploadView: UIView {
     }()
     
     private let plusImg: UIImageView = {
-        let plusImg = UIImageView(frame: CGRect(x: 161, y: 47, width: 36, height: 36))
+        let plusImg = UIImageView(frame: CGRect(x: 153, y: 86.5, width: 36, height: 36))
         plusImg.image = .Btn.btn_plus
         return plusImg
     }()
@@ -99,13 +101,13 @@ class PhotoUploadView: UIView {
         }
         
         plusImg.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(47)
+            $0.top.equalToSuperview().inset(86.5)
             $0.centerX.equalToSuperview()
         }
         
         guideText.snp.makeConstraints {
             $0.top.equalTo(plusImg.snp.bottom).offset(10)
-            $0.horizontalEdges.equalToSuperview().inset(92)
+            $0.centerX.equalToSuperview()
         }
     }
     
@@ -114,7 +116,6 @@ class PhotoUploadView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        // setLineDot(view: galleryBtn, color: .winey_purple100, radius: 10)
     }
     
     required init?(coder: NSCoder) {
