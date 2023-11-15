@@ -41,6 +41,17 @@ public final class MIButton: UIButton {
         layer.masksToBounds = true
     }
     
+    public func setNicknameBtnActivate(_ result: Bool) {
+        if result {
+            setBackgroundColor(self.type.disabledBackgroundColor, for: .normal)
+            setTitleColor(self.type.disabledTitleColor, for: .normal)
+        }
+        else {
+            setBackgroundColor(.winey_yellow, for: .normal)
+            setTitleColor(.winey_gray900, for: .normal)
+        }
+    }
+    
     private func setUI() {
         setTitleColor(self.type.titleColor, for: .normal)
         setTitleColor(self.type.titleColor, for: .highlighted)

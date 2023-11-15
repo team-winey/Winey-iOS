@@ -10,7 +10,6 @@
 		0D09FB002A696CF800893A6D /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FAFF2A696CF800893A6D /* UserDefaultsManager.swift */; };
 		0D09FB022A696D1300893A6D /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB012A696D1300893A6D /* UserManager.swift */; };
 		0D09FB042A696D2900893A6D /* UserDefaults+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB032A696D2900893A6D /* UserDefaults+Name.swift */; };
-		0D09FB062A697C3C00893A6D /* TestUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D09FB052A697C3C00893A6D /* TestUserViewController.swift */; };
 		0D13578B2A835AC4009ADFF8 /* FloatingCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D13578A2A835AC4009ADFF8 /* FloatingCommentView.swift */; };
 		0D13578D2A837406009ADFF8 /* FloatingCommentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D13578C2A837406009ADFF8 /* FloatingCommentTextView.swift */; };
 		0D13578F2A838108009ADFF8 /* KeyboardFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D13578E2A838108009ADFF8 /* KeyboardFrameView.swift */; };
@@ -23,11 +22,8 @@
 		0D444E7E2A8619E1007DB2F6 /* CommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D444E7D2A8619E1007DB2F6 /* CommentResponse.swift */; };
 		0D444E812A861A33007DB2F6 /* FeedDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D444E802A861A33007DB2F6 /* FeedDetailResponse.swift */; };
 		0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */; };
-		0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */; };
 		0D5FE5EB2A829BCC00434E1C /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5FE5EA2A829BCC00434E1C /* UITableView+.swift */; };
 		0D6037472A89443600AC2FB4 /* EmptyCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6037462A89443600AC2FB4 /* EmptyCommentCell.swift */; };
-		0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519662A61905300643F46 /* TestTypoViewController.swift */; };
-		0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6519682A6191F700643F46 /* TestPopupViewController.swift */; };
 		0D6D9BF22A5D74C8000AA356 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 0D6D9BF12A5D74C8000AA356 /* DesignSystem */; };
 		0D6F16432A8407E400D36F60 /* WineyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F16422A8407E400D36F60 /* WineyAPI.swift */; };
 		0D8F5AC82A88808100D4B214 /* DetailMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8F5AC72A88808100D4B214 /* DetailMapper.swift */; };
@@ -144,6 +140,11 @@
 		F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */; };
 		F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */; };
 		F4BE08532A5D98EA0052F3B0 /* CHIPageControl in Frameworks */ = {isa = PBXBuildFile; productRef = F4BE08522A5D98EA0052F3B0 /* CHIPageControl */; };
+		F4CB98E22AA05401003F3095 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E12AA05401003F3095 /* PhotoManager.swift */; };
+		F4CB98E42AA05780003F3095 /* LimitedPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */; };
+		F4CB98E62AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E52AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift */; };
+		F4CB98E82AA098A8003F3095 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */; };
+		F4CB98EA2AA0A02F003F3095 /* GalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB98E92AA0A02F003F3095 /* GalleryCell.swift */; };
 		F4FAA3B42A8C147600B980CB /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FAA3B32A8C147600B980CB /* NicknameViewController.swift */; };
 		F4FB9B5C2A67ACC100EDB141 /* PostFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FB9B5B2A67ACC100EDB141 /* PostFeedResponse.swift */; };
 /* End PBXBuildFile section */
@@ -152,7 +153,6 @@
 		0D09FAFF2A696CF800893A6D /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		0D09FB012A696D1300893A6D /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0D09FB032A696D2900893A6D /* UserDefaults+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Name.swift"; sourceTree = "<group>"; };
-		0D09FB052A697C3C00893A6D /* TestUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserViewController.swift; sourceTree = "<group>"; };
 		0D13578A2A835AC4009ADFF8 /* FloatingCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingCommentView.swift; sourceTree = "<group>"; };
 		0D13578C2A837406009ADFF8 /* FloatingCommentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingCommentTextView.swift; sourceTree = "<group>"; };
 		0D13578E2A838108009ADFF8 /* KeyboardFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardFrameView.swift; sourceTree = "<group>"; };
@@ -164,11 +164,8 @@
 		0D444E7D2A8619E1007DB2F6 /* CommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentResponse.swift; sourceTree = "<group>"; };
 		0D444E802A861A33007DB2F6 /* FeedDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailResponse.swift; sourceTree = "<group>"; };
 		0D4DFA052A5D9952008F6D63 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		0D5FE5EA2A829BCC00434E1C /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		0D6037462A89443600AC2FB4 /* EmptyCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCommentCell.swift; sourceTree = "<group>"; };
-		0D6519662A61905300643F46 /* TestTypoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypoViewController.swift; sourceTree = "<group>"; };
-		0D6519682A6191F700643F46 /* TestPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPopupViewController.swift; sourceTree = "<group>"; };
 		0D6D9BF82A5D799A000AA356 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		0D6F16422A8407E400D36F60 /* WineyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WineyAPI.swift; sourceTree = "<group>"; };
 		0D8F5AC72A88808100D4B214 /* DetailMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMapper.swift; sourceTree = "<group>"; };
@@ -281,6 +278,11 @@
 		F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadBaseView.swift; sourceTree = "<group>"; };
 		F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUploadView.swift; sourceTree = "<group>"; };
+		F4CB98E12AA05401003F3095 /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedPhotoViewController.swift; sourceTree = "<group>"; };
+		F4CB98E52AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedPickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
+		F4CB98E92AA0A02F003F3095 /* GalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCell.swift; sourceTree = "<group>"; };
 		F4FAA3B32A8C147600B980CB /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		F4FB9B5B2A67ACC100EDB141 /* PostFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -340,17 +342,6 @@
 				0D444E802A861A33007DB2F6 /* FeedDetailResponse.swift */,
 			);
 			path = FeedDetail;
-			sourceTree = "<group>";
-		};
-		0D4DFA092A5F2E3C008F6D63 /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				0D4DFA0A2A5F2E47008F6D63 /* TestViewController.swift */,
-				0D09FB052A697C3C00893A6D /* TestUserViewController.swift */,
-				0D6519662A61905300643F46 /* TestTypoViewController.swift */,
-				0D6519682A6191F700643F46 /* TestPopupViewController.swift */,
-			);
-			path = Test;
 			sourceTree = "<group>";
 		};
 		0D6D9BF02A5D74C8000AA356 /* Frameworks */ = {
@@ -803,8 +794,8 @@
 				142FE3862A7C012400421732 /* Onboarding */,
 				0DFF7D3A2A69C2C20073ADAD /* Splash */,
 				1D69E0162A61A55500D4E3B5 /* Guide */,
-				0D4DFA092A5F2E3C008F6D63 /* Test */,
 				14A7A4372A56F12F00C0CA4E /* SaveGoal */,
+				F4CB98EB2AA32CA4003F3095 /* Gallery */,
 				14A7A4362A56F12600C0CA4E /* Upload */,
 				14A7A4352A56F10600C0CA4E /* MyFeed */,
 				148C7B8B2A56B1AD007DFE55 /* MyPage */,
@@ -994,6 +985,7 @@
 			children = (
 				F4921FFB2A9BD1B200DEDC16 /* PhotoManager.swift */,
 				F4A6D5422A7C4568006905AE /* KeychainManager.swift */,
+				F4CB98E12AA05401003F3095 /* PhotoManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1074,6 +1066,41 @@
 				F4BCFA762A68913900D97B1E /* DotLayerView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F4CB98EB2AA32CA4003F3095 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98ED2AA32CD0003F3095 /* View */,
+				F4CB98EC2AA32CBC003F3095 /* ViewController */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		F4CB98EC2AA32CBC003F3095 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98E32AA05780003F3095 /* LimitedPhotoViewController.swift */,
+				F4CB98E72AA098A8003F3095 /* GalleryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		F4CB98ED2AA32CD0003F3095 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98EE2AA32CD5003F3095 /* Cell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F4CB98EE2AA32CD5003F3095 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB98E52AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift */,
+				F4CB98E92AA0A02F003F3095 /* GalleryCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		F4FAA3B22A8C145B00B980CB /* Nickname */ = {
@@ -1177,8 +1204,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D69E0222A62B45D00D4E3B5 /* LevelupDescriptionView.swift in Sources */,
-				0D4DFA0B2A5F2E47008F6D63 /* TestViewController.swift in Sources */,
 				0D13578B2A835AC4009ADFF8 /* FloatingCommentView.swift in Sources */,
+				F4CB98E22AA05401003F3095 /* PhotoManager.swift in Sources */,
 				0D13578D2A837406009ADFF8 /* FloatingCommentTextView.swift in Sources */,
 				F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */,
 				F49220052A9E999400DEDC16 /* GalleryViewController.swift in Sources */,
@@ -1191,6 +1218,7 @@
 				14E28F7D2A654DE100E5E5C2 /* GoalService.swift in Sources */,
 				14E28F8F2A6559CF00E5E5C2 /* GetFeedResponse.swift in Sources */,
 				14576DBB2A68932C00C79C9C /* GoalAPI.swift in Sources */,
+				F4CB98E82AA098A8003F3095 /* GalleryViewController.swift in Sources */,
 				0D444E7B2A861730007DB2F6 /* CommentService.swift in Sources */,
 				F4BE08412A5C6F8C0052F3B0 /* UploadViewController.swift in Sources */,
 				14DB265A2A5C7EB700F42499 /* FeedModel.swift in Sources */,
@@ -1218,6 +1246,7 @@
 				1D8F027C2A83B60900658B41 /* Menu.swift in Sources */,
 				14E28F6E2A65328E00E5E5C2 /* NetworkConstant.swift in Sources */,
 				0D6037472A89443600AC2FB4 /* EmptyCommentCell.swift in Sources */,
+				F4CB98E62AA0586E003F3095 /* LimitedPickerCollectionViewCell.swift in Sources */,
 				14F670142A551BCF009703AD /* TabBarController.swift in Sources */,
 				0D444E752A861722007DB2F6 /* CreateCommentRequest.swift in Sources */,
 				F4BE08462A5C77F10052F3B0 /* PhotoUploadView.swift in Sources */,
@@ -1235,6 +1264,7 @@
 				F40E8FD22A8367A50092D280 /* SessionInterceptor.swift in Sources */,
 				1D69E01B2A61A64C00D4E3B5 /* GuideViewController.swift in Sources */,
 				F4A6D5412A7C3D30006905AE /* LoginAPI.swift in Sources */,
+				F4CB98EA2AA0A02F003F3095 /* GalleryCell.swift in Sources */,
 				F40E8FC32A7CE59E0092D280 /* LoginService.swift in Sources */,
 				1472F4E92A67342000B00899 /* FeedLikeAPI.swift in Sources */,
 				14F670052A550BED009703AD /* UIViewController+.swift in Sources */,
@@ -1250,8 +1280,6 @@
 				0DB4A2C42A8280D200C40CCC /* DetailViewController.swift in Sources */,
 				1D3CBB052A5EC92700AE8138 /* MypageGoalInfoCell.swift in Sources */,
 				1472F4EC2A67347F00B00899 /* FeedLikeResponse.swift in Sources */,
-				F4921FF82A9B213700DEDC16 /* LimitedPickerViewController.swift in Sources */,
-				0D09FB062A697C3C00893A6D /* TestUserViewController.swift in Sources */,
 				145B44BA2A68AC410043D10C /* TotalRecommendResponse.swift in Sources */,
 				0D13578F2A838108009ADFF8 /* KeyboardFrameView.swift in Sources */,
 				14E28F912A655CCB00E5E5C2 /* FeedAPI.swift in Sources */,
@@ -1274,7 +1302,6 @@
 				0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */,
 				F49220032A9E39A000DEDC16 /* ImageLoadingViewController.swift in Sources */,
 				14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */,
-				0D6519672A61905300643F46 /* TestTypoViewController.swift in Sources */,
 				F47688672A9107AC00D57BA8 /* NicknameAPI.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,
 				F4A4E0472A7AD79B00673741 /* LoginView.swift in Sources */,
@@ -1284,7 +1311,6 @@
 				F4FB9B5C2A67ACC100EDB141 /* PostFeedResponse.swift in Sources */,
 				145B44B72A68AC0D0043D10C /* RecommendService.swift in Sources */,
 				14E28F782A653B5000E5E5C2 /* URLConstant.swift in Sources */,
-				0D6519692A6191F700643F46 /* TestPopupViewController.swift in Sources */,
 				0DB4A2CA2A82896900C40CCC /* CommentCell.swift in Sources */,
 				F45B4B872A8F4E4600562D60 /* NicknameType.swift in Sources */,
 				0D4DFA062A5D9952008F6D63 /* TabBarItem.swift in Sources */,
@@ -1301,6 +1327,7 @@
 				0D09FB002A696CF800893A6D /* UserDefaultsManager.swift in Sources */,
 				14C1F61B2A50501C0079FA20 /* SceneDelegate.swift in Sources */,
 				1D69E0262A62B4F100D4E3B5 /* CautionView.swift in Sources */,
+				F4CB98E42AA05780003F3095 /* LimitedPhotoViewController.swift in Sources */,
 				1D3CBAFF2A5E7CF100AE8138 /* MypageViewController.swift in Sources */,
 				1D7640B32A682E7100922332 /* UserLevel.swift in Sources */,
 				14E28F7F2A654DF200E5E5C2 /* FeedService.swift in Sources */,
@@ -1445,15 +1472,14 @@
 				BASE_URL = "http://43.200.246.118";
 				CODE_SIGN_ENTITLEMENTS = Winey/Winey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 66PR7H87SL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Winey/Resource/info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "위니";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "'Winey' 앱이 Face ID를 사용하도록 허용하겠습니까?";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리 접근권한";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "위니 피드 인증 글을 작성하기 위해서 갤러리 접근 권한 설정이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1463,11 +1489,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.winey-iOS.Winey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Winey;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1485,15 +1510,14 @@
 				BASE_URL = "http://43.200.246.118";
 				CODE_SIGN_ENTITLEMENTS = Winey/Winey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 66PR7H87SL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Winey/Resource/info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "위니";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "'Winey' 앱이 Face ID를 사용하도록 허용하겠습니까?";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "갤러리 접근권한";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "위니 피드 인증 글을 작성하기 위해서 갤러리 접근 권한 설정이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1503,11 +1527,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.winey-iOS.Winey";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Winey;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

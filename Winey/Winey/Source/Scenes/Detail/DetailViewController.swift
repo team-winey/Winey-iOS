@@ -11,6 +11,7 @@ import UIKit
 import DesignSystem
 import Kingfisher
 import SnapKit
+import SafariServices
 
 final class DetailViewController: UIViewController {
     typealias Section = DetailSection
@@ -346,33 +347,44 @@ extension DetailViewController {
 extension DetailViewController {
     private func fetchFeedDetail() {
         Task(priority: .background) {
-            let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
-            var commentItems: [Section.Item] = response.getCommentResponseList
-                .compactMap { try? mapper.convertToCommentViewModel($0) }
-                .map { .comment($0) }
-            if commentItems.isEmpty {
-                commentItems.append(.emptyComment)
+            do {
+                let response = try await feedService.fetchDetailFeed(feedId: self.feedId)
+                var commentItems: [Section.Item] = response.getCommentResponseList
+                    .compactMap { try? mapper.convertToCommentViewModel($0) }
+                    .map { .comment($0) }
+                if commentItems.isEmpty {
+                    commentItems.append(.emptyComment)
+                }
+                let commentSection: Section = .init(type: .comments, items: commentItems)
+                let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
+                let detailInfoItem: Section.Item = .info(detailInfoViewModel)
+                let detailSection: Section = .init(type: .info, items: [detailInfoItem])
+
+                self.apply(sections: [detailSection, commentSection])
+
+                self.commentCount = commentItems.count
+                self.likeCount = detailInfoViewModel.likeCount
+
+                let logEvent = LogEventImpl(
+                    category: .view_detail_contents,
+                    parameters: [
+                        "article_id": feedId,
+                        "from": "article",
+                        "like_count": likeCount,
+                        "comment_count": commentCount
+                    ]
+                )
+                AmplitudeManager.logEvent(event: logEvent)
+            } catch {
+                let content = MIPopupContent(title: "해당 게시물은 삭제되었어요.")
+                let alertPopup = MIPopupViewController(content: content)
+                alertPopup.addButton(title: "확인", type: .gray, tapButtonHandler: { [weak self] in
+                    guard let self else { return }
+                    NotificationCenter.default.post(name: .whenMeetDeletedFeed, object: nil, userInfo: ["feedId": self.feedId])
+                    self.navigationController?.popViewController(animated: true)
+                })
+                present(alertPopup, animated: true)
             }
-            let commentSection: Section = .init(type: .comments, items: commentItems)
-            let detailInfoViewModel = try await mapper.convertToDetailInfoViewModel(response)
-            let detailInfoItem: Section.Item = .info(detailInfoViewModel)
-            let detailSection: Section = .init(type: .info, items: [detailInfoItem])
-            
-            self.apply(sections: [detailSection, commentSection])
-            
-            self.commentCount = commentItems.count
-            self.likeCount = detailInfoViewModel.likeCount
-            
-            let logEvent = LogEventImpl(
-                category: .view_detail_contents,
-                parameters: [
-                    "article_id": feedId,
-                    "from": "article",
-                    "like_count": likeCount,
-                    "comment_count": commentCount
-                ]
-            )
-            AmplitudeManager.logEvent(event: logEvent)
         }
     }
     
@@ -421,7 +433,11 @@ extension DetailViewController {
             guard let self,
                   let detailInfoItem = detailInfoItemUpdatedIfNeeded(isLiked: direction)
             else { return }
-            
+            NotificationCenter.default.post(
+                name: .whenLikeButtonDidTap,
+                object: nil,
+                userInfo: ["feedId": feedId, "isLiked": direction]
+            )
             self.applyDetailInfoItem(item: detailInfoItem)
             
             let addCount = direction ? 1 : -1
@@ -450,7 +466,21 @@ extension DetailViewController {
     }
     
     private func report() {
-        showToast(.reportSuccess)
+        let deletePopup = MIPopupViewController(
+            content: .init(
+                title: "신고하시겠습니까?",
+                subtitle: "욕설/비하, 상업적 광고 및 판매,\n낚시/놀람/도배 글의 경우 신고할 수 있습니다."
+            )
+        )
+        deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+        
+        deletePopup.addButton(title: "신고하기", type: .yellow) {
+            let url = URL(string: "https://docs.google.com/forms/d/1fymNx8ALanWWzwR4O2s8hpt76mnRClOmfDx4Vbdk2kk/edit")!
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true)
+        }
+        
+        self.present(deletePopup, animated: true)
     }
 }
 

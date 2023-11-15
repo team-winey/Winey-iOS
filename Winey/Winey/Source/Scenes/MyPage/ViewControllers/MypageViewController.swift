@@ -28,7 +28,6 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - UIComponents
     
-    private let navigationBar = WINavigationBar.init(title: "마이페이지")
     private lazy var safearea = self.view.safeAreaLayoutGuide
     private let topBackgroundColor = UIColor.winey_gray0
     private let bottomBackgroundColor = UIColor.winey_gray50
@@ -39,6 +38,8 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
     
     private var bag = Set<AnyCancellable>()
     
+    var movedByPopupFromFeedViewController: Bool = false
+
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -46,6 +47,7 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         setLayout()
         setUI()
         bind()
+        setAddTarget()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,7 +59,13 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidAppear(animated)
         let logEvent = LogEventImpl(category: .view_mypage)
         AmplitudeManager.logEvent(event: logEvent)
+
+        if movedByPopupFromFeedViewController {
+            movedByPopupFromFeedViewController = false
+            goToSaveGoal()
+        }
     }
+    
     // MARK: - UIComponents
     
     private func setUI() {
@@ -80,6 +88,20 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+    }
+    
+    lazy var navigationBar: WINavigationBar = {
+        let bar = WINavigationBar(title: "마이페이지")
+        return bar
+    }()
+
+    private func setAddTarget() {
+        navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Layout
@@ -106,6 +128,12 @@ final class MypageViewController: UIViewController, UIScrollViewDelegate {
                 self?.getTotalUser()
             }
             .store(in: &bag)
+    }
+
+    private func goToSaveGoal() {
+        let saveGoalVC = SaveGoalViewController()
+        saveGoalVC.modalPresentationStyle = .pageSheet
+        present(saveGoalVC, animated: true, completion: nil)
     }
 }
 
@@ -175,7 +203,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 
                 let nicknameViewController = NicknameViewController(viewType: .myPage)
                 nicknameViewController.hidesBottomBarWhenPushed = true
-                nicknameViewController.configureNickname(nickname)
+                nicknameViewController.configure(nickname)
                 self.navigationController?.pushViewController(nicknameViewController, animated: true)
             }
             return mypageProfileCell
@@ -204,10 +232,8 @@ extension MypageViewController: UICollectionViewDataSource {
             mypageGoalInfoCell.saveGoalButtonTappedClosure = { [weak self] in
                 let logEvent = LogEventImpl(category: .click_goalsetting)
                 AmplitudeManager.logEvent(event: logEvent)
-                
-                let saveGoalVC = SaveGoalViewController()
-                saveGoalVC.modalPresentationStyle = .pageSheet
-                self?.present(saveGoalVC, animated: true, completion: nil)
+
+                self?.goToSaveGoal()
             }
             mypageGoalInfoCell.blockAlertTappedClosure = { [weak self] in
                 let blockAlert = MIPopupViewController(content: .init(title: "절약 목표 기간이 지나지 않아\n목표를 수정할 수 없어요"))
@@ -226,6 +252,7 @@ extension MypageViewController: UICollectionViewDataSource {
             switch indexPath.item {
             case 0:
                 menuCell.configureCell(.myfeed)
+                menuCell.titleLabel.setText("마이피드", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: nil)
             case 1:
                 menuCell.configureCell(.inquiry)
                 menuCell.titleLabel.setText("1:1문의", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
@@ -234,6 +261,7 @@ extension MypageViewController: UICollectionViewDataSource {
                 menuCell.titleLabel.setText("이용약관", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
             case 3:
                 menuCell.configureCell(.logout)
+                menuCell.titleLabel.setText("로그아웃", attributes: .init(style: .body, weight: .medium, textColor: .winey_gray700), customAttributes: nil)
             default:
                 return UICollectionViewCell()
             }
@@ -265,7 +293,7 @@ extension MypageViewController: UICollectionViewDelegateFlowLayout {
     -> CGSize {
         switch indexPath.section {
         case 0: return CGSize(width: (UIScreen.main.bounds.width), height: 345)
-        case 1: return CGSize(width: (UIScreen.main.bounds.width), height: 177)
+        case 1: return CGSize(width: (UIScreen.main.bounds.width), height: 182)
         case 2: return CGSize(width: (UIScreen.main.bounds.width), height: 57)
         default : return .zero
         }

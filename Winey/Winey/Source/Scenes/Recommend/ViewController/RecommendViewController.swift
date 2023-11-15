@@ -58,6 +58,7 @@ final class RecommendViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        showTabBar()
         checkNewNotification()
     }
     
@@ -65,6 +66,10 @@ final class RecommendViewController: UIViewController {
         super.viewDidAppear(animated)
         let logEvent = LogEventImpl(category: .view_recommend)
         AmplitudeManager.logEvent(event: logEvent)
+    }
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func setupDataSource() {
@@ -129,6 +134,9 @@ final class RecommendViewController: UIViewController {
     private func alertButtonTapped() {
         naviBar.alarmButtonClosure = {[weak self] in
             let alertVC = AlertViewController()
+            alertVC.completionHandler = { [weak self] in
+                self?.tabBarController?.selectedIndex = 2
+            }
             self?.tabBarController?.tabBar.isHidden = true
             self?.navigationController?.pushViewController(alertVC, animated: true)
         }
@@ -179,16 +187,19 @@ extension RecommendViewController {
             self.isEnd = pageData.isEnd
             
             for recommendData in data.recommendsResponseDto {
-                let recommend = RecommendModel(
-                    id: recommendData.recommendID,
-                    link: recommendData.recommendLink,
-                    title: recommendData.recommendTitle,
-                    subtitle: recommendData.recommendSubtitle ?? "",
-                    discount: recommendData.recommendDiscount,
-                    image: recommendData.recommendImage
-                )
-                self.recommendList.append(recommend)
-                self.recommendList = self.recommendList.removeDuplicates()
+                if recommendData.recommendLink != nil {
+                    let recommend = RecommendModel(
+                        id: recommendData.recommendID,
+                        link: recommendData.recommendLink?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                        title: recommendData.recommendTitle,
+                        subtitle: recommendData.recommendSubtitle ?? "",
+                        discount: recommendData.recommendDiscount,
+                        image: recommendData.recommendImage
+                    )
+                    
+                    self.recommendList.append(recommend)
+                    self.recommendList = self.recommendList.removeDuplicates()
+                }
             }
 
             var newSnapshot = NSDiffableDataSourceSnapshot<Int, RecommendModel>()

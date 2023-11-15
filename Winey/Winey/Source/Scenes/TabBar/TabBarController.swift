@@ -11,16 +11,16 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     private let userService = UserService()
-    
+    private var selectedIndexCache: Int = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
         setTabBar()
-        setTestMenu()
         
         getUser()
     }
-    
+
     private func setViewControllers() {
         let viewControllers = TabBarItem.allCases
             .map { navigationController(with: $0, rootViewController: $0.rootViewController) }
@@ -41,6 +41,9 @@ final class TabBarController: UITabBarController {
         nav.navigationBar.backgroundColor = .clear
         nav.isNavigationBarHidden = true
         
+        nav.interactivePopGestureRecognizer?.isEnabled = true
+        nav.interactivePopGestureRecognizer?.delegate = self
+        
         return nav
     }
     
@@ -49,6 +52,19 @@ final class TabBarController: UITabBarController {
         tabBar.tintColor = .winey_purple400
         tabBar.unselectedItemTintColor = .winey_gray300
         tabBar.backgroundImage = UIImage()
+        self.delegate = self
+    }
+}
+
+extension TabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let feedViewController = viewController.children.first(where: { $0 is FeedViewController }) as? FeedViewController {
+            if selectedIndexCache == tabBarController.selectedIndex {
+                feedViewController.scrollToTop()
+            }
+        }
+
+        selectedIndexCache = tabBarController.selectedIndex
     }
 }
 
@@ -57,27 +73,6 @@ private extension TabBarController {
         static let tabBarAttributes: [NSAttributedString.Key: Any] = [
             .font: Typography.font(style: .detail2, weight: .Medium)
         ]
-    }
-}
-
-// MARK: - Test menu
-
-extension TabBarController {
-    func setTestMenu() {
-        let logoLongPress = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(hanldeLongPress)
-        )
-        logoLongPress.minimumPressDuration = 1
-        tabBar.addGestureRecognizer(logoLongPress)
-    }
-    
-    @objc func hanldeLongPress(_ sender: UILongPressGestureRecognizer) {
-        guard sender.state == .began else { return }
-        
-        let testViewController = UINavigationController(rootViewController: TestViewController())
-
-        present(testViewController, animated: true)
     }
 }
 
@@ -96,3 +91,5 @@ extension TabBarController {
         }
     }
 }
+
+extension TabBarController: UIGestureRecognizerDelegate  {}

@@ -104,7 +104,7 @@ extension WINavigationBar {
             switch self {
             case .back: return .Btn.back?.resizing(width: 20, height: 20)
             case .close: return .Btn.close?.resizing(width: 24, height: 24)
-            case .add: return UIImage(systemName: "plus")?.resizing(width: 24, height: 24)
+            case .add: return UIImage(systemName: "plus")?.resizing(width: 20, height: 20)
             }
         }
     }

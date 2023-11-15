@@ -6,15 +6,18 @@
 //
 
 import Foundation
+import UIKit
 
+import Alamofire
+import DesignSystem
 import Moya
 import KakaoSDKAuth
 import KakaoSDKUser
 
 
 final class LoginService {
-    
-    let authProvider = CustomMoyaProvider<LoginAPI>(session: Session(interceptor: SessionInterceptor.shared))
+
+    let authProvider = MoyaProvider<LoginAPI>()
     
     static let shared = LoginService()
     
@@ -24,6 +27,10 @@ final class LoginService {
     private(set) var logoutResponse: LogoutResponse?
     private(set) var reissueResponse: ReissueResponse?
     
+    enum WineyError: Error {
+        case networkError
+        case tokenError
+    }
     
     func loginWithKakao(request: LoginRequest, token: String,
                         completion: @escaping ((LoginResponse?) -> Void)) {
@@ -95,7 +102,7 @@ final class LoginService {
     }
     
     // 3. 애플 회원탈퇴
-    
+
     func withdrawApple(token: String, _ completion: @escaping ((Bool) -> Void)) {
         authProvider.request(.appleWithdraw(token: token)) { result in
             switch result {
@@ -116,7 +123,7 @@ final class LoginService {
     
     // 4. 애플 토큰 재발급
     
-    func reissueApple(token: String, _ completion: @escaping ((Bool) -> (Void))) {
+    func reissueApple(token: String, _ completion: @escaping (Result<Bool, WineyError>) -> (Void)) {
         authProvider.request(.reissueToken(token: token)) { [self] result in
             print(result)
             switch result {
@@ -133,20 +140,47 @@ final class LoginService {
                         print(data.refreshToken)
                         print(data.accessToken)
                         print(reissueResponse?.message as Any)
-                        completion(true)
-                    } catch(let err) {
-                        print(err.localizedDescription)
+                        completion(.success(true))
+                    } catch {
+                        completion(.failure(.networkError))
                     }
                 default:
-                    KeychainManager.shared.delete("accessToken")
-                    KeychainManager.shared.delete("refreshToken")
-                    completion(false)
+                    print("network issue")
                 }
             case .failure(let err):
-                print("리프레쉬 토큰 만료")
+                print("리프레쉬 토큰 만료 -> 만료 로직 실행")
+                
+                // 토큰 삭제
+                KeychainManager.shared.delete("accessToken")
+                KeychainManager.shared.delete("refreshToken")
+
+                // 로그아웃 처리
+                UserDefaults.standard.set(false, forKey: "Signed")
+
+                // 세션 만료 alert 창으로 루트뷰 전환
+                setSessionExpireAlert()
+                
                 print(err)
+                
+                completion(.failure(.networkError))
             }
         }
+    }
+    
+    func setSessionExpireAlert() {
+        let alert = MIPopupViewController(
+            content: .init(
+                title: "세션이 만료되었습니다",
+                subtitle: "확인 버튼을 눌러서 다시 로그인을 진행해주세요"
+            )
+        )
+        alert.addButton(title: "확인", type: .yellow) {
+            UIViewController().switchRootViewController(rootViewController: LoginViewController(), animated: true)
+        }
+        
+        let vc = UIViewController()
+        vc.view.backgroundColor = .winey_gray50
+        vc.switchRootViewController(rootViewController: alert, animated: true)
     }
     
     // MARK: - 로그인

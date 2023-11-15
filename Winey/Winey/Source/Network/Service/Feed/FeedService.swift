@@ -13,7 +13,7 @@ import Moya
 
 final class FeedService {
     
-    let feedProvider = CustomMoyaProvider<FeedAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let feedProvider = CustomMoyaProvider<FeedAPI>()
     
     init() { }
     
@@ -32,6 +32,7 @@ final class FeedService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }
@@ -50,6 +51,7 @@ final class FeedService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }
@@ -59,6 +61,37 @@ final class FeedService {
     
     func feedPost(_ imageData: Data, _ feed: UploadModel,
                   _ completionHandler: @escaping ((Bool) -> Void)) {
+        
+        //        API.session.upload(multipartFormData: { multipartFormData in
+        //            multipartFormData.append(Data(feed.feedTitle.utf8), withName: "feedTitle")
+        //            multipartFormData.append(Data(String(feed.feedMoney).utf8), withName: "feedMoney")
+        //            multipartFormData.append(
+        //                imageData,
+        //                withName: "feedImage",
+        //                fileName: "feedImage.jpeg",
+        //                mimeType: "feedImage/jpeg"
+        //            )
+        //        }, to: url, method: .post)
+        //        .validate()
+        //        .responseData { response in
+        //            guard let statusCode = response.response?.statusCode else { return }
+        //            let result = response.result
+        //
+        //            switch result {
+        //            case .success:
+        //                switch statusCode {
+        //                case 200..<300:
+        //                    completionHandler(true)
+        //                default:
+        //                    completionHandler(false)
+        //                }
+        //            case .failure(let err):
+        //                print("here")
+        //                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
+        //                print(err)
+        //                completionHandler(false)
+        //            }
+        //        }
         
         let url = "\(URLConstant.baseURL)/feed"
         let token = KeychainManager.shared.read("accessToken")!
@@ -114,6 +147,7 @@ final class FeedService {
                     else { throw FeedNetworkError.undefined }
                     continuation.resume(returning: response)
                 } catch {
+                    LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                     continuation.resume(throwing: FeedNetworkError.undefined)
                 }
             }
@@ -124,3 +158,14 @@ final class FeedService {
         case undefined
     }
 }
+
+//class API {
+//    static let session: Session = {
+//        let interceptorConfig = URLSessionConfiguration.af.default
+//        // interceptorConfig.timeoutIntervalForRequest = 10
+//        // interceptorConfig.waitsForConnectivity = true
+//        let interceptor = SessionInterceptor()
+//
+//        return Session(configuration: interceptorConfig, interceptor: interceptor)
+//    }()
+//}

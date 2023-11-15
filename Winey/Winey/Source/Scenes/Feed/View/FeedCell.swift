@@ -37,7 +37,7 @@ final class FeedCell: UICollectionViewCell {
     
     private lazy var moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(.Icon.more, for: .normal)
+        button.setImage(.Btn.more, for: .normal)
         button.addTarget(self, action: #selector(tapMoreButton), for: .touchUpInside)
         return button
     }()
@@ -90,16 +90,11 @@ final class FeedCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        nicknameLabel.text = ""
-        feedTitleLabel.text = ""
-        likeCountLabel.text = "0"
         self.isLiked = false
-        self.feedId = 0
-        self.commentCountLabel.text = "0"
-        self.timeAgoLabel.text = "방금 전"
+        self.feedId = nil
     }
     
     override func layoutSubviews() {

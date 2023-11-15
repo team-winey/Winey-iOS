@@ -84,6 +84,7 @@ public extension UIImage {
         public static let banner2 = UIImage(name: "img_banner2")
         public static let banner3 = UIImage(name: "img_banner3")
         public static let banner4 = UIImage(name: "img_banner4")
+        public static let banner5 = UIImage(name: "banner_insta")
         public static let img_background = UIImage(name: "img_background")
         public static let chat1 = UIImage(name: "img_chat1")
         public static let chat2 = UIImage(name: "img_chat2")

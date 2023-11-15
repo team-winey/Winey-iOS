@@ -10,7 +10,9 @@ import UIKit
 
 import DesignSystem
 import Moya
+import WebKit
 import SnapKit
+import SafariServices
 
 final class FeedViewController: UIViewController {
     
@@ -74,7 +76,7 @@ final class FeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkNewNotification()
-        refresh()
+        showTabBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,6 +84,10 @@ final class FeedViewController: UIViewController {
         
         let logEvent = LogEventImpl(category: .view_homefeed)
         AmplitudeManager.logEvent(event: logEvent)
+    }
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func setupDataSource() {
@@ -110,6 +116,9 @@ final class FeedViewController: UIViewController {
                 elementKind: UICollectionView.elementKindSectionHeader
         ) { view, _, _ in
             view.setState(self.currentBannerType)
+            view.didTapPublisher
+                .sink { [weak self] in self?.goToWebViewController(url: $0) }
+                .store(in: &view.cancellables)
         }
         
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
@@ -172,7 +181,7 @@ final class FeedViewController: UIViewController {
         } else {
             print("으딜.")
             let reportAction = UIAlertAction(title: "신고하기", style: .destructive) { _ in
-                self.showToast(.reportSuccess)
+                self.setReportAlert(feedId)
             }
             alertController.addAction(reportAction)
         }
@@ -209,6 +218,40 @@ final class FeedViewController: UIViewController {
             .sink(receiveValue: { [weak self] type in
                 self?.refresh()
                 self?.showToast(type)
+            })
+            .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenDeleteFeedCompletedInMyFeed)
+            .map { $0.userInfo?["feedId"] as? Int }
+            .sink(receiveValue: { [weak self] id in
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == id }) {
+                    self?.feedList.remove(at: index)
+                    self?.refresh()
+                }
+            })
+            .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenMeetDeletedFeed)
+            .map { $0.userInfo?["feedId"] as? Int }
+            .sink(receiveValue: { [weak self] id in
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == id }) {
+                    self?.feedList.remove(at: index)
+                    self?.refresh()
+                }
+            })
+            .store(in: &bag)
+
+        NotificationCenter.default.publisher(for: .whenLikeButtonDidTap)
+            .compactMap { $0.userInfo }
+            .sink(receiveValue: { [weak self] userInfo in
+                guard let feedId = userInfo["feedId"] as? Int,
+                      let isLiked = userInfo["isLiked"] as? Bool
+                else { return }
+                if let index = self?.feedList.firstIndex(where: { feed in feed.feedId == feedId }) {
+                    self?.feedList[index].isLiked = isLiked
+                    self?.feedList[index].like += isLiked ? 1 : -1
+                    self?.applyItems()
+                }
             })
             .store(in: &bag)
     }
@@ -257,6 +300,24 @@ final class FeedViewController: UIViewController {
         self.present(deletePopup, animated: true)
     }
     
+    private func setReportAlert(_ feedId: Int) {
+        let deletePopup = MIPopupViewController(
+            content: .init(
+                title: "신고하시겠습니까?",
+                subtitle: "욕설/비하, 상업적 광고 및 판매,\n낚시/놀람/도배 글의 경우 신고할 수 있습니다."
+            )
+        )
+        deletePopup.addButton(title: "취소", type: .gray, tapButtonHandler: nil)
+        
+        deletePopup.addButton(title: "신고하기", type: .yellow) {
+            let url = URL(string: "https://docs.google.com/forms/d/1fymNx8ALanWWzwR4O2s8hpt76mnRClOmfDx4Vbdk2kk/edit")!
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true)
+        }
+        
+        self.present(deletePopup, animated: true)
+    }
+
     @objc
     private func goToUploadPage() {
         let logEvent = LogEventImpl(category: .click_write_contents)
@@ -274,8 +335,15 @@ final class FeedViewController: UIViewController {
                 AmplitudeManager.logEvent(event: logEvent)
             }
             
-            warningViewController.addButton(title: "설정하기", type: .yellow) {
-                self.tabBarController?.selectedIndex = 2
+            warningViewController.addButton(title: "설정하기", type: .yellow) { [weak self] in
+                guard let viewController = self?.tabBarController?.viewControllers?[2],
+                      let navigationController = viewController as? UINavigationController,
+                      let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
+                else { return }
+                
+                mypageViewController.movedByPopupFromFeedViewController = true
+                self?.tabBarController?.selectedIndex = 2
+                
                 let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
                 AmplitudeManager.logEvent(event: logEvent)
             }
@@ -287,10 +355,67 @@ final class FeedViewController: UIViewController {
             return
         }
         
-        let vc = UINavigationController(rootViewController: UploadViewController())
-        vc.setNavigationBarHidden(true, animated: false)
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
+        UserService().getTotalUser() { [weak self] response in
+            guard let response = response, let data = response.data else { return }
+            guard let self else { return }
+            guard let userData = data.userResponseGoalDto else { return }
+            
+            if userData.isAttained {
+                let successViewController = MIPopupViewController(
+                    content: .init(
+                        title: "🎉 목표 달성을 축하드려요! 🎉",
+                        subtitle: "마이페이지에서 새 목표를 \n설정해볼까요?"
+                    )
+                )
+                
+                successViewController.addButton(title: "취소", type: .gray) {
+                    let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": false])
+                    AmplitudeManager.logEvent(event: logEvent)
+                }
+                
+                successViewController.addButton(title: "설정하기", type: .yellow) { [weak self] in
+                    guard let viewController = self?.tabBarController?.viewControllers?[2],
+                          let navigationController = viewController as? UINavigationController,
+                          let mypageViewController = navigationController.viewControllers[0] as? MypageViewController
+                    else { return }
+                    
+                    mypageViewController.movedByPopupFromFeedViewController = true
+                    self?.tabBarController?.selectedIndex = 2
+                    
+                    let logEvent = LogEventImpl(category: .click_goalsetting, parameters: ["method": true])
+                    AmplitudeManager.logEvent(event: logEvent)
+                }
+                
+                let logEvent = LogEventImpl(category: .view_goalsetting_popup)
+                AmplitudeManager.logEvent(event: logEvent)
+                
+                self.present(successViewController, animated: true)
+                return
+                
+            } else {
+                let vc = UINavigationController(rootViewController: UploadViewController())
+                vc.setNavigationBarHidden(true, animated: false)
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+            }
+        }
+    }
+
+    private func goToWebViewController(url: URL?) {
+        guard let url else { return }
+
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true)
+    }
+
+    private func applyItems() {
+        var newSnapshot = NSDiffableDataSourceSnapshot<Int, FeedModel>()
+        newSnapshot.appendSections([0])
+        newSnapshot.appendItems(self.feedList)
+
+        self.dataSource.apply(newSnapshot, animatingDifferences: true) {
+            self.stopRefreshControl()
+        }
     }
 }
 
@@ -345,6 +470,11 @@ extension FeedViewController: UIScrollViewDelegate {
             getMoreFeed()
         }
     }
+    
+    func scrollToTop() {
+        collectionView.setContentOffset(.zero, animated: true)
+        refresh()
+    }
 }
 
 // MARK: - Network
@@ -376,7 +506,6 @@ extension FeedViewController {
                         comments: feedData.comments,
                         timeAgo: feedData.timeAgo
                     )
-                    
                     self.feedList.append(feed)
                     self.feedList = self.feedList.removeDuplicates()
                 }

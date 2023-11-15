@@ -11,7 +11,7 @@ import Moya
 
 final class RecommendService {
     
-    let recommendProvider = CustomMoyaProvider<RecommendAPI>(session: Session(interceptor: SessionInterceptor.shared))
+    let recommendProvider = CustomMoyaProvider<RecommendAPI>()
     
     init() {}
     
@@ -30,6 +30,7 @@ final class RecommendService {
                     print(error.localizedDescription, 500)
                 }
             case .failure(let err):
+                LoginService.shared.reissueApple(token: KeychainManager.shared.read("refreshToken") ?? "") { _ in }
                 print(err)
             }
         }

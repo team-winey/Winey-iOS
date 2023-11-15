@@ -266,6 +266,7 @@ extension MyFeedViewController {
             guard let self = self else { return }
             response ? self.showToast(.feedDeleteSuccess) : self.showToast(.feedDeleteFail)
             self.refresh()
+            NotificationCenter.default.post(name: .whenDeleteFeedCompletedInMyFeed, object: nil, userInfo: ["feedId": idx])
         }
     }
     
@@ -276,6 +277,11 @@ extension MyFeedViewController {
             if let feedIndex = self.myfeed.firstIndex(where: { $0.feedId == feedId }) {
                 self.myfeed[feedIndex].isLiked = feedLike
                 self.myfeed[feedIndex].like = data.likes
+                NotificationCenter.default.post(
+                    name: .whenLikeButtonDidTap,
+                    object: nil,
+                    userInfo: ["feedId": feedId, "isLiked": feedLike]
+                )
             }
             self.dataSource.apply(self.snapshot(), animatingDifferences: false)
         }

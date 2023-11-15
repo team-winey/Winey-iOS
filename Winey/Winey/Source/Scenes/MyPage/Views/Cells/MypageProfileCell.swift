@@ -185,7 +185,7 @@ final class MypageProfileCell: UICollectionViewCell {
         devideView.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(-7)
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(progressbarImageView.snp.bottom).offset(10)
+            make.top.equalTo(progressbarImageView.snp.bottom).offset(12)
         }
     }
     

@@ -10,7 +10,7 @@ import SnapKit
 import Moya
 import DesignSystem
 
-struct Category {
+struct Category: Hashable {
    let notiID: Int
    let notiReceiver, notiMessage, notiType: String
    let isChecked: Bool
@@ -34,6 +34,7 @@ final class AlertViewController: UIViewController {
     private var notiMessage: String?
     private var timeago: String?
     private let alertService = NotificationService()
+    private let refreshControl = UIRefreshControl()
 
     // MARK: - UI Components
 
@@ -55,10 +56,7 @@ final class AlertViewController: UIViewController {
         getTotalAlert()
         checkAllNotification()
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        model = []
-    }
-    
+
     private func setAddtarget() {
         navigationBar.leftButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
@@ -67,6 +65,12 @@ final class AlertViewController: UIViewController {
     private func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    @objc private func refreshTableView() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.getTotalAlert()
+        }
     }
 }
 
@@ -106,6 +110,8 @@ extension AlertViewController {
         tableView.backgroundColor = .winey_gray0
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
     }
 
     private func setLayout() {
@@ -126,31 +132,30 @@ extension AlertViewController {
 extension AlertViewController {
     private func getTotalAlert() {
         alertService.getTotalNotification() { [weak self] response in
-            guard let response = response, let data = response.data else { return }
-            guard let self else { return }
-            switch response.code {
-                        case 200..<300:
-                            var newArray = model
-                            for i in data.getNotiResponseDtoList {
-                                newArray.append(Category(
-                                    notiID: i.notiID,
-                                    notiReceiver: i.notiReceiver,
-                                    notiMessage: i.notiMessage,
-                                    notiType: i.notiType,
-                                    isChecked: i.isChecked,
-                                    timeAgo: i.timeAgo,
-                                    createdAt: i.createdAt,
-                                    linkID: i.linkID )
-                                )
-                            }
+            guard let response = response, let data = response.data else {
+                return
+            }
 
-                model = newArray
+            var newArray: [Category] = []
 
+            for i in data.getNotiResponseDtoList {
+                newArray.append(Category(
+                    notiID: i.notiID,
+                    notiReceiver: i.notiReceiver,
+                    notiMessage: i.notiMessage,
+                    notiType: i.notiType,
+                    isChecked: i.isChecked,
+                    timeAgo: i.timeAgo,
+                    createdAt: i.createdAt,
+                    linkID: i.linkID )
+                )
+            }
+
+            newArray = newArray.removeDuplicates()
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshControl.endRefreshing()
+                self?.model = newArray
                 print("😀", data)
-            case 400...500:
-                print("🥰")
-            default:
-                print("default")
             }
         }
     }
@@ -168,8 +173,9 @@ extension AlertViewController {
             
         case "RANKUPTO2", "RANKUPTO3", "RANKUPTO4",
             "DELETERANKDOWNTO1", "DELETERANKDOWNTO2", "DELETERANKDOWNTO3", "GOALFAILED":
-            completionHandler?()
-            navigationController?.popViewController(animated: true)
+            let mypageViewController = MypageViewController()
+            mypageViewController.navigationBar = WINavigationBar(leftBarItem: .back, title: "마이페이지")
+            navigationController?.pushViewController(mypageViewController, animated: true)
             
         default:
             return
@@ -177,8 +183,8 @@ extension AlertViewController {
     }
     
     private func checkAllNotification() {
-        alertService.patchAllNotification() { response in
-            
+        alertService.patchAllNotification() { [weak self] response in
+            guard self != nil else { return } // Unwrap self
             switch response?.code {
             case .some(200..<300): // Changed the pattern matching here
                 if let message = response?.message {
@@ -192,5 +198,12 @@ extension AlertViewController {
                 print("default")
             }
         }
+    }
+}
+
+private extension Sequence where Element: Hashable {
+    func removeDuplicates() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }
