@@ -127,9 +127,21 @@ final class LevelupRuleView: UIView {
 
     private let levelupRuleGuideImageView: UIImageView = {
         let image = UIImageView()
-        image.image = .Mypage.guide2
+        image.image = .Img.guide2
         image.sizeToFit()
         return image
+    }()
+    
+    let firstDevideView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.winey_darkYellow
+        return view
+    }()
+    
+    let secondDevideView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.winey_darkYellow
+        return view
     }()
     
     // MARK: - View Life Cycles
@@ -147,64 +159,79 @@ final class LevelupRuleView: UIView {
     // MARK: - UI & Layout
     
     func setLayout() {
-        levelUpContainerVIew.addSubviews(levelupRuleTitleLabel, levelupRuleLabel,
+        backgroundColor = .winey_lightYellow
+        addSubviews(levelupRuleTitleLabel, levelupRuleLabel,
                                                   levelupRuleGuideImageView, knightTypeLabel,
                                                   nobleTypeLabel, emperorTypeLabel,
                                                   knightTypeExplainLabel, nobleTypeExplainLabel,
                                                   emperorTypeExplainLabel)
-        
-        self.addSubview(levelUpContainerVIew)
-        
+        addSubviews(firstDevideView, secondDevideView)
+                
         levelupRuleTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(22)
             make.leading.equalToSuperview().inset(23)
+            make.trailing.equalToSuperview().inset(90)
         }
         
         levelupRuleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(50)
+            make.top.equalTo(levelupRuleTitleLabel.snp.bottom).offset(4)
             make.leading.equalToSuperview().inset(23)
+            make.trailing.equalToSuperview().inset(56)
         }
         
         levelupRuleGuideImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(96)
-            make.leading.equalToSuperview().inset(49)
+            make.top.equalTo(levelupRuleLabel.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview().inset(50)
+            make.height.equalTo(207)
         }
         
         knightTypeLabel.snp.makeConstraints { make in
+            make.top.equalTo(levelupRuleGuideImageView.snp.bottom).offset(25)
             make.leading.equalToSuperview().inset(19)
             make.bottom.equalToSuperview().inset(135)
+        }
+        
+        knightTypeExplainLabel.snp.makeConstraints { make in
+            make.top.equalTo(levelupRuleGuideImageView.snp.bottom).offset(25)
+            make.leading.equalTo(knightTypeLabel.snp.trailing).offset(15)
+            make.bottom.equalToSuperview().inset(135)
+        }
+        
+        firstDevideView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(knightTypeExplainLabel.snp.bottom).offset(12)
+            make.height.equalTo(1)
         }
         
         nobleTypeLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(19)
+            make.top.equalTo(firstDevideView.snp.bottom).offset(12)
             make.bottom.equalToSuperview().inset(89)
-        }
-        
-        emperorTypeLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(19)
-            make.bottom.equalToSuperview().inset(43)
-        }
-        
-        knightTypeExplainLabel.snp.makeConstraints { make in
-            make.leading.equalTo(knightTypeLabel.snp.trailing).offset(15)
-            make.bottom.equalToSuperview().inset(135)
         }
         
         nobleTypeExplainLabel.snp.makeConstraints { make in
             make.leading.equalTo(nobleTypeLabel.snp.trailing).offset(15)
             make.bottom.equalToSuperview().inset(89)
+            make.top.equalTo(firstDevideView.snp.bottom).offset(12)
         }
         
-        emperorTypeExplainLabel.snp.makeConstraints { make in
-            make.leading.equalTo(emperorTypeLabel.snp.trailing).offset(15)
+        secondDevideView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.top.equalTo(nobleTypeExplainLabel.snp.bottom).offset(12)
+            make.height.equalTo(1)
+        }
+        
+        emperorTypeLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(secondDevideView.snp.bottom).offset(12)
             make.bottom.equalToSuperview().inset(43)
         }
         
-        levelUpContainerVIew.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(16)
-            make.width.equalTo(358)
-            make.height.equalTo(485)
+        emperorTypeExplainLabel.snp.makeConstraints { make in
+            make.top.equalTo(secondDevideView.snp.bottom).offset(12)
+            make.leading.equalTo(emperorTypeLabel.snp.trailing).offset(15)
+            make.bottom.equalToSuperview().inset(43)
+            make.trailing.equalToSuperview().inset(17)
         }
     }
 }

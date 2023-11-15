@@ -9,17 +9,29 @@ import UIKit
 
 import DesignSystem
 import SnapKit
+import Kingfisher
 
 final class RecommendCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    
+    private var linkString: String?
+    private var id: Int?
+    var linkButtonTappedClosure: ((String?) -> Void)?
+    
+    // MARK: - UIComponents
+    
     private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.makeCornerRound(radius: 6)
-        return imageView
+        let v = UIImageView()
+        v.layer.borderColor = UIColor.winey_gray200.cgColor
+        v.layer.borderWidth = 1
+        return v
     }()
+    
     private let discountLabel = UILabel()
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         return label
     }()
     private let separatorLineView = UIView()
@@ -27,6 +39,7 @@ final class RecommendCell: UICollectionViewCell {
     private lazy var linkButton: UIButton = {
         let button = UIButton()
         button.setImage(.Icon.link, for: .normal)
+        button.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
         return button
     }()
     private let moreLinkLabel: UILabel = {
@@ -39,6 +52,7 @@ final class RecommendCell: UICollectionViewCell {
         )
         return label
     }()
+    private let secondContainerView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,11 +64,39 @@ final class RecommendCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(model: RecommendFeedModel) {
-        imageView.image = model.image
-        discountLabel.setText(model.discount, attributes: Const.discountAttributes)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        discountLabel.text = "초기 discount"
+        titleLabel.text = "초기 titleLabel"
+        self.linkString = ""
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.makeCornerRound(radius: 6)
+    }
+    
+    func configure(model: RecommendModel) {
+        self.linkString = model.link
+        self.id = model.id
+        let url = URL(string: model.image)
+        imageView.kf.setImage(
+            with: url,
+            options: [.transition(.fade(0.8)), .fromMemoryCacheOrRefresh]
+        )
+        discountLabel.setText(model.discount + " 절약", attributes: Const.discountAttributes)
         titleLabel.setText(model.title, attributes: Const.titleAttributes)
-        linkTitleLabel.setText(model.link, attributes: Const.linkTitleAttributes)
+        linkTitleLabel.setText(model.subtitle, attributes: Const.linkTitleAttributes)
+    }
+    
+    @objc
+    private func linkButtonTapped() {
+        self.linkButtonTappedClosure?(self.linkString)
+    }
+    
+    @objc private func didTapSecondContainerView() {
+        self.linkButtonTappedClosure?(self.linkString)
     }
 }
 
@@ -64,7 +106,10 @@ extension RecommendCell {
         contentView.makeShadow(radius: 3, offset: CGSize(width: 0, height: 2), opacity: 0.1)
         contentView.backgroundColor = .winey_gray0
         separatorLineView.backgroundColor = .winey_gray100
-        imageView.backgroundColor = .winey_gray700
+        imageView.backgroundColor = .winey_gray200
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSecondContainerView))
+        secondContainerView.isUserInteractionEnabled = true
+        secondContainerView.addGestureRecognizer(tapGesture)
     }
     
     private func setLayout() {
@@ -75,7 +120,6 @@ extension RecommendCell {
         containerStackView.distribution = .fill
         
         let firstContainerView = UIView()
-        let secondContainerView = UIView()
         let textStackView = UIStackView()
         textStackView.axis = .vertical
         textStackView.spacing = 2
@@ -113,6 +157,7 @@ extension RecommendCell {
         linkTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(15)
             $0.leading.equalToSuperview().inset(17)
+            $0.width.equalTo(225)
             $0.bottom.equalToSuperview().inset(13)
         }
         

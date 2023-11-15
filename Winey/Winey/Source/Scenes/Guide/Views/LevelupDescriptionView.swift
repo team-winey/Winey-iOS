@@ -14,6 +14,21 @@ final class LevelupDescriptionView: UIView {
     
     // MARK: - UI Components
     
+    private let guide_character: UIImageView = {
+         let image = UIImageView()
+         image.image = .Img.guide_character
+         image.sizeToFit()
+         return image
+     }()
+     
+     private let guide_character_hand: UIImageView = {
+         let image = UIImageView()
+         image.image = .Img.guide_character_hand
+         image.sizeToFit()
+         return image
+     }()
+     
+    
     private let levelupContainerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.winey_purple100
@@ -51,7 +66,7 @@ final class LevelupDescriptionView: UIView {
     
     private let levelupDescriptionGuideImageView: UIImageView = {
         let image = UIImageView()
-        image.image = .Mypage.guide1
+        image.image = .Img.guide1
         image.sizeToFit()
         return image
     }()
@@ -72,15 +87,25 @@ final class LevelupDescriptionView: UIView {
     
     func setLayout() {
         levelupContainerView.addSubviews(levelupDescriptionTitleLabel, levelupDescriptionLabel,
-                                                    levelupDescriptionGuideImageView)
-        
+                                                    levelupDescriptionGuideImageView, guide_character_hand)
+        self.addSubview(guide_character)
         self.addSubview(levelupContainerView)
         
         levelupContainerView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(16)
-            make.width.equalTo(358)
+            make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(365)
+        }
+        
+        guide_character.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(32)
+            make.leading.equalToSuperview().inset(264)
+            make.centerY.equalTo(levelupContainerView.snp.top)
+        }
+        
+        guide_character_hand.snp.makeConstraints { make in
+            make.verticalEdges.equalTo(guide_character)
+            make.horizontalEdges.equalTo(guide_character)
         }
         
         levelupDescriptionTitleLabel.snp.makeConstraints { make in
@@ -96,11 +121,6 @@ final class LevelupDescriptionView: UIView {
         levelupDescriptionGuideImageView.snp.makeConstraints { make in
             make.top.equalTo(levelupContainerView).inset(125)
             make.leading.equalTo(levelupContainerView).inset(50)
-        }
-        
-        levelupContainerView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.centerX.equalToSuperview().inset(16)
         }
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 struct GetFeedResponse: Codable {
     let pageResponse: PageResponse
-    let getFeedResponseList: [GetFeedResponseList]
+    let getFeedResponseList: [FeedResponse]
     
     enum CodingKeys: String, CodingKey {
         case pageResponse = "pageResponseDto"
@@ -17,7 +17,7 @@ struct GetFeedResponse: Codable {
     }
 }
 
-struct GetFeedResponseList: Codable {
+struct FeedResponse: Codable {
     let feedID, userID: Int
     let nickname: String
     let writerLevel: Int
@@ -27,6 +27,8 @@ struct GetFeedResponseList: Codable {
     let isLiked: Bool
     let likes: Int
     let createdAt: String
+    let comments: Int
+    let timeAgo: String
 
     enum CodingKeys: String, CodingKey {
         case feedID = "feedId"
@@ -35,7 +37,7 @@ struct GetFeedResponseList: Codable {
         case title = "feedTitle"
         case image = "feedImage"
         case money = "feedMoney"
-        case writerLevel, isLiked, likes, createdAt
+        case writerLevel, isLiked, likes, createdAt, comments, timeAgo
     }
 }
 

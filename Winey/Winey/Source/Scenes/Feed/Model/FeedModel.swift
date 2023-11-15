@@ -8,7 +8,8 @@
 import UIKit
 
 struct FeedModel: Hashable {
-    let id: Int
+    let feedId: Int
+    let userId: Int
     let nickname: String
     let title: String
     let image: String
@@ -16,4 +17,7 @@ struct FeedModel: Hashable {
     var like: Int
     var isLiked: Bool
     let writerLevel: Int
+    let profileImage: UIImage?
+    let comments: Int
+    let timeAgo: String
 }

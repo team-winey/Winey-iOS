@@ -13,7 +13,14 @@ enum GoalAPI {
     case postGoal(request: PostGoalRequest)
 }
 
-extension GoalAPI: TargetType {
+extension GoalAPI: TargetType, AccessTokenAuthorizable {
+    var authorizationType: Moya.AuthorizationType? {
+        switch self {
+        default:
+            return nil
+        }
+    }
+    
     var baseURL: URL {
         return URL(string: URLConstant.baseURL)!
     }
@@ -40,6 +47,11 @@ extension GoalAPI: TargetType {
     }
     
     var headers: [String : String]? {
-        return NetworkConstant.defaultHeader
+        return ["Content-Type": "application/json",
+                "accessToken": KeychainManager.shared.read("accessToken")!]
+    }
+    
+    var validationType: ValidationType {
+        return .successCodes
     }
 }

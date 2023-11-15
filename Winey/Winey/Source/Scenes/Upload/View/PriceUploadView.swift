@@ -5,6 +5,7 @@
 //  Created by 김응관 on 2023/07/14.
 //
 
+import Combine
 import UIKit
 
 import DesignSystem
@@ -14,13 +15,17 @@ class PriceUploadView: UIView {
 
     // MARK: - UI Components
     /// textContentView: Winey에서 사용될 커스텀 TextField인 WITextFieldView객체를 선언
-    var textContentView = WITextFieldView(price: "0", label: .won, textLength: .price)
+    var textContentView = WITextFieldView(type: .upload_price)
+    
+    private var bag = Set<AnyCancellable>()
     
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
+        textContentView.changeTextLength(9)
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -36,6 +41,20 @@ class PriceUploadView: UIView {
         } else {
             textContentView.resign()
         }
+    }
+    
+    private func bind() {
+        textContentView.pricePublisher
+            .sink { _ in
+                self.textContentView.makeActiveView()
+            }
+            .store(in: &bag)
+        
+        textContentView.textFieldDidEndEditingPublisher
+            .sink {
+                self.textContentView.makeInactiveView()
+            }
+            .store(in: &bag)
     }
     
     private func setLayout() {

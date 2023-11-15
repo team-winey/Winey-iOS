@@ -10,13 +10,17 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
+    private let userService = UserService()
+    private var selectedIndexCache: Int = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
         setTabBar()
-        setTestMenu()
+        
+        getUser()
     }
-    
+
     private func setViewControllers() {
         let viewControllers = TabBarItem.allCases
             .map { navigationController(with: $0, rootViewController: $0.rootViewController) }
@@ -29,13 +33,16 @@ final class TabBarController: UITabBarController {
         rootViewController: UIViewController
     ) -> UINavigationController {
         let nav = UINavigationController(rootViewController: rootViewController)
-      
+        
         nav.tabBarItem.image = item.image
         nav.tabBarItem.title = item.title
         nav.tabBarItem.setTitleTextAttributes(Const.tabBarAttributes, for: .normal)
         
         nav.navigationBar.backgroundColor = .clear
         nav.isNavigationBarHidden = true
+        
+        nav.interactivePopGestureRecognizer?.isEnabled = true
+        nav.interactivePopGestureRecognizer?.delegate = self
         
         return nav
     }
@@ -45,6 +52,19 @@ final class TabBarController: UITabBarController {
         tabBar.tintColor = .winey_purple400
         tabBar.unselectedItemTintColor = .winey_gray300
         tabBar.backgroundImage = UIImage()
+        self.delegate = self
+    }
+}
+
+extension TabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let feedViewController = viewController.children.first(where: { $0 is FeedViewController }) as? FeedViewController {
+            if selectedIndexCache == tabBarController.selectedIndex {
+                feedViewController.scrollToTop()
+            }
+        }
+
+        selectedIndexCache = tabBarController.selectedIndex
     }
 }
 
@@ -56,23 +76,20 @@ private extension TabBarController {
     }
 }
 
-// MARK: - Test menu
-
 extension TabBarController {
-    func setTestMenu() {
-        let logoLongPress = UILongPressGestureRecognizer(
-            target: self,
-            action: #selector(hanldeLongPress)
-        )
-        logoLongPress.minimumPressDuration = 1
-        tabBar.addGestureRecognizer(logoLongPress)
-    }
-    
-    @objc func hanldeLongPress(_ sender: UILongPressGestureRecognizer) {
-        guard sender.state == .began else { return }
-        
-        let testViewController = UINavigationController(rootViewController: TestViewController())
-
-        present(testViewController, animated: true)
+    private func getUser() {
+        userService.getTotalUser() { response in
+            guard let response, let data = response.data else { return }
+            
+            // TODO: 레벨정보가 필요하다면 이곳에서 저장하고 사용합니다. 이것도 임시 구현 (시간 이슈)
+            let hasGoal = data.userResponseGoalDto != nil
+            UserSingleton.saveId(data.userResponseUserDto.userID)
+            UserSingleton.saveGoal(hasGoal)
+            UserSingleton.saveNickname(data.userResponseUserDto.nickname)
+            guard let level = UserLevel(rawValue: data.userResponseUserDto.userLevel) else { return }
+            UserSingleton.saveLevel(level)
+        }
     }
 }
+
+extension TabBarController: UIGestureRecognizerDelegate  {}

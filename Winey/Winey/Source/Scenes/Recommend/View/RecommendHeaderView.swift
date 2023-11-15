@@ -45,6 +45,12 @@ final class RecommendHeaderView: UICollectionReusableView {
         return label
     }()
     
+    private let characterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .Img.recommend_character
+        return imageView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
@@ -54,8 +60,9 @@ final class RecommendHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setLayout(){
-        addSubviews(titleLabel, containerView)
+    private func setLayout() {
+        backgroundColor = .winey_gray50
+        addSubviews(titleLabel, containerView, characterImageView)
         containerView.addSubview(descriptionLabel)
         
         titleLabel.snp.makeConstraints {
@@ -72,6 +79,12 @@ final class RecommendHeaderView: UICollectionReusableView {
         descriptionLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(17)
+        }
+        
+        characterImageView.snp.makeConstraints {
+            $0.bottom.equalTo(containerView)
+            $0.trailing.equalTo(containerView)
+            $0.width.equalTo(88)
         }
     }
 }
