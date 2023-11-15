@@ -44,6 +44,7 @@ class PhotoUploadView: UIView {
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         btn.backgroundColor = .winey_purple100
+        btn.isExclusiveTouch = true
         return btn
     }()
     
@@ -52,6 +53,7 @@ class PhotoUploadView: UIView {
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         btn.imageView?.contentMode = .scaleAspectFill
+        btn.isExclusiveTouch = true
         return btn
     }()
     

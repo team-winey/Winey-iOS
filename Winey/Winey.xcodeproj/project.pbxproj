@@ -124,6 +124,12 @@
 		F476886C2A910A4D00D57BA8 /* NicknameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F476886B2A910A4D00D57BA8 /* NicknameService.swift */; };
 		F4867A652A6061940016389C /* PriceUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A642A6061940016389C /* PriceUploadView.swift */; };
 		F4867A672A608B860016389C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4867A662A608B860016389C /* Int+.swift */; };
+		F4921FF82A9B213700DEDC16 /* LimitedPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4921FF72A9B213700DEDC16 /* LimitedPickerViewController.swift */; };
+		F4921FFA2A9BCF9C00DEDC16 /* LimitedPickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4921FF92A9BCF9C00DEDC16 /* LimitedPickerCollectionViewCell.swift */; };
+		F4921FFC2A9BD1B200DEDC16 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4921FFB2A9BD1B200DEDC16 /* PhotoManager.swift */; };
+		F4921FFF2A9CB33E00DEDC16 /* UIAlertViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4921FFE2A9CB33E00DEDC16 /* UIAlertViewController+.swift */; };
+		F49220032A9E39A000DEDC16 /* ImageLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49220022A9E39A000DEDC16 /* ImageLoadingViewController.swift */; };
+		F49220052A9E999400DEDC16 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49220042A9E999400DEDC16 /* GalleryViewController.swift */; };
 		F4A4E0472A7AD79B00673741 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A4E0462A7AD79B00673741 /* LoginView.swift */; };
 		F4A6D53E2A7C3C48006905AE /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */; };
 		F4A6D5412A7C3D30006905AE /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D5402A7C3D30006905AE /* LoginAPI.swift */; };
@@ -256,6 +262,12 @@
 		F476886B2A910A4D00D57BA8 /* NicknameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameService.swift; sourceTree = "<group>"; };
 		F4867A642A6061940016389C /* PriceUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceUploadView.swift; sourceTree = "<group>"; };
 		F4867A662A608B860016389C /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		F4921FF72A9B213700DEDC16 /* LimitedPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedPickerViewController.swift; sourceTree = "<group>"; };
+		F4921FF92A9BCF9C00DEDC16 /* LimitedPickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedPickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		F4921FFB2A9BD1B200DEDC16 /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		F4921FFE2A9CB33E00DEDC16 /* UIAlertViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertViewController+.swift"; sourceTree = "<group>"; };
+		F49220022A9E39A000DEDC16 /* ImageLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadingViewController.swift; sourceTree = "<group>"; };
+		F49220042A9E999400DEDC16 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		F4A4E0462A7AD79B00673741 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F4A6D53D2A7C3C48006905AE /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		F4A6D5402A7C3D30006905AE /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
@@ -545,6 +557,7 @@
 		14D76B042A5B074600B3AC5F /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				F4921FFE2A9CB33E00DEDC16 /* UIAlertViewController+.swift */,
 				14F66FFC2A550928009703AD /* UIView+.swift */,
 				14F670042A550BED009703AD /* UIViewController+.swift */,
 				14F670062A550C45009703AD /* UIStackView+.swift */,
@@ -970,10 +983,19 @@
 		F4908E342A8696E900F38DB5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F4921FFB2A9BD1B200DEDC16 /* PhotoManager.swift */,
 				F4A6D5422A7C4568006905AE /* KeychainManager.swift */,
 				F4CB98E12AA05401003F3095 /* PhotoManager.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		F4921FFD2A9C91CC00DEDC16 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F4921FF92A9BCF9C00DEDC16 /* LimitedPickerCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		F4A4E0452A7AD78B00673741 /* View */ = {
@@ -1026,6 +1048,9 @@
 			children = (
 				F4BE08402A5C6F8C0052F3B0 /* UploadViewController.swift */,
 				0DE7E5E52A68385D006E36FF /* UploadLoadingViewController.swift */,
+				F4921FF72A9B213700DEDC16 /* LimitedPickerViewController.swift */,
+				F49220022A9E39A000DEDC16 /* ImageLoadingViewController.swift */,
+				F49220042A9E999400DEDC16 /* GalleryViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1033,6 +1058,7 @@
 		F4BE08422A5C72BF0052F3B0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F4921FFD2A9C91CC00DEDC16 /* Cell */,
 				F4BE08432A5C72EC0052F3B0 /* UploadBaseView.swift */,
 				F4BE08452A5C77F10052F3B0 /* PhotoUploadView.swift */,
 				F417C6BB2A5F27CE00A03EBB /* ContentsWriteView.swift */,
@@ -1182,6 +1208,7 @@
 				F4CB98E22AA05401003F3095 /* PhotoManager.swift in Sources */,
 				0D13578D2A837406009ADFF8 /* FloatingCommentTextView.swift in Sources */,
 				F40D8F2E2A6708E90041FB94 /* UploadModel.swift in Sources */,
+				F49220052A9E999400DEDC16 /* GalleryViewController.swift in Sources */,
 				0DE7E5E62A68385D006E36FF /* UploadLoadingViewController.swift in Sources */,
 				1D69E0202A62B45000D4E3B5 /* BubbleView.swift in Sources */,
 				1DBF95CC2A8CA05E00AF39B9 /* NotificationAPI.swift in Sources */,
@@ -1202,9 +1229,12 @@
 				142FE3852A7C011E00421732 /* OnboardingViewController.swift in Sources */,
 				14E9B1142A68526000B85616 /* SaveGoalTextBoxView.swift in Sources */,
 				0DFEA6CE2A95211100389EF4 /* AmplitudeManager.swift in Sources */,
+				F4921FFC2A9BD1B200DEDC16 /* PhotoManager.swift in Sources */,
 				14DB26602A5E7E7A00F42499 /* CGFloat+.swift in Sources */,
+				F4921FFA2A9BCF9C00DEDC16 /* LimitedPickerCollectionViewCell.swift in Sources */,
 				143C00982A603911000FBD3F /* RecommendCell.swift in Sources */,
 				142FE3882A7C0DB900421732 /* OnboardingCell.swift in Sources */,
+				F4921FFF2A9CB33E00DEDC16 /* UIAlertViewController+.swift in Sources */,
 				1D7640AC2A67C28700922332 /* TotalUserResponse.swift in Sources */,
 				143C009A2A604810000FBD3F /* RecommendModel.swift in Sources */,
 				0D444E7A2A861730007DB2F6 /* CommentAPI.swift in Sources */,
@@ -1270,6 +1300,7 @@
 				0D444E812A861A33007DB2F6 /* FeedDetailResponse.swift in Sources */,
 				F4BCFA772A68913900D97B1E /* DotLayerView.swift in Sources */,
 				0DFF7D3C2A69C2DB0073ADAD /* SplashViewController.swift in Sources */,
+				F49220032A9E39A000DEDC16 /* ImageLoadingViewController.swift in Sources */,
 				14E28F6C2A6531DD00E5E5C2 /* NetworkResult.swift in Sources */,
 				F47688672A9107AC00D57BA8 /* NicknameAPI.swift in Sources */,
 				F4BE08442A5C72EC0052F3B0 /* UploadBaseView.swift in Sources */,

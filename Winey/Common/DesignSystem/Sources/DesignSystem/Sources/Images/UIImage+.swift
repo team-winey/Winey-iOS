@@ -124,7 +124,7 @@ extension UIImage {
     
     public func resizeWithWidth(width: CGFloat) -> UIImage? {
          let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))))
-         imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
          imageView.image = self
          UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
          guard let context = UIGraphicsGetCurrentContext() else { return nil }

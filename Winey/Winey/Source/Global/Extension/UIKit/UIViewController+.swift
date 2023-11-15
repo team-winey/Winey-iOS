@@ -27,6 +27,7 @@ extension UIViewController {
     /// 루트 뷰 바꾸는 메서드
     func switchRootViewController(rootViewController: UIViewController, animated: Bool, completion: (() -> Void)? = nil) {
         guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return }
+
         if animated {
             UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
                 let oldState: Bool = UIView.areAnimationsEnabled

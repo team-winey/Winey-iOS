@@ -65,7 +65,6 @@ class UploadViewController: UIViewController {
     private var textExist: Bool = false
     
     private let postService = FeedService()
-            
     // MARK: - UI Components
     
     /// grayDot: 업로드 단계를 알려주는 커스텀 PageControl
@@ -101,7 +100,7 @@ class UploadViewController: UIViewController {
     }()
     
     // MARK: - Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -192,6 +191,10 @@ class UploadViewController: UIViewController {
             
             self.warningLabel.addSubview(touchableView)
         }
+    }
+    
+    private func setDelegate() {
+        PhotoManager.shared.photoDelegate = self
     }
     
     /// setScrollView: 스크롤 뷰에 페이지 뷰 객체 저장
@@ -524,7 +527,7 @@ extension UploadViewController {
         let productPolicy = ProductPolicy.productBy(feed.feedMoney)
         let loadingViewController = UploadLoadingViewController(keyword: productPolicy.rawValue)
                 
-        postService.feedPost(feedImage.jpegData(compressionQuality: 0.2)!, feed) { result in
+        postService.feedPost(feedImage.jpegData(compressionQuality: 0.4)!, feed) { result in
             NotificationCenter.default.post(name: .whenFeedUploaded, object: nil)
             loadingViewController.feedUploadResult = result
         }

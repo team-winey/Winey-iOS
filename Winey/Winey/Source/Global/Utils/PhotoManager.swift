@@ -26,7 +26,6 @@ class PhotoManager: UIViewController {
     let scale = UIScreen.main.scale
     
     var fetchResult = PHFetchResult<PHAsset>()
-    
     var thumbnailSize: CGSize {
         return CGSize(width: UIScreen.main.bounds.width,
                       height: UIScreen.main.bounds.width)
@@ -149,4 +148,3 @@ extension PhotoManager: PHPickerViewControllerDelegate {
         }
     }
 }
-
