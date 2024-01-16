@@ -6,8 +6,6 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
-Resource
-
 ## User settings
 xcuserdata/
 Package.resolved
@@ -36,6 +34,7 @@ DerivedData/
 *.ipa
 *.dSYM.zip
 *.dSYM
+
 
 ## Playgrounds
 timeline.xctimeline
@@ -97,10 +96,10 @@ iOSInjectionProject/
 
 ### Xcode Patch ###
 *.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace/
-!*.xcworkspace/contents.xcworkspacedata
+*.xcodeproj/project.pbxproj
+*.xcodeproj/xcshareddata/
+*.xcodeproj/project.xcworkspace/
+*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
