@@ -103,4 +103,8 @@ iOSInjectionProject/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+Winey-iOS/Winey/Winey/Resource/*
+Winey-iOS/Winey/Winey.xcodeproj/
+
+
 # End of https://www.toptal.com/developers/gitignore/api/swift,xcode
